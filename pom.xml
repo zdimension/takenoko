@@ -2,9 +2,9 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-    <groupId>TeamName</groupId> <!-- CHANGE ME -->
-    <artifactId>JarName</artifactId> <!-- CHANGE ME -->
-    <version>0.2-SNAPSHOT</version> <!-- CHANGE ME -->
+    <groupId>fr.unice.polytech.ps5.takenoko.et2</groupId> <!-- CHANGE ME -->
+    <artifactId>TakenokoET2</artifactId> <!-- CHANGE ME -->
+    <version>0.1</version> <!-- CHANGE ME -->
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> <!-- CHANGE ME IF NEEDED, other : ISO-8859-1 -->
@@ -40,20 +40,9 @@
           </execution>
         </executions>
         <configuration>
-            <mainClass>fr.unice.polytech.ps5.takenoko.et2.Main</mainClass> <!-- CHANGE ME -->
-            <!--          <arguments>
-                        <argument>argument1</argument>
-                      </arguments>
-                      <systemProperties>
-                        <systemProperty>
-                          <key>myproperty</key>
-                          <value>myvalue</value>
-                        </systemProperty>
-                      </systemProperties>
-            -->
+            <mainClass>fr.unice.polytech.ps5.takenoko.et2.Main</mainClass>
         </configuration>
       </plugin>
-      
     </plugins>
   </build>
 
@@ -61,12 +50,6 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>${junit.jupiter.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency> <!-- Junit 5 vintage to JUnit 4 might be necessary for some other tools -->
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
             <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
