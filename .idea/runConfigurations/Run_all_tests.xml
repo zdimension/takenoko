@@ -2,7 +2,7 @@
   <configuration default="false" name="Run all tests" type="JUnit" factoryName="JUnit">
     <module name="projet2-ps5-20-21-takenoko-2021-et" />
     <useClassPathOnly />
-    <option name="PACKAGE_NAME" value="fr.unice.polytech.startingpoint" />
+    <option name="PACKAGE_NAME" value="fr.unice.polytech.ps5.takenoko.et2" />
     <option name="MAIN_CLASS_NAME" value="" />
     <option name="METHOD_NAME" value="" />
     <option name="TEST_OBJECT" value="package" />

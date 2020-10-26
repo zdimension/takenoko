@@ -1,4 +1,4 @@
-package fr.unice.polytech.startingpoint;
+package fr.unice.polytech.ps5.takenoko.et2;
 
 public class Main {
 

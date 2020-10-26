@@ -40,17 +40,17 @@
           </execution>
         </executions>
         <configuration>
-          <mainClass>fr.unice.polytech.startingpoint.Main</mainClass> <!-- CHANGE ME -->
-<!--          <arguments>
-            <argument>argument1</argument>
-          </arguments>
-          <systemProperties>
-            <systemProperty>
-              <key>myproperty</key>
-              <value>myvalue</value>
-            </systemProperty>
-          </systemProperties>
--->
+            <mainClass>fr.unice.polytech.ps5.takenoko.et2.Main</mainClass> <!-- CHANGE ME -->
+            <!--          <arguments>
+                        <argument>argument1</argument>
+                      </arguments>
+                      <systemProperties>
+                        <systemProperty>
+                          <key>myproperty</key>
+                          <value>myvalue</value>
+                        </systemProperty>
+                      </systemProperties>
+            -->
         </configuration>
       </plugin>
       
