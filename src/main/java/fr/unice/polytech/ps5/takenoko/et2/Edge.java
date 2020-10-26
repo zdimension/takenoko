@@ -9,6 +9,7 @@ public class Edge
 
     /**
      * Creates an edge from the specified tile.
+     *
      * @param tile base tile
      */
     public Edge(Tile tile)
