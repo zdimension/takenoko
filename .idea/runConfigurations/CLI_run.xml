@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="CLI run" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="fr.unice.polytech.startingpoint.Main" />
+    <option name="MAIN_CLASS_NAME" value="fr.unice.polytech.ps5.takenoko.et2.Main" />
     <module name="projet2-ps5-20-21-takenoko-2021-et" />
     <method v="2">
       <option name="Make" enabled="true" />
