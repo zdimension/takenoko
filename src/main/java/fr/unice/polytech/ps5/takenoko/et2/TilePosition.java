@@ -20,6 +20,7 @@ public class TilePosition
 
     /**
      * Instanciates a new vector
+     *
      * @param x X coordinate
      * @param y Y coordinate
      */
