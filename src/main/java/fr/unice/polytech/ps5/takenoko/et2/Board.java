@@ -1,9 +1,6 @@
 package fr.unice.polytech.ps5.takenoko.et2;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -23,6 +20,14 @@ public class Board
         this.center = new PondTile();
         this.tileCache = new HashMap<>();
         this.tileCache.put(TilePosition.ZERO, center);
+    }
+
+    /**
+     * @return the map associating vectors with tiles
+     */
+    Map<TilePosition, Tile> getTiles()
+    {
+        return Collections.unmodifiableMap(tileCache);
     }
 
     /**
