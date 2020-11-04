@@ -4,14 +4,9 @@ public abstract class Objective
 {
     protected int points;
 
-    public Objective()
+    public Objective(int points)
     {
-        //
-    }
-
-    public int getPoints()
-    {
-        return points;
+        this.points = points;
     }
 
     public void setPoints(int points)
