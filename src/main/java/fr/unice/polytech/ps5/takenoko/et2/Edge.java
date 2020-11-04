@@ -26,4 +26,19 @@ public class Edge
     {
         return tiles[index];
     }
+
+    /**
+     * Sets the second tile
+     * @param tile
+     * @return true if success, false if failure
+     */
+    public boolean setTile(Tile tile){
+        if(tiles[1] != null)
+            return false;
+
+        //TODO si c'est pas a cote ca echoue
+
+        tiles[1] = tile;
+        return true;
+    }
 }
