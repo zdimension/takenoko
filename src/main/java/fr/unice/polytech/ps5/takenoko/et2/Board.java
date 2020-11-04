@@ -76,4 +76,25 @@ public class Board
 
         return false;
     }
+
+    /**
+     * @param tile to add
+     * @param pos  of the tile to add
+     * @return true if the tile was added, false if it failed
+     */
+    public boolean addTile(LandTile tile, TilePosition pos)
+    {
+        if (findTile(pos) != null)
+        {
+            return false;
+        }
+
+        if (!isValid(pos))
+        {
+            return false;
+        }
+
+        tileCache.put(pos, tile);
+        return true;
+    }
 }
