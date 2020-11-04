@@ -41,39 +41,43 @@ public class PlotObjective extends Objective
     private boolean checkValidatedSpecificRotation(Board board)
     {
         Map<TilePosition, Tile> listTiles = board.getTiles();
-        for (Map.Entry<TilePosition, Tile> entry : listTiles.entrySet())
+        for (Map.Entry<TilePosition, Tile> entry : listTiles.entrySet()) // For each Tile
         {
-            if (!(entry.getValue() instanceof LandTile))
+            if (!(entry.getValue() instanceof LandTile)) // If it's the pond
             {
-                continue;
+                continue; // useless to evaluate
             }
             LandTile landTile = (LandTile) entry.getValue();
-            if (landTile.getColor() == listColors.get(0))
+            if (landTile.getColor() == listColors.get(0)) // If we have found a Tile with the right color
             { // this is a match^^
-                int i = 0;
-                for (Integer nextEdgePosition : listPaths)
-                {
-                    Tile landTile2 = landTile.getEdge(nextEdgePosition).getTile(0);
-                    if (landTile2 instanceof PondTile)
-                    {
-                        return false;
-                    }
-                    if (landTile2 == landTile)
-                    {
-                        landTile2 = landTile.getEdge(nextEdgePosition).getTile(1);
-                        if (landTile2 instanceof PondTile)
-                        {
-                            return false;
-                        }
-                        landTile = (LandTile) landTile2;
-                        if (landTile.getColor() != listColors.get(i))
-                        {
-                            return false;
-                        }
-                    }
-                    i++;
+                if (checkValidatedSpecificRotationFromOneTile(landTile))
+                { // We can check if all the path is ok
+                    return true;
                 }
             }
+        }
+        return false;
+    }
+
+    private boolean checkValidatedSpecificRotationFromOneTile(LandTile landTile)
+    {
+        int i = 0;
+        for (Integer nextEdgePosition : listPaths) // for each neighbour
+        {
+            Tile landTileNeighbour = landTile.getEdge(nextEdgePosition).getTile(0); // looking for the neightbour
+            if (landTileNeighbour == landTile)
+            {
+                landTileNeighbour = landTile.getEdge(nextEdgePosition).getTile(1);
+            }
+            if (landTileNeighbour instanceof PondTile) // If the neighbour is the pond
+            {
+                return false;
+            }
+            if (((LandTile) landTileNeighbour).getColor() != listColors.get(i))
+            {
+                return false;
+            }
+            i++;
         }
         return true;
     }
