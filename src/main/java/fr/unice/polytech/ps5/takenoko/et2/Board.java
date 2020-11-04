@@ -25,7 +25,7 @@ public class Board
     /**
      * @return the map associating vectors with tiles
      */
-    Map<TilePosition, Tile> getTiles()
+    public Map<TilePosition, Tile> getTiles()
     {
         return Collections.unmodifiableMap(tileCache);
     }

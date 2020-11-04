@@ -75,4 +75,17 @@ public class TilePosition
     {
         return Objects.hash(x, y);
     }
+
+    public int getEdgeNum()
+    {
+        if (x == 0)
+        {
+            return (y == 1) ? 0 : 3;
+        }
+        if (y == 0)
+        {
+            return (x == 1) ? 1 : 4;
+        }
+        return (x > y) ? 2 : 5;
+    }
 }
