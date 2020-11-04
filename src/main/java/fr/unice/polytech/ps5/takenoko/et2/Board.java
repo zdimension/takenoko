@@ -61,6 +61,11 @@ public class Board
      */
     public boolean isValid(TilePosition pos)
     {
+        if (this.tileCache.containsKey(pos))
+        {
+            return false;
+        }
+
         int count = 0;
 
         for (Iterator<Tile> it = getNeighbors(pos).iterator(); it.hasNext(); )
@@ -84,11 +89,6 @@ public class Board
      */
     public boolean addTile(LandTile tile, TilePosition pos)
     {
-        if (findTile(pos) != null)
-        {
-            return false;
-        }
-
         if (!isValid(pos))
         {
             return false;
