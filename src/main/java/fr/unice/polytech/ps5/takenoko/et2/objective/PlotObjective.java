@@ -6,11 +6,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The class representing the objectives with a specific plots scheme
+ */
 public class PlotObjective extends Objective
 {
     private final List<Color> listColors = new ArrayList<>();
     private final List<Integer> listPaths = new ArrayList<>();
 
+    /**
+     * Constructor, build a PlotObjective with a list of colors and a list of directions
+     *
+     * @param listC  a list of colors eg [PINK, PINK, YELLOW, GREEN, GREEN]
+     * @param listP  A list of directions eg [0, 5, 4, 2]
+     * @param points Points of this objective
+     * @throws Exception if listC.size() == 0 or listC.size() != listP.size() + 1
+     */
     public PlotObjective(List<Color> listC, List<Integer> listP, int points) throws Exception
     {
         super(points);
@@ -22,6 +33,12 @@ public class PlotObjective extends Objective
         listPaths.addAll(listP);
     }
 
+    /**
+     * Check if the objective is validated with the Board given
+     *
+     * @param board The board to check
+     * @return true if the Objective is validated in the Boeard, false otherwise
+     */
     public boolean checkValidated(Board board)
     {
         for (int i = 0; i < 6; i++)
