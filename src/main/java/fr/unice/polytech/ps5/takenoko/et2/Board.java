@@ -9,6 +9,17 @@ import java.util.stream.Stream;
  */
 public class Board
 {
+    /**
+     * Mapping LUT between edge numbers and generator vectors
+     */
+    static final List<TilePosition> edgeNumbers = Collections.unmodifiableList(List.of(
+        new TilePosition(0, 1),
+        new TilePosition(1, 0),
+        new TilePosition(1, -1),
+        new TilePosition(0, -1),
+        new TilePosition(-1, 0),
+        new TilePosition(-1, 1)
+    ));
     private final PondTile center;
     private final Map<TilePosition, Tile> tileCache;
 
@@ -20,6 +31,14 @@ public class Board
         this.center = new PondTile();
         this.tileCache = new HashMap<>();
         this.tileCache.put(TilePosition.ZERO, center);
+    }
+
+    /**
+     * @return the center (pond) tile of the board
+     */
+    public PondTile getCenter()
+    {
+        return center;
     }
 
     /**
@@ -95,6 +114,22 @@ public class Board
         }
 
         tileCache.put(pos, tile);
+
+        for (var i = 0; i < 6; i++)
+        {
+            var nb = findTile(pos.add(edgeNumbers.get(i)));
+            if (nb != null)
+            {
+                var edge = nb.getEdge(i + 3);
+                edge.setTile(tile);
+                tile.edges[i] = edge;
+            }
+            else
+            {
+                tile.edges[i] = new Edge(tile);
+            }
+        }
+
         return true;
     }
 }

@@ -28,15 +28,28 @@ public class Edge
     }
 
     /**
-     * Sets the second tile
-     * @param tile
+     * @param first tile on the one side
+     * @return the tile on the other side of the edge
+     */
+    public Tile getOther(Tile first)
+    {
+        if (tiles[0] == first)
+        {
+            return tiles[1];
+        }
+        return tiles[0];
+    }
+
+    /**
+     * @param tile tile to add to the edge
      * @return true if success, false if failure
      */
-    public boolean setTile(Tile tile){
-        if(tiles[1] != null)
+    public boolean setTile(Tile tile)
+    {
+        if (tiles[1] != null)
+        {
             return false;
-
-        //TODO si c'est pas a cote ca echoue
+        }
 
         tiles[1] = tile;
         return true;
