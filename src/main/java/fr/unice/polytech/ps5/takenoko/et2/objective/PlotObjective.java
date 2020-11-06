@@ -45,8 +45,9 @@ public class PlotObjective extends Objective
         {
             for (int j = 0; j < listPaths.size(); j++)
             {
-                listPaths.set(j, (listPaths.get(j) + i) % 6);
+                listPaths.set(j, (listPaths.get(j) + 1) % 6);
             }
+            System.out.println();
             if (checkValidatedSpecificRotation(board))
             {
                 return true;
@@ -76,17 +77,17 @@ public class PlotObjective extends Objective
         return false;
     }
 
-    private boolean checkValidatedSpecificRotationFromOneTile(LandTile landTile)
+    private boolean checkValidatedSpecificRotationFromOneTile(LandTile currentLandTile)
     {
-        int i = 0;
+        int i = 1;
         for (Integer nextEdgePosition : listPaths) // for each neighbour
         {
-            Tile landTileNeighbour = landTile.getEdge(nextEdgePosition).getTile(0); // looking for the neightbour
-            if (landTileNeighbour == landTile)
+            Tile landTileNeighbour = currentLandTile.getEdge(nextEdgePosition).getTile(0); // looking for the neightbour
+            if (landTileNeighbour == currentLandTile)
             {
-                landTileNeighbour = landTile.getEdge(nextEdgePosition).getTile(1);
+                landTileNeighbour = currentLandTile.getEdge(nextEdgePosition).getTile(1);
             }
-            if (landTileNeighbour instanceof PondTile) // If the neighbour is the pond
+            if (landTileNeighbour instanceof PondTile || landTileNeighbour == null) // If the neighbour is the pond or doesn't exist
             {
                 return false;
             }
@@ -95,6 +96,7 @@ public class PlotObjective extends Objective
                 return false;
             }
             i++;
+            currentLandTile = (LandTile) landTileNeighbour;
         }
         return true;
     }

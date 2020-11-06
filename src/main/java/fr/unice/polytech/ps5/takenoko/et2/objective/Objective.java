@@ -30,7 +30,7 @@ public abstract class Objective
     /**
      * Change points for the objective
      *
-     * @param points
+     * @param points Objective's points
      */
     public void setPoints(int points)
     {
