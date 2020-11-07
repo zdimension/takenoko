@@ -8,15 +8,21 @@ import java.util.List;
 /**
  * The class representing the player.
  */
-public class Player {
+public class Player
+{
     private List<Objective> hand = new ArrayList<Objective>();
     private List<Objective> objectivesCompleted = new ArrayList<Objective>();
     private boolean hasTriggeredEmperor;
+    private final Game game;
+    private final DecisionMaker decisionMaker;
 
     /**
      * Constructor of the Player
      */
-    public Player() {
+    public Player(Game game, DecisionMakerBuilder builder)
+    {
+        this.game = game;
+        this.decisionMaker = builder.build(this);
         this.hasTriggeredEmperor = false;
     }
 
@@ -25,12 +31,15 @@ public class Player {
      *
      * @return total points of completed objectifs
      */
-    public int countPoint() {
+    public int countPoints()
+    {
         int totalPoint = 0;
-        for (Objective objective : this.objectivesCompleted) {
+        for (Objective objective : this.objectivesCompleted)
+        {
             totalPoint += objective.getPoints();
         }
-        if (hasTriggeredEmperor) {
+        if (hasTriggeredEmperor)
+        {
             totalPoint += 2;
         }
         return totalPoint;
@@ -41,18 +50,31 @@ public class Player {
      *
      * @param objective a plot, gardener or panda objective
      */
-    public void addObjective(Objective objective) {
+    public void addObjective(Objective objective)
+    {
         this.hand.add(objective);
     }
 
     /**
      * Add the first objectives to the player hand
      *
-     * @param objectivesList  a list of Objective
+     * @param objectivesList a list of Objective
      */
-    public void addFirstObjectives(List<Objective> objectivesList) {
-        for (Objective objective : objectivesList) {
+    public void addFirstObjectives(List<Objective> objectivesList)
+    {
+        for (Objective objective : objectivesList)
+        {
             this.hand.add(objective);
         }
+    }
+
+    public DecisionMaker getDecisionMaker()
+    {
+        return decisionMaker;
+    }
+
+    public Game getGame()
+    {
+        return game;
     }
 }
