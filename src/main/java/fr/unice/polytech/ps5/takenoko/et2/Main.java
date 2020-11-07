@@ -3,7 +3,7 @@ package fr.unice.polytech.ps5.takenoko.et2;
 public class Main
 {
 
-
+    //TODO code game
     public static String hello()
     {
         return "Hello World!";

@@ -17,7 +17,8 @@ public class Game
     private static int numberObjectivesToWin = 9;
     private boolean emperorTriggered;
 
-    /**Game contructor
+    /**
+     * Game contructor
      *
      * @param plotObjectiveDeck
      * @param tileDeck
@@ -36,7 +37,8 @@ public class Game
         this.emperorTriggered = false;
     }
 
-    /**Adds a player to the game
+    /**
+     * Adds a player to the game
      *
      * @param builder of DecisionMaker (a bot supposedly)
      */
@@ -45,7 +47,8 @@ public class Game
         this.playerList.add(new Player(this, builder));
     }
 
-    /**Processes the game
+    /**
+     * Processes the game
      *
      * @throws DecisionMakerException
      */
@@ -63,8 +66,14 @@ public class Game
 
         objectiveDecks.values().forEach(Collections::shuffle);
         Collections.shuffle(tileDeck);
-        //TODO add first cards to players
 
+        for (Player player1 : playerList)
+        {
+            for (var deck : objectiveDecks.values())
+            {
+                player1.addObjective(deck.remove(0));
+            }
+        }
 
 
         int numberPlayers = playerList.size() - 1;
@@ -80,60 +89,58 @@ public class Game
 
             var dm = player.getDecisionMaker();
 
-            GameAction chosenAction = dm.chooseAction();
-
-            for (int j = numberActionsInTurn; j > 0; )
+            int remaining = 2;
+            while (true)
             {
-                switch (chosenAction)
+                var action = dm.chooseAction();
+
+                if (action == null)
+                {
+                    if (remaining == 0)
+                        break;
+
+                    throw new DecisionMakerException("Null value returned before two actions performed");
+                }
+
+                if (!action.isUnlimited() && remaining == 0)
+                    throw new DecisionMakerException("Player can only perform unlimited actions");
+
+                switch(action)
                 {
                     case DRAW_OBJECTIVE:
                         if (player.getHand().size() >= 5)
                         {
-                            continue;
+                            throw new IllegalAccessError("Card cannot be drawn when player has 5 cards");
                         }
 
                         var clazz = dm.chooseDeck();
                         if (clazz == null)
                         {
-                            continue;
+                            throw new IllegalArgumentException("Invalid deck chosen");
                         }
                         player.addObjective(objectiveDecks.get(clazz).get(0));
                         objectiveDecks.get(clazz).remove(0); //TODO can a deck be empty?
                         break;
-
                     case DRAW_TILE:
                         LandTile chosenTile = dm.chooseTile(Collections.unmodifiableList(tileDeck.subList(0, 3)));
                         TilePosition tilePosition = dm.chooseTilePosition(chosenTile);
                         if (!board.isValid(tilePosition))
                         {
-                            continue;
+                            throw new IllegalArgumentException("Position of tile given is invalid");
                         }
                         board.addTile(chosenTile, tilePosition);
                         tileDeck.remove(chosenTile);
                         break;
-
                     case COMPLETE_OBJECTIVE:
                         this.completeObjective(player);
                         break;
                     default:
                         throw new DecisionMakerException("Value of chosenAction does not conform to available values");
                 }
-                if (!chosenAction.isUnlimited())
-                {
-                    j--;
-                }
-            }
 
-            while (dm.anyExtraAction())
-            {
-                GameAction chosenExtraAction = dm.chooseExtraAction();
-                switch (chosenExtraAction)
+                if (!action.isUnlimited())
                 {
-                    case COMPLETE_OBJECTIVE:
-                        this.completeObjective(player);
-                        break;
-                    default:
-                        throw new DecisionMakerException("Value of chosenExtraAction does not conform to available values");
+                    remaining--;
                 }
             }
 
@@ -155,7 +162,8 @@ public class Game
         winners.forEach(w -> System.out.println(w));
     }
 
-    /**Return the list of winning players, based on their points and who triggered the emperor
+    /**
+     * Return the list of winning players, based on their points and who triggered the emperor
      *
      * @return list of winning players, empty list if no one won
      */
@@ -194,19 +202,20 @@ public class Game
         return board;
     }
 
-    /**Tries to complete desired objective of the player
+    /**
+     * Tries to complete desired objective of the player
      * the player triggers the emperor if he has enough objectives complete
      *
      * @param player to ask from what objective to complete
      */
     private void completeObjective(Player player)
     {
-        //ask player what objective to complete
-        //on regarde si l'objectif est complet
-        //si oui on le retire de la main pour mettre dans la liste des objectifs finis
-        //on calcule le nb de points
-        //TODO
-
+        Objective obj = player.getDecisionMaker().chooseObjectiveToComplete();
+        if (!obj.checkValidated(this))
+        {
+            return;
+        }
+        player.moveObjectiveToComplete(obj);
 
         if (player.countPoints() >= numberObjectivesToWin)
         {

@@ -33,16 +33,6 @@ public abstract class DecisionMaker
     abstract GameAction chooseAction();
 
     /**
-     * @return true if DecisionMaker wants to do an extra action, false otherwise
-     */
-    abstract boolean anyExtraAction();
-
-    /**
-     * @return chosen extra action
-     */
-    abstract GameAction chooseExtraAction();
-
-    /**
      * @return class of the deck chosen
      */
     abstract Class<? extends Objective> chooseDeck();
@@ -63,11 +53,5 @@ public abstract class DecisionMaker
      * @return Objective to complete
      */
     abstract Objective chooseObjectiveToComplete();
-
-    /**
-     * @param drawnTiles
-     * @return tile chosen
-     */
-    abstract LandTile chooseTile(ArrayList<LandTile> drawnTiles);
 
 }

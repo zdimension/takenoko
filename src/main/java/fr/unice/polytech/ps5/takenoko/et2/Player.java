@@ -56,21 +56,17 @@ public class Player
         this.hand.add(objective);
     }
 
-    /**
-     * Add the first objectives to the player hand
-     *
-     * @param objectivesList a list of Objective
-     * @throws IllegalAccessException if called when hand is not empry
-     */
-    public void addFirstObjectives(List<Objective> objectivesList) throws IllegalAccessException
+    public void moveObjectiveToComplete(Objective objective)
     {
-        if(this.hand.size() > 0){
-            throw new IllegalAccessException("Player hand should not get its first cards twice");
+        if(!hand.contains(objective)){
+            throw new IllegalArgumentException("Hand of player does not contain  given objective");
         }
-        this.hand.addAll(objectivesList);
+        objectivesCompleted.add(objective);
+        hand.remove(objective);
     }
 
-    /**Get read-only Hand of objectives
+    /**
+     * Get read-only Hand of objectives
      *
      * @return List of objectives
      */
@@ -103,11 +99,14 @@ public class Player
         return hasTriggeredEmperor;
     }
 
-    /**Triggers the emperor
+    /**
+     * Triggers the emperor
      * sets hasTriggeredEmperor to true
      */
     public void triggerEmperor()
     {
         this.hasTriggeredEmperor = true;
     }
+
+
 }

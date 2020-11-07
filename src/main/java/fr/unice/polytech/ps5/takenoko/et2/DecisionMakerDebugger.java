@@ -1,6 +1,7 @@
 package fr.unice.polytech.ps5.takenoko.et2;
 
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
+import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,8 @@ public class DecisionMakerDebugger extends DecisionMaker
 {
     private Scanner sc;
 
-    /**Class constructor
+    /**
+     * Class constructor
      *
      * @param player
      */
@@ -23,7 +25,21 @@ public class DecisionMakerDebugger extends DecisionMaker
     @Override
     GameAction chooseAction()
     {
-        return null; //TODO
+        int input;
+        do
+        {
+            System.out.println("Possible actions :");
+            for (GameAction action : GameAction.values())
+            {
+                System.out.println(action);
+            }
+            System.out.println("Choose one (0, 1, 2...) :");
+
+            input = sc.nextInt();
+        }
+        while (input < 0 || input > GameAction.values().length - 1);
+
+        return GameAction.values()[input];
     }
 
     public static DecisionMakerBuilder getBuilder()
@@ -32,7 +48,7 @@ public class DecisionMakerDebugger extends DecisionMaker
     }
 
     @Override
-    LandTile chooseTile(ArrayList<LandTile> drawnTiles)
+    LandTile chooseTile(List<LandTile> drawnTiles)
     {
         if (drawnTiles.size() != 3)
         {
@@ -65,9 +81,9 @@ public class DecisionMakerDebugger extends DecisionMaker
             System.out.println("Board :");
             this.getBoard().getTiles().forEach((k, v) -> System.out.println(k + " : " + v));
             System.out.println("Choose x axis : ");
-            inputx= sc.nextInt();
+            inputx = sc.nextInt();
             System.out.println("Choose y axis : ");
-            inputy= sc.nextInt();
+            inputy = sc.nextInt();
             tilePosition = new TilePosition(inputx, inputy);
         }
         while (!this.getBoard().isValid(tilePosition));
@@ -93,26 +109,24 @@ public class DecisionMakerDebugger extends DecisionMaker
     }
 
     @Override
-    boolean anyExtraAction()
-    {
-        return false; //TODO
-    }
-
-    @Override
-    GameAction chooseExtraAction()
-    {
-        return null; //TODO
-    }
-
-    @Override
     Class<? extends Objective> chooseDeck()
     {
-        return null; //TODO
+        int input;
+        Class<? extends Objective> clazz;
+        do
+        {
+            System.out.println("Available decks :");
+            System.out.println("0 : ObjectivePlot");
+            System.out.println("Choose one (0, 1, 2...) :");
+            input = sc.nextInt();
+            if(input == 1){
+                clazz = PlotObjective.class;
+                break;
+            }
+        }
+        while (true);
+
+        return clazz;
     }
 
-    @Override
-    LandTile chooseTile(List<LandTile> drawnTiles)
-    {
-        return null; //TODO
-    }
 }
