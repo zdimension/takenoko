@@ -1,5 +1,7 @@
 package fr.unice.polytech.ps5.takenoko.et2.objective;
 
+import fr.unice.polytech.ps5.takenoko.et2.Game;
+
 /**
  * An abstract class for the objectives
  */
@@ -36,4 +38,12 @@ public abstract class Objective
     {
         this.points = points;
     }
+
+    /**
+     * Check if the objective is validated with the given Game
+     *
+     * @param game The game to check
+     * @return true if the Objective is validated in the Game, false otherwise
+     */
+    public abstract boolean checkValidated(Game game);
 }

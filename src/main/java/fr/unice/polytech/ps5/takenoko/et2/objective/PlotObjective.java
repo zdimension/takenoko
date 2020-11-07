@@ -33,11 +33,17 @@ public class PlotObjective extends Objective
         listPaths.addAll(listP);
     }
 
+    @Override
+    public boolean checkValidated(Game game)
+    {
+        return checkValidated(game.getBoard());
+    }
+
     /**
-     * Check if the objective is validated with the Board given
+     * Check if the objective is validated with the given board
      *
      * @param board The board to check
-     * @return true if the Objective is validated in the Boeard, false otherwise
+     * @return true if the Objective is validated in the Game, false otherwise
      */
     public boolean checkValidated(Board board)
     {
