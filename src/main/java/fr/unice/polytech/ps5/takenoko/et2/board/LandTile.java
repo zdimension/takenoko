@@ -1,4 +1,7 @@
-package fr.unice.polytech.ps5.takenoko.et2;
+package fr.unice.polytech.ps5.takenoko.et2.board;
+
+import fr.unice.polytech.ps5.takenoko.et2.Color;
+import fr.unice.polytech.ps5.takenoko.et2.board.Tile;
 
 /**
  * Land plot tile.

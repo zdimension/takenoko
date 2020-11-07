@@ -1,6 +1,7 @@
 package fr.unice.polytech.ps5.takenoko.et2.objective;
 
 import fr.unice.polytech.ps5.takenoko.et2.*;
+import fr.unice.polytech.ps5.takenoko.et2.board.*;
 
 import java.util.ArrayList;
 import java.util.List;

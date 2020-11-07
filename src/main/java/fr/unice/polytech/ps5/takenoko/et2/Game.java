@@ -1,5 +1,10 @@
 package fr.unice.polytech.ps5.takenoko.et2;
 
+import fr.unice.polytech.ps5.takenoko.et2.board.Board;
+import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
+import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
+import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
+import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerException;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 

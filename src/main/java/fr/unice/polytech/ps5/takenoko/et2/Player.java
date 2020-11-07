@@ -1,5 +1,7 @@
 package fr.unice.polytech.ps5.takenoko.et2;
 
+import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
+import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 
 import java.util.ArrayList;

@@ -1,4 +1,6 @@
-package fr.unice.polytech.ps5.takenoko.et2;
+package fr.unice.polytech.ps5.takenoko.et2.board;
+
+import fr.unice.polytech.ps5.takenoko.et2.board.Tile;
 
 /**
  * Edge between two tiles.

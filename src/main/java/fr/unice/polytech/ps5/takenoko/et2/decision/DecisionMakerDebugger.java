@@ -1,9 +1,12 @@
-package fr.unice.polytech.ps5.takenoko.et2;
+package fr.unice.polytech.ps5.takenoko.et2.decision;
 
+import fr.unice.polytech.ps5.takenoko.et2.GameAction;
+import fr.unice.polytech.ps5.takenoko.et2.Player;
+import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
+import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -23,7 +26,7 @@ public class DecisionMakerDebugger extends DecisionMaker
     }
 
     @Override
-    GameAction chooseAction()
+    public GameAction chooseAction()
     {
         int input;
         do
@@ -48,7 +51,7 @@ public class DecisionMakerDebugger extends DecisionMaker
     }
 
     @Override
-    LandTile chooseTile(List<LandTile> drawnTiles)
+    public LandTile chooseTile(List<LandTile> drawnTiles)
     {
         if (drawnTiles.size() != 3)
         {
@@ -71,7 +74,7 @@ public class DecisionMakerDebugger extends DecisionMaker
     }
 
     @Override
-    TilePosition chooseTilePosition(LandTile tile)
+    public TilePosition chooseTilePosition(LandTile tile)
     {
         int inputx;
         int inputy;
@@ -92,7 +95,7 @@ public class DecisionMakerDebugger extends DecisionMaker
     }
 
     @Override
-    Objective chooseObjectiveToComplete()
+    public Objective chooseObjectiveToComplete()
     {
         int input;
         int numberCards = player.getHand().size();
@@ -109,7 +112,7 @@ public class DecisionMakerDebugger extends DecisionMaker
     }
 
     @Override
-    Class<? extends Objective> chooseDeck()
+    public Class<? extends Objective> chooseDeck()
     {
         int input;
         Class<? extends Objective> clazz;

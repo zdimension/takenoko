@@ -1,4 +1,4 @@
-package fr.unice.polytech.ps5.takenoko.et2;
+package fr.unice.polytech.ps5.takenoko.et2.board;
 
 import java.util.Objects;
 
@@ -44,7 +44,7 @@ public class TilePosition
      * @param other addend
      * @return the elementwise sum of the two vectors
      */
-    TilePosition add(TilePosition other)
+    public TilePosition add(TilePosition other)
     {
         return new TilePosition(x + other.x, y + other.y);
     }

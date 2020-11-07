@@ -1,4 +1,4 @@
-package fr.unice.polytech.ps5.takenoko.et2;
+package fr.unice.polytech.ps5.takenoko.et2.board;
 
 /**
  * Pond tile. This tile can only be present once on the game board, at the center.

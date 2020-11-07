@@ -1,4 +1,4 @@
-package fr.unice.polytech.ps5.takenoko.et2;
+package fr.unice.polytech.ps5.takenoko.et2.board;
 
 import java.util.*;
 import java.util.stream.IntStream;
@@ -12,7 +12,7 @@ public class Board
     /**
      * Mapping LUT between edge numbers and generator vectors
      */
-    static final List<TilePosition> edgeNumbers = Collections.unmodifiableList(List.of(
+    public static final List<TilePosition> edgeNumbers = Collections.unmodifiableList(List.of(
         new TilePosition(0, 1),
         new TilePosition(1, 0),
         new TilePosition(1, -1),
