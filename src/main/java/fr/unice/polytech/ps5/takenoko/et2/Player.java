@@ -63,10 +63,7 @@ public class Player
      */
     public void addFirstObjectives(List<Objective> objectivesList)
     {
-        for (Objective objective : objectivesList)
-        {
-            this.hand.add(objective);
-        }
+        this.hand.addAll(objectivesList);
     }
 
     public List<Objective> getHand()
