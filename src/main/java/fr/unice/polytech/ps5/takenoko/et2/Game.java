@@ -17,6 +17,11 @@ public class Game
     private static int numberObjectivesToWin = 9;
     private boolean emperorTriggered;
 
+    /**Game contructor
+     *
+     * @param plotObjectiveDeck
+     * @param tileDeck
+     */
     public Game(List<PlotObjective> plotObjectiveDeck, List<LandTile> tileDeck)
     {
         if (plotObjectiveDeck.size() == 0)
@@ -31,11 +36,19 @@ public class Game
         this.emperorTriggered = false;
     }
 
+    /**Adds a player to the game
+     *
+     * @param builder of DecisionMaker (a bot supposedly)
+     */
     void addPlayer(DecisionMakerBuilder builder)
     {
         this.playerList.add(new Player(this, builder));
     }
 
+    /**Processes the game
+     *
+     * @throws DecisionMakerException
+     */
     public void gameProcessing() throws DecisionMakerException
     {
 
@@ -50,6 +63,8 @@ public class Game
 
         objectiveDecks.values().forEach(Collections::shuffle);
         Collections.shuffle(tileDeck);
+        //TODO add first cards to players
+
 
 
         int numberPlayers = playerList.size() - 1;
@@ -140,7 +155,8 @@ public class Game
         winners.forEach(w -> System.out.println(w));
     }
 
-    /**
+    /**Return the list of winning players, based on their points and who triggered the emperor
+     *
      * @return list of winning players, empty list if no one won
      */
     private ArrayList<Player> whoWins()
@@ -170,13 +186,22 @@ public class Game
     }
 
 
+    /**
+     * @return board
+     */
     public Board getBoard()
     {
         return board;
     }
 
+    /**Tries to complete desired objective of the player
+     * the player triggers the emperor if he has enough objectives complete
+     *
+     * @param player to ask from what objective to complete
+     */
     private void completeObjective(Player player)
     {
+        //ask player what objective to complete
         //on regarde si l'objectif est complet
         //si oui on le retire de la main pour mettre dans la liste des objectifs finis
         //on calcule le nb de points

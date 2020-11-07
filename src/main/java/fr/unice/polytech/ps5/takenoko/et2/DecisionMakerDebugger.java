@@ -10,6 +10,10 @@ public class DecisionMakerDebugger extends DecisionMaker
 {
     private Scanner sc;
 
+    /**Class constructor
+     *
+     * @param player
+     */
     public DecisionMakerDebugger(Player player)
     {
         super(player);
@@ -27,6 +31,7 @@ public class DecisionMakerDebugger extends DecisionMaker
         return DecisionMakerDebugger::new;
     }
 
+    @Override
     LandTile chooseTile(ArrayList<LandTile> drawnTiles)
     {
         if (drawnTiles.size() != 3)
@@ -71,7 +76,7 @@ public class DecisionMakerDebugger extends DecisionMaker
     }
 
     @Override
-    Objective completeObjective()
+    Objective chooseObjectiveToComplete()
     {
         int input;
         int numberCards = player.getHand().size();
