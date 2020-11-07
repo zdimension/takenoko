@@ -3,6 +3,7 @@ package fr.unice.polytech.ps5.takenoko.et2;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -10,8 +11,8 @@ import java.util.List;
  */
 public class Player
 {
-    private List<Objective> hand = new ArrayList<Objective>();
-    private List<Objective> objectivesCompleted = new ArrayList<Objective>();
+    private final List<Objective> hand = new ArrayList<Objective>();
+    private final List<Objective> objectivesCompleted = new ArrayList<Objective>();
     private boolean hasTriggeredEmperor;
     private final Game game;
     private final DecisionMaker decisionMaker;
@@ -68,6 +69,11 @@ public class Player
         }
     }
 
+    public List<Objective> getHand()
+    {
+        return Collections.unmodifiableList(hand);
+    }
+
     public DecisionMaker getDecisionMaker()
     {
         return decisionMaker;
@@ -76,5 +82,15 @@ public class Player
     public Game getGame()
     {
         return game;
+    }
+
+    public boolean isHasTriggeredEmperor()
+    {
+        return hasTriggeredEmperor;
+    }
+
+    public void triggerEmperor()
+    {
+        this.hasTriggeredEmperor = true;
     }
 }
