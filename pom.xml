@@ -2,13 +2,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>fr.unice.polytech.ps5.takenoko.et2</groupId> <!-- CHANGE ME -->
-    <artifactId>TakenokoET2</artifactId> <!-- CHANGE ME -->
-    <version>0.1</version> <!-- CHANGE ME -->
+    <groupId>fr.unice.polytech.ps5.takenoko.et2</groupId>
+    <artifactId>TakenokoET2</artifactId>
+    <version>0.1</version>
+    <packaging>jar</packaging>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8
-        </project.build.sourceEncoding> <!-- CHANGE ME IF NEEDED, other : ISO-8859-1 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -17,7 +17,6 @@
 
     <build>
         <plugins>
-            <!-- JUnit 5 requires Surefire version 2.22.2 / compiler 3.8.1 -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
