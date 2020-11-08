@@ -13,8 +13,12 @@ import java.util.stream.Collectors;
 
 public class Game
 {
-    private static int numberObjectivesToWin = 9;
     private static final int numberActionsInTurn = 2;
+    private static final Map<Integer, Integer> objectiveThreshold = Map.of(
+        2, 9,
+        3, 8,
+        4, 7
+    );
     private Board board;
     private Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks = new HashMap<>();
     private List<LandTile> tileDeck;
@@ -213,7 +217,7 @@ public class Game
                 bestScore = player.countPoints();
             }
         }
-        if (bestScore < Game.numberObjectivesToWin)
+        if (bestScore < objectiveThreshold.get(playerList.size()))
         {
             return winners;
         }
@@ -258,7 +262,7 @@ public class Game
         }
         player.moveObjectiveToComplete(obj);
 
-        if (player.countPoints() >= numberObjectivesToWin)
+        if (player.countPoints() >= objectiveThreshold.get(playerList.size()))
         {
             if (emperorTriggered)
             {
