@@ -33,8 +33,9 @@ public abstract class DecisionMaker
 
     /**
      * @return chosen action
+     * @param base
      */
-    public abstract GameAction chooseAction();
+    public abstract GameAction chooseAction(List<GameAction> base);
 
     /**
      * @return class of the deck chosen
@@ -48,14 +49,16 @@ public abstract class DecisionMaker
     public abstract LandTile chooseTile(List<LandTile> drawnTiles); //drawnTiles.size() = 3
 
     /**
+     *
+     * @param validPos
      * @param tile to put on the board
      * @return desired position of tile
      */
-    public abstract TilePosition chooseTilePosition(LandTile tile);
+    public abstract TilePosition chooseTilePosition(List<TilePosition> validPos, LandTile tile);
 
     /**
      * @return Objective to complete
      */
-    public abstract Objective chooseObjectiveToComplete();
+    public abstract Objective chooseObjectiveToComplete(List<Objective> validObjectives);
 
 }

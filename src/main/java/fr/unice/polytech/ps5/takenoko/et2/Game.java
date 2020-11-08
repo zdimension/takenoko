@@ -9,17 +9,17 @@ import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Game
 {
     private static int numberActionsInTurn = 2;
+    private static int numberObjectivesToWin = 9;
     private Board board;
     private Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks = new HashMap<>();
-
     private List<LandTile> tileDeck;
     private ArrayList<Player> playerList;
     private boolean isFirstRound;
-    private static int numberObjectivesToWin = 9;
     private boolean emperorTriggered;
 
     /**
@@ -57,9 +57,8 @@ public class Game
      *
      * @throws DecisionMakerException
      */
-    public void gameProcessing() throws DecisionMakerException
+    public void gameProcessing() throws Exception
     {
-
         if (playerList.size() < 2)
         {
             throw new IllegalArgumentException("Game started with less than 2 players");
@@ -80,8 +79,7 @@ public class Game
             }
         }
 
-
-        int numberPlayers = playerList.size() - 1;
+        int numberPlayers = playerList.size();
         int i = 0;
 
         do
@@ -95,43 +93,65 @@ public class Game
             var dm = player.getDecisionMaker();
 
             int remaining = 2;
+            var actions = Arrays.asList(GameAction.values());
+            var unlimited = actions
+                .stream()
+                .filter(GameAction::isUnlimited).collect(Collectors.toCollection(ArrayList::new));
+            unlimited.add(null); // player can choose "null" after the required 2 actions are performed
             while (true)
             {
-                var action = dm.chooseAction();
+                List<GameAction> base;
+                if (remaining == 0)
+                {
+                    base = unlimited;
+                }
+                else
+                {
+                    base = new ArrayList<>(actions);
+
+                    if (player.getHand().size() == 5)
+                        base.remove(GameAction.DRAW_OBJECTIVE);
+                }
+
+                if (player.getHand().stream().noneMatch(o -> o.checkValidated(this)))
+                    base.remove(GameAction.COMPLETE_OBJECTIVE);
+
+                var action = dm.chooseAction(base);
+
+                if (!base.contains(action))
+                {
+                    throwError(new DecisionMakerException("Invalid action"));
+                }
 
                 if (action == null)
                 {
-                    if (remaining == 0)
-                        break;
-
-                    throw new DecisionMakerException("Null value returned before two actions performed");
+                    break;
                 }
 
-                if (!action.isUnlimited() && remaining == 0)
-                    throw new DecisionMakerException("Player can only perform unlimited actions");
-
-                switch(action)
+                switch (action)
                 {
                     case DRAW_OBJECTIVE:
-                        if (player.getHand().size() >= 5)
-                        {
-                            throw new IllegalAccessError("Card cannot be drawn when player has 5 cards");
-                        }
-
-                        var clazz = dm.chooseDeck();
+                        var clazz = objectiveDecks.getOrDefault(dm.chooseDeck(), null);
                         if (clazz == null)
                         {
-                            throw new IllegalArgumentException("Invalid deck chosen");
+                            throwError(new IllegalArgumentException("Invalid deck chosen"));
+                            continue;
                         }
-                        player.addObjective(objectiveDecks.get(clazz).get(0));
-                        objectiveDecks.get(clazz).remove(0); //TODO can a deck be empty?
+                        player.addObjective(clazz.remove(0));
                         break;
                     case DRAW_TILE:
                         LandTile chosenTile = dm.chooseTile(Collections.unmodifiableList(tileDeck.subList(0, 3)));
-                        TilePosition tilePosition = dm.chooseTilePosition(chosenTile);
-                        if (!board.isValid(tilePosition))
+                        var validPos = board.getTiles().keySet()
+                            .stream()
+                            .flatMap(t ->
+                                board.getNeighboringPositions(t)
+                                    .filter(p -> board.isValid(p)))
+                            .collect(Collectors.toList());
+                        TilePosition tilePosition = dm.chooseTilePosition(validPos, chosenTile);
+                        if (!validPos.contains(tilePosition))
                         {
-                            throw new IllegalArgumentException("Position of tile given is invalid");
+                            throwError(new IllegalArgumentException("Position of tile given is invalid"));
+                            continue;
                         }
                         board.addTile(chosenTile, tilePosition);
                         tileDeck.remove(chosenTile);
@@ -140,7 +160,8 @@ public class Game
                         this.completeObjective(player);
                         break;
                     default:
-                        throw new DecisionMakerException("Value of chosenAction does not conform to available values");
+                        throwError(new IllegalArgumentException("Value of chosenAction does not conform to available values"));
+                        continue;
                 }
 
                 if (!action.isUnlimited())
@@ -149,6 +170,7 @@ public class Game
                 }
             }
 
+            System.out.printf("Player %d : %d pts%n", i, player.countPoints());
 
             if (i == numberPlayers - 1)
             {
@@ -164,7 +186,7 @@ public class Game
         }
         while (true);
         ArrayList<Player> winners = whoWins();
-        winners.forEach(w -> System.out.println(w));
+        winners.forEach(w -> System.out.println(playerList.indexOf(w)));
     }
 
     /**
@@ -213,10 +235,16 @@ public class Game
      *
      * @param player to ask from what objective to complete
      */
-    private void completeObjective(Player player)
+    private void completeObjective(Player player) throws Exception
     {
-        Objective obj = player.getDecisionMaker().chooseObjectiveToComplete();
-        if (!obj.checkValidated(this))
+        // the collection is always populated because gameProcessing checks for non-emptiness
+        var valid = player
+            .getHand()
+            .stream()
+            .filter(o -> o.checkValidated(this))
+            .collect(Collectors.toList());
+        Objective obj = player.getDecisionMaker().chooseObjectiveToComplete(valid);
+        if (!valid.contains(obj))
         {
             return;
         }
@@ -229,6 +257,18 @@ public class Game
                 return;
             }
             player.triggerEmperor();
+        }
+    }
+
+    private void throwError(Exception exc) throws Exception
+    {
+        if (true)
+        {
+            System.err.printf("GAME ERROR: %s%n", exc.getMessage());
+        }
+        else
+        {
+            throw exc;
         }
     }
 

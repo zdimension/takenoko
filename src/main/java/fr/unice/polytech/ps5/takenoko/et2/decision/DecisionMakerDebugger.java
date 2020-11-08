@@ -26,13 +26,13 @@ public class DecisionMakerDebugger extends DecisionMaker
     }
 
     @Override
-    public GameAction chooseAction()
+    public GameAction chooseAction(List<GameAction> base)
     {
         int input;
         do
         {
             System.out.println("Possible actions :");
-            for (GameAction action : GameAction.values())
+            for (GameAction action : base)
             {
                 System.out.println(action);
             }
@@ -40,9 +40,9 @@ public class DecisionMakerDebugger extends DecisionMaker
 
             input = sc.nextInt();
         }
-        while (input < 0 || input > GameAction.values().length - 1);
+        while (input < 0 || input > base.size() - 1);
 
-        return GameAction.values()[input];
+        return base.get(input);
     }
 
     public static DecisionMakerBuilder getBuilder()
@@ -74,7 +74,7 @@ public class DecisionMakerDebugger extends DecisionMaker
     }
 
     @Override
-    public TilePosition chooseTilePosition(LandTile tile)
+    public TilePosition chooseTilePosition(List<TilePosition> validPos, LandTile tile)
     {
         int inputx;
         int inputy;
@@ -95,20 +95,20 @@ public class DecisionMakerDebugger extends DecisionMaker
     }
 
     @Override
-    public Objective chooseObjectiveToComplete()
+    public Objective chooseObjectiveToComplete(List<Objective> validObjectives)
     {
         int input;
-        int numberCards = player.getHand().size();
+        int numberCards = validObjectives.size();
         do
         {
             System.out.println("Your Objectives :");
-            player.getHand().forEach(x -> System.out.println(x));
+            validObjectives.forEach(x -> System.out.println(x));
             System.out.println("Choose one (0, 1, 2...) :");
             input = sc.nextInt();
         }
         while (input < 0 || input > numberCards - 1);
 
-        return player.getHand().get(input);
+        return validObjectives.get(input);
     }
 
     @Override
