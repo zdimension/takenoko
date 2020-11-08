@@ -122,7 +122,7 @@ public class Player
         for(Objective objective : hand) {
             playerString += objective.toString() + "\n";
         }
-        playerString += "Objectives completed :"
+        playerString += "Objectives completed :";
         for(Objective objective : objectivesCompleted) {
             playerString += objective.toString() + "\n";
         }

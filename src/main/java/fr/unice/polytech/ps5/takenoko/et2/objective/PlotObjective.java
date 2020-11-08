@@ -114,7 +114,7 @@ public class PlotObjective extends Objective
      */
     @Override
     public String toString() {
-        String plotString = "Plot objective : " + points + "points\nColor(s) : " +;
+        String plotString = "Plot objective : " + points + "points\nColor(s) : ";
         for (Color color : listColors) {
             plotString += color.toString() + ",";
         }

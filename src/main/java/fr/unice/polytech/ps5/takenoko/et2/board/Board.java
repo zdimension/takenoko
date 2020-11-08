@@ -142,4 +142,16 @@ public class Board
 
         return true;
     }
+
+    /**
+     * @return a String of the Board
+     */
+    @Override
+    public String toString() {
+        String board = center.toString() + "\n";
+        for (TilePosition position : tileCache.keySet()) {
+            board += position.toString() + tileCache.get(position).toString() + "\n";
+        }
+        return board;
+    }
 }
