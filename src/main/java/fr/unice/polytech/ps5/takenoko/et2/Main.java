@@ -14,15 +14,15 @@ public class Main
     public static void main(String... args) throws Exception
     {
         var land = new ArrayList<LandTile>();
-        for (var i = 0; i < 110; i++)
+        for (var i = 0; i < 11; i++)
         {
             land.add(new LandTile(Color.GREEN));
         }
-        for (var i = 0; i < 90; i++)
+        for (var i = 0; i < 9; i++)
         {
             land.add(new LandTile(Color.YELLOW));
         }
-        for (var i = 0; i < 70; i++)
+        for (var i = 0; i < 7; i++)
         {
             land.add(new LandTile(Color.PINK));
         }
@@ -74,8 +74,8 @@ public class Main
             )
         );
         var players = List.<DecisionMakerBuilder>of(
-            RandomBot::new,
-            RandomBot::new,
+            /*RandomBot::new,
+            RandomBot::new,*/
             RandomBot::new,
             RandomBot::new
         );

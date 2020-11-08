@@ -117,11 +117,21 @@ public class Game
                     {
                         base.remove(GameAction.DRAW_OBJECTIVE);
                     }
+
+                    if (tileDeck.size() < 3)
+                    {
+                        base.remove(GameAction.DRAW_TILE);
+                    }
                 }
 
                 if (player.getHand().stream().noneMatch(o -> o.checkValidated(this)))
                 {
                     base.remove(GameAction.COMPLETE_OBJECTIVE);
+                }
+
+                if (base.isEmpty())
+                {
+                    return Collections.emptyList();
                 }
 
                 var action = dm.chooseAction(base);
