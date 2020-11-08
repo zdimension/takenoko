@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 
 public class Game
 {
-    private static int numberActionsInTurn = 2;
     private static int numberObjectivesToWin = 9;
+    private static final int numberActionsInTurn = 2;
     private Board board;
     private Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks = new HashMap<>();
     private List<LandTile> tileDeck;
