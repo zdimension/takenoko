@@ -60,18 +60,28 @@ public class Board
 
     /**
      * @param pos tile position
-     * @return a stream containing the neighboring tiles
+     * @return a stream containing the neighboring tile positions
      */
-    private Stream<Tile> getNeighbors(TilePosition pos)
+    public Stream<TilePosition> getNeighboringPositions(TilePosition pos)
     {
         return IntStream.range(-1, 2)
             .mapToObj(dx ->
                 IntStream.range(-1, 2)
                     .filter(dy -> dx != dy)
-                    .mapToObj(dy -> findTile(pos.add(new TilePosition(dx, dy))))
-                    .filter(Objects::nonNull)
+                    .mapToObj(dy -> new TilePosition(dx, dy))
             )
             .flatMap(s -> s);
+    }
+
+    /**
+     * @param pos tile position
+     * @return a stream containing the neighboring tiles
+     */
+    private Stream<Tile> getNeighbors(TilePosition pos)
+    {
+        return getNeighboringPositions(pos)
+            .map(this::findTile)
+            .filter(Objects::nonNull);
     }
 
     /**
