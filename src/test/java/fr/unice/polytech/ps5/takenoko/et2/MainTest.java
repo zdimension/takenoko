@@ -8,17 +8,4 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class MainTest
 {
 
-    String varToBeInitInSetup;
-
-    @BeforeEach
-    void setUp()
-    {
-        varToBeInitInSetup = "Hello World!";
-    }
-
-    @Test
-    void helloTest()
-    {
-        assertEquals(varToBeInitInSetup, Main.hello());
-    }
 }
