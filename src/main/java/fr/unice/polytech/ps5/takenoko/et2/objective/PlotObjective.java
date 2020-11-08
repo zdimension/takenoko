@@ -19,12 +19,12 @@ public class PlotObjective extends Objective
     /**
      * Constructor, build a PlotObjective with a list of colors and a list of directions
      *
+     * @param points Points of this objective
      * @param listC  a list of colors eg [PINK, PINK, YELLOW, GREEN, GREEN]
      * @param listP  A list of directions eg [0, 5, 4, 2]
-     * @param points Points of this objective
      * @throws Exception if listC.size() == 0 or listC.size() != listP.size() + 1
      */
-    public PlotObjective(List<Color> listC, List<Integer> listP, int points) throws Exception
+    public PlotObjective(int points, List<Color> listC, List<Integer> listP) throws Exception
     {
         super(points);
         if (listC.size() == 0 || listC.size() != (listP.size() + 1))
