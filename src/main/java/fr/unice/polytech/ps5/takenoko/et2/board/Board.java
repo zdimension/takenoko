@@ -68,7 +68,7 @@ public class Board
             .mapToObj(dx ->
                 IntStream.range(-1, 2)
                     .filter(dy -> dx != dy)
-                    .mapToObj(dy -> new TilePosition(dx, dy))
+                    .mapToObj(dy -> pos.add(new TilePosition(dx, dy)))
             )
             .flatMap(s -> s);
     }
