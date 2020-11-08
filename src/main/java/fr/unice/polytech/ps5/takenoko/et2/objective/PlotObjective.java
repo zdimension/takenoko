@@ -55,7 +55,7 @@ public class PlotObjective extends Objective
             {
                 listPaths.set(j, (listPaths.get(j) + 1) % 6);
             }
-            System.out.println();
+
             if (checkValidatedSpecificRotation(board))
             {
                 return true;
