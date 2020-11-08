@@ -15,9 +15,9 @@ public class Player
 {
     private final List<Objective> hand = new ArrayList<Objective>();
     private final List<Objective> objectivesCompleted = new ArrayList<Objective>();
-    private boolean hasTriggeredEmperor;
     private final Game game;
     private final DecisionMaker decisionMaker;
+    private boolean hasTriggeredEmperor;
 
     /**
      * Constructor of the Player
@@ -60,7 +60,8 @@ public class Player
 
     public void moveObjectiveToComplete(Objective objective)
     {
-        if(!hand.contains(objective)){
+        if (!hand.contains(objective))
+        {
             throw new IllegalArgumentException("Hand of player does not contain  given objective");
         }
         objectivesCompleted.add(objective);
@@ -114,16 +115,19 @@ public class Player
      * @return a String describing the player
      */
     @Override
-    public String toString() {
+    public String toString()
+    {
         String playerString = "Game : " + game.toString() +
-                              "\nDecisionMaker : " + decisionMaker.toString() +
-                              "Triggered Emperor : " + hasTriggeredEmperor +
-                              "Ojectives in Hand : ";
-        for(Objective objective : hand) {
+            "\nDecisionMaker : " + decisionMaker.toString() +
+            "Triggered Emperor : " + hasTriggeredEmperor +
+            "Ojectives in Hand : ";
+        for (Objective objective : hand)
+        {
             playerString += objective.toString() + "\n";
         }
         playerString += "Objectives completed :";
-        for(Objective objective : objectivesCompleted) {
+        for (Objective objective : objectivesCompleted)
+        {
             playerString += objective.toString() + "\n";
         }
         return playerString;

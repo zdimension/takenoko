@@ -19,12 +19,12 @@ public class Game
         3, 8,
         4, 7
     );
-    private Board board;
-    private Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks = new HashMap<>();
-    private List<LandTile> tileDeck;
-    private ArrayList<Player> playerList;
-    private boolean isFirstRound;
-    private boolean emperorTriggered;
+    private final Board board;
+    private final Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks = new HashMap<>();
+    private final List<LandTile> tileDeck;
+    private final ArrayList<Player> playerList;
+    private final boolean isFirstRound;
+    private final boolean emperorTriggered;
 
     /**
      * Game contructor
@@ -114,11 +114,15 @@ public class Game
                     base = new ArrayList<>(actions);
 
                     if (player.getHand().size() == 5 || objectiveDecks.values().stream().allMatch(List::isEmpty))
+                    {
                         base.remove(GameAction.DRAW_OBJECTIVE);
+                    }
                 }
 
                 if (player.getHand().stream().noneMatch(o -> o.checkValidated(this)))
+                {
                     base.remove(GameAction.COMPLETE_OBJECTIVE);
+                }
 
                 var action = dm.chooseAction(base);
 

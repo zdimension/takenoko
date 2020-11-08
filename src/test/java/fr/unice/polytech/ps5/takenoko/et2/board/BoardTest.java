@@ -1,10 +1,6 @@
 package fr.unice.polytech.ps5.takenoko.et2.board;
 
 import fr.unice.polytech.ps5.takenoko.et2.Color;
-import fr.unice.polytech.ps5.takenoko.et2.board.Board;
-import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
-import fr.unice.polytech.ps5.takenoko.et2.board.Tile;
-import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;

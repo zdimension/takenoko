@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class DecisionMakerDebugger extends DecisionMaker
 {
-    private Scanner sc;
+    private final Scanner sc;
 
     /**
      * Class constructor
@@ -23,6 +23,11 @@ public class DecisionMakerDebugger extends DecisionMaker
     {
         super(player);
         sc = new Scanner(System.in);
+    }
+
+    public static DecisionMakerBuilder getBuilder()
+    {
+        return DecisionMakerDebugger::new;
     }
 
     @Override
@@ -43,11 +48,6 @@ public class DecisionMakerDebugger extends DecisionMaker
         while (input < 0 || input > base.size() - 1);
 
         return base.get(input);
-    }
-
-    public static DecisionMakerBuilder getBuilder()
-    {
-        return DecisionMakerDebugger::new;
     }
 
     @Override
@@ -122,7 +122,8 @@ public class DecisionMakerDebugger extends DecisionMaker
             System.out.println("0 : ObjectivePlot");
             System.out.println("Choose one (0, 1, 2...) :");
             input = sc.nextInt();
-            if(input == 1){
+            if (input == 1)
+            {
                 clazz = PlotObjective.class;
                 break;
             }

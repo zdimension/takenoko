@@ -1,7 +1,5 @@
 package fr.unice.polytech.ps5.takenoko.et2.board;
 
-import fr.unice.polytech.ps5.takenoko.et2.board.Tile;
-
 /**
  * Edge between two tiles.
  */
@@ -61,5 +59,8 @@ public class Edge
      * @return a String describing the edge
      */
     @Override
-    public String toString() { return "Tile 1 " + tiles[0].toString() + "\nTile 2 : " + tiles[1].toString(); }
+    public String toString()
+    {
+        return "Tile 1 " + tiles[0].toString() + "\nTile 2 : " + tiles[1].toString();
+    }
 }

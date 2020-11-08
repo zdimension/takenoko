@@ -113,13 +113,16 @@ public class PlotObjective extends Objective
      * @return a String with the numbers of points, the colors and the patern of the plot objective
      */
     @Override
-    public String toString() {
+    public String toString()
+    {
         String plotString = "Plot objective : " + points + "points\nColor(s) : ";
-        for (Color color : listColors) {
+        for (Color color : listColors)
+        {
             plotString += color.toString() + ",";
         }
         plotString += "\nPatern : ";
-        for (Integer path : listPaths) {
+        for (Integer path : listPaths)
+        {
             plotString += path.toString() + "-";
         }
 

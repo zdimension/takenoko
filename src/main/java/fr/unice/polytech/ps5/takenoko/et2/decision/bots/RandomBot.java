@@ -6,11 +6,9 @@ import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
-import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 /**
  * This bot chooses randomly among valid choices every time.

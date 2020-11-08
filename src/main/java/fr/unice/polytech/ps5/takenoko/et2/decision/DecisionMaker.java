@@ -13,7 +13,8 @@ public abstract class DecisionMaker
 {
     protected Player player;
 
-    /**Class constructor
+    /**
+     * Class constructor
      *
      * @param player
      */
@@ -22,7 +23,8 @@ public abstract class DecisionMaker
         this.player = player;
     }
 
-    /**Get the board of the game of the player
+    /**
+     * Get the board of the game of the player
      *
      * @return board
      */
@@ -32,8 +34,8 @@ public abstract class DecisionMaker
     }
 
     /**
-     * @return chosen action
      * @param base
+     * @return chosen action
      */
     public abstract GameAction chooseAction(List<GameAction> base);
 
@@ -49,9 +51,8 @@ public abstract class DecisionMaker
     public abstract LandTile chooseTile(List<LandTile> drawnTiles); //drawnTiles.size() = 3
 
     /**
-     *
      * @param validPos
-     * @param tile to put on the board
+     * @param tile     to put on the board
      * @return desired position of tile
      */
     public abstract TilePosition chooseTilePosition(List<TilePosition> validPos, LandTile tile);

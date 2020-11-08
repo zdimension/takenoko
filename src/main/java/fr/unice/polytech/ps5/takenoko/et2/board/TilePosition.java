@@ -80,5 +80,8 @@ public class TilePosition
      * @return a String of the position of the tile
      */
     @Override
-    public String toString() { return "Tile position : (" + x + "," + y + ")"; }
+    public String toString()
+    {
+        return "Tile position : (" + x + "," + y + ")";
+    }
 }
