@@ -41,9 +41,9 @@ public class RandomBot extends DecisionMaker
     }
 
     @Override
-    public Class<? extends Objective> chooseDeck()
+    public Class<? extends Objective> chooseDeck(List<Class<? extends Objective>> available)
     {
-        return randomElement(List.of(PlotObjective.class));
+        return randomElement(available);
     }
 
     @Override

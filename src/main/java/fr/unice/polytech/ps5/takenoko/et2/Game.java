@@ -109,7 +109,7 @@ public class Game
                 {
                     base = new ArrayList<>(actions);
 
-                    if (player.getHand().size() == 5)
+                    if (player.getHand().size() == 5 || objectiveDecks.values().stream().allMatch(List::isEmpty))
                         base.remove(GameAction.DRAW_OBJECTIVE);
                 }
 
@@ -131,13 +131,21 @@ public class Game
                 switch (action)
                 {
                     case DRAW_OBJECTIVE:
-                        var clazz = objectiveDecks.getOrDefault(dm.chooseDeck(), null);
-                        if (clazz == null)
+                        List<Class<? extends Objective>> valid =
+                            objectiveDecks
+                                .entrySet()
+                                .stream()
+                                .filter(e -> !e.getValue().isEmpty())
+                                .map(Map.Entry::getKey)
+                                .collect(Collectors.toUnmodifiableList());
+                        var chosen =
+                            dm.chooseDeck(valid);
+                        if (!valid.contains(chosen))
                         {
                             throwError(new IllegalArgumentException("Invalid deck chosen"));
                             continue;
                         }
-                        player.addObjective(clazz.remove(0));
+                        player.addObjective(objectiveDecks.get(chosen).remove(0));
                         break;
                     case DRAW_TILE:
                         LandTile chosenTile = dm.chooseTile(Collections.unmodifiableList(tileDeck.subList(0, 3)));

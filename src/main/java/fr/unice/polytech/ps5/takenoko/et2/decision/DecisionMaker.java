@@ -40,7 +40,7 @@ public abstract class DecisionMaker
     /**
      * @return class of the deck chosen
      */
-    public abstract Class<? extends Objective> chooseDeck();
+    public abstract Class<? extends Objective> chooseDeck(List<Class<? extends Objective>> available);
 
     /**
      * @param drawnTiles to choose from

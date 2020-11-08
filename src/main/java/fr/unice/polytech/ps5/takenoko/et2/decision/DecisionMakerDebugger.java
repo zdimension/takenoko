@@ -112,7 +112,7 @@ public class DecisionMakerDebugger extends DecisionMaker
     }
 
     @Override
-    public Class<? extends Objective> chooseDeck()
+    public Class<? extends Objective> chooseDeck(List<Class<? extends Objective>> available)
     {
         int input;
         Class<? extends Objective> clazz;
