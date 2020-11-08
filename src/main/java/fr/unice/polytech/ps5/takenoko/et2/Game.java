@@ -41,8 +41,8 @@ public class Game
         playerList = new ArrayList<Player>();
         isFirstRound = true;
         board = new Board();
-        this.objectiveDecks.put(PlotObjective.class, plotObjectiveDeck);
-        this.tileDeck = tileDeck;
+        this.objectiveDecks.put(PlotObjective.class, new ArrayList<>(plotObjectiveDeck));
+        this.tileDeck = new ArrayList<>(tileDeck);
         this.emperorTriggered = false;
     }
 
