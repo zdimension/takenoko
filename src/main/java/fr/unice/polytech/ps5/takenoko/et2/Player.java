@@ -13,8 +13,8 @@ import java.util.List;
  */
 public class Player
 {
-    private final List<Objective> hand = new ArrayList<Objective>();
-    private final List<Objective> objectivesCompleted = new ArrayList<Objective>();
+    private final List<Objective> hand = new ArrayList<>();
+    private final List<Objective> objectivesCompleted = new ArrayList<>();
     private final Game game;
     private final DecisionMaker decisionMaker;
     private boolean hasTriggeredEmperor;
@@ -117,20 +117,20 @@ public class Player
     @Override
     public String toString()
     {
-        String playerString = "Game : " + game.toString() +
+        StringBuilder playerString = new StringBuilder("Game : " + game.toString() +
             "\nDecisionMaker : " + decisionMaker.toString() +
             "Triggered Emperor : " + hasTriggeredEmperor +
-            "Ojectives in Hand : ";
+            "Ojectives in Hand : ");
         for (Objective objective : hand)
         {
-            playerString += objective.toString() + "\n";
+            playerString.append(objective.toString()).append("\n");
         }
-        playerString += "Objectives completed :";
+        playerString.append("Objectives completed :");
         for (Objective objective : objectivesCompleted)
         {
-            playerString += objective.toString() + "\n";
+            playerString.append(objective.toString()).append("\n");
         }
-        return playerString;
+        return playerString.toString();
     }
 
 

@@ -149,11 +149,11 @@ public class Board
     @Override
     public String toString()
     {
-        String board = center.toString() + "\n";
+        StringBuilder board = new StringBuilder(center.toString() + "\n");
         for (TilePosition position : tileCache.keySet())
         {
-            board += position.toString() + tileCache.get(position).toString() + "\n";
+            board.append(position.toString()).append(tileCache.get(position).toString()).append("\n");
         }
-        return board;
+        return board.toString();
     }
 }
