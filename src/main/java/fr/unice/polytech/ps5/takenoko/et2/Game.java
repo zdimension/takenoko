@@ -61,7 +61,7 @@ public class Game
      *
      * @throws DecisionMakerException
      */
-    public void gameProcessing() throws Exception
+    public List<Integer> gameProcessing() throws Exception
     {
         if (playerList.size() < 2)
         {
@@ -182,7 +182,7 @@ public class Game
                 }
             }
 
-            System.out.printf("Player %d : %d pts%n", i, player.countPoints());
+            //System.out.printf("Player %d : %d pts%n", i, player.countPoints());
 
             if (i == numberPlayers - 1)
             {
@@ -197,8 +197,7 @@ public class Game
             }
         }
         while (true);
-        ArrayList<Player> winners = whoWins();
-        winners.forEach(w -> System.out.println(playerList.indexOf(w)));
+        return whoWins().stream().map(p -> playerList.indexOf(p)).collect(Collectors.toList());
     }
 
     /**
