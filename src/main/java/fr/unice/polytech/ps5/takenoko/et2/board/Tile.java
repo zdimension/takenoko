@@ -25,4 +25,10 @@ public abstract class Tile
     {
         return edges[fixEdgeNum(num)];
     }
+
+    /**
+     * @return a String describing the Tile
+     */
+    public abstract String toString();
+
 }

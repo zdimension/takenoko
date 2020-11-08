@@ -56,4 +56,10 @@ public class Edge
         tiles[1] = tile;
         return true;
     }
+
+    /**
+     * @return a String describing the edge
+     */
+    @Override
+    public String toString() { return "Tile 1 " + tiles[0].toString() + "\nTile 2 : " + tiles[1].toString(); }
 }

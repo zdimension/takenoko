@@ -12,4 +12,16 @@ public class PondTile extends Tile
             this.edges[i] = new Edge(this);
         }
     }
+
+    /**
+     * @return the String of the PondTile
+     */
+    @Override
+    public String toString() {
+        String pondTileString = "Pond Tile : ";
+        for (Edge edge : edges) {
+            pondTileString += edge.toString() + ",";
+        }
+        return pondTileString;
+    }
 }

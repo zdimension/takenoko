@@ -2,7 +2,16 @@ package fr.unice.polytech.ps5.takenoko.et2;
 
 public enum Color
 {
-    GREEN,
-    YELLOW,
-    PINK
+    GREEN {
+        @Override
+        public String toString() { return "Green";}
+    },
+    YELLOW {
+        @Override
+        public String toString() { return "Yellow"; }
+    },
+    PINK {
+        @Override
+        public String toString() { return "Pink"; }
+    };
 }

@@ -22,4 +22,16 @@ public class LandTile extends Tile
     {
         return color;
     }
+
+    /**
+     * @return a String describing the LandTile
+     */
+    @Override
+    public String toString() {
+        String landTileString = "Land Tile : " + this.color;
+        for(Edge edge : edges) {
+            landTileString += edge.toString() + ",";
+        }
+        return landTileString;
+    }
 }

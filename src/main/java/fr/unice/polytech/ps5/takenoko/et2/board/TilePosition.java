@@ -75,4 +75,10 @@ public class TilePosition
     {
         return Objects.hash(x, y);
     }
+
+    /**
+     * @return a String of the position of the tile
+     */
+    @Override
+    public String toString() { return "Tile position : (" + x + "," + y + ")"; }
 }

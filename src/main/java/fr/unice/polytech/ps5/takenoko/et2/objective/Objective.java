@@ -46,4 +46,10 @@ public abstract class Objective
      * @return true if the Objective is validated in the Game, false otherwise
      */
     public abstract boolean checkValidated(Game game);
+
+    /**
+     * @return a String describing the Objective
+     */
+    @Override
+    public abstract String toString();
 }

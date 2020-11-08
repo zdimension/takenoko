@@ -110,5 +110,24 @@ public class Player
         this.hasTriggeredEmperor = true;
     }
 
+    /**
+     * @return a String describing the player
+     */
+    @Override
+    public String toString() {
+        String playerString = "Game : " + game.toString() +
+                              "\nDecisionMaker : " + decisionMaker.toString() +
+                              "Triggered Emperor : " + hasTriggeredEmperor +
+                              "Ojectives in Hand : ";
+        for(Objective objective : hand) {
+            playerString += objective.toString() + "\n";
+        }
+        playerString += "Objectives completed :"
+        for(Objective objective : objectivesCompleted) {
+            playerString += objective.toString() + "\n";
+        }
+        return playerString;
+    }
+
 
 }
