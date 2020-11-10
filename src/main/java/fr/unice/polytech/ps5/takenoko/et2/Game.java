@@ -25,6 +25,8 @@ public class Game
     private final ArrayList<Player> playerList;
     private final boolean isFirstRound;
     private final boolean emperorTriggered;
+    private static int minNumberOfPlayers = 2;
+    private static int maxNumberOfPlayers = 4;
 
     /**
      * Game contructor
@@ -38,6 +40,11 @@ public class Game
         {
             throw new IllegalArgumentException("PlotObjective deck is empty");
         }
+        if (tileDeck.size() == 0)
+        {
+            throw new IllegalArgumentException("Game started with empty tile deck");
+        }
+
         playerList = new ArrayList<Player>();
         isFirstRound = true;
         board = new Board();
@@ -51,25 +58,27 @@ public class Game
      *
      * @param builder of DecisionMaker (a bot supposedly)
      */
-    void addPlayer(DecisionMakerBuilder builder)
+    public void addPlayer(DecisionMakerBuilder builder) throws IllegalAccessException
     {
+        if (this.playerList.size() == maxNumberOfPlayers)
+        {
+            throw new IllegalAccessException("Game should not have more than " + maxNumberOfPlayers + " players");
+        }
         this.playerList.add(new Player(this, builder));
     }
 
     /**
      * Processes the game
      *
+     * @return List of indexes of winners
+     * @throws IllegalArgumentException
      * @throws DecisionMakerException
      */
     public List<Integer> gameProcessing() throws Exception
     {
-        if (playerList.size() < 2)
+        if (playerList.size() < minNumberOfPlayers)
         {
-            throw new IllegalArgumentException("Game started with less than 2 players");
-        }
-        if (this.tileDeck.size() == 0)
-        {
-            throw new IllegalArgumentException("Game started with empty tile deck");
+            throw new IllegalArgumentException("Game started with less than " + minNumberOfPlayers + " players");
         }
 
         objectiveDecks.values().forEach(Collections::shuffle);
