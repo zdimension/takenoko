@@ -66,15 +66,6 @@ public class TilePosition
         return new TilePosition(x + other.x, y + other.y);
     }
 
-    /**
-     * @param factor multiplication factor
-     * @return scalar multiplication of the vector by the specifified factor
-     */
-    TilePosition mul(int factor)
-    {
-        return new TilePosition(x * factor, y * factor);
-    }
-
     @Override
     public boolean equals(Object other)
     {
