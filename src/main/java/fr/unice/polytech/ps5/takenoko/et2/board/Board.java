@@ -149,8 +149,10 @@ public class Board
     @Override
     public String toString()
     {
-        StringBuilder board = new StringBuilder(center.toString() + "\n");
-        for (TilePosition position : tileCache.keySet())
+        StringBuilder board = new StringBuilder();
+        var sortedPositions = new TreeSet<>(TilePosition::storageComparer);
+        sortedPositions.addAll(tileCache.keySet());
+        for (TilePosition position : sortedPositions)
         {
             board.append(position.toString()).append(tileCache.get(position).toString()).append("\n");
         }

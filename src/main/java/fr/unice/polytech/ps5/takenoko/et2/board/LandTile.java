@@ -28,11 +28,6 @@ public class LandTile extends Tile
     @Override
     public String toString()
     {
-        String landTileString = "Land Tile : " + this.color;
-        for (Edge edge : edges)
-        {
-            landTileString += edge.toString() + ",";
-        }
-        return landTileString;
+        return "[Land tile, " + this.color + "]";
     }
 }

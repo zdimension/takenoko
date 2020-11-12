@@ -61,6 +61,6 @@ public class Edge
     @Override
     public String toString()
     {
-        return "Tile 1 " + tiles[0].toString() + "\nTile 2 : " + tiles[1].toString();
+        return "[Edge, 1=" + tiles[0].toString() + ", 2=" + tiles[1].toString() + "]";
     }
 }

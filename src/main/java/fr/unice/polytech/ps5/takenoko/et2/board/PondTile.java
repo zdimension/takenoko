@@ -19,11 +19,6 @@ public class PondTile extends Tile
     @Override
     public String toString()
     {
-        String pondTileString = "Pond Tile : ";
-        for (Edge edge : edges)
-        {
-            pondTileString += edge.toString() + ",";
-        }
-        return pondTileString;
+        return "[Pond tile]";
     }
 }

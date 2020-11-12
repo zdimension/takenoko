@@ -30,6 +30,23 @@ public class TilePosition
         this.y = y;
     }
 
+    /**
+     * Position comparer. To be used only when deterministic storage order is needed.
+     *
+     * @param a first vector
+     * @param b second vector
+     * @return sign of comparison
+     */
+    static int storageComparer(TilePosition a, TilePosition b)
+    {
+        var xc = Integer.compare(a.x, b.x);
+        if (xc != 0)
+        {
+            return xc;
+        }
+        return Integer.compare(a.y, b.y);
+    }
+
     public int getX()
     {
         return x;
@@ -82,6 +99,6 @@ public class TilePosition
     @Override
     public String toString()
     {
-        return "Tile position : (" + x + "," + y + ")";
+        return "[Position (" + x + ", " + y + ")]";
     }
 }
