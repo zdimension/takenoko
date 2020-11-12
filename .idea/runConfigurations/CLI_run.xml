@@ -4,6 +4,7 @@
     <module name="TakenokoET2" />
     <method v="2">
       <option name="Make" enabled="true" />
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Run all tests" run_configuration_type="JUnit" />
     </method>
   </configuration>
 </component>
