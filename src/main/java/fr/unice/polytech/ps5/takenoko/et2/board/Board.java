@@ -1,6 +1,7 @@
 package fr.unice.polytech.ps5.takenoko.et2.board;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -73,6 +74,18 @@ public class Board
                     .mapToObj(dy -> pos.add(new TilePosition(dx, dy)))
             )
             .flatMap(s -> s);
+    }
+
+    /**
+     * @return a stream containing all valid empty positions where a drawn tile can be put
+     */
+    public Stream<TilePosition> getValidEmptyPositions()
+    {
+        return tileCache.keySet()
+            .stream()
+            .flatMap(t ->
+                getNeighboringPositions(t)
+                    .filter(this::isValid));
     }
 
     /**
