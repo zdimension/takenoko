@@ -27,6 +27,7 @@ public class Game
     private final boolean emperorTriggered;
     private static int minNumberOfPlayers = 2;
     private static int maxNumberOfPlayers = 4;
+    private int nbIrrigationsInDeck = 20;
 
     /**
      * Game contructor
@@ -265,6 +266,21 @@ public class Game
     public Board getBoard()
     {
         return board;
+    }
+
+    /**
+     * Give an irrigation from the deck, to a Player normally (just remove 1 irrigation from the deck)
+     *
+     * @return true if there is enough irrigations, false otherwise
+     */
+    public boolean giveIrrigation()
+    {
+        if (nbIrrigationsInDeck > 0)
+        {
+            nbIrrigationsInDeck--;
+            return true;
+        }
+        return false;
     }
 
     /**
