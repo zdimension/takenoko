@@ -25,7 +25,6 @@ public class Game
     private final ArrayList<Player> playerList;
     private final boolean isFirstRound;
     private final boolean emperorTriggered;
-    private int nbIrrigationsInDeck = 20;
     private static int minNumberOfPlayers = 2;
     private static int maxNumberOfPlayers = 4;
 
@@ -298,21 +297,6 @@ public class Game
             }
             player.triggerEmperor();
         }
-    }
-
-    /**
-     * Yield an irrigation, normally called by a Player. Remove 1 irrigation from the deck.
-     *
-     * @return true if there is enough irrigations, false otherwise
-     */
-    public boolean giveIrrigation()
-    {
-        if (nbIrrigationsInDeck > 0)
-        {
-            nbIrrigationsInDeck--;
-            return true;
-        }
-        return false;
     }
 
     private void throwError(Exception exc) throws Exception
