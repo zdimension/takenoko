@@ -25,16 +25,29 @@ public class LandTile extends Tile
     }
 
     /**
+     * Check if the Tile is irrigated
+     *
+     * @return true if the Tile is irrigated, false otherwise
+     */
+    public boolean isIrrigated()
+    {
+        for (Edge edge : edges)
+        {
+            Tile neighbour = edge.getOther(this);
+            if (edge.isIrrigated() || (neighbour != null && (neighbour instanceof PondTile)))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * @return a String describing the LandTile
      */
     @Override
     public String toString()
     {
         return "[Land tile, " + this.color + "]";
-    }
-
-    public boolean isIrrigated()
-    {
-        return true;
     }
 }

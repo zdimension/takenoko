@@ -8,6 +8,7 @@ import java.util.Objects;
 public class Edge
 {
     private final Tile[] tiles = new Tile[2];
+    private boolean irrigated = false;
 
     /**
      * Creates an edge from the specified tile.
@@ -55,6 +56,24 @@ public class Edge
 
         tiles[1] = tile;
         return true;
+    }
+
+    /**
+     * Add an irrigation to the edge. There is only one irrigation per edge
+     */
+    public void addIrrigation()
+    {
+        irrigated = true;
+    }
+
+    /**
+     * Check if there is an irrigation on the Edge
+     *
+     * @return true if there is an irrigation, false otherwise
+     */
+    public boolean isIrrigated()
+    {
+        return irrigated;
     }
 
     /**

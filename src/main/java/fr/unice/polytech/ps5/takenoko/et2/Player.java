@@ -19,6 +19,7 @@ public class Player
     private final Game game;
     private final DecisionMaker decisionMaker;
     private boolean hasTriggeredEmperor;
+    private int nbIrrigationsInStock = 0;
 
     /**
      * Constructor of the Player
@@ -112,6 +113,21 @@ public class Player
     public void triggerEmperor()
     {
         this.hasTriggeredEmperor = true;
+    }
+
+    /**
+     * Pick an irrigation from the game. Remove one irrigation in the game's deck and add it to the player's stock
+     *
+     * @return true if the game has allowed the "transaction", false otherwise
+     */
+    public boolean pickIrrigation()
+    {
+        if (game.giveIrrigation())
+        {
+            nbIrrigationsInStock++;
+            return true;
+        }
+        return false;
     }
 
     /**
