@@ -32,4 +32,9 @@ public class LandTile extends Tile
     {
         return "[Land tile, " + this.color + "]";
     }
+
+    public boolean isIrrigated()
+    {
+        return true;
+    }
 }

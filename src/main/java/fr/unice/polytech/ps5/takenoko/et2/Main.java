@@ -74,13 +74,13 @@ public class Main
             )
         );
         var players = List.<DecisionMakerBuilder>of(
-            /*RandomBot::new,
-            RandomBot::new,*/
+            RandomBot::new,
+            RandomBot::new,
             RandomBot::new,
             RandomBot::new
         );
         var freq = new int[players.size()];
-        var N = 1000;
+        var N = 10000;
         for (var i = 0; i < N; i++)
         {
             if (i % 1000 == 0)
