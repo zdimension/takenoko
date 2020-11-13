@@ -1,5 +1,7 @@
 package fr.unice.polytech.ps5.takenoko.et2.board;
 
+import java.util.Objects;
+
 /**
  * Edge between two tiles.
  */
@@ -14,6 +16,7 @@ public class Edge
      */
     public Edge(Tile tile)
     {
+        Objects.requireNonNull(tile, "tile position must not be null");
         tiles[0] = tile;
         tiles[1] = null;
     }
@@ -22,10 +25,7 @@ public class Edge
      * @param index tile number (0 or 1)
      * @return the tile corresponding to the specified number
      */
-    public Tile getTile(int index)
-    {
-        return tiles[index];
-    }
+    public Tile getTile(int index) { return tiles[index]; }
 
     /**
      * @param first tile on the one side
@@ -33,6 +33,7 @@ public class Edge
      */
     public Tile getOther(Tile first)
     {
+        Objects.requireNonNull(first, "first must not be null");
         if (tiles[0] == first)
         {
             return tiles[1];
@@ -46,6 +47,7 @@ public class Edge
      */
     public boolean setTile(Tile tile)
     {
+        Objects.requireNonNull(tile, "tile must not be null");
         if (tiles[1] != null)
         {
             return false;

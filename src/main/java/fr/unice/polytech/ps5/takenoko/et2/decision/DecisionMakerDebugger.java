@@ -8,6 +8,7 @@ import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class DecisionMakerDebugger extends DecisionMaker
@@ -21,7 +22,7 @@ public class DecisionMakerDebugger extends DecisionMaker
      */
     public DecisionMakerDebugger(Player player)
     {
-        super(player);
+        super(Objects.requireNonNull(player, "player must not be null"));
         sc = new Scanner(System.in);
     }
 
@@ -33,6 +34,7 @@ public class DecisionMakerDebugger extends DecisionMaker
     @Override
     public GameAction chooseAction(List<GameAction> base)
     {
+        Objects.requireNonNull(base, "base must not be null");
         int input;
         do
         {
@@ -53,6 +55,7 @@ public class DecisionMakerDebugger extends DecisionMaker
     @Override
     public LandTile chooseTile(List<LandTile> drawnTiles)
     {
+        Objects.requireNonNull(drawnTiles, "drawnTiles must not be null");
         if (drawnTiles.size() != 3)
         {
             throw new IllegalArgumentException();
@@ -76,6 +79,8 @@ public class DecisionMakerDebugger extends DecisionMaker
     @Override
     public TilePosition chooseTilePosition(List<TilePosition> validPos, LandTile tile)
     {
+        Objects.requireNonNull(validPos, "validPos must not be null");
+        Objects.requireNonNull(tile, "tile must not be null");
         int inputx;
         int inputy;
         TilePosition tilePosition;
@@ -97,6 +102,7 @@ public class DecisionMakerDebugger extends DecisionMaker
     @Override
     public Objective chooseObjectiveToComplete(List<Objective> validObjectives)
     {
+        Objects.requireNonNull(validObjectives, "validObjectives must not be null");
         int input;
         int numberCards = validObjectives.size();
         do

@@ -7,6 +7,7 @@ import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The class representing the player.
@@ -24,7 +25,8 @@ public class Player
      */
     public Player(Game game, DecisionMakerBuilder builder)
     {
-        this.game = game;
+        Objects.requireNonNull(builder, "builder must not be null");
+        this.game = Objects.requireNonNull(game, "game must not be null");
         this.decisionMaker = builder.build(this);
         this.hasTriggeredEmperor = false;
     }
@@ -55,14 +57,15 @@ public class Player
      */
     public void addObjective(Objective objective)
     {
-        this.hand.add(objective);
+        this.hand.add(Objects.requireNonNull(objective, "objective must not be null"));
     }
 
     public void moveObjectiveToComplete(Objective objective)
     {
+        Objects.requireNonNull(objective, "objective must not be null");
         if (!hand.contains(objective))
         {
-            throw new IllegalArgumentException("Hand of player does not contain  given objective");
+            throw new IllegalArgumentException("Hand of player does not contain given objective");
         }
         objectivesCompleted.add(objective);
         hand.remove(objective);

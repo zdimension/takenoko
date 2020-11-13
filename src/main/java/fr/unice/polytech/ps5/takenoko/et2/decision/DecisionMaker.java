@@ -8,6 +8,7 @@ import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 
 import java.util.List;
+import java.util.Objects;
 
 public abstract class DecisionMaker
 {
@@ -18,10 +19,7 @@ public abstract class DecisionMaker
      *
      * @param player
      */
-    public DecisionMaker(Player player)
-    {
-        this.player = player;
-    }
+    public DecisionMaker(Player player) { this.player = Objects.requireNonNull(player, "player must not be null"); }
 
     /**
      * Get the board of the game of the player

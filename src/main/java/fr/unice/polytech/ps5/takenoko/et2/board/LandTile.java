@@ -2,6 +2,8 @@ package fr.unice.polytech.ps5.takenoko.et2.board;
 
 import fr.unice.polytech.ps5.takenoko.et2.Color;
 
+import java.util.Objects;
+
 /**
  * Land plot tile.
  */
@@ -14,7 +16,7 @@ public class LandTile extends Tile
 
     public LandTile(Color color)
     {
-        this.color = color;
+        this.color = Objects.requireNonNull(color, "color must not be null");
     }
 
     public Color getColor()

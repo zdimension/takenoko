@@ -55,6 +55,7 @@ public class Board
      */
     public Tile findTile(TilePosition pos)
     {
+        Objects.requireNonNull(pos, "tile position must not be null");
         return tileCache.getOrDefault(pos, null);
     }
 
@@ -64,6 +65,7 @@ public class Board
      */
     public Stream<TilePosition> getNeighboringPositions(TilePosition pos)
     {
+        Objects.requireNonNull(pos, "tile position must not be null");
         return IntStream.range(-1, 2)
             .mapToObj(dx ->
                 IntStream.range(-1, 2)
@@ -79,6 +81,7 @@ public class Board
      */
     private Stream<Tile> getNeighbors(TilePosition pos)
     {
+        Objects.requireNonNull(pos, "tile position must not be null");
         return getNeighboringPositions(pos)
             .map(this::findTile)
             .filter(Objects::nonNull);
@@ -90,6 +93,7 @@ public class Board
      */
     public boolean isValid(TilePosition pos)
     {
+        Objects.requireNonNull(pos, "tile position must not be null");
         if (this.tileCache.containsKey(pos))
         {
             return false;
@@ -118,6 +122,8 @@ public class Board
      */
     public boolean addTile(LandTile tile, TilePosition pos)
     {
+        Objects.requireNonNull(tile, "tile must not be null");
+        Objects.requireNonNull(pos, "tile position must not be null");
         if (!isValid(pos))
         {
             return false;

@@ -39,6 +39,8 @@ public class TilePosition
      */
     static int storageComparer(TilePosition a, TilePosition b)
     {
+        Objects.requireNonNull(a, "tile position a must not be null");
+        Objects.requireNonNull(a, "tile position b must not be null");
         var xc = Integer.compare(a.x, b.x);
         if (xc != 0)
         {
@@ -69,6 +71,7 @@ public class TilePosition
     @Override
     public boolean equals(Object other)
     {
+        Objects.requireNonNull(other, "other must not be null");
         if (other instanceof TilePosition)
         {
             TilePosition pos = (TilePosition) other;
