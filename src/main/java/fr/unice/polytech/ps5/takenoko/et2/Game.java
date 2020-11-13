@@ -335,18 +335,6 @@ public class Game
     }
 
     /**
-     * Removes a bamboo of the given color if it is available
-     *
-     * @param color of the bamboo
-     * @return removed bamboo
-     */
-    private Optional<BambooSection> removeFromReserve(Color color)
-    {
-        return this.bambooReserve.stream().filter(b -> b.getColor().equals(color)).findAny();
-    }
-
-
-    /**
      * Adds a BambooSection to the given tile, if no bamboo is left in bambooReserve or if tile is at max of bambooSection capacity, does nothing
      *
      * @param tile to give BambooSection to
@@ -359,7 +347,7 @@ public class Game
             throw new IllegalArgumentException("tile must not be null");
         }
 
-        var res = removeFromReserve(tile.getColor());
+        var res = this.bambooReserve.stream().filter(b -> b.getColor().equals(tile.getColor())).findAny();
 
         if (res.isEmpty())
         {
