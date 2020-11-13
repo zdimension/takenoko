@@ -3,12 +3,14 @@ package fr.unice.polytech.ps5.takenoko.et2;
 import fr.unice.polytech.ps5.takenoko.et2.board.Board;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
+import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerException;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -20,6 +22,8 @@ public class Game
         3, 8,
         4, 7
     );
+    private static int minNumberOfPlayers = 2;
+    private static int maxNumberOfPlayers = 4;
     private final Board board;
     private final Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks = new HashMap<>();
     private final List<LandTile> tileDeck;
@@ -27,8 +31,11 @@ public class Game
     private final ArrayList<Player> playerList;
     private final boolean isFirstRound;
     private final boolean emperorTriggered;
-    private static int minNumberOfPlayers = 2;
-    private static int maxNumberOfPlayers = 4;
+    private final Map<GameAction, Consumer<Player>> ACTION_MAP = Map.of(
+        GameAction.DRAW_OBJECTIVE, this::drawObjective,
+        GameAction.DRAW_TILE, this::drawAndAddTile,
+        GameAction.COMPLETE_OBJECTIVE, this::completeObjective
+    );
     private int nbIrrigationsInDeck = 20;
 
     /**
@@ -51,7 +58,7 @@ public class Game
             throw new IllegalArgumentException("Game started with empty tile deck");
         }
 
-        playerList = new ArrayList<Player>();
+        playerList = new ArrayList<>();
         isFirstRound = true;
         board = new Board();
         this.objectiveDecks.put(PlotObjective.class, new ArrayList<>(plotObjectiveDeck));
@@ -166,48 +173,16 @@ public class Game
                     break;
                 }
 
-                switch (action)
+                var handler = ACTION_MAP.getOrDefault(action, null);
+
+                if (handler != null)
                 {
-                    case DRAW_OBJECTIVE:
-                        List<Class<? extends Objective>> valid =
-                            objectiveDecks
-                                .entrySet()
-                                .stream()
-                                .filter(e -> !e.getValue().isEmpty())
-                                .map(Map.Entry::getKey)
-                                .collect(Collectors.toUnmodifiableList());
-                        var chosen =
-                            dm.chooseDeck(valid);
-                        if (!valid.contains(chosen))
-                        {
-                            throwError(new IllegalArgumentException("Invalid deck chosen"));
-                            continue;
-                        }
-                        player.addObjective(objectiveDecks.get(chosen).remove(0));
-                        break;
-                    case DRAW_TILE:
-                        LandTile chosenTile = dm.chooseTile(Collections.unmodifiableList(tileDeck.subList(0, 3)));
-                        var validPos = board.getTiles().keySet()
-                            .stream()
-                            .flatMap(t ->
-                                board.getNeighboringPositions(t)
-                                    .filter(p -> board.isValid(p)))
-                            .collect(Collectors.toList());
-                        TilePosition tilePosition = dm.chooseTilePosition(validPos, chosenTile);
-                        if (!validPos.contains(tilePosition))
-                        {
-                            throwError(new IllegalArgumentException("Position of tile given is invalid"));
-                            continue;
-                        }
-                        board.addTile(chosenTile, tilePosition);
-                        tileDeck.remove(chosenTile);
-                        break;
-                    case COMPLETE_OBJECTIVE:
-                        this.completeObjective(player);
-                        break;
-                    default:
-                        throwError(new IllegalArgumentException("Value of chosenAction does not conform to available values"));
-                        continue;
+                    handler.accept(player);
+                }
+                else
+                {
+                    throwError(new IllegalArgumentException("Value of chosenAction does not conform to available values"));
+                    continue;
                 }
 
                 if (!action.isUnlimited())
@@ -231,7 +206,7 @@ public class Game
             }
         }
         while (true);
-        return whoWins().stream().map(p -> playerList.indexOf(p)).collect(Collectors.toList());
+        return whoWins().stream().map(playerList::indexOf).collect(Collectors.toList());
     }
 
     /**
@@ -242,7 +217,7 @@ public class Game
     private ArrayList<Player> whoWins()
     {
         int bestScore = 0;
-        ArrayList<Player> winners = new ArrayList<Player>();
+        ArrayList<Player> winners = new ArrayList<>();
         for (Player player : playerList)
         {
             if (bestScore <= player.countPoints())
@@ -289,13 +264,49 @@ public class Game
         return false;
     }
 
+    private void drawObjective(Player player)
+    {
+        List<Class<? extends Objective>> valid =
+            objectiveDecks
+                .entrySet()
+                .stream()
+                .filter(e -> !e.getValue().isEmpty())
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toUnmodifiableList());
+        var chosen = player.getDecisionMaker().chooseDeck(valid);
+        if (!valid.contains(chosen))
+        {
+            throwError(new IllegalArgumentException("Invalid deck chosen"));
+            return;
+        }
+        player.addObjective(objectiveDecks.get(chosen).remove(0));
+    }
+
+    private void drawAndAddTile(Player p)
+    {
+        DecisionMaker dm = p.getDecisionMaker();
+        LandTile chosenTile = dm.chooseTile(Collections.unmodifiableList(tileDeck.subList(0, 3)));
+        var validPos =
+            board
+                .getValidEmptyPositions()
+                .collect(Collectors.toList());
+        TilePosition tilePosition = dm.chooseTilePosition(validPos, chosenTile);
+        if (!validPos.contains(tilePosition))
+        {
+            throwError(new IllegalArgumentException("Position of tile given is invalid"));
+            return;
+        }
+        board.addTile(chosenTile, tilePosition);
+        tileDeck.remove(chosenTile);
+    }
+
     /**
      * Tries to complete desired objective of the player
      * the player triggers the emperor if he has enough objectives complete
      *
      * @param player to ask from what objective to complete
      */
-    private void completeObjective(Player player) throws Exception
+    private void completeObjective(Player player)
     {
         Objects.requireNonNull(player, "player must not be null");
         // the collection is always populated because gameProcessing checks for non-emptiness
@@ -321,7 +332,7 @@ public class Game
         }
     }
 
-    private void throwError(Exception exc) throws Exception
+    private <T extends Exception> void throwError(T exc) throws T
     {
         Objects.requireNonNull(exc, "exc must not be null");
         if (true)
