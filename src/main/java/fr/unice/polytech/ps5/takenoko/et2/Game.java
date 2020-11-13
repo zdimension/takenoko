@@ -36,6 +36,9 @@ public class Game
      */
     public Game(List<PlotObjective> plotObjectiveDeck, List<LandTile> tileDeck)
     {
+        Objects.requireNonNull(plotObjectiveDeck, "plotObjectiveDeck must not be null");
+        Objects.requireNonNull(tileDeck, "tileDeck must not be null");
+
         if (plotObjectiveDeck.size() == 0)
         {
             throw new IllegalArgumentException("PlotObjective deck is empty");
@@ -60,6 +63,7 @@ public class Game
      */
     public void addPlayer(DecisionMakerBuilder builder) throws IllegalAccessException
     {
+        Objects.requireNonNull(builder, "builder must not be null");
         if (this.playerList.size() == maxNumberOfPlayers)
         {
             throw new IllegalAccessException("Game should not have more than " + maxNumberOfPlayers + " players");
@@ -271,6 +275,7 @@ public class Game
      */
     private void completeObjective(Player player) throws Exception
     {
+        Objects.requireNonNull(player, "player must not be null");
         // the collection is always populated because gameProcessing checks for non-emptiness
         var valid = player
             .getHand()
@@ -296,6 +301,7 @@ public class Game
 
     private void throwError(Exception exc) throws Exception
     {
+        Objects.requireNonNull(exc, "exc must not be null");
         if (true)
         {
             System.err.printf("GAME ERROR: %s%n", exc.getMessage());
