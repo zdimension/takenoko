@@ -1,5 +1,6 @@
 package fr.unice.polytech.ps5.takenoko.et2;
 
+import fr.unice.polytech.ps5.takenoko.et2.board.Edge;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
@@ -128,6 +129,21 @@ public class Player
             return true;
         }
         return false;
+    }
+
+    public boolean irrigateEdge(Edge edge)
+    {
+        if (nbIrrigationsInStock <= 0)
+        {
+            return false;
+        }
+        if (edge.isIrrigated())
+        {
+            return false;
+        }
+        irrigateEdge(edge);
+        nbIrrigationsInStock--;
+        return true;
     }
 
     /**
