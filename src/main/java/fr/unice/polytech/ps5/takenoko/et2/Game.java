@@ -10,6 +10,7 @@ import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Game
 {
@@ -22,6 +23,7 @@ public class Game
     private final Board board;
     private final Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks = new HashMap<>();
     private final List<LandTile> tileDeck;
+    private final List<BambooSection> bambooReserve;
     private final ArrayList<Player> playerList;
     private final boolean isFirstRound;
     private final boolean emperorTriggered;
@@ -55,6 +57,10 @@ public class Game
         this.objectiveDecks.put(PlotObjective.class, new ArrayList<>(plotObjectiveDeck));
         this.tileDeck = new ArrayList<>(tileDeck);
         this.emperorTriggered = false;
+        this.bambooReserve = tileDeck
+            .stream()
+            .flatMap(t -> IntStream.range(0, 4).mapToObj(i -> new BambooSection(t.getColor())))
+            .collect(Collectors.toList());
     }
 
     /**
@@ -325,6 +331,45 @@ public class Game
         else
         {
             throw exc;
+        }
+    }
+
+    /**
+     * Removes a bamboo of the given color if it is available
+     *
+     * @param color of the bamboo
+     * @return removed bamboo
+     */
+    private Optional<BambooSection> removeFromReserve(Color color)
+    {
+        return this.bambooReserve.stream().filter(b -> b.getColor().equals(color)).findAny();
+    }
+
+
+    /**
+     * Adds a BambooSection to the given tile, if no bamboo is left in bambooReserve or if tile is at max of bambooSection capacity, does nothing
+     *
+     * @param tile to give BambooSection to
+     * @throws Exception
+     */
+    public void addBambooSectionToTile(LandTile tile) throws Exception
+    {
+        if (tile == null)
+        {
+            throw new IllegalArgumentException("tile must not be null");
+        }
+
+        var res = removeFromReserve(tile.getColor());
+
+        if (res.isEmpty())
+        {
+            return;
+        }
+
+        var bambooSection = res.get();
+        if (tile.growBambooSection(bambooSection))
+        {
+            bambooReserve.remove(bambooSection);
         }
     }
 
