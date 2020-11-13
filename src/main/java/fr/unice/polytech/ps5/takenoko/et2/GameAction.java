@@ -1,7 +1,5 @@
 package fr.unice.polytech.ps5.takenoko.et2;
 
-import java.util.Objects;
-
 public enum GameAction
 {
     DRAW_TILE,
@@ -10,8 +8,9 @@ public enum GameAction
 
     boolean unlimited;
 
-    GameAction(boolean unlimited) {
-        this.unlimited = Objects.requireNonNull(unlimited, "unlimited must not be null");
+    GameAction(boolean unlimited)
+    {
+        this.unlimited = unlimited;
     }
 
     GameAction()
