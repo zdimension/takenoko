@@ -61,9 +61,27 @@ public class Edge
     /**
      * Add an irrigation to the edge. There is only one irrigation per edge
      */
-    public void addIrrigation()
+    public boolean addIrrigation()
     {
+        if (irrigated)
+        {
+            return false;
+        }
+        for (Tile tile : tiles) // Add the bamboo
+        {
+            if (!(tile instanceof LandTile))
+            {
+                continue;
+            }
+            LandTile landTile = (LandTile) tile;
+            if (landTile.isIrrigated())
+            {
+                continue;
+            }
+            landTile.add
+        }
         irrigated = true;
+        return true;
     }
 
     /**
