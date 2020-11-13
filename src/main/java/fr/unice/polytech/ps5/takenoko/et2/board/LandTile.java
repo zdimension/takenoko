@@ -70,8 +70,7 @@ public class LandTile extends Tile
     {
         for (Edge edge : edges)
         {
-            Tile neighbour = edge.getOther(this);
-            if (edge.isIrrigated() || (neighbour != null && (neighbour instanceof PondTile)))
+            if (edge.isIrrigated() || (edge.getOther(this) instanceof PondTile))
             {
                 return true;
             }
