@@ -161,7 +161,40 @@ public class IrrigationTest
         assertTrue(board.addTile(l10, new TilePosition(-1, -1)));
         assertTrue(board.addTile(l11, new TilePosition(-2, 1)));
         assertTrue(board.addTile(l12, new TilePosition(-1, 2)));
+
         game.pickIrrigation(p);
-        assertTrue(p.irrigateEdge(l1.getEdge(0))); // p have an irrigation right now
+        game.pickIrrigation(p);
+        game.pickIrrigation(p);
+        game.pickIrrigation(p);
+        game.pickIrrigation(p);
+        game.pickIrrigation(p);
+        assertTrue(l1.isIrrigated());
+        assertFalse(l7.isIrrigated());
+        assertEquals(0, l7.getBambooSize());
+        Edge e1 = board.getEdgeBetweenTwoTiles(l1, l7);
+        assertNotNull(e1);
+        assertTrue(p.irrigateEdge(e1));
+        assertTrue(l7.isIrrigated());
+        assertEquals(1, l7.getBambooSize());
+
+        LandTile l8_9 = new LandTile(Color.YELLOW); // Between l8 and l9
+        assertTrue(board.addTile(l8_9, new TilePosition(2, -2)));
+        assertFalse(l8.isIrrigated());
+        assertFalse(l8_9.isIrrigated());
+        assertFalse(l9.isIrrigated());
+        assertEquals(0, l8.getBambooSize());
+        assertEquals(0, l9.getBambooSize());
+        Edge e2 = board.getEdgeBetweenTwoTiles(l8_9, l8);
+        Edge e3 = board.getEdgeBetweenTwoTiles(l8_9, l9);
+        assertNotNull(e2);
+        assertNotNull(e3);
+        assertTrue(p.irrigateEdge(e2));
+        assertTrue(p.irrigateEdge(e3));
+        assertTrue(l8.isIrrigated());
+        assertEquals(1, l8.getBambooSize());
+        assertTrue(l8_9.isIrrigated());
+        assertEquals(1, l8_9.getBambooSize());
+        assertTrue(l9.isIrrigated());
+        assertEquals(1, l9.getBambooSize());
     }
 }
