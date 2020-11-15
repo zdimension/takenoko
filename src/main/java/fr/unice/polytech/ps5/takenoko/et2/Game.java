@@ -34,7 +34,9 @@ public class Game
     private final Map<GameAction, Consumer<Player>> ACTION_MAP = Map.of(
         GameAction.DRAW_OBJECTIVE, this::drawObjective,
         GameAction.DRAW_TILE, this::drawAndAddTile,
-        GameAction.COMPLETE_OBJECTIVE, this::completeObjective
+        GameAction.COMPLETE_OBJECTIVE, this::completeObjective,
+        GameAction.PICK_IRRIGATION, this::pickIrrigation,
+        GameAction.PLACE_IRRIGATION, this::placeIrrigation
     );
     private int nbIrrigationsInDeck = 20;
 
@@ -370,6 +372,16 @@ public class Game
         {
             bambooReserve.remove(bambooSection);
         }
+    }
+
+    public void pickIrrigation(Player p)
+    {
+        //
+    }
+
+    public void placeIrrigation(Player p)
+    {
+        //
     }
 
     //public getPlayerIndividualBoard(PLayer player)

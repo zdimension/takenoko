@@ -6,11 +6,14 @@ public enum GameAction
 {
     DRAW_TILE,
     DRAW_OBJECTIVE,
-    COMPLETE_OBJECTIVE(true);
+    COMPLETE_OBJECTIVE(true),
+    PICK_IRRIGATION,
+    PLACE_IRRIGATION(true);
 
     boolean unlimited;
 
-    GameAction(boolean unlimited) {
+    GameAction(boolean unlimited)
+    {
         this.unlimited = Objects.requireNonNull(unlimited, "unlimited must not be null");
     }
 

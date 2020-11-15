@@ -3,6 +3,7 @@ package fr.unice.polytech.ps5.takenoko.et2.decision;
 import fr.unice.polytech.ps5.takenoko.et2.GameAction;
 import fr.unice.polytech.ps5.takenoko.et2.Player;
 import fr.unice.polytech.ps5.takenoko.et2.board.Board;
+import fr.unice.polytech.ps5.takenoko.et2.board.Edge;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
@@ -60,4 +61,8 @@ public abstract class DecisionMaker
      */
     public abstract Objective chooseObjectiveToComplete(List<Objective> validObjectives);
 
+    /**
+     * @return An Edge, the position of the irrigation
+     */
+    public abstract Edge chooseIrrigationPosition();
 }

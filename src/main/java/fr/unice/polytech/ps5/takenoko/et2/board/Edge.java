@@ -60,28 +60,51 @@ public class Edge
 
     /**
      * Add an irrigation to the edge. There is only one irrigation per edge
+     *
+     * @return an Array of LandTile, with first-irrigated LandTiles
      */
-    public boolean addIrrigation()
+    public LandTile[] addIrrigation()
     {
         if (irrigated)
         {
-            return false;
+            return null;
         }
-        for (Tile tile : tiles) // Add the bamboo
+        int sizeReturn = 0;
+        boolean firstOk = false; // Berk
+        for (int i = 0; i < tiles.length; i++) // Add the bamboo
         {
-            if (!(tile instanceof LandTile))
+            if (!(tiles[i] instanceof LandTile))
             {
                 continue;
             }
-            LandTile landTile = (LandTile) tile;
+            LandTile landTile = (LandTile) tiles[i];
             if (landTile.isIrrigated())
             {
                 continue;
             }
-            //landTile.add
+            sizeReturn++;
+            firstOk = (i == 0);
         }
         irrigated = true;
-        return true;
+        LandTile[] arrayReturn = new LandTile[sizeReturn];
+        switch (sizeReturn)
+        {
+            case 1:
+                if (firstOk)
+                {
+                    arrayReturn[0] = (LandTile) tiles[0];
+                }
+                else
+                {
+                    arrayReturn[0] = (LandTile) tiles[1];
+                }
+                break;
+            case 2:
+                arrayReturn[0] = (LandTile) tiles[0];
+                arrayReturn[1] = (LandTile) tiles[1];
+                break;
+        }
+        return arrayReturn;
     }
 
     /**
