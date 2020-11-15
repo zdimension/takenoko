@@ -168,6 +168,13 @@ public class IrrigationTest
         assertTrue(e5.canBeIrrigated());
         assertTrue(e6.canBeIrrigated());
 
+        assertFalse(e1.isIrrigated());
+        assertFalse(e2.isIrrigated());
+        assertFalse(e3.isIrrigated());
+        assertFalse(e4.isIrrigated());
+        assertFalse(e5.isIrrigated());
+        assertFalse(e6.isIrrigated());
+
         LandTile l7 = new LandTile(Color.GREEN);
         LandTile l8 = new LandTile(Color.YELLOW);
         assertTrue(board.addTile(l7, new TilePosition(1, 1)));
@@ -182,10 +189,13 @@ public class IrrigationTest
         game.pickIrrigation(p);
         game.pickIrrigation(p);
         assertTrue(p.irrigateEdge(e1));
+        assertTrue(e1.isIrrigated());
         assertTrue(e7.canBeIrrigated());
         assertTrue(e8.canBeIrrigated());
         assertFalse(e9.canBeIrrigated());
+        assertFalse(e7.isIrrigated());
         assertTrue(p.irrigateEdge(e7));
+        assertTrue(e7.isIrrigated());
         assertFalse(e7.canBeIrrigated());
         assertTrue(e8.canBeIrrigated());
         assertTrue(e9.canBeIrrigated());
@@ -207,7 +217,7 @@ public class IrrigationTest
         assertTrue(edgeWithOneNullTile.canBeIrrigated());
     }
 
-    /*@Test
+    @Test
     void checkIrrigationChannels()
     {
         LandTile l1 = new LandTile(Color.GREEN);
@@ -241,11 +251,17 @@ public class IrrigationTest
         game.pickIrrigation(p);
         game.pickIrrigation(p);
         game.pickIrrigation(p);
+        game.pickIrrigation(p);
+        game.pickIrrigation(p);
+        game.pickIrrigation(p);
         assertTrue(l1.isIrrigated());
         assertFalse(l7.isIrrigated());
         assertEquals(0, l7.getBambooSize());
         Edge e1 = board.getEdgeBetweenTwoTiles(l1, l7);
         assertNotNull(e1);
+        assertFalse(e1.canBeIrrigated());
+        assertTrue(p.irrigateEdge(board.getEdgeBetweenTwoTiles(l1, l2)));
+        assertTrue(e1.canBeIrrigated());
         assertTrue(p.irrigateEdge(e1));
         assertTrue(l7.isIrrigated());
         assertEquals(1, l7.getBambooSize());
@@ -261,6 +277,11 @@ public class IrrigationTest
         Edge e3 = board.getEdgeBetweenTwoTiles(l8_9, l9);
         assertNotNull(e2);
         assertNotNull(e3);
+
+        assertTrue(p.irrigateEdge(board.getEdgeBetweenTwoTiles(l3, l2)));
+        assertTrue(p.irrigateEdge(board.getEdgeBetweenTwoTiles(l3, l8)));
+        assertTrue(p.irrigateEdge(board.getEdgeBetweenTwoTiles(l3, l8_9)));
+
         assertTrue(p.irrigateEdge(e2));
         assertTrue(p.irrigateEdge(e3));
         assertTrue(l8.isIrrigated());
@@ -269,5 +290,5 @@ public class IrrigationTest
         assertEquals(1, l8_9.getBambooSize());
         assertTrue(l9.isIrrigated());
         assertEquals(1, l9.getBambooSize());
-    }*/
+    }
 }
