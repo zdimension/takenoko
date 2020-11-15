@@ -1,6 +1,7 @@
 package fr.unice.polytech.ps5.takenoko.et2;
 
 import fr.unice.polytech.ps5.takenoko.et2.board.Edge;
+import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
@@ -118,17 +119,10 @@ public class Player
 
     /**
      * Pick an irrigation from the game. Remove one irrigation in the game's deck and add it to the player's stock
-     *
-     * @return true if the game has allowed the "transaction", false otherwise
      */
-    public boolean pickIrrigation()
+    public void pickIrrigation()
     {
-        if (game.giveIrrigation())
-        {
-            nbIrrigationsInStock++;
-            return true;
-        }
-        return false;
+        nbIrrigationsInStock++;
     }
 
     public boolean irrigateEdge(Edge edge)
@@ -141,8 +135,19 @@ public class Player
         {
             return false;
         }
-        irrigateEdge(edge);
+        LandTile[] tilesToGrowBamboo = edge.addIrrigation();
         nbIrrigationsInStock--;
+        for (LandTile landTile : tilesToGrowBamboo)
+        {
+            try
+            {
+                game.addBambooSectionToTile(landTile);
+            }
+            catch (Exception e)
+            {
+                //Do nothing
+            }
+        }
         return true;
     }
 

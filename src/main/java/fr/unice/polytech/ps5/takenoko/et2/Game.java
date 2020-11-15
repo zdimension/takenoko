@@ -1,6 +1,7 @@
 package fr.unice.polytech.ps5.takenoko.et2;
 
 import fr.unice.polytech.ps5.takenoko.et2.board.Board;
+import fr.unice.polytech.ps5.takenoko.et2.board.Edge;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
@@ -251,21 +252,6 @@ public class Game
         return board;
     }
 
-    /**
-     * Give an irrigation from the deck, to a Player normally (just remove 1 irrigation from the deck)
-     *
-     * @return true if there is enough irrigations, false otherwise
-     */
-    public boolean giveIrrigation()
-    {
-        if (nbIrrigationsInDeck > 0)
-        {
-            nbIrrigationsInDeck--;
-            return true;
-        }
-        return false;
-    }
-
     private void drawObjective(Player player)
     {
         List<Class<? extends Objective>> valid =
@@ -374,14 +360,25 @@ public class Game
         }
     }
 
+    /**
+     * Give an irrigation from the deck, to a Player normally (just remove 1 irrigation from the deck)
+     *
+     * @param p to give the irrigation
+     */
     public void pickIrrigation(Player p)
     {
-        //
+        if (nbIrrigationsInDeck > 0)
+        {
+            nbIrrigationsInDeck--;
+            p.pickIrrigation();
+        }
     }
 
     public void placeIrrigation(Player p)
     {
-        //
+        DecisionMaker dm = p.getDecisionMaker();
+        Edge chosenEdge = dm.chooseIrrigationPosition();
+        p.irrigateEdge(chosenEdge);
     }
 
     //public getPlayerIndividualBoard(PLayer player)
