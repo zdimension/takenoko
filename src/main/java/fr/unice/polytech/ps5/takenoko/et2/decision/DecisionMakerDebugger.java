@@ -2,6 +2,7 @@ package fr.unice.polytech.ps5.takenoko.et2.decision;
 
 import fr.unice.polytech.ps5.takenoko.et2.GameAction;
 import fr.unice.polytech.ps5.takenoko.et2.Player;
+import fr.unice.polytech.ps5.takenoko.et2.board.Edge;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
@@ -115,6 +116,12 @@ public class DecisionMakerDebugger extends DecisionMaker
         while (input < 0 || input > numberCards - 1);
 
         return validObjectives.get(input);
+    }
+
+    @Override
+    public Edge chooseIrrigationPosition()
+    {
+        return null;
     }
 
     @Override

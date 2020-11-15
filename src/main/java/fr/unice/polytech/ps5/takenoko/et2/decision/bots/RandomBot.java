@@ -2,6 +2,7 @@ package fr.unice.polytech.ps5.takenoko.et2.decision.bots;
 
 import fr.unice.polytech.ps5.takenoko.et2.GameAction;
 import fr.unice.polytech.ps5.takenoko.et2.Player;
+import fr.unice.polytech.ps5.takenoko.et2.board.Edge;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
@@ -60,5 +61,11 @@ public class RandomBot extends DecisionMaker
     public Objective chooseObjectiveToComplete(List<Objective> validObjectives)
     {
         return randomElement(validObjectives);
+    }
+
+    @Override
+    public Edge chooseIrrigationPosition()
+    {
+        return null;
     }
 }
