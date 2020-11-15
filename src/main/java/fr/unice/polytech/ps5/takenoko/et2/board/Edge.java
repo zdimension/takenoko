@@ -65,7 +65,7 @@ public class Edge
      */
     public LandTile[] addIrrigation()
     {
-        if (irrigated)
+        if (!canBeIrrigated())
         {
             return null;
         }
@@ -115,6 +115,14 @@ public class Edge
     public boolean isIrrigated()
     {
         return irrigated;
+    }
+
+    /**
+     * @return whether the edge can be irrigated, i.e. if the edge is adjacent either to the pond tile or to an irrigated edge
+     */
+    public boolean canBeIrrigated()
+    {
+        return !irrigated;// TODO!
     }
 
     /**

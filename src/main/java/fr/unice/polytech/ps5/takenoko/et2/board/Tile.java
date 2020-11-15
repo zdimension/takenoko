@@ -1,5 +1,12 @@
 package fr.unice.polytech.ps5.takenoko.et2.board;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 /**
  * Base tile class.
  */
@@ -24,6 +31,11 @@ public abstract class Tile
     public Edge getEdge(int num)
     {
         return edges[fixEdgeNum(num)];
+    }
+
+    public Stream<Edge> getEdges()
+    {
+        return Arrays.stream(edges).filter(Objects::nonNull);
     }
 
     /**

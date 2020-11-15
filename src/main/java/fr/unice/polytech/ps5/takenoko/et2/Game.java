@@ -1,9 +1,6 @@
 package fr.unice.polytech.ps5.takenoko.et2;
 
-import fr.unice.polytech.ps5.takenoko.et2.board.Board;
-import fr.unice.polytech.ps5.takenoko.et2.board.Edge;
-import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
-import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
+import fr.unice.polytech.ps5.takenoko.et2.board.*;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerException;
@@ -14,6 +11,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Game
 {
@@ -154,9 +152,14 @@ public class Game
                     }
                 }
 
-                if (player.getHand().stream().noneMatch(o -> o.checkValidated(this)))
+                if (findCompletableObjectives(player).findAny().isEmpty())
                 {
                     base.remove(GameAction.COMPLETE_OBJECTIVE);
+                }
+
+                if (player.getNbIrrigationsInStock() <= 0 || findIrrigableEdges().findAny().isEmpty())
+                {
+                    base.remove(GameAction.PLACE_IRRIGATION);
                 }
 
                 if (base.isEmpty())
@@ -288,6 +291,14 @@ public class Game
         tileDeck.remove(chosenTile);
     }
 
+    private Stream<Objective> findCompletableObjectives(Player player)
+    {
+        return player
+            .getHand()
+            .stream()
+            .filter(o -> o.checkValidated(this));
+    }
+
     /**
      * Tries to complete desired objective of the player
      * the player triggers the emperor if he has enough objectives complete
@@ -298,11 +309,7 @@ public class Game
     {
         Objects.requireNonNull(player, "player must not be null");
         // the collection is always populated because gameProcessing checks for non-emptiness
-        var valid = player
-            .getHand()
-            .stream()
-            .filter(o -> o.checkValidated(this))
-            .collect(Collectors.toList());
+        var valid = findCompletableObjectives(player).collect(Collectors.toList());
         Objective obj = player.getDecisionMaker().chooseObjectiveToComplete(valid);
         if (!valid.contains(obj))
         {
@@ -374,11 +381,25 @@ public class Game
         }
     }
 
+    private Stream<Edge> findIrrigableEdges()
+    {
+        return board
+            .getTiles()
+            .values()
+            .stream()
+            .filter(tile -> tile instanceof LandTile)
+            .map(tile -> (LandTile) tile)
+            .flatMap(Tile::getEdges)
+            .distinct()
+            .filter(Edge::canBeIrrigated);
+    }
+
     public void placeIrrigation(Player p)
     {
         DecisionMaker dm = p.getDecisionMaker();
-        Edge chosenEdge = dm.chooseIrrigationPosition();
-        if (chosenEdge == null)
+        var valid = findIrrigableEdges().collect(Collectors.toUnmodifiableList());
+        Edge chosenEdge = dm.chooseIrrigationPosition(valid);
+        if (!valid.contains(chosenEdge))
         {
             return;
         }

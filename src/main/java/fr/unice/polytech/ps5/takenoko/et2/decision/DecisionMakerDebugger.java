@@ -11,6 +11,7 @@ import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.Set;
 
 public class DecisionMakerDebugger extends DecisionMaker
 {
@@ -119,9 +120,21 @@ public class DecisionMakerDebugger extends DecisionMaker
     }
 
     @Override
-    public Edge chooseIrrigationPosition()
+    public Edge chooseIrrigationPosition(List<Edge> irrigableEdges)
     {
-        return null;
+        Objects.requireNonNull(irrigableEdges, "irrigableEdges must not be null");
+        int input;
+        int numberCards = irrigableEdges.size();
+        do
+        {
+            System.out.println("Irrigable edges :");
+            irrigableEdges.forEach(x -> System.out.println(x));
+            System.out.println("Choose one (0, 1, 2...) :");
+            input = sc.nextInt();
+        }
+        while (input < 0 || input > numberCards - 1);
+
+        return irrigableEdges.get(input);
     }
 
     @Override

@@ -10,6 +10,7 @@ import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * This bot chooses randomly among valid choices every time.
@@ -64,8 +65,8 @@ public class RandomBot extends DecisionMaker
     }
 
     @Override
-    public Edge chooseIrrigationPosition()
+    public Edge chooseIrrigationPosition(List<Edge> irrigableEdges)
     {
-        return null;
+        return randomElement(irrigableEdges);
     }
 }

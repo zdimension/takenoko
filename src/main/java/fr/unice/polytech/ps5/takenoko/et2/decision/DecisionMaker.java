@@ -10,6 +10,7 @@ import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public abstract class DecisionMaker
 {
@@ -64,5 +65,5 @@ public abstract class DecisionMaker
     /**
      * @return An Edge, the position of the irrigation
      */
-    public abstract Edge chooseIrrigationPosition();
+    public abstract Edge chooseIrrigationPosition(List<Edge> irrigableEdges);
 }

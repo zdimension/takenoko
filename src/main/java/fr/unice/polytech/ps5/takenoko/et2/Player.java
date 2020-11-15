@@ -125,6 +125,11 @@ public class Player
         nbIrrigationsInStock++;
     }
 
+    public int getNbIrrigationsInStock()
+    {
+        return nbIrrigationsInStock;
+    }
+
     public boolean irrigateEdge(Edge edge)
     {
         if (nbIrrigationsInStock <= 0)
