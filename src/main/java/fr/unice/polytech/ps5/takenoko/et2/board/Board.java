@@ -1,7 +1,6 @@
 package fr.unice.polytech.ps5.takenoko.et2.board;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -160,6 +159,19 @@ public class Board
         }
 
         return true;
+    }
+
+    Edge getEdgeBetweenTwoTiles(Tile t1, Tile t2)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            Edge e = t1.getEdge(i);
+            if (e.getOther(t1) == t2)
+            {
+                return e;
+            }
+        }
+        return null;
     }
 
     /**

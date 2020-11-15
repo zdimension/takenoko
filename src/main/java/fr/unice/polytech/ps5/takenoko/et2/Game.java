@@ -378,6 +378,10 @@ public class Game
     {
         DecisionMaker dm = p.getDecisionMaker();
         Edge chosenEdge = dm.chooseIrrigationPosition();
+        if (chosenEdge == null)
+        {
+            return;
+        }
         p.irrigateEdge(chosenEdge);
     }
 
