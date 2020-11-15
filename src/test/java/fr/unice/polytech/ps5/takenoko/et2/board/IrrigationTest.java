@@ -210,6 +210,10 @@ public class IrrigationTest
                 break;
             }
         }
+        if (edgeWithOneNullTile == null)
+        {
+            fail();
+        }
         assertFalse(edgeWithOneNullTile.canBeIrrigated());
         game.pickIrrigation(p);
         assertTrue(p.irrigateEdge(e9));
