@@ -2,6 +2,7 @@ package fr.unice.polytech.ps5.takenoko.et2;
 
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
+import fr.unice.polytech.ps5.takenoko.et2.decision.bots.MinMaxBot;
 import fr.unice.polytech.ps5.takenoko.et2.decision.bots.RandomBot;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 
@@ -75,9 +76,9 @@ public class Main
         );
         var players = List.<DecisionMakerBuilder>of(
             //RandomBot::new,
-            //RandomBot::new,
-            RandomBot::new,
+            MinMaxBot::new,
             RandomBot::new
+            //RandomBot::new
         );
         var freq = new int[players.size()];
         var N = 1000;
