@@ -2,11 +2,13 @@ package fr.unice.polytech.ps5.takenoko.et2.decision.bots;
 
 import fr.unice.polytech.ps5.takenoko.et2.GameAction;
 import fr.unice.polytech.ps5.takenoko.et2.Player;
+import fr.unice.polytech.ps5.takenoko.et2.board.Board;
 import fr.unice.polytech.ps5.takenoko.et2.board.Edge;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
+import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 
 import java.util.List;
 
@@ -67,13 +69,35 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public TilePosition chooseTilePosition(List<TilePosition> validPos, LandTile tile)
     {
-        //player.getGame().getBoard().
+        for (TilePosition position : validPos)
+        {
+            Board b2 = (Board) player.getGame().getBoard().clone();
+            b2.addTile(tile, position);
+            for (Objective objective : player.getHand())
+            {
+                if (objective instanceof PlotObjective)
+                {
+                    PlotObjective plotObjective = (PlotObjective) objective;
+                    if (plotObjective.checkValidated(b2))
+                    {
+                        return position;
+                    }
+                }
+            }
+        }
         return validPos.get(0);
     }
 
     @Override
     public Objective chooseObjectiveToComplete(List<Objective> validObjectives)
     {
+        for (Objective objective : validObjectives)
+        {
+            if (objective instanceof PlotObjective)
+            {
+                return objective;
+            }
+        }
         return validObjectives.get(0);
     }
 

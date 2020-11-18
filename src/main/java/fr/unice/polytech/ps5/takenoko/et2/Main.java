@@ -75,8 +75,8 @@ public class Main
             )
         );
         var players = List.<DecisionMakerBuilder>of(
-            //RandomBot::new,
             MinMaxBot::new,
+            //MinMaxBot::new
             RandomBot::new
             //RandomBot::new
         );
