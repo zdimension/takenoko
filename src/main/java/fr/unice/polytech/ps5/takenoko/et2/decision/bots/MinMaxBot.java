@@ -73,7 +73,7 @@ public class MinMaxBot extends DecisionMaker
             for (TilePosition position : validPositionsForTile)
             {
                 Board b2 = (Board) player.getGame().getBoard().clone();
-                b2.addTile(landTile, position);
+                b2.addTile(landTile, position, player.getGame().getBambooReserve());
                 for (Objective objective : player.getHand())
                 {
                     if (objective instanceof PlotObjective)
@@ -96,7 +96,7 @@ public class MinMaxBot extends DecisionMaker
         for (TilePosition position : validPos)
         {
             Board b2 = (Board) player.getGame().getBoard().clone();
-            b2.addTile(tile, position);
+            b2.addTile(tile, position, player.getGame().getBambooReserve());
             for (Objective objective : player.getHand())
             {
                 if (objective instanceof PlotObjective)

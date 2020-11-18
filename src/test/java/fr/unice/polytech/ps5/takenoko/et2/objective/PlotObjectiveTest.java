@@ -1,5 +1,6 @@
 package fr.unice.polytech.ps5.takenoko.et2.objective;
 
+import fr.unice.polytech.ps5.takenoko.et2.BambooSection;
 import fr.unice.polytech.ps5.takenoko.et2.Color;
 import fr.unice.polytech.ps5.takenoko.et2.board.Board;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
@@ -7,6 +8,7 @@ import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class PlotObjectiveTest
     @Test
     void ObjectiveWithOnePlotTest()
     {
-        board.addTile(new LandTile(Color.GREEN), new TilePosition(0, 1));
+        board.addTile(new LandTile(Color.GREEN), new TilePosition(0, 1), new ArrayList<BambooSection>());
         try
         {
             PlotObjective plotObjective = new PlotObjective(5, List.of(Color.GREEN), Collections.emptyList());
@@ -44,8 +46,8 @@ public class PlotObjectiveTest
     @Test
     void ObjectiveWithTwoPlotsTest1()
     {
-        board.addTile(new LandTile(Color.YELLOW), new TilePosition(0, 1));
-        board.addTile(new LandTile(Color.GREEN), new TilePosition(1, 0));
+        board.addTile(new LandTile(Color.YELLOW), new TilePosition(0, 1), new ArrayList<BambooSection>());
+        board.addTile(new LandTile(Color.GREEN), new TilePosition(1, 0), new ArrayList<BambooSection>());
         try
         {
             for (int i = 0; i < 6; i++)
@@ -80,8 +82,8 @@ public class PlotObjectiveTest
     @Test
     void ObjectiveWithTwoPlotsTest2()
     {
-        board.addTile(new LandTile(Color.YELLOW), new TilePosition(0, 1));
-        board.addTile(new LandTile(Color.GREEN), new TilePosition(0, -1));
+        board.addTile(new LandTile(Color.YELLOW), new TilePosition(0, 1), new ArrayList<BambooSection>());
+        board.addTile(new LandTile(Color.GREEN), new TilePosition(0, -1), new ArrayList<BambooSection>());
         try
         {
             for (int i = 0; i < 6; i++)
@@ -108,9 +110,9 @@ public class PlotObjectiveTest
     @Test
     void ObjectiveWithThreePlotsTest1()
     {
-        board.addTile(new LandTile(Color.YELLOW), new TilePosition(0, 1));
-        board.addTile(new LandTile(Color.GREEN), new TilePosition(1, 0));
-        board.addTile(new LandTile(Color.YELLOW), new TilePosition(1, 1));
+        board.addTile(new LandTile(Color.YELLOW), new TilePosition(0, 1), new ArrayList<BambooSection>());
+        board.addTile(new LandTile(Color.GREEN), new TilePosition(1, 0), new ArrayList<BambooSection>());
+        board.addTile(new LandTile(Color.YELLOW), new TilePosition(1, 1), new ArrayList<BambooSection>());
         try
         {
             PlotObjective plotObjective1 = new PlotObjective(5, List.of(Color.GREEN, Color.YELLOW), List.of(0));
@@ -141,9 +143,9 @@ public class PlotObjectiveTest
     @Test
     void ObjectiveWithThreePlotsTest2()
     {
-        board.addTile(new LandTile(Color.YELLOW), new TilePosition(0, 1));
-        board.addTile(new LandTile(Color.GREEN), new TilePosition(1, 0));
-        board.addTile(new LandTile(Color.PINK), new TilePosition(1, -1));
+        board.addTile(new LandTile(Color.YELLOW), new TilePosition(0, 1), new ArrayList<BambooSection>());
+        board.addTile(new LandTile(Color.GREEN), new TilePosition(1, 0), new ArrayList<BambooSection>());
+        board.addTile(new LandTile(Color.PINK), new TilePosition(1, -1), new ArrayList<BambooSection>());
         try
         {
             PlotObjective plotObjective1 = new PlotObjective(5, List.of(Color.GREEN, Color.YELLOW), List.of(0));
@@ -183,10 +185,10 @@ public class PlotObjectiveTest
     @Test
     void ObjectiveWithFourPlotsTest1()
     {
-        board.addTile(new LandTile(Color.YELLOW), new TilePosition(-1, 0));
-        board.addTile(new LandTile(Color.GREEN), new TilePosition(-1, 1));
-        board.addTile(new LandTile(Color.PINK), new TilePosition(-2, 1));
-        board.addTile(new LandTile(Color.GREEN), new TilePosition(-2, 2));
+        board.addTile(new LandTile(Color.YELLOW), new TilePosition(-1, 0), new ArrayList<BambooSection>());
+        board.addTile(new LandTile(Color.GREEN), new TilePosition(-1, 1), new ArrayList<BambooSection>());
+        board.addTile(new LandTile(Color.PINK), new TilePosition(-2, 1), new ArrayList<BambooSection>());
+        board.addTile(new LandTile(Color.GREEN), new TilePosition(-2, 2), new ArrayList<BambooSection>());
         try
         {
             PlotObjective plotObjective1 = new PlotObjective(5, List.of(Color.YELLOW, Color.GREEN, Color.PINK, Color.GREEN), List.of(0, 4, 0));
@@ -214,23 +216,23 @@ public class PlotObjectiveTest
     @Test
     void realObjectivePlotTest() // https://startyourmeeples.com/2019/05/26/which-are-the-best-takenoko-objective-cards/
     {
-        assertTrue(board.addTile(new LandTile(Color.GREEN), new TilePosition(0, 1))); // Take care of the order^^
-        assertTrue(board.addTile(new LandTile(Color.PINK), new TilePosition(1, 0)));
-        assertTrue(board.addTile(new LandTile(Color.YELLOW), new TilePosition(1, -1)));
-        assertTrue(board.addTile(new LandTile(Color.YELLOW), new TilePosition(0, -1)));
-        assertTrue(board.addTile(new LandTile(Color.YELLOW), new TilePosition(-1, 0)));
-        assertTrue(board.addTile(new LandTile(Color.GREEN), new TilePosition(-1, 1)));
+        assertTrue(board.addTile(new LandTile(Color.GREEN), new TilePosition(0, 1), new ArrayList<BambooSection>())); // Take care of the order^^
+        assertTrue(board.addTile(new LandTile(Color.PINK), new TilePosition(1, 0), new ArrayList<BambooSection>()));
+        assertTrue(board.addTile(new LandTile(Color.YELLOW), new TilePosition(1, -1), new ArrayList<BambooSection>()));
+        assertTrue(board.addTile(new LandTile(Color.YELLOW), new TilePosition(0, -1), new ArrayList<BambooSection>()));
+        assertTrue(board.addTile(new LandTile(Color.YELLOW), new TilePosition(-1, 0), new ArrayList<BambooSection>()));
+        assertTrue(board.addTile(new LandTile(Color.GREEN), new TilePosition(-1, 1), new ArrayList<BambooSection>()));
 
-        assertTrue(board.addTile(new LandTile(Color.GREEN), new TilePosition(-2, 1)));
-        assertTrue(board.addTile(new LandTile(Color.YELLOW), new TilePosition(-2, 2)));
-        assertTrue(board.addTile(new LandTile(Color.GREEN), new TilePosition(-2, 0)));
-        assertTrue(board.addTile(new LandTile(Color.YELLOW), new TilePosition(-1, -1)));
+        assertTrue(board.addTile(new LandTile(Color.GREEN), new TilePosition(-2, 1), new ArrayList<BambooSection>()));
+        assertTrue(board.addTile(new LandTile(Color.YELLOW), new TilePosition(-2, 2), new ArrayList<BambooSection>()));
+        assertTrue(board.addTile(new LandTile(Color.GREEN), new TilePosition(-2, 0), new ArrayList<BambooSection>()));
+        assertTrue(board.addTile(new LandTile(Color.YELLOW), new TilePosition(-1, -1), new ArrayList<BambooSection>()));
 
-        assertTrue(board.addTile(new LandTile(Color.PINK), new TilePosition(1, 1)));
-        assertTrue(board.addTile(new LandTile(Color.PINK), new TilePosition(2, 0)));
-        assertTrue(board.addTile(new LandTile(Color.GREEN), new TilePosition(2, 1)));
-        assertTrue(board.addTile(new LandTile(Color.PINK), new TilePosition(2, -1)));
-        assertTrue(board.addTile(new LandTile(Color.PINK), new TilePosition(2, -2)));
+        assertTrue(board.addTile(new LandTile(Color.PINK), new TilePosition(1, 1), new ArrayList<BambooSection>()));
+        assertTrue(board.addTile(new LandTile(Color.PINK), new TilePosition(2, 0), new ArrayList<BambooSection>()));
+        assertTrue(board.addTile(new LandTile(Color.GREEN), new TilePosition(2, 1), new ArrayList<BambooSection>()));
+        assertTrue(board.addTile(new LandTile(Color.PINK), new TilePosition(2, -1), new ArrayList<BambooSection>()));
+        assertTrue(board.addTile(new LandTile(Color.PINK), new TilePosition(2, -2), new ArrayList<BambooSection>()));
         try
         {
             PlotObjective plotObjective1 = new PlotObjective(2, List.of(Color.GREEN, Color.GREEN, Color.GREEN), List.of(0, 1));

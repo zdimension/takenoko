@@ -41,6 +41,11 @@ public class Game
         GameAction.MOVE_GARDENER, this::moveGardener
     );
 
+    public List<BambooSection> getBambooReserve()
+    {
+        return bambooReserve;
+    }
+
     /**
      * Game contructor
      *
@@ -67,7 +72,7 @@ public class Game
         this.objectiveDecks.put(PlotObjective.class, new ArrayList<>(plotObjectiveDeck));
         this.tileDeck = new ArrayList<>(tileDeck);
         this.emperorTriggered = false;
-        this.bambooReserve = tileDeck
+        this.bambooReserve = tileDeck //TODO change to fit rules when Panda implemented
             .stream()
             .flatMap(t -> IntStream.range(0, 4).mapToObj(i -> new BambooSection(t.getColor())))
             .collect(Collectors.toList());
@@ -299,7 +304,7 @@ public class Game
             throwError(new IllegalArgumentException("Position of tile given is invalid"));
             return;
         }
-        board.addTile(chosenTile, tilePosition);
+        board.addTile(chosenTile, tilePosition, bambooReserve);
         tileDeck.remove(chosenTile);
     }
 

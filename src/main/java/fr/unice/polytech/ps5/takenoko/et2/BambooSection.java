@@ -1,12 +1,14 @@
 package fr.unice.polytech.ps5.takenoko.et2;
 
+import java.util.Objects;
+
 public class BambooSection
 {
     private Color color;
 
     public BambooSection(Color color)
     {
-        this.color = color;
+        this.color = Objects.requireNonNull(color, "color must not be null");
     }
 
     public Color getColor()

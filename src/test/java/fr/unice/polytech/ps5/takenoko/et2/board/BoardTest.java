@@ -1,8 +1,10 @@
 package fr.unice.polytech.ps5.takenoko.et2.board;
 
+import fr.unice.polytech.ps5.takenoko.et2.BambooSection;
 import fr.unice.polytech.ps5.takenoko.et2.Color;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,20 +18,20 @@ class BoardTest
         var b = new Board();
 
         var tile = new LandTile(Color.GREEN);
-        assertTrue(b.addTile(tile, new TilePosition(0, 1)));
+        assertTrue(b.addTile(tile, new TilePosition(0, 1), new ArrayList<BambooSection>()));
 
         // duplicate
-        assertFalse(b.addTile(new LandTile(Color.GREEN), new TilePosition(0, 1)));
+        assertFalse(b.addTile(new LandTile(Color.GREEN), new TilePosition(0, 1), new ArrayList<BambooSection>()));
 
         // only touches one tile
-        assertFalse(b.addTile(new LandTile(Color.GREEN), new TilePosition(0, 2)));
+        assertFalse(b.addTile(new LandTile(Color.GREEN), new TilePosition(0, 2), new ArrayList<BambooSection>()));
 
         assertSame(b.getCenter().getEdge(0), tile.getEdge(3));
         assertEquals(tile, b.getCenter().getEdge(0).getTile(1));
         assertEquals(b.getCenter(), tile.getEdge(3).getTile(0));
 
         var tile2 = new LandTile(Color.YELLOW);
-        assertTrue(b.addTile(tile2, new TilePosition(1, 0)));
+        assertTrue(b.addTile(tile2, new TilePosition(1, 0), new ArrayList<BambooSection>()));
 
         assertSame(b.getCenter().getEdge(1), tile2.getEdge(4));
         assertEquals(tile2, b.getCenter().getEdge(1).getTile(1));
@@ -41,9 +43,9 @@ class BoardTest
 
         var tile3 = new LandTile(Color.PINK);
 
-        assertFalse(b.addTile(tile3, new TilePosition(-1, 2)));
-        assertFalse(b.addTile(tile3, new TilePosition(2, -1)));
-        assertTrue(b.addTile(tile3, new TilePosition(1, 1)));
+        assertFalse(b.addTile(tile3, new TilePosition(-1, 2), new ArrayList<BambooSection>()));
+        assertFalse(b.addTile(tile3, new TilePosition(2, -1), new ArrayList<BambooSection>()));
+        assertTrue(b.addTile(tile3, new TilePosition(1, 1), new ArrayList<BambooSection>()));
 
         assertEquals(
             "[Position (0, 0)][Pond tile]\n" +

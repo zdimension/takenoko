@@ -1,5 +1,7 @@
 package fr.unice.polytech.ps5.takenoko.et2.board;
 
+import fr.unice.polytech.ps5.takenoko.et2.BambooSection;
+
 import java.util.*;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -132,7 +134,7 @@ public class Board implements Cloneable
      * @param pos  of the tile to add
      * @return true if the tile was added, false if it failed
      */
-    public boolean addTile(LandTile tile, TilePosition pos)
+    public boolean addTile(LandTile tile, TilePosition pos, List<BambooSection> bambooReserve)
     {
         Objects.requireNonNull(tile, "tile must not be null");
         Objects.requireNonNull(pos, "tile position must not be null");
@@ -155,6 +157,28 @@ public class Board implements Cloneable
             else
             {
                 tile.edges[i] = new Edge(tile);
+            }
+        }
+
+        //if the tile is put next to th PondTile, a BambooSection grows on it
+        for (Edge edge : tile.edges)
+        {
+            if (edge.getOther(tile) instanceof PondTile)
+            {
+                var res = bambooReserve.stream().filter(b -> b.getColor().equals(tile.getColor())).findAny();
+                if (res.isEmpty())
+                {
+                    break;
+                }
+                var bambooSection = res.get();
+                try
+                {
+                    tile.growBambooSection(bambooSection);
+                }
+                catch (Exception e)
+                {
+                    //Do nothing
+                }
             }
         }
 
