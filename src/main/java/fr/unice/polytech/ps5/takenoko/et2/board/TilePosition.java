@@ -68,6 +68,35 @@ public class TilePosition
         return new TilePosition(x + other.x, y + other.y);
     }
 
+    /**
+     * @param other subtrahend
+     * @return the elementwise difference of the two vectors
+     */
+    public TilePosition sub(TilePosition other)
+    {
+        return new TilePosition(x - other.x, y - other.y);
+    }
+
+    private static int sign(int n)
+    {
+        return n < 0 ? -1 : 1;
+    }
+
+    /**
+     * @return the basis for the specified vector, or null if the vector is a linear combination of multiples bases
+     */
+    public TilePosition getBasis()
+    {
+        if (x == 0)
+            return new TilePosition(0, sign(y));
+        if (y == 0)
+            return new TilePosition(sign(x), 0);
+        if (x == -y)
+            return new TilePosition(sign(x), sign(y));
+
+        return null;
+    }
+
     @Override
     public boolean equals(Object other)
     {
