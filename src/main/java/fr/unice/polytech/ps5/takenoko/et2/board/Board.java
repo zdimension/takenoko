@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 /**
  * Main game board.
  */
-public class Board
+public class Board implements Cloneable
 {
     /**
      * Mapping LUT between edge numbers and generator vectors
@@ -188,5 +188,19 @@ public class Board
             board.append(position.toString()).append(tileCache.get(position).toString()).append("\n");
         }
         return board.toString();
+    }
+
+    public Object clone()
+    {
+        Object o = null;
+        try
+        {
+            o = super.clone();
+        }
+        catch (CloneNotSupportedException cnse)
+        {
+            cnse.printStackTrace(System.err);
+        }
+        return o;
     }
 }

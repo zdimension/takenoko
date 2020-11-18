@@ -16,7 +16,19 @@ class EdgeTest
         var e = new Edge(t1);
         assertTrue(e.setTile(t2));
         assertFalse(e.setTile(t2));
-
-        assertEquals("[Edge, 1=[Land tile, Green], 2=[Land tile, Pink]]", e.toString());
+        Tile et1 = e.getTile(0);
+        Tile et2 = e.getTile(1);
+        if (!(et1 instanceof LandTile))
+        {
+            fail();
+        }
+        if (!(et2 instanceof LandTile))
+        {
+            fail();
+        }
+        assertEquals(Color.GREEN, ((LandTile) et1).getColor());
+        assertEquals(Color.PINK, ((LandTile) et2).getColor());
+        assertEquals(et1, t1);
+        assertEquals(et2, t2);
     }
 }
