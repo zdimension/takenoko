@@ -20,6 +20,10 @@ public class Edge
         Objects.requireNonNull(tile, "tile position must not be null");
         tiles[0] = tile;
         tiles[1] = null;
+        if (tile instanceof PondTile)
+        {
+            irrigated = true;
+        }
     }
 
     /**
@@ -71,7 +75,7 @@ public class Edge
         }
         int sizeReturn = 0;
         boolean firstOk = false; // Berk
-        for (int i = 0; i < tiles.length; i++) // Add the bamboo
+        for (int i = 0; i < tiles.length; i++) // For adding the bamboo
         {
             if (!(tiles[i] instanceof LandTile))
             {
@@ -122,7 +126,28 @@ public class Edge
      */
     public boolean canBeIrrigated()
     {
-        return !irrigated;// TODO!
+        if (irrigated)
+        {
+            return false;
+        }
+        for (Tile neighbourTile : tiles)
+        {
+            if (neighbourTile == null)
+            {
+                continue;
+            }
+            for (int i = 0; i < 6; i++)
+            {
+                if (neighbourTile.getEdge(i) == this)
+                {
+                    if (neighbourTile.getEdge((i + 1) % 6).isIrrigated() || neighbourTile.getEdge((i + 5) % 6).isIrrigated())
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /**

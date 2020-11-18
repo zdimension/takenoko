@@ -142,6 +142,10 @@ public class Player
         }
         LandTile[] tilesToGrowBamboo = edge.addIrrigation();
         nbIrrigationsInStock--;
+        if (tilesToGrowBamboo == null)
+        {
+            return true;
+        }
         for (LandTile landTile : tilesToGrowBamboo)
         {
             try
