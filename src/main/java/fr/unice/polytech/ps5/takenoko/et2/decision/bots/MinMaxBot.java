@@ -67,6 +67,7 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public TilePosition chooseTilePosition(List<TilePosition> validPos, LandTile tile)
     {
+        //player.getGame().getBoard().
         return validPos.get(0);
     }
 
