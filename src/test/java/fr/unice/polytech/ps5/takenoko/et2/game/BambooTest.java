@@ -113,5 +113,6 @@ class BambooTest
         assertEquals(0, l8.getBambooSize());
         p.irrigateEdge(l8.getEdge(0));
         assertEquals(1, l8.getBambooSize());
+        assertThrows(IllegalArgumentException.class, () -> game.addBambooSectionToTile(null));
     }
 }
