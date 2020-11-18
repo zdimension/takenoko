@@ -162,6 +162,11 @@ public class Game
                     base.remove(GameAction.PLACE_IRRIGATION);
                 }
 
+                if (nbIrrigationsInDeck <= 0)
+                {
+                    base.remove(GameAction.PICK_IRRIGATION);
+                }
+
                 if (base.isEmpty())
                 {
                     return Collections.emptyList();
@@ -374,11 +379,8 @@ public class Game
      */
     public void pickIrrigation(Player p)
     {
-        if (nbIrrigationsInDeck > 0)
-        {
-            nbIrrigationsInDeck--;
-            p.pickIrrigation();
-        }
+        nbIrrigationsInDeck--;
+        p.pickIrrigation();
     }
 
     private Stream<Edge> findIrrigableEdges()
