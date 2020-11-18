@@ -144,6 +144,23 @@ public class Edge
                     {
                         return true;
                     }
+
+                    /* #specialEmmyCase */
+                    int numEdge = (i + 5) % 6;
+                    Edge tmpEdge = neighbourTile.getEdge(numEdge);
+                    Tile neighbourOfNeighbour = tmpEdge.getOther(neighbourTile);
+                    if (neighbourOfNeighbour != null && neighbourOfNeighbour.getEdge((numEdge + 2) % 6).isIrrigated())
+                    {
+                        return true;
+                    }
+
+                    numEdge = (i + 1) % 6;
+                    tmpEdge = neighbourTile.getEdge(numEdge);
+                    neighbourOfNeighbour = tmpEdge.getOther(neighbourTile);
+                    if (neighbourOfNeighbour != null && neighbourOfNeighbour.getEdge((numEdge + 4) % 6).isIrrigated())
+                    {
+                        return true;
+                    }
                 }
             }
         }
