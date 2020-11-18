@@ -123,4 +123,10 @@ public class MinMaxBot extends DecisionMaker
     {
         return irrigableEdges.get(0);
     }
+
+    @Override
+    public TilePosition chooseGardenerTarget(List<TilePosition> valid)
+    {
+        return valid.get(0);
+    }
 }
