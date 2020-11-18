@@ -3,8 +3,14 @@ package fr.unice.polytech.ps5.takenoko.et2.objective;
 import fr.unice.polytech.ps5.takenoko.et2.Color;
 import fr.unice.polytech.ps5.takenoko.et2.Game;
 import fr.unice.polytech.ps5.takenoko.et2.board.Board;
+import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
+import fr.unice.polytech.ps5.takenoko.et2.board.Tile;
+import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
 
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * The class representing the gardener objective
@@ -36,7 +42,29 @@ public class GardenerObjective extends Objective {
     }
 
     public boolean checkValidated(Board board) {
-        return true;
+        Objects.requireNonNull(board, "board must not be null");
+
+        Map<TilePosition, Tile> listTiles = board.getTiles();
+        Set<LandTile> landTileList = listTiles.values()
+            .stream()
+            .filter(tile -> tile instanceof LandTile)
+            .map(tile -> (LandTile)tile)
+            .collect(Collectors.toSet());
+
+        int bambooStackSize;
+        int countBambooStack = 0;
+        Color bambooColor;
+        for (LandTile tile : landTileList) {
+            bambooColor = tile.getColor();
+            bambooStackSize = tile.getBambooSize();
+            if (bambooStackSize == this.numberOfBambooSection && bambooColor.equals(this.color)) {
+                countBambooStack++;
+            }
+            if (this.numberOfBambooStack == countBambooStack) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
