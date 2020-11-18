@@ -10,7 +10,10 @@ import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 public class MinMaxBot extends DecisionMaker
 {
@@ -63,6 +66,26 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public LandTile chooseTile(List<LandTile> drawnTiles)
     {
+        for (LandTile landTile : drawnTiles)
+        {
+            List<TilePosition> validPositionsForTile = player.getGame().getBoard().getValidEmptyPositions().collect(Collectors.toList());
+            for (TilePosition position : validPositionsForTile)
+            {
+                Board b2 = (Board) player.getGame().getBoard().clone();
+                b2.addTile(landTile, position);
+                for (Objective objective : player.getHand())
+                {
+                    if (objective instanceof PlotObjective)
+                    {
+                        PlotObjective plotObjective = (PlotObjective) objective;
+                        if (plotObjective.checkValidated(b2))
+                        {
+                            return landTile;
+                        }
+                    }
+                }
+            }
+        }
         return drawnTiles.get(0);
     }
 
@@ -91,14 +114,7 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public Objective chooseObjectiveToComplete(List<Objective> validObjectives)
     {
-        for (Objective objective : validObjectives)
-        {
-            if (objective instanceof PlotObjective)
-            {
-                return objective;
-            }
-        }
-        return validObjectives.get(0);
+        return validObjectives.stream().max(Comparator.comparing(Objective::getPoints)).orElseThrow(NoSuchElementException::new);
     }
 
     @Override
