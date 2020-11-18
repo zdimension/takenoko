@@ -30,14 +30,16 @@ public class Game
     private final ArrayList<Player> playerList;
     private final boolean isFirstRound;
     private final boolean emperorTriggered;
+    private TilePosition gardenerPosition = TilePosition.ZERO;
+    private int nbIrrigationsInDeck = 20;
     private final Map<GameAction, Consumer<Player>> ACTION_MAP = Map.of(
         GameAction.DRAW_OBJECTIVE, this::drawObjective,
         GameAction.DRAW_TILE, this::drawAndAddTile,
         GameAction.COMPLETE_OBJECTIVE, this::completeObjective,
         GameAction.PICK_IRRIGATION, this::pickIrrigation,
-        GameAction.PLACE_IRRIGATION, this::placeIrrigation
+        GameAction.PLACE_IRRIGATION, this::placeIrrigation,
+        GameAction.MOVE_GARDENER, this::moveGardener
     );
-    private int nbIrrigationsInDeck = 20;
 
     /**
      * Game contructor
@@ -155,6 +157,11 @@ public class Game
                 if (findCompletableObjectives(player).findAny().isEmpty())
                 {
                     base.remove(GameAction.COMPLETE_OBJECTIVE);
+                }
+
+                if (getValidGardenerTargets().findAny().isEmpty())
+                {
+                    base.remove(GameAction.MOVE_GARDENER);
                 }
 
                 if (player.getNbIrrigationsInStock() <= 0 || findIrrigableEdges().findAny().isEmpty())
@@ -406,6 +413,68 @@ public class Game
             return;
         }
         p.irrigateEdge(chosenEdge);
+    }
+
+    private Stream<TilePosition> getValidGardenerTargets()
+    {
+        return board.getTiles().keySet().stream()
+            .filter(pos ->
+            {
+                var basis = pos.sub(gardenerPosition).getBasis();
+
+                if (basis == null)
+                    return false;
+
+                for (var initial = gardenerPosition; initial != pos; initial = initial.add(basis))
+                {
+                    if (!board.getTiles().containsKey(initial))
+                        return false;
+                }
+
+                return true;
+            });
+    }
+
+    private void moveGardener(Player player)
+    {
+        var valid = getValidGardenerTargets().collect(Collectors.toList());
+        TilePosition chosenPos = player
+            .getDecisionMaker()
+            .chooseGardenerTarget(valid);
+        if (!valid.contains(chosenPos))
+        {
+            return;
+        }
+
+        gardenerPosition = chosenPos;
+
+        var landing = board.getTiles().get(chosenPos);
+
+        if (!(landing instanceof LandTile))
+            return;
+
+        var cast = (LandTile)landing;
+
+        for (var pos : board.getNeighboringPositions(chosenPos).collect(Collectors.toList()))
+        {
+            var tile = board.getTiles().getOrDefault(pos, null);
+            if (tile instanceof LandTile)
+            {
+                var land = (LandTile)tile;
+                if (land.getColor() == cast.getColor())
+                {
+                    try
+                    {
+                        addBambooSectionToTile((LandTile) tile);
+                    }
+                    catch (Exception e)
+                    {
+                        // critical error, indicates corruption of game state
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
     }
 
     //public getPlayerIndividualBoard(PLayer player)

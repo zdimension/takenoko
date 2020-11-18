@@ -159,4 +159,25 @@ public class DecisionMakerDebugger extends DecisionMaker
         return clazz;
     }
 
+    @Override
+    public TilePosition chooseGardenerTarget(List<TilePosition> validPos)
+    {
+        Objects.requireNonNull(validPos, "validPos must not be null");
+        int inputx;
+        int inputy;
+        TilePosition tilePosition;
+        do
+        {
+            System.out.println("Board :");
+            this.getBoard().getTiles().forEach((k, v) -> System.out.println(k + " : " + v));
+            System.out.println("Choose x axis : ");
+            inputx = sc.nextInt();
+            System.out.println("Choose y axis : ");
+            inputy = sc.nextInt();
+            tilePosition = new TilePosition(inputx, inputy);
+        }
+        while (!this.getBoard().isValid(tilePosition));
+
+        return tilePosition;
+    }
 }

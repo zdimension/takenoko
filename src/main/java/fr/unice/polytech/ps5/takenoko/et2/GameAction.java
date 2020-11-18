@@ -8,7 +8,8 @@ public enum GameAction
     DRAW_OBJECTIVE,
     COMPLETE_OBJECTIVE(true),
     PICK_IRRIGATION,
-    PLACE_IRRIGATION(true);
+    PLACE_IRRIGATION(true),
+    MOVE_GARDENER;
 
     boolean unlimited;
 

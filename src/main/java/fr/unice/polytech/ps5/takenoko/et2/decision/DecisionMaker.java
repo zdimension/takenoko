@@ -66,4 +66,9 @@ public abstract class DecisionMaker
      * @return An Edge, the position of the irrigation
      */
     public abstract Edge chooseIrrigationPosition(List<Edge> irrigableEdges);
+
+    /**
+     * @return The desired landing position of the gardener
+     */
+    public abstract TilePosition chooseGardenerTarget(List<TilePosition> valid);
 }

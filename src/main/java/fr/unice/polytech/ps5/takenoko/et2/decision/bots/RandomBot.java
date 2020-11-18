@@ -69,4 +69,10 @@ public class RandomBot extends DecisionMaker
     {
         return randomElement(irrigableEdges);
     }
+
+    @Override
+    public TilePosition chooseGardenerTarget(List<TilePosition> valid)
+    {
+        return randomElement(valid);
+    }
 }
