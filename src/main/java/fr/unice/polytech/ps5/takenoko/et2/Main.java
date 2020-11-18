@@ -81,6 +81,7 @@ public class Main
         );
         var freq = new int[players.size()];
         var N = 1000;
+        var Nempty = 0;
         for (var i = 0; i < N; i++)
         {
             if (i % 1000 == 0)
@@ -93,11 +94,19 @@ public class Main
                 game.addPlayer(player);
             }
             var res = game.gameProcessing();
-            for (Integer re : res)
+            if (res.isEmpty())
             {
-                freq[re]++;
+                Nempty++;
+            }
+            else
+            {
+                for (Integer re : res)
+                {
+                    freq[re]++;
+                }
             }
         }
         System.out.println(Arrays.toString(Arrays.stream(freq).asDoubleStream().map(d -> d / N).toArray()));
+        System.out.printf("%.2f%% d'impasses%n", Nempty * 100.0 / N);
     }
 }
