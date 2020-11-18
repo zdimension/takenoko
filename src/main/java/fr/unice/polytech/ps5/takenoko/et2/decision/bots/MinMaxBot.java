@@ -20,12 +20,11 @@ public class MinMaxBot extends DecisionMaker
     /**
      * Class constructor
      *
-     * @param player
+     * @param player The player for the Bot
      */
     public MinMaxBot(Player player)
     {
         super(player);
-        Player p2 = (Player) player.clone();
     }
 
     @Override
@@ -51,9 +50,11 @@ public class MinMaxBot extends DecisionMaker
     {
         try
         {
-            if (available.contains((Class<? extends Objective>) Class.forName("fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective")))
+            @SuppressWarnings("unchecked")
+            Class<? extends Objective> objectiveClass = (Class<? extends Objective>) Class.forName("fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective");
+            if (available.contains(objectiveClass))
             {
-                return (Class<? extends Objective>) Class.forName("fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective");
+                return objectiveClass;
             }
         }
         catch (ClassNotFoundException e)
