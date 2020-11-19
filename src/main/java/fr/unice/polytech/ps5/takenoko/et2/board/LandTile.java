@@ -90,16 +90,10 @@ public class LandTile extends Tile implements Cloneable
     public Object clone()
     {
         LandTile o = new LandTile(color);
+        o.bamboo.clear();
         for (BambooSection bambooSection : bamboo)
         {
-            try
-            {
-                o.growBambooSection(new BambooSection(bambooSection.getColor()));
-            }
-            catch (IllegalArgumentException e)
-            {
-                e.printStackTrace();
-            }
+            o.bamboo.add(new BambooSection(bambooSection.getColor()));
         }
         return (Object) o;
     }
@@ -110,6 +104,6 @@ public class LandTile extends Tile implements Cloneable
     @Override
     public String toString()
     {
-        return "[Land tile, " + this.color + "]";
+        return "[Land tile, " + this.color + ", " + isIrrigated() + ", " + bamboo + "]";
     }
 }

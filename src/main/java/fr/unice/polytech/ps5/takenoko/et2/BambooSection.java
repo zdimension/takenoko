@@ -15,4 +15,9 @@ public class BambooSection
     {
         return color;
     }
+
+    public String toString()
+    {
+        return "Bamboo: " + color;
+    }
 }

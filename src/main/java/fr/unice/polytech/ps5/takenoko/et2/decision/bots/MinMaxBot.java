@@ -1,5 +1,6 @@
 package fr.unice.polytech.ps5.takenoko.et2.decision.bots;
 
+import fr.unice.polytech.ps5.takenoko.et2.BambooSection;
 import fr.unice.polytech.ps5.takenoko.et2.GameAction;
 import fr.unice.polytech.ps5.takenoko.et2.Player;
 import fr.unice.polytech.ps5.takenoko.et2.board.Board;
@@ -11,6 +12,7 @@ import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -72,7 +74,12 @@ public class MinMaxBot extends DecisionMaker
             for (TilePosition position : validPos)
             {
                 Board b2 = (Board) player.getGame().getBoard().clone();
-                b2.addTile(landTile, position, player.getGame().getBambooReserve());
+                List<BambooSection> listBambooReserv = new ArrayList<>();
+                for (BambooSection bambooSection : player.getGame().getBambooReserve())
+                {
+                    listBambooReserv.add(new BambooSection(bambooSection.getColor()));
+                }
+                b2.addTile((LandTile) landTile.clone(), position, listBambooReserv);
                 for (Objective objective : player.getHand())
                 {
                     if (objective instanceof PlotObjective)
