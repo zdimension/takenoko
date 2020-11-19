@@ -218,8 +218,8 @@ public class Board implements Cloneable
 
     public Object clone()
     {
-        //return this;
-        Board o = new Board();
+        return this;
+        /*Board o = new Board();
         try
         {
             for (TilePosition tilePosition : orderAdd)
@@ -240,6 +240,6 @@ public class Board implements Cloneable
             e.printStackTrace();
             return null;
         }
-        return (Object) o;
+        return (Object) o;*/
     }
 }
