@@ -98,7 +98,7 @@ public class MinMaxBot extends DecisionMaker
                         }
                     }
                 }*/
-                int actionEvaluated = evaluteAction(landTile, position, drawnTiles, player.getGame().getBoard(), player.getHand(), DEPTH, true);
+                int actionEvaluated = evaluteAction(landTile, position, drawnTiles, player.getGame().getBoard().getValidEmptyPositions().collect(Collectors.toList()), player.getGame().getBoard(), player.getHand(), DEPTH, true);
                 if (actionEvaluated > maxPoints)
                 {
                     maxPoints = actionEvaluated;
@@ -131,7 +131,7 @@ public class MinMaxBot extends DecisionMaker
         return valid.get(0);
     }
 
-    private int evaluteAction(LandTile playedTile, TilePosition playedPos, List<LandTile> drawnTiles, Board board, List<Objective> myObjectives, int n, boolean myTurn)
+    private int evaluteAction(LandTile playedTile, TilePosition playedPos, List<LandTile> drawnTiles, List<TilePosition> ListValidsPositions, Board board, List<Objective> myObjectives, int n, boolean myTurn)
     {
         List<Objective> copyOfMyObjectives = new ArrayList<>();
         copyOfMyObjectives.addAll(myObjectives);
@@ -180,12 +180,20 @@ public class MinMaxBot extends DecisionMaker
             return scoreReturn;
         }
         power = power / 100;
-        List<TilePosition> listValidsPositions = newBoard.getValidEmptyPositions().collect(Collectors.toList());
-        for (TilePosition tilePosition : listValidsPositions)
+        List<TilePosition> newListValidsPositions = new ArrayList<>();
+        for (TilePosition tilePosition : ListValidsPositions)
+        {
+            if (tilePosition.equals(playedPos))
+            {
+                continue;
+            }
+            newListValidsPositions.add(tilePosition);
+        }
+        for (TilePosition tilePosition : newListValidsPositions)
         {
             for (LandTile landTile : copyOfDrawnTiles)
             {
-                scoreReturn -= evaluteAction(landTile, tilePosition, copyOfDrawnTiles, newBoard, copyOfMyObjectives, n - 1, !myTurn) * power;
+                scoreReturn -= evaluteAction(landTile, tilePosition, copyOfDrawnTiles, newListValidsPositions, newBoard, copyOfMyObjectives, n - 1, !myTurn) * power;
             }
         }
         return scoreReturn;
