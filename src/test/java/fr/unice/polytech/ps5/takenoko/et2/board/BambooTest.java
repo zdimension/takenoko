@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -145,5 +146,14 @@ class BambooTest
         assertThrows(IllegalArgumentException.class, () -> l2.growBambooSection(bambooSection));
 
         assertThrows(IllegalArgumentException.class, () -> l2.growBambooSection(null));
+    }
+
+    @Test
+    void bambooReserveDecrementsWhenPlaceTileNextToPondTest()
+    {
+        var actualBambooStock = bambooReserve.stream().collect(Collectors.groupingBy(b -> b.getColor()));
+        assertEquals(28, actualBambooStock.get(Color.GREEN).size());
+        assertEquals(28, actualBambooStock.get(Color.PINK).size());
+        assertEquals(28, actualBambooStock.get(Color.YELLOW).size());
     }
 }

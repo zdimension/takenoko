@@ -161,25 +161,21 @@ public class Board implements Cloneable
             }
         }
 
-        //if the tile is put next to th PondTile, a BambooSection grows on it
-        for (Edge edge : tile.edges)
+
+        var res = bambooReserve.stream().filter(b -> b.getColor().equals(tile.getColor())).findAny();
+        if (res.isPresent())
         {
-            if (edge.getOther(tile) instanceof PondTile)
+            var bambooSection = res.get();
+            try
             {
-                var res = bambooReserve.stream().filter(b -> b.getColor().equals(tile.getColor())).findAny();
-                if (res.isEmpty())
+                if (tile.growBambooSection(bambooSection))
                 {
-                    break;
+                    bambooReserve.remove(bambooSection);
                 }
-                var bambooSection = res.get();
-                try
-                {
-                    tile.growBambooSection(bambooSection);
-                }
-                catch (Exception e)
-                {
-                    //Do nothing
-                }
+            }
+            catch (Exception e)
+            {
+                //Do nothing
             }
         }
 
