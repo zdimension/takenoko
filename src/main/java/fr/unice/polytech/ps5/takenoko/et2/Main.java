@@ -6,6 +6,8 @@ import fr.unice.polytech.ps5.takenoko.et2.decision.bots.MinMaxBot;
 import fr.unice.polytech.ps5.takenoko.et2.decision.bots.RandomBot;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -93,6 +95,7 @@ public class Main
         var freq = new int[players.size()];
         final var N = 1000;
         var Nempty = 0;
+        var start = Instant.now();
         for (var i = 0; i < N; i++)
         {
             if (i % (N / 10) == 0)
@@ -117,7 +120,12 @@ public class Main
                 }
             }
         }
+        var duration = Duration.between(start, Instant.now());
+        System.out.printf("Total: %d.%03ds (%d games/sec)%n",
+            duration.getSeconds(),
+            duration.getNano() / 1000000,
+            N * 1000000000L / duration.toNanos());
         System.out.println(Arrays.toString(Arrays.stream(freq).asDoubleStream().map(d -> d / N).toArray()));
-        System.out.printf("%.2f%% d'impasses%n", Nempty * 100.0 / N);
+        System.out.printf("%.2f%% dead-ends%n", Nempty * 100.0 / N);
     }
 }

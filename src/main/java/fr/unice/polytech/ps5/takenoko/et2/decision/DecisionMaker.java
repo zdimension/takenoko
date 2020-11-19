@@ -7,6 +7,7 @@ import fr.unice.polytech.ps5.takenoko.et2.board.Edge;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
+import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
 import java.util.List;
 import java.util.Objects;
@@ -48,14 +49,7 @@ public abstract class DecisionMaker
      * @param drawnTiles to choose from
      * @return chosen tile
      */
-    public abstract LandTile chooseTile(List<LandTile> drawnTiles); //drawnTiles.size() = 3
-
-    /**
-     * @param validPos
-     * @param tile     to put on the board
-     * @return desired position of tile
-     */
-    public abstract TilePosition chooseTilePosition(List<TilePosition> validPos, LandTile tile);
+    public abstract Pair<LandTile, TilePosition> chooseTile(List<LandTile> drawnTiles, List<TilePosition> validPos); //drawnTiles.size() = 3
 
     /**
      * @return Objective to complete

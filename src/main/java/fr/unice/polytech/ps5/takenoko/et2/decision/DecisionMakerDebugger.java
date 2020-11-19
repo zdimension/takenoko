@@ -7,6 +7,7 @@ import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
+import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
 import java.util.List;
 import java.util.Objects;
@@ -55,8 +56,9 @@ public class DecisionMakerDebugger extends DecisionMaker
     }
 
     @Override
-    public LandTile chooseTile(List<LandTile> drawnTiles)
+    public Pair<LandTile, TilePosition> chooseTile(List<LandTile> drawnTiles, List<TilePosition> validPos)
     {
+        Objects.requireNonNull(validPos, "validPos must not be null");
         Objects.requireNonNull(drawnTiles, "drawnTiles must not be null");
         if (drawnTiles.size() != 3)
         {
@@ -74,15 +76,6 @@ public class DecisionMakerDebugger extends DecisionMaker
         }
         while (input < 0 || input > 2);
 
-        System.out.println(drawnTiles.get(input) + " chosen");
-        return drawnTiles.get(input);
-    }
-
-    @Override
-    public TilePosition chooseTilePosition(List<TilePosition> validPos, LandTile tile)
-    {
-        Objects.requireNonNull(validPos, "validPos must not be null");
-        Objects.requireNonNull(tile, "tile must not be null");
         int inputx;
         int inputy;
         TilePosition tilePosition;
@@ -98,7 +91,8 @@ public class DecisionMakerDebugger extends DecisionMaker
         }
         while (!this.getBoard().isValid(tilePosition));
 
-        return tilePosition;
+        System.out.println(drawnTiles.get(input) + " chosen");
+        return Pair.of(drawnTiles.get(input), tilePosition);
     }
 
     @Override

@@ -9,6 +9,7 @@ import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
+import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
 import java.util.Comparator;
 import java.util.List;
@@ -65,12 +66,11 @@ public class MinMaxBot extends DecisionMaker
     }
 
     @Override
-    public LandTile chooseTile(List<LandTile> drawnTiles)
+    public Pair<LandTile, TilePosition> chooseTile(List<LandTile> drawnTiles, List<TilePosition> validPos)
     {
         for (LandTile landTile : drawnTiles)
         {
-            List<TilePosition> validPositionsForTile = player.getGame().getBoard().getValidEmptyPositions().collect(Collectors.toList());
-            for (TilePosition position : validPositionsForTile)
+            for (TilePosition position : validPos)
             {
                 Board b2 = (Board) player.getGame().getBoard().clone();
                 b2.addTile(landTile, position, player.getGame().getBambooReserve());
@@ -81,35 +81,13 @@ public class MinMaxBot extends DecisionMaker
                         PlotObjective plotObjective = (PlotObjective) objective;
                         if (plotObjective.checkValidated(b2))
                         {
-                            return landTile;
+                            return Pair.of(landTile, position);
                         }
                     }
                 }
             }
         }
-        return drawnTiles.get(0);
-    }
-
-    @Override
-    public TilePosition chooseTilePosition(List<TilePosition> validPos, LandTile tile)
-    {
-        for (TilePosition position : validPos)
-        {
-            Board b2 = (Board) player.getGame().getBoard().clone();
-            b2.addTile(tile, position, player.getGame().getBambooReserve());
-            for (Objective objective : player.getHand())
-            {
-                if (objective instanceof PlotObjective)
-                {
-                    PlotObjective plotObjective = (PlotObjective) objective;
-                    if (plotObjective.checkValidated(b2))
-                    {
-                        return position;
-                    }
-                }
-            }
-        }
-        return validPos.get(0);
+        return Pair.of(drawnTiles.get(0), validPos.get(0));
     }
 
     @Override

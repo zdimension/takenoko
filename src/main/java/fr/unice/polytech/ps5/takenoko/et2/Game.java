@@ -301,19 +301,24 @@ public class Game
     private void drawAndAddTile(Player p)
     {
         DecisionMaker dm = p.getDecisionMaker();
-        LandTile chosenTile = dm.chooseTile(Collections.unmodifiableList(tileDeck.subList(0, 3)));
+        var validTiles = Collections.unmodifiableList(tileDeck.subList(0, 3));
         var validPos =
             board
                 .getValidEmptyPositions()
                 .collect(Collectors.toList());
-        TilePosition tilePosition = dm.chooseTilePosition(validPos, chosenTile);
-        if (!validPos.contains(tilePosition))
+        var chosenTile = dm.chooseTile(validTiles, validPos);
+        if (!validTiles.contains(chosenTile.first))
+        {
+            throwError(new IllegalArgumentException("Invalid tile chosen"));
+            return;
+        }
+        if (!validPos.contains(chosenTile.second))
         {
             throwError(new IllegalArgumentException("Position of tile given is invalid"));
             return;
         }
-        board.addTile(chosenTile, tilePosition, bambooReserve);
-        tileDeck.remove(chosenTile);
+        board.addTile(chosenTile.first, chosenTile.second, bambooReserve);
+        tileDeck.remove(chosenTile.first);
     }
 
     private Stream<Objective> findCompletableObjectives(Player player)

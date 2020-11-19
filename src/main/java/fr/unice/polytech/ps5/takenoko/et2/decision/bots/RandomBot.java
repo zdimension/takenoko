@@ -7,6 +7,7 @@ import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
+import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
 import java.util.List;
 import java.util.Random;
@@ -47,15 +48,9 @@ public class RandomBot extends DecisionMaker
     }
 
     @Override
-    public LandTile chooseTile(List<LandTile> drawnTiles)
+    public Pair<LandTile, TilePosition> chooseTile(List<LandTile> drawnTiles, List<TilePosition> validPos)
     {
-        return randomElement(drawnTiles);
-    }
-
-    @Override
-    public TilePosition chooseTilePosition(List<TilePosition> validPos, LandTile tile)
-    {
-        return randomElement(validPos);
+        return Pair.of(randomElement(drawnTiles), randomElement(validPos));
     }
 
     @Override
