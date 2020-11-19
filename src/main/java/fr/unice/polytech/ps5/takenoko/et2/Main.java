@@ -9,11 +9,21 @@ import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
 
 public class Main
 {
     public static void main(String... args) throws Exception
     {
+        // console log format
+        System.setProperty("java.util.logging.SimpleFormatter.format",
+            "%1$tF %1$tT %4$s %3$s : %5$s%6$s%n");
+
+        // only show warnings
+        Arrays.stream(LogManager.getLogManager().getLogger("").getHandlers())
+            .forEach(h -> h.setLevel(Level.WARNING));
+
         var land = new ArrayList<LandTile>();
         for (var i = 0; i < 11; i++)
         {
@@ -81,11 +91,11 @@ public class Main
             //RandomBot::new
         );
         var freq = new int[players.size()];
-        var N = 1000;
+        final var N = 1000;
         var Nempty = 0;
         for (var i = 0; i < N; i++)
         {
-            if (i % 1000 == 0)
+            if (i % (N / 10) == 0)
             {
                 System.out.println(i);
             }

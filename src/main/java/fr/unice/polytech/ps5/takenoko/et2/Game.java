@@ -9,12 +9,16 @@ import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Game
 {
+    private static final Logger LOGGER = Logger.getLogger(Game.class.getSimpleName());
+
     private static final int numberActionsInTurn = 2;
     private static final Map<Integer, Integer> objectiveThreshold = Map.of(
         2, 9,
@@ -123,6 +127,7 @@ public class Game
 
         do
         {
+            LOGGER.log(Level.INFO, "Turn of player {0}'", i);
             var player = playerList.get(i);
             if (player.isHasTriggeredEmperor())
             {
@@ -181,6 +186,7 @@ public class Game
 
                 if (base.isEmpty())
                 {
+                    LOGGER.log(Level.WARNING, "Dead-end game");
                     return Collections.emptyList();
                 }
 
@@ -190,6 +196,8 @@ public class Game
                 {
                     throwError(new DecisionMakerException("Invalid action"));
                 }
+
+                LOGGER.log(Level.INFO, "Action chosen: {0}", action == null ? "<end turn>" : action.toString());
 
                 if (action == null)
                 {
@@ -349,7 +357,7 @@ public class Game
         Objects.requireNonNull(exc, "exc must not be null");
         if (true)
         {
-            System.err.printf("GAME ERROR: %s%n", exc.getMessage());
+            LOGGER.log(Level.SEVERE, "GAME ERROR: {0}", exc.getMessage());
         }
         else
         {
