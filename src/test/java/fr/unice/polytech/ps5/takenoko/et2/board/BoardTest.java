@@ -76,4 +76,14 @@ class BoardTest
             }
         }
     }
+
+    @Test
+    void LandTileTest()
+    {
+        LandTile l1 = new LandTile(Color.GREEN);
+        LandTile l2 = new LandTile(Color.GREEN);
+        LandTile l3 = new LandTile(Color.PINK);
+        assertTrue(l1.equals(l2));
+        assertFalse(l1.equals(l3));
+    }
 }

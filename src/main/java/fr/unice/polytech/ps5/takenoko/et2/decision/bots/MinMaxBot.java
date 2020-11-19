@@ -1,6 +1,5 @@
 package fr.unice.polytech.ps5.takenoko.et2.decision.bots;
 
-import fr.unice.polytech.ps5.takenoko.et2.BambooSection;
 import fr.unice.polytech.ps5.takenoko.et2.GameAction;
 import fr.unice.polytech.ps5.takenoko.et2.Player;
 import fr.unice.polytech.ps5.takenoko.et2.board.Board;
@@ -16,9 +15,15 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 public class MinMaxBot extends DecisionMaker
 {
+    /**
+     * Depth of the min-max algorithm: the higher is the slower and the stronger
+     */
+    static final int DEPTH = 2;
+
     /**
      * Class constructor
      *
@@ -69,19 +74,15 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public Pair<LandTile, TilePosition> chooseTile(List<LandTile> drawnTiles, List<TilePosition> validPos)
     {
+        Pair<LandTile, TilePosition> pairMaxPoints = null;
+        int maxPoints = 0;
         for (LandTile landTile : drawnTiles)
         {
             for (TilePosition position : validPos)
             {
-                Board b2 = (Board) player.getGame().getBoard().clone();
-                List<BambooSection> listBambooReserv = new ArrayList<>();
-                for (BambooSection bambooSection : player.getGame().getBambooReserve())
-                {
-                    listBambooReserv.add(new BambooSection(bambooSection.getColor()));
-                }
+                /*Board b2 = (Board) player.getGame().getBoard().clone();
+                List<BambooSection> listBambooReserv = cloneBambooReserv(player.getGame().getBambooReserve());
                 b2.addTile((LandTile) landTile.clone(), position, listBambooReserv);
-                Pair<LandTile, TilePosition> pairMaxPoints = null;
-                int maxPoints = 0;
                 for (Objective objective : player.getHand())
                 {
                     if (objective instanceof PlotObjective)
@@ -96,12 +97,18 @@ public class MinMaxBot extends DecisionMaker
                             }
                         }
                     }
-                }
-                if (pairMaxPoints != null)
+                }*/
+                int actionEvaluated = evaluteAction(landTile, position, drawnTiles, player.getGame().getBoard(), player.getHand(), DEPTH, true);
+                if (actionEvaluated > maxPoints)
                 {
-                    return pairMaxPoints;
+                    maxPoints = actionEvaluated;
+                    pairMaxPoints = Pair.of(landTile, position);
                 }
             }
+        }
+        if (pairMaxPoints != null)
+        {
+            return pairMaxPoints;
         }
         return Pair.of(drawnTiles.get(0), validPos.get(0));
     }
@@ -123,4 +130,65 @@ public class MinMaxBot extends DecisionMaker
     {
         return valid.get(0);
     }
+
+    private int evaluteAction(LandTile playedTile, TilePosition playedPos, List<LandTile> drawnTiles, Board board, List<Objective> myObjectives, int n, boolean myTurn)
+    {
+        List<Objective> copyOfMyObjectives = new ArrayList<>();
+        copyOfMyObjectives.addAll(myObjectives);
+        List<LandTile> copyOfDrawnTiles = new ArrayList<>();
+        copyOfDrawnTiles.addAll(drawnTiles);
+        for (int i = 0; i < copyOfDrawnTiles.size(); i++)
+        {
+            if (copyOfDrawnTiles.get(i).equals(playedTile))
+            {
+                copyOfDrawnTiles.remove(i);
+                break;
+            }
+        }
+        long power = (int) Math.pow(Double.valueOf(100), Double.valueOf(n));
+        Board newBoard = (Board) board.clone();
+        newBoard.addTile(playedTile, playedPos, cloneBambooReserv(player.getGame().getBambooReserve()));
+        int scoreReturn = 0;
+        if (myTurn)
+        {
+            int max = 0;
+            int maxI = -1;
+            for (int i = 0; i < copyOfMyObjectives.size(); i++)
+            {
+                if (!(copyOfMyObjectives.get(i) instanceof PlotObjective))
+                {
+                    continue;
+                }
+                PlotObjective plotObjective = (PlotObjective) copyOfMyObjectives.get(i);
+                if (plotObjective.checkValidated(newBoard))
+                {
+                    if (max < plotObjective.getPoints())
+                    {
+                        max = plotObjective.getPoints();
+                        maxI = i;
+                    }
+                }
+            }
+            if (maxI != -1)
+            {
+                copyOfMyObjectives.remove(maxI);
+            }
+            scoreReturn += max * power;
+        }
+        if (n == 0)
+        {
+            return scoreReturn;
+        }
+        power = power / 100;
+        List<TilePosition> listValidsPositions = newBoard.getValidEmptyPositions().collect(Collectors.toList());
+        for (TilePosition tilePosition : listValidsPositions)
+        {
+            for (LandTile landTile : copyOfDrawnTiles)
+            {
+                scoreReturn -= evaluteAction(landTile, tilePosition, copyOfDrawnTiles, newBoard, copyOfMyObjectives, n - 1, !myTurn) * power;
+            }
+        }
+        return scoreReturn;
+    }
+
 }

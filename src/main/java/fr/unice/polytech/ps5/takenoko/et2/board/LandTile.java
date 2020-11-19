@@ -98,6 +98,16 @@ public class LandTile extends Tile implements Cloneable
         return (Object) o;
     }
 
+    public boolean equals(Object o)
+    {
+        if (!(o instanceof LandTile))
+        {
+            return false;
+        }
+        LandTile landTile = (LandTile) o;
+        return (landTile.color.equals(color)); // TODO
+    }
+
     /**
      * @return a String describing the LandTile
      */
