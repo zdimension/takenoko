@@ -14,7 +14,6 @@ import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 public class MinMaxBot extends DecisionMaker
 {
@@ -35,7 +34,7 @@ public class MinMaxBot extends DecisionMaker
         {
             return GameAction.COMPLETE_OBJECTIVE;
         }
-        if (base.contains(GameAction.DRAW_OBJECTIVE) && player.getHand().size() < 6)
+        if (base.contains(GameAction.DRAW_OBJECTIVE)/* && player.getHand().size() < 6*/)
         {
             return GameAction.DRAW_OBJECTIVE;
         }

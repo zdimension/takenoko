@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * Land plot tile.
  */
-public class LandTile extends Tile
+public class LandTile extends Tile implements Cloneable
 {
     /**
      * Color of the land.
@@ -35,7 +35,7 @@ public class LandTile extends Tile
      * @return if success or failure to add bambooSection to tile
      * @throws Exception
      */
-    public boolean growBambooSection(BambooSection bambooSection) throws Exception
+    public boolean growBambooSection(BambooSection bambooSection) throws IllegalArgumentException
     {
         if (bamboo.size() == maxBambooSize || !isIrrigated())
         {
@@ -70,12 +70,38 @@ public class LandTile extends Tile
     {
         for (Edge edge : edges)
         {
+            if (edge == null)
+            {
+                continue;
+            }
             if (edge.isIrrigated() || (edge.getOther(this) instanceof PondTile))
             {
                 return true;
             }
         }
         return false;
+    }
+
+    public List<BambooSection> getBamboo()
+    {
+        return bamboo;
+    }
+
+    public Object clone()
+    {
+        LandTile o = new LandTile(color);
+        for (BambooSection bambooSection : bamboo)
+        {
+            try
+            {
+                o.growBambooSection(new BambooSection(bambooSection.getColor()));
+            }
+            catch (IllegalArgumentException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return (Object) o;
     }
 
     /**
