@@ -14,7 +14,7 @@ import java.util.Objects;
 /**
  * The class representing the player.
  */
-public class Player implements Cloneable
+public class Player
 {
     private final List<Objective> hand = new ArrayList<>();
     private final List<Objective> objectivesCompleted = new ArrayList<>();
@@ -181,19 +181,4 @@ public class Player implements Cloneable
         }
         return playerString.toString();
     }
-
-    public Object clone()
-    {
-        Object o = null;
-        try
-        {
-            o = super.clone();
-        }
-        catch (CloneNotSupportedException cnse)
-        {
-            cnse.printStackTrace(System.err);
-        }
-        return o;
-    }
-
 }

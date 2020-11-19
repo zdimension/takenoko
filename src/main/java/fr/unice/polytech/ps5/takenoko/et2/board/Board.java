@@ -24,6 +24,7 @@ public class Board implements Cloneable
     ));
     private final PondTile center;
     private final Map<TilePosition, Tile> tileCache;
+    private final List<TilePosition> orderAdd = new ArrayList<>();
 
     /**
      * Initializes a Board instance.
@@ -178,6 +179,7 @@ public class Board implements Cloneable
             }
         }
 
+        orderAdd.add(pos);
         return true;
     }
 
@@ -212,14 +214,39 @@ public class Board implements Cloneable
 
     public Object clone()
     {
-        Object o = null;
+        //return this;
+        Board o = new Board();
+        if (tileCache.size() != orderAdd.size() + 1)
+        {
+            System.out.println("Err size");
+        }
         try
         {
-            o = super.clone();
+            for (TilePosition tilePosition : orderAdd)
+            {
+                Tile oldTile = tileCache.get(tilePosition);
+                if (!(oldTile instanceof LandTile))
+                {
+                    continue;
+                }
+                LandTile newLandTile = (LandTile) ((LandTile) oldTile).clone();
+                if (!o.addTile(newLandTile, tilePosition, new ArrayList<>()))
+                {
+                    System.err.println("Error in board.clone()");
+                }
+                for (int i = 0; i < 6; i++)
+                {
+                    if (oldTile.getEdge(i).isIrrigated())
+                    {
+                        newLandTile.getEdge(i).irrigated = true;
+                    }
+                }
+            }
         }
-        catch (CloneNotSupportedException cnse)
+        catch (Exception e)
         {
-            cnse.printStackTrace(System.err);
+            e.printStackTrace();
+            return null;
         }
         return o;
     }

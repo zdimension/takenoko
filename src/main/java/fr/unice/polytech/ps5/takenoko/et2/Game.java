@@ -137,7 +137,7 @@ public class Game
             var dm = player.getDecisionMaker();
 
             int remaining = 2;
-            var actions = Arrays.asList(GameAction.values());
+            var actions = new ArrayList<>(Arrays.asList(GameAction.values()));
             var unlimited = actions
                 .stream()
                 .filter(GameAction::isUnlimited).collect(Collectors.toCollection(ArrayList::new));
@@ -208,6 +208,7 @@ public class Game
 
                 if (handler != null)
                 {
+                    actions.remove(action); // player has to choose two different actions
                     handler.accept(player);
                 }
                 else

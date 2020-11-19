@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * Land plot tile.
  */
-public class LandTile extends Tile
+public class LandTile extends Tile implements Cloneable
 {
     /**
      * Color of the land.
@@ -33,9 +33,9 @@ public class LandTile extends Tile
     /**
      * @param bambooSection to add to Tile
      * @return if success or failure to add bambooSection to tile
-     * @throws Exception
+     * @throws IllegalArgumentException if the BambooSection isn't correct
      */
-    public boolean growBambooSection(BambooSection bambooSection) throws Exception
+    public boolean growBambooSection(BambooSection bambooSection) throws IllegalArgumentException
     {
         if (bamboo.size() == maxBambooSize || !isIrrigated())
         {
@@ -70,6 +70,10 @@ public class LandTile extends Tile
     {
         for (Edge edge : edges)
         {
+            if (edge == null)
+            {
+                continue;
+            }
             if (edge.isIrrigated() || (edge.getOther(this) instanceof PondTile))
             {
                 return true;
@@ -78,12 +82,38 @@ public class LandTile extends Tile
         return false;
     }
 
+    public List<BambooSection> getBamboo()
+    {
+        return bamboo;
+    }
+
+    public Object clone()
+    {
+        LandTile o = new LandTile(color);
+        o.bamboo.clear();
+        for (BambooSection bambooSection : bamboo)
+        {
+            o.bamboo.add(new BambooSection(bambooSection.getColor()));
+        }
+        return (Object) o;
+    }
+
+    public boolean equals(Object o)
+    {
+        if (!(o instanceof LandTile))
+        {
+            return false;
+        }
+        LandTile landTile = (LandTile) o;
+        return (landTile.color.equals(color)); // TODO
+    }
+
     /**
      * @return a String describing the LandTile
      */
     @Override
     public String toString()
     {
-        return "[Land tile, " + this.color + "]";
+        return "[Land tile, " + this.color + ", " + isIrrigated() + ", " + bamboo + "]";
     }
 }
