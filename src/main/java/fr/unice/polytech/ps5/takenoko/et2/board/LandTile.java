@@ -33,7 +33,7 @@ public class LandTile extends Tile implements Cloneable
     /**
      * @param bambooSection to add to Tile
      * @return if success or failure to add bambooSection to tile
-     * @throws Exception
+     * @throws IllegalArgumentException if the BambooSection isn't correct
      */
     public boolean growBambooSection(BambooSection bambooSection) throws IllegalArgumentException
     {

@@ -80,6 +80,8 @@ public class MinMaxBot extends DecisionMaker
                     listBambooReserv.add(new BambooSection(bambooSection.getColor()));
                 }
                 b2.addTile((LandTile) landTile.clone(), position, listBambooReserv);
+                Pair<LandTile, TilePosition> pairMaxPoints = null;
+                int maxPoints = 0;
                 for (Objective objective : player.getHand())
                 {
                     if (objective instanceof PlotObjective)
@@ -87,9 +89,17 @@ public class MinMaxBot extends DecisionMaker
                         PlotObjective plotObjective = (PlotObjective) objective;
                         if (plotObjective.checkValidated(b2))
                         {
-                            return Pair.of(landTile, position);
+                            if (plotObjective.getPoints() > maxPoints)
+                            {
+                                maxPoints = plotObjective.getPoints();
+                                pairMaxPoints = Pair.of(landTile, position);
+                            }
                         }
                     }
+                }
+                if (pairMaxPoints != null)
+                {
+                    return pairMaxPoints;
                 }
             }
         }
