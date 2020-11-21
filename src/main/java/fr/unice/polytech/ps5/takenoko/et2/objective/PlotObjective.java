@@ -74,7 +74,7 @@ public class PlotObjective extends Objective
                 continue; // useless to evaluate
             }
             LandTile landTile = (LandTile) entry.getValue();
-            if (landTile.getColor() == listColors.get(0)) // If we have found a Tile with the right color
+            if (landTile.getColor() == listColors.get(0) && landTile.isIrrigated()) // If we have found a Tile with the right color
             { // this is a match^^
                 if (checkValidatedSpecificRotationFromOneTile(landTile))
                 { // We can check if all the path is ok
@@ -99,7 +99,8 @@ public class PlotObjective extends Objective
             {
                 return false;
             }
-            if (((LandTile) landTileNeighbour).getColor() != listColors.get(i))
+            LandTile landTile = (LandTile) landTileNeighbour;
+            if (landTile.getColor() != listColors.get(i) || !landTile.isIrrigated())
             {
                 return false;
             }

@@ -110,9 +110,12 @@ public class PlotObjectiveTest
     @Test
     void ObjectiveWithThreePlotsTest1()
     {
-        board.addTile(new LandTile(Color.YELLOW), new TilePosition(0, 1), new ArrayList<BambooSection>());
-        board.addTile(new LandTile(Color.GREEN), new TilePosition(1, 0), new ArrayList<BambooSection>());
-        board.addTile(new LandTile(Color.YELLOW), new TilePosition(1, 1), new ArrayList<BambooSection>());
+        LandTile l1 = new LandTile(Color.YELLOW), l2 = new LandTile(Color.GREEN), l3 = new LandTile(Color.YELLOW);
+        board.addTile(l1, new TilePosition(0, 1), new ArrayList<BambooSection>());
+        board.addTile(l2, new TilePosition(1, 0), new ArrayList<BambooSection>());
+        board.addTile(l3, new TilePosition(1, 1), new ArrayList<BambooSection>());
+        board.getEdgeBetweenTwoTiles(l1, l2).addIrrigation();
+        board.getEdgeBetweenTwoTiles(l2, l3).addIrrigation();
         try
         {
             PlotObjective plotObjective1 = new PlotObjective(5, List.of(Color.GREEN, Color.YELLOW), List.of(0));
@@ -185,10 +188,14 @@ public class PlotObjectiveTest
     @Test
     void ObjectiveWithFourPlotsTest1()
     {
-        board.addTile(new LandTile(Color.YELLOW), new TilePosition(-1, 0), new ArrayList<BambooSection>());
-        board.addTile(new LandTile(Color.GREEN), new TilePosition(-1, 1), new ArrayList<BambooSection>());
-        board.addTile(new LandTile(Color.PINK), new TilePosition(-2, 1), new ArrayList<BambooSection>());
-        board.addTile(new LandTile(Color.GREEN), new TilePosition(-2, 2), new ArrayList<BambooSection>());
+        LandTile l1 = new LandTile(Color.YELLOW), l2 = new LandTile(Color.GREEN), l3 = new LandTile(Color.PINK), l4 = new LandTile(Color.GREEN);
+        board.addTile(l1, new TilePosition(-1, 0), new ArrayList<BambooSection>());
+        board.addTile(l2, new TilePosition(-1, 1), new ArrayList<BambooSection>());
+        board.addTile(l3, new TilePosition(-2, 1), new ArrayList<BambooSection>());
+        board.addTile(l4, new TilePosition(-2, 2), new ArrayList<BambooSection>());
+        board.getEdgeBetweenTwoTiles(l1, l2).addIrrigation();
+        board.getEdgeBetweenTwoTiles(l2, l3).addIrrigation();
+        board.getEdgeBetweenTwoTiles(l3, l4).addIrrigation();
         try
         {
             PlotObjective plotObjective1 = new PlotObjective(5, List.of(Color.YELLOW, Color.GREEN, Color.PINK, Color.GREEN), List.of(0, 4, 0));
@@ -216,23 +223,44 @@ public class PlotObjectiveTest
     @Test
     void realObjectivePlotTest() // https://startyourmeeples.com/2019/05/26/which-are-the-best-takenoko-objective-cards/
     {
-        assertTrue(board.addTile(new LandTile(Color.GREEN), new TilePosition(0, 1), new ArrayList<BambooSection>())); // Take care of the order^^
-        assertTrue(board.addTile(new LandTile(Color.PINK), new TilePosition(1, 0), new ArrayList<BambooSection>()));
-        assertTrue(board.addTile(new LandTile(Color.YELLOW), new TilePosition(1, -1), new ArrayList<BambooSection>()));
-        assertTrue(board.addTile(new LandTile(Color.YELLOW), new TilePosition(0, -1), new ArrayList<BambooSection>()));
-        assertTrue(board.addTile(new LandTile(Color.YELLOW), new TilePosition(-1, 0), new ArrayList<BambooSection>()));
-        assertTrue(board.addTile(new LandTile(Color.GREEN), new TilePosition(-1, 1), new ArrayList<BambooSection>()));
+        LandTile l1 = new LandTile(Color.GREEN), l2 = new LandTile(Color.PINK), l3 = new LandTile(Color.YELLOW), l4 = new LandTile(Color.YELLOW), l5 = new LandTile(Color.YELLOW), l6 = new LandTile(Color.GREEN);
+        assertTrue(board.addTile(l1, new TilePosition(0, 1), new ArrayList<BambooSection>())); // Take care of the order^^
+        assertTrue(board.addTile(l2, new TilePosition(1, 0), new ArrayList<BambooSection>()));
+        assertTrue(board.addTile(l3, new TilePosition(1, -1), new ArrayList<BambooSection>()));
+        assertTrue(board.addTile(l4, new TilePosition(0, -1), new ArrayList<BambooSection>()));
+        assertTrue(board.addTile(l5, new TilePosition(-1, 0), new ArrayList<BambooSection>()));
+        assertTrue(board.addTile(l6, new TilePosition(-1, 1), new ArrayList<BambooSection>()));
+        board.getEdgeBetweenTwoTiles(l1, l2).addIrrigation();
+        board.getEdgeBetweenTwoTiles(l2, l3).addIrrigation();
+        board.getEdgeBetweenTwoTiles(l3, l4).addIrrigation();
+        board.getEdgeBetweenTwoTiles(l4, l5).addIrrigation();
+        board.getEdgeBetweenTwoTiles(l5, l6).addIrrigation();
+        board.getEdgeBetweenTwoTiles(l6, l1).addIrrigation();
 
-        assertTrue(board.addTile(new LandTile(Color.GREEN), new TilePosition(-2, 1), new ArrayList<BambooSection>()));
-        assertTrue(board.addTile(new LandTile(Color.YELLOW), new TilePosition(-2, 2), new ArrayList<BambooSection>()));
-        assertTrue(board.addTile(new LandTile(Color.GREEN), new TilePosition(-2, 0), new ArrayList<BambooSection>()));
-        assertTrue(board.addTile(new LandTile(Color.YELLOW), new TilePosition(-1, -1), new ArrayList<BambooSection>()));
+        LandTile l7 = new LandTile(Color.GREEN), l8 = new LandTile(Color.YELLOW), l9 = new LandTile(Color.GREEN), l10 = new LandTile(Color.YELLOW);
+        assertTrue(board.addTile(l7, new TilePosition(-2, 1), new ArrayList<BambooSection>()));
+        assertTrue(board.addTile(l8, new TilePosition(-2, 2), new ArrayList<BambooSection>()));
+        assertTrue(board.addTile(l9, new TilePosition(-2, 0), new ArrayList<BambooSection>()));
+        assertTrue(board.addTile(l10, new TilePosition(-1, -1), new ArrayList<BambooSection>()));
+        board.getEdgeBetweenTwoTiles(l5, l10).addIrrigation();
+        board.getEdgeBetweenTwoTiles(l5, l9).addIrrigation();
+        board.getEdgeBetweenTwoTiles(l5, l7).addIrrigation();
+        board.getEdgeBetweenTwoTiles(l6, l7).addIrrigation();
+        board.getEdgeBetweenTwoTiles(l7, l8).addIrrigation();
 
-        assertTrue(board.addTile(new LandTile(Color.PINK), new TilePosition(1, 1), new ArrayList<BambooSection>()));
-        assertTrue(board.addTile(new LandTile(Color.PINK), new TilePosition(2, 0), new ArrayList<BambooSection>()));
-        assertTrue(board.addTile(new LandTile(Color.GREEN), new TilePosition(2, 1), new ArrayList<BambooSection>()));
-        assertTrue(board.addTile(new LandTile(Color.PINK), new TilePosition(2, -1), new ArrayList<BambooSection>()));
-        assertTrue(board.addTile(new LandTile(Color.PINK), new TilePosition(2, -2), new ArrayList<BambooSection>()));
+        LandTile l11 = new LandTile(Color.PINK), l12 = new LandTile(Color.PINK), l13 = new LandTile(Color.GREEN), l14 = new LandTile(Color.PINK), l15 = new LandTile(Color.PINK);
+        assertTrue(board.addTile(l11, new TilePosition(1, 1), new ArrayList<BambooSection>()));
+        assertTrue(board.addTile(l12, new TilePosition(2, 0), new ArrayList<BambooSection>()));
+        assertTrue(board.addTile(l13, new TilePosition(2, 1), new ArrayList<BambooSection>()));
+        assertTrue(board.addTile(l14, new TilePosition(2, -1), new ArrayList<BambooSection>()));
+        assertTrue(board.addTile(l15, new TilePosition(2, -2), new ArrayList<BambooSection>()));
+        board.getEdgeBetweenTwoTiles(l2, l11).addIrrigation();
+        board.getEdgeBetweenTwoTiles(l11, l12).addIrrigation();
+        board.getEdgeBetweenTwoTiles(l11, l13).addIrrigation();
+        board.getEdgeBetweenTwoTiles(l2, l12).addIrrigation();
+        board.getEdgeBetweenTwoTiles(l2, l14).addIrrigation();
+        board.getEdgeBetweenTwoTiles(l3, l14).addIrrigation();
+        board.getEdgeBetweenTwoTiles(l3, l15).addIrrigation();
         try
         {
             PlotObjective plotObjective1 = new PlotObjective(2, List.of(Color.GREEN, Color.GREEN, Color.GREEN), List.of(0, 1));

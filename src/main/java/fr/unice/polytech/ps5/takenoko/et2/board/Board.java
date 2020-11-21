@@ -183,7 +183,7 @@ public class Board implements Cloneable
         return true;
     }
 
-    Edge getEdgeBetweenTwoTiles(Tile t1, Tile t2)
+    public Edge getEdgeBetweenTwoTiles(Tile t1, Tile t2)
     {
         for (int i = 0; i < 6; i++)
         {
