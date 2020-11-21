@@ -33,7 +33,7 @@ public class LandTile extends Tile implements Cloneable
     /**
      * @param bambooSection to add to Tile
      * @return if success or failure to add bambooSection to tile
-     * @throws Exception
+     * @throws IllegalArgumentException if the BambooSection isn't correct
      */
     public boolean growBambooSection(BambooSection bambooSection) throws IllegalArgumentException
     {
@@ -90,18 +90,22 @@ public class LandTile extends Tile implements Cloneable
     public Object clone()
     {
         LandTile o = new LandTile(color);
+        o.bamboo.clear();
         for (BambooSection bambooSection : bamboo)
         {
-            try
-            {
-                o.growBambooSection(new BambooSection(bambooSection.getColor()));
-            }
-            catch (IllegalArgumentException e)
-            {
-                e.printStackTrace();
-            }
+            o.bamboo.add(new BambooSection(bambooSection.getColor()));
         }
         return (Object) o;
+    }
+
+    public boolean equals(Object o)
+    {
+        if (!(o instanceof LandTile))
+        {
+            return false;
+        }
+        LandTile landTile = (LandTile) o;
+        return (landTile.color.equals(color)); // TODO
     }
 
     /**
@@ -110,6 +114,6 @@ public class LandTile extends Tile implements Cloneable
     @Override
     public String toString()
     {
-        return "[Land tile, " + this.color + "]";
+        return "[Land tile, " + this.color + ", " + isIrrigated() + ", " + bamboo + "]";
     }
 }

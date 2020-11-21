@@ -161,25 +161,21 @@ public class Board implements Cloneable
             }
         }
 
-        //if the tile is put next to th PondTile, a BambooSection grows on it
-        for (Edge edge : tile.edges)
+
+        var res = bambooReserve.stream().filter(b -> b.getColor().equals(tile.getColor())).findAny();
+        if (res.isPresent())
         {
-            if (edge.getOther(tile) instanceof PondTile)
+            var bambooSection = res.get();
+            try
             {
-                var res = bambooReserve.stream().filter(b -> b.getColor().equals(tile.getColor())).findAny();
-                if (res.isEmpty())
+                if (tile.growBambooSection(bambooSection))
                 {
-                    break;
+                    bambooReserve.remove(bambooSection);
                 }
-                var bambooSection = res.get();
-                try
-                {
-                    tile.growBambooSection(bambooSection);
-                }
-                catch (Exception e)
-                {
-                    //Do nothing
-                }
+            }
+            catch (Exception e)
+            {
+                //Do nothing
             }
         }
 
@@ -218,28 +214,40 @@ public class Board implements Cloneable
 
     public Object clone()
     {
-        return this;
-        /*Board o = new Board();
+        //return this;
+        Board o = new Board();
+        if (tileCache.size() != orderAdd.size() + 1)
+        {
+            System.out.println("Err size");
+        }
         try
         {
             for (TilePosition tilePosition : orderAdd)
             {
-                Tile tileToAdd = tileCache.get(tilePosition);
-                if (!(tileToAdd instanceof LandTile))
+                Tile oldTile = tileCache.get(tilePosition);
+                if (!(oldTile instanceof LandTile))
                 {
                     continue;
                 }
-                if (!o.addTile(((LandTile) ((LandTile) tileToAdd).clone()), tilePosition, new ArrayList<BambooSection>()))
+                LandTile newLandTile = (LandTile) ((LandTile) oldTile).clone();
+                if (!o.addTile(newLandTile, tilePosition, new ArrayList<>()))
                 {
                     System.err.println("Error in board.clone()");
                 }
+                for (int i = 0; i < 6; i++)
+                {
+                    if (oldTile.getEdge(i).isIrrigated())
+                    {
+                        newLandTile.getEdge(i).irrigated = true;
+                    }
+                }
             }
         }
-        catch (IllegalStateException e)
+        catch (Exception e)
         {
             e.printStackTrace();
             return null;
         }
-        return (Object) o;*/
+        return o;
     }
 }

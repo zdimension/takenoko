@@ -93,15 +93,15 @@ public class Main
             //RandomBot::new
         );
         var freq = new int[players.size()];
-        final var N = 1000;
+        final var N = 100;
         var Nempty = 0;
         var start = Instant.now();
         for (var i = 0; i < N; i++)
         {
-            if (i % (N / 10) == 0)
-            {
-                System.out.println(i);
-            }
+            //if (i % (N / 100) == 0)
+            //{
+            System.out.println(i);
+            //}
             var game = new Game(objectives, land);
             for (DecisionMakerBuilder player : players)
             {
