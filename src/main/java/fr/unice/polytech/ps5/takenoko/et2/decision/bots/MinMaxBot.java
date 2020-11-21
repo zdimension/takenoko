@@ -7,6 +7,7 @@ import fr.unice.polytech.ps5.takenoko.et2.board.Edge;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
+import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
@@ -22,16 +23,22 @@ public class MinMaxBot extends DecisionMaker
     /**
      * Depth of the min-max algorithm: the higher is the slower and the stronger
      */
-    static final int DEPTH = 2;
+    private final int depth;
 
     /**
      * Class constructor
      *
      * @param player The player for the Bot
      */
-    public MinMaxBot(Player player)
+    public MinMaxBot(Player player, int depth)
     {
         super(player);
+        this.depth = depth;
+    }
+
+    public static DecisionMakerBuilder getBuilder(int depth)
+    {
+        return p -> new MinMaxBot(p, depth);
     }
 
     @Override
@@ -89,7 +96,7 @@ public class MinMaxBot extends DecisionMaker
                         }
                     }
                 }*/
-                int actionEvaluated = evaluteAction(landTile, position, drawnTiles, player.getGame().getBoard().getValidEmptyPositions().collect(Collectors.toList()), player.getGame().getBoard(), player.getHand(), DEPTH, true);
+                int actionEvaluated = evaluteAction(landTile, position, drawnTiles, player.getGame().getBoard().getValidEmptyPositions().collect(Collectors.toList()), player.getGame().getBoard(), player.getHand(), depth, true);
                 if (actionEvaluated > maxPoints)
                 {
                     maxPoints = actionEvaluated;

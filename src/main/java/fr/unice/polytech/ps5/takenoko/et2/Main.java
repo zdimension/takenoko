@@ -62,7 +62,7 @@ public class Main
 
         var players = List.<DecisionMakerBuilder>of(
             //MinMaxBot::new,
-            MinMaxBot::new,
+            MinMaxBot.getBuilder(2),
             //RandomBot::new,
             RandomBot::new
         );
