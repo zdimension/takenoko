@@ -25,8 +25,8 @@ public class Game
         3, 8,
         4, 7
     );
-    private static int minNumberOfPlayers = 2;
-    private static int maxNumberOfPlayers = 4;
+    private static final int minNumberOfPlayers = 2;
+    private static final int maxNumberOfPlayers = 4;
     private final Board board;
     private final Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks = new HashMap<>();
     private final List<LandTile> tileDeck;

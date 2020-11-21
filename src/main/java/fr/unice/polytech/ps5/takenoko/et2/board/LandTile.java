@@ -17,7 +17,7 @@ public class LandTile extends Tile implements Cloneable
      */
     private final Color color;
     private final List<BambooSection> bamboo;
-    private static int maxBambooSize = 4;
+    private static final int maxBambooSize = 4;
 
     public LandTile(Color color)
     {
