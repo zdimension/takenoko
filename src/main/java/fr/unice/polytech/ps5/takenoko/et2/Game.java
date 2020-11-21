@@ -439,11 +439,17 @@ public class Game
         return board.getTiles().keySet().stream()
             .filter(pos ->
             {
+                // prevent the player from moving the gardener to the position it already occupies
+                if (pos.equals(gardenerPosition))
+                    return false;
+
                 var basis = pos.sub(gardenerPosition).getBasis();
 
+                // prevent from moving to a position not in a straight line from the current position
                 if (basis == null)
                     return false;
 
+                // check that the line is full, i.e. there are no "holes"
                 for (var initial = gardenerPosition; initial != pos; initial = initial.add(basis))
                 {
                     if (!board.getTiles().containsKey(initial))
