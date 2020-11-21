@@ -8,24 +8,19 @@ import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
+import java.util.logging.Logger;
+import java.util.stream.IntStream;
 
 public class Main
 {
-    public static void main(String... args) throws Exception
+    private static final Logger LOGGER = Logger.getLogger(Main.class.getSimpleName());
+
+    static Game getDefaultData() throws Exception
     {
-        // console log format
-        System.setProperty("java.util.logging.SimpleFormatter.format",
-            "%1$tF %1$tT %4$s %3$s : %5$s%6$s%n");
-
-        // only show warnings
-        Arrays.stream(LogManager.getLogManager().getLogger("").getHandlers())
-            .forEach(h -> h.setLevel(Level.WARNING));
-
         var land = new ArrayList<LandTile>();
         for (var i = 0; i < 11; i++)
         {
@@ -39,93 +34,81 @@ public class Main
         {
             land.add(new LandTile(Color.PINK));
         }
-        var objectives = List.of(
-            new PlotObjective(
-                2, List.of(Color.GREEN, Color.GREEN, Color.GREEN), List.of(0, 2)
-            ),
-            new PlotObjective(
-                2, List.of(Color.GREEN, Color.GREEN, Color.GREEN), List.of(5, 0)
-            ),
-            new PlotObjective(
-                2, List.of(Color.GREEN, Color.GREEN, Color.GREEN), List.of(5, 5)
-            ),
-            new PlotObjective(
-                3, List.of(Color.GREEN, Color.GREEN, Color.GREEN, Color.GREEN), List.of(0, 2, 3)
-            ),
-            new PlotObjective(
-                3, List.of(Color.GREEN, Color.GREEN, Color.YELLOW, Color.YELLOW), List.of(2, 3, 5)
-            ),
-            new PlotObjective(
-                3, List.of(Color.YELLOW, Color.YELLOW, Color.YELLOW), List.of(0, 2)
-            ),
-            new PlotObjective(
-                3, List.of(Color.YELLOW, Color.YELLOW, Color.YELLOW), List.of(5, 0)
-            ),
-            new PlotObjective(
-                3, List.of(Color.YELLOW, Color.YELLOW, Color.YELLOW), List.of(5, 5)
-            ),
-            new PlotObjective(
-                4, List.of(Color.YELLOW, Color.YELLOW, Color.YELLOW, Color.YELLOW), List.of(0, 2, 3)
-            ),
-            new PlotObjective(
-                4, List.of(Color.GREEN, Color.GREEN, Color.PINK, Color.PINK), List.of(2, 3, 5)
-            ),
-            new PlotObjective(
-                4, List.of(Color.PINK, Color.PINK, Color.PINK), List.of(0, 2)
-            ),
-            new PlotObjective(
-                4, List.of(Color.PINK, Color.PINK, Color.PINK), List.of(5, 0)
-            ),
-            new PlotObjective(
-                4, List.of(Color.PINK, Color.PINK, Color.PINK), List.of(5, 5)
-            ),
-            new PlotObjective(
-                5, List.of(Color.PINK, Color.PINK, Color.PINK, Color.PINK), List.of(0, 2, 3)
-            ),
-            new PlotObjective(
-                5, List.of(Color.PINK, Color.PINK, Color.YELLOW, Color.YELLOW), List.of(2, 3, 5)
-            )
-        );
-        var players = List.<DecisionMakerBuilder>of(
-            MinMaxBot::new,
-            //MinMaxBot::new
-            RandomBot::new
-            //RandomBot::new
-        );
-        var freq = new int[players.size()];
-        final var N = 100;
-        var Nempty = 0;
-        var start = Instant.now();
-        for (var i = 0; i < N; i++)
+        var objectives = new ArrayList<PlotObjective>();
+        for (var x : Map.of(Color.GREEN, 2, Color.YELLOW, 3, Color.PINK, 4).entrySet())
         {
-            //if (i % (N / 100) == 0)
-            //{
-            System.out.println(i);
-            //}
-            var game = new Game(objectives, land);
-            for (DecisionMakerBuilder player : players)
+            var color = x.getKey();
+            var score = x.getValue();
+            objectives.add(new PlotObjective(score, Collections.nCopies(3, color), List.of(0, 2)));
+            objectives.add(new PlotObjective(score, Collections.nCopies(3, color), List.of(0, 2)));
+            objectives.add(new PlotObjective(score, Collections.nCopies(3, color), List.of(0, 2)));
+            objectives.add(new PlotObjective(score + 1, Collections.nCopies(4, color), List.of(0, 2, 3)));
+        }
+        objectives.add(new PlotObjective(3, List.of(Color.GREEN, Color.GREEN, Color.YELLOW, Color.YELLOW), List.of(2, 3, 5)));
+        objectives.add(new PlotObjective(4, List.of(Color.GREEN, Color.GREEN, Color.PINK, Color.PINK), List.of(2, 3, 5)));
+        objectives.add(new PlotObjective(5, List.of(Color.PINK, Color.PINK, Color.YELLOW, Color.YELLOW), List.of(2, 3, 5)));
+        return new Game(objectives, land);
+    }
+
+    public static void main(String... args)
+    {
+        // console log format
+        System.setProperty("java.util.logging.SimpleFormatter.format",
+            "%1$tF %1$tT %4$s %3$s : %5$s%6$s%n");
+
+        // only show warnings
+        Arrays.stream(LogManager.getLogManager().getLogger("").getHandlers())
+            .forEach(h -> h.setLevel(Level.SEVERE));
+
+        var players = List.<DecisionMakerBuilder>of(
+            //MinMaxBot::new,
+            MinMaxBot::new,
+            //RandomBot::new,
+            RandomBot::new
+        );
+        var freq = players.stream().map(p -> new AtomicInteger()).toArray(AtomicInteger[]::new);
+        final var N = 10;
+        AtomicInteger Nempty = new AtomicInteger();
+        var start = Instant.now();
+        IntStream.range(0, N).parallel().mapToObj(i ->
+        {
+            try
             {
-                game.addPlayer(player);
+                var game = getDefaultData();
+                for (DecisionMakerBuilder player : players)
+                {
+                    game.addPlayer(player);
+                }
+                LOGGER.info("start " + i);
+                var res = game.gameProcessing();
+                LOGGER.info("end " + i);
+                return res;
             }
-            var res = game.gameProcessing();
+            catch (Exception e)
+            {
+                throw new RuntimeException(e);
+            }
+        }).forEach(res ->
+        {
             if (res.isEmpty())
             {
-                Nempty++;
+                Nempty.getAndIncrement();
             }
             else
             {
                 for (Integer re : res)
                 {
-                    freq[re]++;
+                    freq[re].getAndIncrement();
                 }
             }
-        }
+        });
+        
         var duration = Duration.between(start, Instant.now());
         System.out.printf("Total: %d.%03ds (%.2f games/sec)%n",
             duration.getSeconds(),
             duration.getNano() / 1000000,
             N * 1000000000d / duration.toNanos());
-        System.out.println(Arrays.toString(Arrays.stream(freq).asDoubleStream().map(d -> d / N).toArray()));
-        System.out.printf("%.2f%% dead-ends%n", Nempty * 100.0 / N);
+        System.out.println(Arrays.toString(Arrays.stream(freq).mapToInt(AtomicInteger::get).asDoubleStream().map(d -> d / N).toArray()));
+        System.out.printf("%.2f%% dead-ends%n", Nempty.get() * 100.0 / N);
     }
 }
