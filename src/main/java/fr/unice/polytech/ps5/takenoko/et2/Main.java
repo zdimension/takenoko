@@ -121,10 +121,10 @@ public class Main
             }
         }
         var duration = Duration.between(start, Instant.now());
-        System.out.printf("Total: %d.%03ds (%d games/sec)%n",
+        System.out.printf("Total: %d.%03ds (%.2f games/sec)%n",
             duration.getSeconds(),
             duration.getNano() / 1000000,
-            N * 1000000000L / duration.toNanos());
+            N * 1000000000d / duration.toNanos());
         System.out.println(Arrays.toString(Arrays.stream(freq).asDoubleStream().map(d -> d / N).toArray()));
         System.out.printf("%.2f%% dead-ends%n", Nempty * 100.0 / N);
     }
