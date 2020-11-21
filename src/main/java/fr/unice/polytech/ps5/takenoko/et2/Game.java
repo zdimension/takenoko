@@ -158,7 +158,7 @@ public class Game
                         base.remove(GameAction.DRAW_OBJECTIVE);
                     }
 
-                    if (tileDeck.size() < 3)
+                    if (tileDeck.isEmpty())
                     {
                         base.remove(GameAction.DRAW_TILE);
                     }
@@ -302,7 +302,7 @@ public class Game
     private void drawAndAddTile(Player p)
     {
         DecisionMaker dm = p.getDecisionMaker();
-        var validTiles = Collections.unmodifiableList(tileDeck.subList(0, 3));
+        var validTiles = Collections.unmodifiableList(tileDeck.subList(0, Math.min(tileDeck.size(), 3)));
         var validPos =
             board
                 .getValidEmptyPositions()
