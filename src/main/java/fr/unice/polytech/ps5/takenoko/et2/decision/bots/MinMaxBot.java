@@ -55,18 +55,9 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public Class<? extends Objective> chooseDeck(List<Class<? extends Objective>> available)
     {
-        try
+        if (available.contains(PlotObjective.class))
         {
-            @SuppressWarnings("unchecked")
-            Class<? extends Objective> objectiveClass = (Class<? extends Objective>) Class.forName("fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective");
-            if (available.contains(objectiveClass))
-            {
-                return objectiveClass;
-            }
-        }
-        catch (ClassNotFoundException e)
-        {
-            e.printStackTrace();
+            return PlotObjective.class;
         }
         return available.get(0);
     }
