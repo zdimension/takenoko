@@ -1,13 +1,12 @@
 package fr.unice.polytech.ps5.takenoko.et2;
 
-import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
-import fr.unice.polytech.ps5.takenoko.et2.decision.bots.MinMaxBot;
-import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
+import fr.unice.polytech.ps5.takenoko.et2.decision.bots.RandomBot;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -18,37 +17,6 @@ public class Main
 {
     private static final Logger LOGGER = Logger.getLogger(Main.class.getSimpleName());
 
-    static Game getDefaultData() throws Exception
-    {
-        var land = new ArrayList<LandTile>();
-        for (var i = 0; i < 11; i++)
-        {
-            land.add(new LandTile(Color.GREEN));
-        }
-        for (var i = 0; i < 9; i++)
-        {
-            land.add(new LandTile(Color.YELLOW));
-        }
-        for (var i = 0; i < 7; i++)
-        {
-            land.add(new LandTile(Color.PINK));
-        }
-        var objectives = new ArrayList<PlotObjective>();
-        for (var x : Map.of(Color.GREEN, 2, Color.YELLOW, 3, Color.PINK, 4).entrySet())
-        {
-            var color = x.getKey();
-            var score = x.getValue();
-            objectives.add(new PlotObjective(score, Collections.nCopies(3, color), List.of(0, 2)));
-            objectives.add(new PlotObjective(score, Collections.nCopies(3, color), List.of(0, 2)));
-            objectives.add(new PlotObjective(score, Collections.nCopies(3, color), List.of(0, 2)));
-            objectives.add(new PlotObjective(score + 1, Collections.nCopies(4, color), List.of(0, 2, 3)));
-        }
-        objectives.add(new PlotObjective(3, List.of(Color.GREEN, Color.GREEN, Color.YELLOW, Color.YELLOW), List.of(2, 3, 5)));
-        objectives.add(new PlotObjective(4, List.of(Color.GREEN, Color.GREEN, Color.PINK, Color.PINK), List.of(2, 3, 5)));
-        objectives.add(new PlotObjective(5, List.of(Color.PINK, Color.PINK, Color.YELLOW, Color.YELLOW), List.of(2, 3, 5)));
-        return new Game(objectives, land);
-    }
-
     public static void main(String... args)
     {
         // console log format
@@ -57,28 +25,28 @@ public class Main
 
         // only show warnings
         Arrays.stream(LogManager.getLogManager().getLogger("").getHandlers())
-            .forEach(h -> h.setLevel(Level.INFO));
+            .forEach(h -> h.setLevel(Level.SEVERE));
 
         var players = List.<DecisionMakerBuilder>of(
             //MinMaxBot::new,
-            MinMaxBot.getBuilder(2),
-            MinMaxBot.getBuilder(2),
-            MinMaxBot.getBuilder(2),
-            MinMaxBot.getBuilder(2)
-            //RandomBot::new,
-            //RandomBot::new,
-            //RandomBot::new,
-            //RandomBot::new
+            //MinMaxBot.getBuilder(2),
+            //MinMaxBot.getBuilder(2),
+            //MinMaxBot.getBuilder(2),
+            //MinMaxBot.getBuilder(2),
+            RandomBot::new,
+            RandomBot::new,
+            RandomBot::new,
+            RandomBot::new
         );
         var freq = players.stream().map(p -> new AtomicInteger()).toArray(AtomicInteger[]::new);
-        final var N = 10;
+        final var N = 10000;
         AtomicInteger Nempty = new AtomicInteger();
         var start = Instant.now();
         IntStream.range(0, N).parallel().mapToObj(i ->
         {
             try
             {
-                var game = getDefaultData();
+                var game = GameData.getStandardGame();
                 for (DecisionMakerBuilder player : players)
                 {
                     game.addPlayer(player);

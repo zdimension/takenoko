@@ -25,12 +25,12 @@ public class PlotObjective extends Objective
      * @param listP  A list of directions eg [0, 5, 4, 2]
      * @throws Exception if listC.size() == 0 or listC.size() != listP.size() + 1
      */
-    public PlotObjective(int points, List<Color> listC, List<Integer> listP) throws Exception
+    public PlotObjective(int points, List<Color> listC, List<Integer> listP)
     {
         super(points);
         if (listC.size() == 0 || listC.size() != (listP.size() + 1))
         {
-            throw new Exception("Invalid Objective");
+            throw new IllegalArgumentException("Invalid Objective");
         }
         listColors.addAll(listC);
         listPaths.addAll(listP);

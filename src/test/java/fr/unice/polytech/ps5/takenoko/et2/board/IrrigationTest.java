@@ -1,17 +1,15 @@
 package fr.unice.polytech.ps5.takenoko.et2.board;
 
-import fr.unice.polytech.ps5.takenoko.et2.BambooSection;
 import fr.unice.polytech.ps5.takenoko.et2.Color;
 import fr.unice.polytech.ps5.takenoko.et2.Game;
+import fr.unice.polytech.ps5.takenoko.et2.GameData;
 import fr.unice.polytech.ps5.takenoko.et2.Player;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import fr.unice.polytech.ps5.takenoko.et2.decision.bots.RandomBot;
-import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,28 +24,7 @@ public class IrrigationTest
     {
         try
         {
-            var land = new ArrayList<LandTile>();
-            for (var i = 0; i < 11; i++)
-            {
-                land.add(new LandTile(Color.GREEN));
-            }
-            for (var i = 0; i < 9; i++)
-            {
-                land.add(new LandTile(Color.YELLOW));
-            }
-            for (var i = 0; i < 7; i++)
-            {
-                land.add(new LandTile(Color.PINK));
-            }
-            var objectives = List.of(
-                new PlotObjective(
-                    2, List.of(Color.GREEN, Color.GREEN, Color.GREEN), List.of(0, 2)
-                ),
-                new PlotObjective(
-                    2, List.of(Color.GREEN, Color.GREEN, Color.GREEN), List.of(5, 0)
-                )
-            );
-            game = new Game(objectives, land);
+            game = GameData.getStandardGame();
             DecisionMakerBuilder dm = RandomBot::new;
             p = new Player(game, dm);
             game.addPlayer(dm);
