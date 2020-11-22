@@ -7,6 +7,7 @@ import fr.unice.polytech.ps5.takenoko.et2.board.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * The class representing the objectives with a specific plots scheme
@@ -116,17 +117,8 @@ public class PlotObjective extends Objective
     @Override
     public String toString()
     {
-        String plotString = "Plot objective : " + points + "points\nColor(s) : ";
-        for (Color color : listColors)
-        {
-            plotString += color.toString() + ",";
-        }
-        plotString += "\nPatern : ";
-        for (Integer path : listPaths)
-        {
-            plotString += path.toString() + "-";
-        }
-
-        return plotString;
+        return "Plot objective : " + points + "points" +
+            ", colors : " + listColors.stream().map(Color::toString).collect(Collectors.joining(", ")) +
+            ", pattern : " + listPaths.stream().map(Object::toString).collect(Collectors.joining("-"));
     }
 }

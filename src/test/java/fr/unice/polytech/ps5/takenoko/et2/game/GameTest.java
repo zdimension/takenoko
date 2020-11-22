@@ -17,7 +17,7 @@ class GameTest
 {
 
     @Test
-    void gameConstructorEmptyPlotObjectiveDeck() throws Exception
+    void gameConstructorEmptyPlotObjectiveDeck()
     {
         var land = new ArrayList<LandTile>();
         for (var i = 0; i < 11; i++)
@@ -158,8 +158,6 @@ class GameTest
                 5, List.of(Color.PINK, Color.PINK, Color.YELLOW, Color.YELLOW), List.of(2, 3, 5)
             )
         );
-
-        var players = new ArrayList<DecisionMakerBuilder>();
 
         var game = new Game(objectives, land);
 

@@ -76,7 +76,7 @@ class BambooTest
     }
 
     @Test
-    void growBambooSectionYellowTest() throws Exception
+    void growBambooSectionYellowTest()
     {
         for (int i = 0; i < 3; i++)
         {
@@ -104,7 +104,7 @@ class BambooTest
     }
 
     @Test
-    void growBambooSectionFalseTest() throws Exception
+    void growBambooSectionFalseTest()
     {
         var res = this.bambooReserve.stream().filter(b -> b.getColor().equals(l10.getColor())).findAny();
         if (res.isEmpty())
@@ -145,13 +145,13 @@ class BambooTest
         var bambooSection = res.get();
         assertThrows(IllegalArgumentException.class, () -> l2.growBambooSection(bambooSection));
 
-        assertThrows(IllegalArgumentException.class, () -> l2.growBambooSection(null));
+        assertThrows(NullPointerException.class, () -> l2.growBambooSection(null));
     }
 
     @Test
     void bambooReserveDecrementsWhenPlaceTileNextToPondTest()
     {
-        var actualBambooStock = bambooReserve.stream().collect(Collectors.groupingBy(b -> b.getColor()));
+        var actualBambooStock = bambooReserve.stream().collect(Collectors.groupingBy(BambooSection::getColor));
         assertEquals(28, actualBambooStock.get(Color.GREEN).size());
         assertEquals(28, actualBambooStock.get(Color.PINK).size());
         assertEquals(28, actualBambooStock.get(Color.YELLOW).size());

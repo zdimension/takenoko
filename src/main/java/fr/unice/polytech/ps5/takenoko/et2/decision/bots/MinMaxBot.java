@@ -12,10 +12,7 @@ import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class MinMaxBot extends DecisionMaker
@@ -104,11 +101,8 @@ public class MinMaxBot extends DecisionMaker
                 }
             }
         }
-        if (pairMaxPoints != null)
-        {
-            return pairMaxPoints;
-        }
-        return Pair.of(drawnTiles.get(0), validPos.get(0));
+
+        return Objects.requireNonNullElseGet(pairMaxPoints, () -> Pair.of(drawnTiles.get(0), validPos.get(0)));
     }
 
     @Override
@@ -131,10 +125,8 @@ public class MinMaxBot extends DecisionMaker
 
     private int evaluteAction(LandTile playedTile, TilePosition playedPos, List<LandTile> drawnTiles, List<TilePosition> ListValidsPositions, Board board, List<Objective> myObjectives, int n, boolean myTurn)
     {
-        List<Objective> copyOfMyObjectives = new ArrayList<>();
-        copyOfMyObjectives.addAll(myObjectives);
-        List<LandTile> copyOfDrawnTiles = new ArrayList<>();
-        copyOfDrawnTiles.addAll(drawnTiles);
+        List<Objective> copyOfMyObjectives = new ArrayList<>(myObjectives);
+        List<LandTile> copyOfDrawnTiles = new ArrayList<>(drawnTiles);
         for (int i = 0; i < copyOfDrawnTiles.size(); i++)
         {
             if (copyOfDrawnTiles.get(i).equals(playedTile))
@@ -143,7 +135,7 @@ public class MinMaxBot extends DecisionMaker
                 break;
             }
         }
-        long power = (int) Math.pow(Double.valueOf(100), Double.valueOf(n));
+        long power = (int) Math.pow(100d, (double) n);
         Board newBoard = (Board) board.clone();
         newBoard.addTile(playedTile, playedPos, cloneBambooReserv(player.getGame().getBambooReserve()));
         int scoreReturn = 0;

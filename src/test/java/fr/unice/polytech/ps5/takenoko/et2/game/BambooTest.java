@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SuppressWarnings("ConstantConditions")
 class BambooTest
 {
 
@@ -115,7 +116,7 @@ class BambooTest
         assertEquals(0, l8.getBambooSize());
         p.irrigateEdge(l8.getEdge(0));
         assertEquals(1, l8.getBambooSize());
-        assertThrows(IllegalArgumentException.class, () -> game.addBambooSectionToTile(null));
+        assertThrows(NullPointerException.class, () -> game.addBambooSectionToTile(null));
     }
 
 

@@ -16,12 +16,12 @@ import java.util.Objects;
 
 public abstract class DecisionMaker
 {
-    protected Player player;
+    protected final Player player;
 
     /**
      * Class constructor
      *
-     * @param player
+     * @param player player the DecisionMaker will be bound to
      */
     public DecisionMaker(Player player) { this.player = Objects.requireNonNull(player, "player must not be null"); }
 

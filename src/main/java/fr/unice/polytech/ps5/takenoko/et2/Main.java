@@ -3,7 +3,6 @@ package fr.unice.polytech.ps5.takenoko.et2;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import fr.unice.polytech.ps5.takenoko.et2.decision.bots.MinMaxBot;
-import fr.unice.polytech.ps5.takenoko.et2.decision.bots.RandomBot;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 
 import java.time.Duration;
@@ -58,13 +57,18 @@ public class Main
 
         // only show warnings
         Arrays.stream(LogManager.getLogManager().getLogger("").getHandlers())
-            .forEach(h -> h.setLevel(Level.SEVERE));
+            .forEach(h -> h.setLevel(Level.INFO));
 
         var players = List.<DecisionMakerBuilder>of(
             //MinMaxBot::new,
             MinMaxBot.getBuilder(2),
+            MinMaxBot.getBuilder(2),
+            MinMaxBot.getBuilder(2),
+            MinMaxBot.getBuilder(2)
             //RandomBot::new,
-            RandomBot::new
+            //RandomBot::new,
+            //RandomBot::new,
+            //RandomBot::new
         );
         var freq = players.stream().map(p -> new AtomicInteger()).toArray(AtomicInteger[]::new);
         final var N = 10;

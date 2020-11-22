@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class BambooSection
 {
-    private Color color;
+    private final Color color;
 
     public BambooSection(Color color)
     {

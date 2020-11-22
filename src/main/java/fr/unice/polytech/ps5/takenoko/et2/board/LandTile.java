@@ -42,10 +42,7 @@ public class LandTile extends Tile implements Cloneable
             return false;
         }
 
-        if (bambooSection == null)
-        {
-            throw new IllegalArgumentException("bamboo section must not be null");
-        }
+        Objects.requireNonNull(bambooSection, "bamboo section must not be null");
 
         if (bambooSection.getColor() != this.color)
         {
@@ -95,7 +92,7 @@ public class LandTile extends Tile implements Cloneable
         {
             o.bamboo.add(new BambooSection(bambooSection.getColor()));
         }
-        return (Object) o;
+        return o;
     }
 
     public boolean equals(Object o)

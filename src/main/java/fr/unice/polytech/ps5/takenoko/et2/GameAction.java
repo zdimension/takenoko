@@ -1,7 +1,5 @@
 package fr.unice.polytech.ps5.takenoko.et2;
 
-import java.util.Objects;
-
 public enum GameAction
 {
     DRAW_TILE,
@@ -11,11 +9,11 @@ public enum GameAction
     PLACE_IRRIGATION(true),
     MOVE_GARDENER;
 
-    boolean unlimited;
+    private final boolean unlimited;
 
     GameAction(boolean unlimited)
     {
-        this.unlimited = Objects.requireNonNull(unlimited, "unlimited must not be null");
+        this.unlimited = unlimited;
     }
 
     GameAction()

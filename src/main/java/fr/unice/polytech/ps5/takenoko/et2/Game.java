@@ -127,7 +127,7 @@ public class Game
 
         do
         {
-            LOGGER.log(Level.INFO, "Turn of player {0}'", i);
+            LOGGER.log(Level.FINE, "Turn of player {0}'", i);
             var player = playerList.get(i);
             if (player.isHasTriggeredEmperor())
             {
@@ -136,7 +136,7 @@ public class Game
 
             var dm = player.getDecisionMaker();
 
-            int remaining = 2;
+            int remaining = numberActionsInTurn;
             var actions = new ArrayList<>(Arrays.asList(GameAction.values()));
             var unlimited = actions
                 .stream()
@@ -197,7 +197,7 @@ public class Game
                     throwError(new DecisionMakerException("Invalid action"));
                 }
 
-                LOGGER.log(Level.INFO, "Action chosen: {0}", action == null ? "<end turn>" : action.toString());
+                LOGGER.log(Level.FINE, "Action chosen: {0}", action == null ? "<end turn>" : action.toString());
 
                 if (action == null)
                 {
@@ -377,12 +377,9 @@ public class Game
      * @param tile to give BambooSection to
      * @throws Exception
      */
-    public void addBambooSectionToTile(LandTile tile) throws Exception
+    public void addBambooSectionToTile(LandTile tile)
     {
-        if (tile == null)
-        {
-            throw new IllegalArgumentException("tile must not be null");
-        }
+        Objects.requireNonNull(tile, "tile must not be null");
 
         var res = this.bambooReserve.stream().filter(b -> b.getColor().equals(tile.getColor())).findAny();
 

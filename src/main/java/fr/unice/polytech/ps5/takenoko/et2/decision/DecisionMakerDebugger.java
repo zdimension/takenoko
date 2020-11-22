@@ -12,7 +12,6 @@ import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
-import java.util.Set;
 
 public class DecisionMakerDebugger extends DecisionMaker
 {
@@ -25,13 +24,8 @@ public class DecisionMakerDebugger extends DecisionMaker
      */
     public DecisionMakerDebugger(Player player)
     {
-        super(Objects.requireNonNull(player, "player must not be null"));
+        super(player);
         sc = new Scanner(System.in);
-    }
-
-    public static DecisionMakerBuilder getBuilder()
-    {
-        return DecisionMakerDebugger::new;
     }
 
     @Override
@@ -69,30 +63,15 @@ public class DecisionMakerDebugger extends DecisionMaker
         do
         {
             System.out.println("Drawn tiles :");
-            drawnTiles.forEach(r -> System.out.println(r));
+            drawnTiles.forEach(System.out::println);
             System.out.println("Choose one (0, 1 or 2) :");
 
             input = sc.nextInt();
         }
         while (input < 0 || input > 2);
 
-        int inputx;
-        int inputy;
-        TilePosition tilePosition;
-        do
-        {
-            System.out.println("Board :");
-            this.getBoard().getTiles().forEach((k, v) -> System.out.println(k + " : " + v));
-            System.out.println("Choose x axis : ");
-            inputx = sc.nextInt();
-            System.out.println("Choose y axis : ");
-            inputy = sc.nextInt();
-            tilePosition = new TilePosition(inputx, inputy);
-        }
-        while (!this.getBoard().isValid(tilePosition));
-
         System.out.println(drawnTiles.get(input) + " chosen");
-        return Pair.of(drawnTiles.get(input), tilePosition);
+        return Pair.of(drawnTiles.get(input), readPosition(validPos));
     }
 
     @Override
@@ -104,7 +83,7 @@ public class DecisionMakerDebugger extends DecisionMaker
         do
         {
             System.out.println("Your Objectives :");
-            validObjectives.forEach(x -> System.out.println(x));
+            validObjectives.forEach(System.out::println);
             System.out.println("Choose one (0, 1, 2...) :");
             input = sc.nextInt();
         }
@@ -122,7 +101,7 @@ public class DecisionMakerDebugger extends DecisionMaker
         do
         {
             System.out.println("Irrigable edges :");
-            irrigableEdges.forEach(x -> System.out.println(x));
+            irrigableEdges.forEach(System.out::println);
             System.out.println("Choose one (0, 1, 2...) :");
             input = sc.nextInt();
         }
@@ -157,6 +136,12 @@ public class DecisionMakerDebugger extends DecisionMaker
     public TilePosition chooseGardenerTarget(List<TilePosition> validPos)
     {
         Objects.requireNonNull(validPos, "validPos must not be null");
+
+        return readPosition(validPos);
+    }
+
+    private TilePosition readPosition(List<TilePosition> validPos)
+    {
         int inputx;
         int inputy;
         TilePosition tilePosition;
@@ -170,8 +155,7 @@ public class DecisionMakerDebugger extends DecisionMaker
             inputy = sc.nextInt();
             tilePosition = new TilePosition(inputx, inputy);
         }
-        while (!this.getBoard().isValid(tilePosition));
-
+        while (!validPos.contains(tilePosition));
         return tilePosition;
     }
 }
