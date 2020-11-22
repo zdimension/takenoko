@@ -86,15 +86,18 @@ public class Game
      * Adds a player to the game
      *
      * @param builder of DecisionMaker (a bot supposedly)
+     * @return the created Player instance
      */
-    public void addPlayer(DecisionMakerBuilder builder) throws IllegalAccessException
+    public Player addPlayer(DecisionMakerBuilder builder) throws IllegalAccessException
     {
         Objects.requireNonNull(builder, "builder must not be null");
         if (this.playerList.size() == maxNumberOfPlayers)
         {
             throw new IllegalAccessException("Game should not have more than " + maxNumberOfPlayers + " players");
         }
-        this.playerList.add(new Player(this, builder));
+        var p = new Player(this, builder);
+        this.playerList.add(p);
+        return p;
     }
 
     /**

@@ -26,8 +26,7 @@ public class IrrigationTest
         {
             game = GameData.getStandardGame();
             DecisionMakerBuilder dm = RandomBot::new;
-            p = new Player(game, dm);
-            game.addPlayer(dm);
+            p = game.addPlayer(dm);
             board = game.getBoard();
         }
         catch (Exception e)
