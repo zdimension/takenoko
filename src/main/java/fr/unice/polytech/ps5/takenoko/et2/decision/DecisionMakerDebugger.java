@@ -88,23 +88,7 @@ public class DecisionMakerDebugger extends DecisionMaker
     @Override
     public Weather chooseWeather(List<Weather> weatherList)
     {
-        int input;
-        Weather weather;
-        do
-        {
-            System.out.println("Available weathers :");
-            weatherList.forEach(System.out::println);
-            System.out.println("Choose one (0, 1, 2...) :");
-            input = sc.nextInt();
-            if (input >= 0 && input < weatherList.size())
-            {
-                weather = weatherList.get(input);
-                break;
-            }
-        }
-        while (true);
-
-        return weather;
+        return chooseItem(weatherList);
     }
 
     private TilePosition readPosition(List<TilePosition> validPos)
