@@ -11,6 +11,7 @@ import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public abstract class DecisionMaker
@@ -72,4 +73,11 @@ public abstract class DecisionMaker
      * @return chosen weather
      */
     public abstract Weather chooseWeather(List<Weather> weatherList);
+
+    /** When it rains
+     *
+     * @param listIrrigatedTiles
+     * @return a tile and its position to add a BambooSection on it
+     */
+    public abstract Pair<TilePosition, LandTile> chooseTileToAddBamboo(Map<TilePosition, LandTile> listIrrigatedTiles);
 }
