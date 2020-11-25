@@ -34,6 +34,11 @@ public class Player
         this.hasTriggeredEmperor = false;
     }
 
+    public int getNumberObjectivesCompleted()
+    {
+        return objectivesCompleted.size();
+    }
+
     /**
      * Count the total points of the player
      *

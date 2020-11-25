@@ -340,7 +340,7 @@ public class Game
         }
         player.moveObjectiveToComplete(obj);
 
-        if (player.countPoints() >= objectiveThreshold.get(playerList.size()))
+        if (player.getNumberObjectivesCompleted()>= objectiveThreshold.get(playerList.size()))
         {
             if (emperorTriggered)
             {
