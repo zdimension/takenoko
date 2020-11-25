@@ -8,7 +8,7 @@ import java.util.Objects;
 public class Edge
 {
     private final Tile[] tiles = new Tile[2];
-    boolean irrigated = false;
+    public boolean irrigated = false;
 
     /**
      * Creates an edge from the specified tile.

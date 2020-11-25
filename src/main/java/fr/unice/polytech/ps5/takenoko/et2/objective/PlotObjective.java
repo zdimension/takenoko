@@ -48,6 +48,7 @@ public class PlotObjective extends Objective
      * @param board The board to check
      * @return true if the Objective is validated in the Game, false otherwise
      */
+    @Override
     public boolean checkValidated(Board board)
     {
         for (int i = 0; i < 6; i++)

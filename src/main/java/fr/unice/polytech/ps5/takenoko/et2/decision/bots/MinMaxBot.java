@@ -45,9 +45,17 @@ public class MinMaxBot extends DecisionMaker
         {
             return GameAction.COMPLETE_OBJECTIVE;
         }
-        if (base.contains(GameAction.DRAW_OBJECTIVE)/* && player.getHand().size() < 6*/)
+        if (base.contains(GameAction.PLACE_IRRIGATION))
+        {
+            return GameAction.PLACE_IRRIGATION;
+        }
+        if (base.contains(GameAction.DRAW_OBJECTIVE))
         {
             return GameAction.DRAW_OBJECTIVE;
+        }
+        if (base.contains(GameAction.PICK_IRRIGATION) && player.getNbIrrigationsInStock() < 3)
+        {
+            return GameAction.PICK_IRRIGATION;
         }
         if (base.contains(GameAction.DRAW_TILE))
         {
@@ -75,25 +83,7 @@ public class MinMaxBot extends DecisionMaker
         {
             for (TilePosition position : validPos)
             {
-                /*Board b2 = (Board) player.getGame().getBoard().clone();
-                List<BambooSection> listBambooReserv = cloneBambooReserv(player.getGame().getBambooReserve());
-                b2.addTile((LandTile) landTile.clone(), position, listBambooReserv);
-                for (Objective objective : player.getHand())
-                {
-                    if (objective instanceof PlotObjective)
-                    {
-                        PlotObjective plotObjective = (PlotObjective) objective;
-                        if (plotObjective.checkValidated(b2))
-                        {
-                            if (plotObjective.getPoints() > maxPoints)
-                            {
-                                maxPoints = plotObjective.getPoints();
-                                pairMaxPoints = Pair.of(landTile, position);
-                            }
-                        }
-                    }
-                }*/
-                int actionEvaluated = evaluteAction(landTile, position, drawnTiles, player.getGame().getBoard().getValidEmptyPositions().collect(Collectors.toList()), player.getGame().getBoard(), player.getHand(), depth, true);
+                int actionEvaluated = evaluateAction(landTile, position, drawnTiles, player.getGame().getBoard().getValidEmptyPositions().collect(Collectors.toList()), player.getGame().getBoard(), player.getHand(), depth, true);
                 if (actionEvaluated > maxPoints)
                 {
                     maxPoints = actionEvaluated;
@@ -111,9 +101,24 @@ public class MinMaxBot extends DecisionMaker
         return validObjectives.stream().max(Comparator.comparing(Objective::getPoints)).orElseThrow(NoSuchElementException::new);
     }
 
+    //private
+
     @Override
     public Edge chooseIrrigationPosition(List<Edge> irrigableEdges)
     {
+        for (Edge edge : irrigableEdges)
+        {
+            edge.irrigated = true;
+            for (Objective objective : player.getHand())
+            {
+                if (objective.checkValidated(getBoard()))
+                {
+                    edge.irrigated = false;
+                    return edge;
+                }
+            }
+            edge.irrigated = false;
+        }
         return irrigableEdges.get(0);
     }
 
@@ -123,7 +128,7 @@ public class MinMaxBot extends DecisionMaker
         return valid.get(0);
     }
 
-    private int evaluteAction(LandTile playedTile, TilePosition playedPos, List<LandTile> drawnTiles, List<TilePosition> ListValidsPositions, Board board, List<Objective> myObjectives, int n, boolean myTurn)
+    private int evaluateAction(LandTile playedTile, TilePosition playedPos, List<LandTile> drawnTiles, List<TilePosition> ListValidsPositions, Board board, List<Objective> myObjectives, int n, boolean myTurn)
     {
         List<Objective> copyOfMyObjectives = new ArrayList<>(myObjectives);
         List<LandTile> copyOfDrawnTiles = new ArrayList<>(drawnTiles);
@@ -183,7 +188,7 @@ public class MinMaxBot extends DecisionMaker
         {
             for (LandTile landTile : copyOfDrawnTiles)
             {
-                scoreReturn -= evaluteAction(landTile, tilePosition, copyOfDrawnTiles, newListValidsPositions, newBoard, copyOfMyObjectives, n - 1, !myTurn) * power;
+                scoreReturn -= evaluateAction(landTile, tilePosition, copyOfDrawnTiles, newListValidsPositions, newBoard, copyOfMyObjectives, n - 1, !myTurn) * power;
             }
         }
         return scoreReturn;

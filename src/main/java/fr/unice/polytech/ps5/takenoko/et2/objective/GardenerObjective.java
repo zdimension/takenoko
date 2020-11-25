@@ -47,6 +47,7 @@ public class GardenerObjective extends Objective {
      * @param board The board to check
      * @return true if the Objective is validated in the Game, false otherwise
      */
+    @Override
     public boolean checkValidated(Board board) {
         Objects.requireNonNull(board, "board must not be null");
 
