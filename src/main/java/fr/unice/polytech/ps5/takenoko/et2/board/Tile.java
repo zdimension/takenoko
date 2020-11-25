@@ -2,6 +2,7 @@ package fr.unice.polytech.ps5.takenoko.et2.board;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -10,6 +11,7 @@ import java.util.stream.Stream;
 public abstract class Tile
 {
     protected final Edge[] edges = new Edge[6];
+    private TilePosition position = null;
 
     private static int fixEdgeNum(int num)
     {
@@ -33,6 +35,16 @@ public abstract class Tile
     public Stream<Edge> getEdges()
     {
         return Arrays.stream(edges).filter(Objects::nonNull);
+    }
+
+    public Optional<TilePosition> getPosition()
+    {
+        return Optional.ofNullable(position);
+    }
+
+    public void setPosition(TilePosition position)
+    {
+        this.position = position;
     }
 
     /**

@@ -149,6 +149,7 @@ public class Board implements Cloneable
         }
 
         tileCache.put(pos, tile);
+        tile.setPosition(pos);
 
         for (var i = 0; i < 6; i++)
         {
