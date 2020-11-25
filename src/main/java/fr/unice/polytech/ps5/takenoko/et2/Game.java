@@ -131,7 +131,7 @@ public class Game
             int remaining = numberActionsInTurn;
 
             //un type sympa pour s'il y a la météo ou pas
-            Optional<Weather> turnWeather = null;
+            Optional<Weather> turnWeather = Optional.empty();
 
             if (!isFirstRound)
             {
