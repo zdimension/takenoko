@@ -1,7 +1,6 @@
 package fr.unice.polytech.ps5.takenoko.et2;
 
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
-import fr.unice.polytech.ps5.takenoko.et2.decision.bots.MinMaxBot;
 import fr.unice.polytech.ps5.takenoko.et2.decision.bots.RandomBot;
 
 import java.time.Duration;
@@ -33,21 +32,22 @@ public class Main
             //MinMaxBot.getBuilder(2),
             //MinMaxBot.getBuilder(2),
             //MinMaxBot.getBuilder(2),
-            MinMaxBot.getBuilder(1),
-            //RandomBot::new,
+            //MinMaxBot.getBuilder(1),
+            RandomBot::new,
             //RandomBot::new,
             //RandomBot::new,
             RandomBot::new
         );
         var freq = players.stream().map(p -> new AtomicInteger()).toArray(AtomicInteger[]::new);
-        final var N = 100;
+        final var N = 10000;
         AtomicInteger Nempty = new AtomicInteger();
         var start = Instant.now();
         IntStream.range(0, N).parallel().mapToObj(i ->
         {
             try
             {
-                var game = GameData.getStandardGame();
+                //var game = GameData.getStandardGame();
+                var game = new Game(GameData.getStandardObjectives(), GameData.getLandTiles(11, 9, 7));
                 for (DecisionMakerBuilder player : players)
                 {
                     game.addPlayer(player);

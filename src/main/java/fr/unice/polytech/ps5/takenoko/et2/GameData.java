@@ -17,10 +17,15 @@ public final class GameData
      */
     public static List<LandTile> getStandardLandTiles()
     {
+        return getLandTiles(11, 9, 7);
+    }
+
+    public static List<LandTile> getLandTiles(int green, int yellow, int pink)
+    {
         return Stream.of(
-            Stream.generate(() -> new LandTile(Color.GREEN)).limit(11),
-            Stream.generate(() -> new LandTile(Color.YELLOW)).limit(9),
-            Stream.generate(() -> new LandTile(Color.PINK)).limit(7)
+            Stream.generate(() -> new LandTile(Color.GREEN)).limit(green),
+            Stream.generate(() -> new LandTile(Color.YELLOW)).limit(yellow),
+            Stream.generate(() -> new LandTile(Color.PINK)).limit(pink)
         ).reduce(Stream::concat).get().collect(Collectors.toList());
     }
 

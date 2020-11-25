@@ -35,6 +35,14 @@ public class Player
     }
 
     /**
+     * @return the number of objectives the player has completed during the game
+     */
+    public int completedObjectivesCount()
+    {
+        return this.objectivesCompleted.size();
+    }
+
+    /**
      * Count the total points of the player
      *
      * @return total points of completed objectifs
@@ -71,6 +79,7 @@ public class Player
             throw new IllegalArgumentException("Hand of player does not contain given objective");
         }
         objectivesCompleted.add(objective);
+        //System.out.println(completedObjectivesCount());
         hand.remove(objective);
     }
 
