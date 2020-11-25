@@ -79,5 +79,5 @@ public abstract class DecisionMaker
      * @param listIrrigatedTiles
      * @return a tile and its position to add a BambooSection on it
      */
-    public abstract Pair<TilePosition, LandTile> chooseTileToAddBamboo(Map<TilePosition, LandTile> listIrrigatedTiles);
+    //public abstract Pair<TilePosition, LandTile> chooseTileToAddBamboo(Map<TilePosition, LandTile> listIrrigatedTiles);
 }
