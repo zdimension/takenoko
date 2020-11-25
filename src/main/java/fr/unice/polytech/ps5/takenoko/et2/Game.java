@@ -41,6 +41,8 @@ public class Game
         GameAction.PLACE_IRRIGATION, this::placeIrrigation,
         GameAction.MOVE_GARDENER, this::moveGardener
     );
+    private static final Random diceRoller = new Random();
+    private final List<Object> chipReserve;
 
     /**
      * Game contructor
@@ -67,6 +69,7 @@ public class Game
         board = new Board();
         this.objectiveDecks.put(PlotObjective.class, new ArrayList<>(plotObjectiveDeck));
         this.tileDeck = new ArrayList<>(tileDeck);
+        this.chipReserve = new ArrayList<>();
     }
 
     /**
@@ -125,8 +128,44 @@ public class Game
             }
 
             var dm = player.getDecisionMaker();
-
             int remaining = numberActionsInTurn;
+
+            //un type sympa pour s'il y a la météo ou pas
+            Optional<Weather> turnWeather = null;
+
+            if (!isFirstRound)
+            {
+                turnWeather = Optional.of(rollWeatherDice());
+                if (turnWeather.get().equals(Weather.QUESTION_MARK))
+                {
+                    turnWeather = Optional.of(chooseWeather(player));
+                }
+                if (turnWeather.get().isDirectAction())
+                {
+                    switch (turnWeather.get())
+                    {
+                        case RAIN:
+                            //TODO
+                            break;
+                        case STORM:
+                            //TODO
+                            break;
+                        case CLOUDS:
+                            //TODO
+                            break;
+                        default:
+                            throw new Exception("wtf");
+                    }
+                }
+                else
+                {
+                    if (turnWeather.get() == Weather.SUN)
+                    {
+                        remaining++;
+                    }
+                }
+            }
+
             var actions = new ArrayList<>(Arrays.asList(GameAction.values()));
             var unlimited = actions
                 .stream()
@@ -198,7 +237,10 @@ public class Game
 
                 if (handler != null)
                 {
-                    actions.remove(action); // player has to choose two different actions
+                    if (turnWeather.isEmpty() || !turnWeather.get().equals(Weather.WIND))
+                    {
+                        actions.remove(action); // player has to choose two different actions
+                    }
                     handler.accept(player);
                 }
                 else
@@ -218,13 +260,13 @@ public class Game
             if (i == numberPlayers - 1)
             {
                 i = 0;
+                //if(isFirstRound){
+                //    isFirstRound = false;
+                //}
             }
             else
             {
                 i++;
-                //if(isFirstRound){
-                //    isFirstRound = false;
-                //}
             }
         }
         while (true);
@@ -393,19 +435,25 @@ public class Game
             {
                 // prevent the player from moving the gardener to the position it already occupies
                 if (pos.equals(gardenerPosition))
+                {
                     return false;
+                }
 
                 var basis = pos.sub(gardenerPosition).getBasis();
 
                 // prevent from moving to a position not in a straight line from the current position
                 if (basis == null)
+                {
                     return false;
+                }
 
                 // check that the line is full, i.e. there are no "holes"
                 for (var initial = gardenerPosition; initial != pos; initial = initial.add(basis))
                 {
                     if (!board.getTiles().containsKey(initial))
+                    {
                         return false;
+                    }
                 }
 
                 return true;
@@ -428,16 +476,18 @@ public class Game
         var landing = board.getTiles().get(chosenPos);
 
         if (!(landing instanceof LandTile))
+        {
             return;
+        }
 
-        var cast = (LandTile)landing;
+        var cast = (LandTile) landing;
 
         for (var pos : board.getNeighboringPositions(chosenPos).collect(Collectors.toList()))
         {
             var tile = board.getTiles().getOrDefault(pos, null);
             if (tile instanceof LandTile)
             {
-                var land = (LandTile)tile;
+                var land = (LandTile) tile;
                 if (land.getColor() == cast.getColor())
                 {
                     try
@@ -452,6 +502,43 @@ public class Game
                 }
             }
         }
+    }
+
+    private Weather rollWeatherDice()
+    {
+        var diceResult = Weather.values()[diceRoller.nextInt(6)];
+        if (diceResult.equals(Weather.CLOUDS) && chipReserve.size() == 0)
+        {
+            return Weather.QUESTION_MARK;
+        }
+        return diceResult;
+    }
+
+    //public void rain()
+    //{
+    //    var listIrrigatedTiles = board.getIrrigatedTiles()
+    //        .entrySet()
+    //        .stream()
+    //        .filter(tile -> tile.getValue().getBambooSize() < 4)
+    //        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    //    //TODO ask player to place a bamboo section on an irrigated plot
+    //}
+
+    public Weather chooseWeather(Player player)
+    {
+        DecisionMaker dm = player.getDecisionMaker();
+        var weatherList = Arrays.asList(Weather.values());
+        weatherList.remove(Weather.QUESTION_MARK);
+        if (chipReserve.size() == 0)
+        {
+            weatherList.remove(Weather.CLOUDS);
+        }
+        var weatherChosen = dm.chooseWeather(weatherList);
+        if (weatherChosen == null || !weatherList.contains(weatherChosen))
+        {
+            throw new IllegalArgumentException("Chosen weather is invalid");
+        }
+        return weatherChosen;
     }
 
     //public getPlayerIndividualBoard(PLayer player)
