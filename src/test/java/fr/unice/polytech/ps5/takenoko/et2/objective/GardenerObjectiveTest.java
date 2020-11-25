@@ -103,5 +103,19 @@ class GardenerObjectiveTest
         assertEquals(6, yellowGardenerObjective.getPoints());
     }
 
+    @Test
+    void threeStacksOfBambooTest() {
+        GardenerObjective greenGardenerObjective = new GardenerObjective(8, Color.GREEN , 4, 3);
+        GardenerObjective yellowGardenerObjective = new GardenerObjective(7, Color.YELLOW , 3, 3);
+        GardenerObjective pinkGardenerObjective = new GardenerObjective(6, Color.PINK, 2,3);
 
+        assertTrue(greenGardenerObjective.checkValidated(board));
+        assertEquals(8, greenGardenerObjective.getPoints());
+
+        assertFalse(yellowGardenerObjective.checkValidated(board));
+        assertEquals(7, yellowGardenerObjective.getPoints());
+
+        assertTrue(pinkGardenerObjective.checkValidated(board));
+        assertEquals(6, pinkGardenerObjective.getPoints());
+    }
 }
