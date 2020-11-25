@@ -137,7 +137,7 @@ public class MinMaxBot extends DecisionMaker
         }
         long power = (int) Math.pow(100d, n);
         Board newBoard = (Board) board.clone();
-        newBoard.addTile(playedTile, playedPos, cloneBambooReserv(player.getGame().getBambooReserve()));
+        newBoard.addTile(playedTile, playedPos);
         int scoreReturn = 0;
         if (myTurn)
         {

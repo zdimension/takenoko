@@ -9,8 +9,6 @@ import fr.unice.polytech.ps5.takenoko.et2.decision.bots.RandomBot;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class IrrigationTest
@@ -45,12 +43,12 @@ public class IrrigationTest
         LandTile l4 = new LandTile(Color.PINK);
         LandTile l5 = new LandTile(Color.GREEN);
         LandTile l6 = new LandTile(Color.YELLOW);
-        assertTrue(board.addTile(l1, new TilePosition(0, 1), game.getBambooReserve()));
-        assertTrue(board.addTile(l2, new TilePosition(1, 0), game.getBambooReserve()));
-        assertTrue(board.addTile(l3, new TilePosition(1, -1), game.getBambooReserve()));
-        assertTrue(board.addTile(l4, new TilePosition(0, -1), game.getBambooReserve()));
-        assertTrue(board.addTile(l5, new TilePosition(-1, 0), game.getBambooReserve()));
-        assertTrue(board.addTile(l6, new TilePosition(-1, 1), game.getBambooReserve()));
+        assertTrue(board.addTile(l1, new TilePosition(0, 1)));
+        assertTrue(board.addTile(l2, new TilePosition(1, 0)));
+        assertTrue(board.addTile(l3, new TilePosition(1, -1)));
+        assertTrue(board.addTile(l4, new TilePosition(0, -1)));
+        assertTrue(board.addTile(l5, new TilePosition(-1, 0)));
+        assertTrue(board.addTile(l6, new TilePosition(-1, 1)));
         assertTrue(l1.isIrrigated()); // Tiles far the Pond shouldn't be irrigated
         assertTrue(l2.isIrrigated());
         assertTrue(l3.isIrrigated());
@@ -63,12 +61,12 @@ public class IrrigationTest
         LandTile l10 = new LandTile(Color.PINK);
         LandTile l11 = new LandTile(Color.GREEN);
         LandTile l12 = new LandTile(Color.YELLOW);
-        assertTrue(board.addTile(l7, new TilePosition(1, 1), game.getBambooReserve()));
-        assertTrue(board.addTile(l8, new TilePosition(2, -1), game.getBambooReserve()));
-        assertTrue(board.addTile(l9, new TilePosition(1, -2), game.getBambooReserve()));
-        assertTrue(board.addTile(l10, new TilePosition(-1, -1), game.getBambooReserve()));
-        assertTrue(board.addTile(l11, new TilePosition(-2, 1), game.getBambooReserve()));
-        assertTrue(board.addTile(l12, new TilePosition(-1, 2), game.getBambooReserve()));
+        assertTrue(board.addTile(l7, new TilePosition(1, 1)));
+        assertTrue(board.addTile(l8, new TilePosition(2, -1)));
+        assertTrue(board.addTile(l9, new TilePosition(1, -2)));
+        assertTrue(board.addTile(l10, new TilePosition(-1, -1)));
+        assertTrue(board.addTile(l11, new TilePosition(-2, 1)));
+        assertTrue(board.addTile(l12, new TilePosition(-1, 2)));
         assertFalse(l7.isIrrigated());
         assertFalse(l8.isIrrigated());
         assertFalse(l9.isIrrigated());
@@ -100,12 +98,12 @@ public class IrrigationTest
         LandTile l4 = new LandTile(Color.PINK);
         LandTile l5 = new LandTile(Color.GREEN);
         LandTile l6 = new LandTile(Color.YELLOW);
-        assertTrue(board.addTile(l1, new TilePosition(0,  1), game.getBambooReserve()));
-        assertTrue(board.addTile(l2, new TilePosition(1,  0), game.getBambooReserve()));
-        assertTrue(board.addTile(l3, new TilePosition(1, -1), game.getBambooReserve()));
-        assertTrue(board.addTile(l4, new TilePosition(0, -1), game.getBambooReserve()));
-        assertTrue(board.addTile(l5, new TilePosition(-1, 0), game.getBambooReserve()));
-        assertTrue(board.addTile(l6, new TilePosition(-1, 1), game.getBambooReserve()));
+        assertTrue(board.addTile(l1, new TilePosition(0,  1)));
+        assertTrue(board.addTile(l2, new TilePosition(1,  0)));
+        assertTrue(board.addTile(l3, new TilePosition(1, -1)));
+        assertTrue(board.addTile(l4, new TilePosition(0, -1)));
+        assertTrue(board.addTile(l5, new TilePosition(-1, 0)));
+        assertTrue(board.addTile(l6, new TilePosition(-1, 1)));
         assertFalse(p.irrigateEdge(l1.getEdge(0))); // p doesn't have an irrigation right now
         game.pickIrrigation(p);
         assertTrue(p.irrigateEdge(l1.getEdge(0))); // p have an irrigation right now
@@ -120,12 +118,12 @@ public class IrrigationTest
         LandTile l4 = new LandTile(Color.PINK);
         LandTile l5 = new LandTile(Color.GREEN);
         LandTile l6 = new LandTile(Color.YELLOW);
-        assertTrue(board.addTile(l1, new TilePosition( 0, 1), game.getBambooReserve()));
-        assertTrue(board.addTile(l2, new TilePosition( 1, 0), game.getBambooReserve()));
-        assertTrue(board.addTile(l3, new TilePosition( 1,-1), game.getBambooReserve()));
-        assertTrue(board.addTile(l4, new TilePosition( 0,-1), game.getBambooReserve()));
-        assertTrue(board.addTile(l5, new TilePosition(-1, 0), game.getBambooReserve()));
-        assertTrue(board.addTile(l6, new TilePosition(-1, 1), game.getBambooReserve()));
+        assertTrue(board.addTile(l1, new TilePosition( 0, 1)));
+        assertTrue(board.addTile(l2, new TilePosition( 1, 0)));
+        assertTrue(board.addTile(l3, new TilePosition( 1,-1)));
+        assertTrue(board.addTile(l4, new TilePosition( 0,-1)));
+        assertTrue(board.addTile(l5, new TilePosition(-1, 0)));
+        assertTrue(board.addTile(l6, new TilePosition(-1, 1)));
         Edge e1 = board.getEdgeBetweenTwoTiles(l1, l2);
         Edge e2 = board.getEdgeBetweenTwoTiles(l2, l3);
         Edge e3 = board.getEdgeBetweenTwoTiles(l3, l4);
@@ -154,8 +152,8 @@ public class IrrigationTest
 
         LandTile l7 = new LandTile(Color.GREEN);
         LandTile l8 = new LandTile(Color.YELLOW);
-        assertTrue(board.addTile(l7, new TilePosition(1, 1), game.getBambooReserve()));
-        assertTrue(board.addTile(l8, new TilePosition(2, 0), game.getBambooReserve()));
+        assertTrue(board.addTile(l7, new TilePosition(1, 1)));
+        assertTrue(board.addTile(l8, new TilePosition(2, 0)));
         Edge e7 = board.getEdgeBetweenTwoTiles(l2, l7);
         Edge e8 = board.getEdgeBetweenTwoTiles(l1, l7);
         Edge e9 = board.getEdgeBetweenTwoTiles(l2, l8);
@@ -207,24 +205,24 @@ public class IrrigationTest
         LandTile l4 = new LandTile(Color.PINK);
         LandTile l5 = new LandTile(Color.GREEN);
         LandTile l6 = new LandTile(Color.YELLOW);
-        assertTrue(board.addTile(l1, new TilePosition(0, 1), game.getBambooReserve()));
-        assertTrue(board.addTile(l2, new TilePosition(1, 0), game.getBambooReserve()));
-        assertTrue(board.addTile(l3, new TilePosition(1, -1), game.getBambooReserve()));
-        assertTrue(board.addTile(l4, new TilePosition(0, -1), game.getBambooReserve()));
-        assertTrue(board.addTile(l5, new TilePosition(-1, 0), game.getBambooReserve()));
-        assertTrue(board.addTile(l6, new TilePosition(-1, 1), game.getBambooReserve()));
+        assertTrue(board.addTile(l1, new TilePosition(0, 1)));
+        assertTrue(board.addTile(l2, new TilePosition(1, 0)));
+        assertTrue(board.addTile(l3, new TilePosition(1, -1)));
+        assertTrue(board.addTile(l4, new TilePosition(0, -1)));
+        assertTrue(board.addTile(l5, new TilePosition(-1, 0)));
+        assertTrue(board.addTile(l6, new TilePosition(-1, 1)));
         LandTile l7 = new LandTile(Color.GREEN);
         LandTile l8 = new LandTile(Color.YELLOW);
         LandTile l9 = new LandTile(Color.PINK);
         LandTile l10 = new LandTile(Color.PINK);
         LandTile l11 = new LandTile(Color.GREEN);
         LandTile l12 = new LandTile(Color.YELLOW);
-        assertTrue(board.addTile(l7, new TilePosition(1, 1), game.getBambooReserve()));
-        assertTrue(board.addTile(l8, new TilePosition(2, -1), game.getBambooReserve()));
-        assertTrue(board.addTile(l9, new TilePosition(1, -2), game.getBambooReserve()));
-        assertTrue(board.addTile(l10, new TilePosition(-1, -1), game.getBambooReserve()));
-        assertTrue(board.addTile(l11, new TilePosition(-2, 1), game.getBambooReserve()));
-        assertTrue(board.addTile(l12, new TilePosition(-1, 2), game.getBambooReserve()));
+        assertTrue(board.addTile(l7, new TilePosition(1, 1)));
+        assertTrue(board.addTile(l8, new TilePosition(2, -1)));
+        assertTrue(board.addTile(l9, new TilePosition(1, -2)));
+        assertTrue(board.addTile(l10, new TilePosition(-1, -1)));
+        assertTrue(board.addTile(l11, new TilePosition(-2, 1)));
+        assertTrue(board.addTile(l12, new TilePosition(-1, 2)));
 
         game.pickIrrigation(p);
         game.pickIrrigation(p);
@@ -248,7 +246,7 @@ public class IrrigationTest
         assertEquals(1, l7.getBambooSize());
 
         LandTile l8_9 = new LandTile(Color.YELLOW); // Between l8 and l9
-        assertTrue(board.addTile(l8_9, new TilePosition(2, -2), game.getBambooReserve()));
+        assertTrue(board.addTile(l8_9, new TilePosition(2, -2)));
         assertFalse(l8.isIrrigated());
         assertFalse(l8_9.isIrrigated());
         assertFalse(l9.isIrrigated());
@@ -282,24 +280,24 @@ public class IrrigationTest
         LandTile l4 = new LandTile(Color.PINK);
         LandTile l5 = new LandTile(Color.GREEN);
         LandTile l6 = new LandTile(Color.YELLOW);
-        board.addTile(l1, new TilePosition(0, 1), new ArrayList<>());
-        board.addTile(l2, new TilePosition(1, 0), new ArrayList<>());
-        board.addTile(l3, new TilePosition(1, -1), new ArrayList<>());
-        board.addTile(l4, new TilePosition(0, -1), new ArrayList<>());
-        board.addTile(l5, new TilePosition(-1, 0), new ArrayList<>());
-        board.addTile(l6, new TilePosition(-1, 1), new ArrayList<>());
+        board.addTile(l1, new TilePosition(0, 1));
+        board.addTile(l2, new TilePosition(1, 0));
+        board.addTile(l3, new TilePosition(1, -1));
+        board.addTile(l4, new TilePosition(0, -1));
+        board.addTile(l5, new TilePosition(-1, 0));
+        board.addTile(l6, new TilePosition(-1, 1));
         LandTile l7 = new LandTile(Color.GREEN);
         LandTile l8 = new LandTile(Color.YELLOW);
         LandTile l9 = new LandTile(Color.PINK);
         LandTile l10 = new LandTile(Color.PINK);
         LandTile l11 = new LandTile(Color.GREEN);
         LandTile l12 = new LandTile(Color.YELLOW);
-        board.addTile(l7, new TilePosition(1, 1), new ArrayList<>());
-        board.addTile(l8, new TilePosition(2, -1), new ArrayList<>());
-        board.addTile(l9, new TilePosition(1, -2), new ArrayList<>());
-        assertTrue(board.addTile(l10, new TilePosition(-1, -1), new ArrayList<>()));
-        board.addTile(l11, new TilePosition(-2, 1), new ArrayList<>());
-        assertTrue(board.addTile(l12, new TilePosition(-1, 2), new ArrayList<>()));
+        board.addTile(l7, new TilePosition(1, 1));
+        board.addTile(l8, new TilePosition(2, -1));
+        board.addTile(l9, new TilePosition(1, -2));
+        assertTrue(board.addTile(l10, new TilePosition(-1, -1)));
+        board.addTile(l11, new TilePosition(-2, 1));
+        assertTrue(board.addTile(l12, new TilePosition(-1, 2)));
         game.pickIrrigation(p);
         game.pickIrrigation(p);
         game.pickIrrigation(p);

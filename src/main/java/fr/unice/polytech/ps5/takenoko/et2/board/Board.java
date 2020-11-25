@@ -1,7 +1,5 @@
 package fr.unice.polytech.ps5.takenoko.et2.board;
 
-import fr.unice.polytech.ps5.takenoko.et2.BambooSection;
-
 import java.util.*;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -135,7 +133,12 @@ public class Board implements Cloneable
      * @param pos  of the tile to add
      * @return true if the tile was added, false if it failed
      */
-    public boolean addTile(LandTile tile, TilePosition pos, List<BambooSection> bambooReserve)
+    public boolean addTile(LandTile tile, TilePosition pos)
+    {
+        return addTileInternal(tile, pos, true);
+    }
+
+    private boolean addTileInternal(LandTile tile, TilePosition pos, boolean irrigate)
     {
         Objects.requireNonNull(tile, "tile must not be null");
         Objects.requireNonNull(pos, "tile position must not be null");
@@ -161,22 +164,9 @@ public class Board implements Cloneable
             }
         }
 
-
-        var res = bambooReserve.stream().filter(b -> b.getColor().equals(tile.getColor())).findAny();
-        if (res.isPresent())
+        if (irrigate)
         {
-            var bambooSection = res.get();
-            try
-            {
-                if (tile.growBambooSection(bambooSection))
-                {
-                    bambooReserve.remove(bambooSection);
-                }
-            }
-            catch (Exception e)
-            {
-                //Do nothing
-            }
+            tile.growBambooSection();
         }
 
         orderAdd.add(pos);
@@ -230,7 +220,7 @@ public class Board implements Cloneable
                     continue;
                 }
                 LandTile newLandTile = (LandTile) ((LandTile) oldTile).clone();
-                if (!o.addTile(newLandTile, tilePosition, new ArrayList<>()))
+                if (!o.addTileInternal(newLandTile, tilePosition, false))
                 {
                     System.err.println("Error in board.clone()");
                 }

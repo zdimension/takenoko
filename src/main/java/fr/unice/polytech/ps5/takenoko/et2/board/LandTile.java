@@ -1,10 +1,7 @@
 package fr.unice.polytech.ps5.takenoko.et2.board;
 
-import fr.unice.polytech.ps5.takenoko.et2.BambooSection;
 import fr.unice.polytech.ps5.takenoko.et2.Color;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -16,13 +13,12 @@ public class LandTile extends Tile implements Cloneable
      * Color of the land.
      */
     private final Color color;
-    private final List<BambooSection> bamboo;
+    private int bambooCount = 0;
     private static final int maxBambooSize = 4;
 
     public LandTile(Color color)
     {
         this.color = Objects.requireNonNull(color, "color must not be null");
-        bamboo = new ArrayList<>();
     }
 
     public Color getColor()
@@ -31,31 +27,23 @@ public class LandTile extends Tile implements Cloneable
     }
 
     /**
-     * @param bambooSection to add to Tile
-     * @return if success or failure to add bambooSection to tile
-     * @throws IllegalArgumentException if the BambooSection isn't correct
+     * @return if success or failure to add bamboo section to tile
      */
-    public boolean growBambooSection(BambooSection bambooSection) throws IllegalArgumentException
+    public boolean growBambooSection()
     {
-        if (bamboo.size() == maxBambooSize || !isIrrigated())
+        if (bambooCount == maxBambooSize || !isIrrigated())
         {
             return false;
         }
 
-        Objects.requireNonNull(bambooSection, "bamboo section must not be null");
+        bambooCount++;
 
-        if (bambooSection.getColor() != this.color)
-        {
-            throw new IllegalArgumentException("bamboo and tile should have the same color");
-        }
-
-        bamboo.add(bambooSection);
         return true;
     }
 
     public int getBambooSize()
     {
-        return bamboo.size();
+        return bambooCount;
     }
 
     /**
@@ -79,19 +67,10 @@ public class LandTile extends Tile implements Cloneable
         return false;
     }
 
-    public List<BambooSection> getBamboo()
-    {
-        return bamboo;
-    }
-
     public Object clone()
     {
         LandTile o = new LandTile(color);
-        o.bamboo.clear();
-        for (BambooSection bambooSection : bamboo)
-        {
-            o.bamboo.add(new BambooSection(bambooSection.getColor()));
-        }
+        o.bambooCount = bambooCount;
         return o;
     }
 
@@ -102,7 +81,7 @@ public class LandTile extends Tile implements Cloneable
             return false;
         }
         LandTile landTile = (LandTile) o;
-        return (landTile.color.equals(color)); // TODO
+        return (landTile.color.equals(color) && landTile.bambooCount == this.bambooCount);// todo
     }
 
     /**
@@ -111,6 +90,6 @@ public class LandTile extends Tile implements Cloneable
     @Override
     public String toString()
     {
-        return "[Land tile, " + this.color + ", " + isIrrigated() + ", " + bamboo + "]";
+        return "[Land tile, " + this.color + ", " + isIrrigated() + ", " + bambooCount + " sections]";
     }
 }

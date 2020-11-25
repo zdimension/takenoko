@@ -7,7 +7,6 @@ import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class PlotObjectiveTest
     @Test
     void ObjectiveWithOnePlotTest()
     {
-        board.addTile(new LandTile(Color.GREEN), new TilePosition(0, 1), new ArrayList<>());
+        board.addTile(new LandTile(Color.GREEN), new TilePosition(0, 1));
         try
         {
             PlotObjective plotObjective = new PlotObjective(5, List.of(Color.GREEN), Collections.emptyList());
@@ -45,8 +44,8 @@ public class PlotObjectiveTest
     @Test
     void ObjectiveWithTwoPlotsTest1()
     {
-        board.addTile(new LandTile(Color.YELLOW), new TilePosition(0, 1), new ArrayList<>());
-        board.addTile(new LandTile(Color.GREEN), new TilePosition(1, 0), new ArrayList<>());
+        board.addTile(new LandTile(Color.YELLOW), new TilePosition(0, 1));
+        board.addTile(new LandTile(Color.GREEN), new TilePosition(1, 0));
         try
         {
             for (int i = 0; i < 6; i++)
@@ -81,8 +80,8 @@ public class PlotObjectiveTest
     @Test
     void ObjectiveWithTwoPlotsTest2()
     {
-        board.addTile(new LandTile(Color.YELLOW), new TilePosition(0, 1), new ArrayList<>());
-        board.addTile(new LandTile(Color.GREEN), new TilePosition(0, -1), new ArrayList<>());
+        board.addTile(new LandTile(Color.YELLOW), new TilePosition(0, 1));
+        board.addTile(new LandTile(Color.GREEN), new TilePosition(0, -1));
         try
         {
             for (int i = 0; i < 6; i++)
@@ -110,9 +109,9 @@ public class PlotObjectiveTest
     void ObjectiveWithThreePlotsTest1()
     {
         LandTile l1 = new LandTile(Color.YELLOW), l2 = new LandTile(Color.GREEN), l3 = new LandTile(Color.YELLOW);
-        board.addTile(l1, new TilePosition(0, 1), new ArrayList<>());
-        board.addTile(l2, new TilePosition(1, 0), new ArrayList<>());
-        board.addTile(l3, new TilePosition(1, 1), new ArrayList<>());
+        board.addTile(l1, new TilePosition(0, 1));
+        board.addTile(l2, new TilePosition(1, 0));
+        board.addTile(l3, new TilePosition(1, 1));
         board.getEdgeBetweenTwoTiles(l1, l2).addIrrigation();
         board.getEdgeBetweenTwoTiles(l2, l3).addIrrigation();
         try
@@ -145,9 +144,9 @@ public class PlotObjectiveTest
     @Test
     void ObjectiveWithThreePlotsTest2()
     {
-        board.addTile(new LandTile(Color.YELLOW), new TilePosition(0, 1), new ArrayList<>());
-        board.addTile(new LandTile(Color.GREEN), new TilePosition(1, 0), new ArrayList<>());
-        board.addTile(new LandTile(Color.PINK), new TilePosition(1, -1), new ArrayList<>());
+        board.addTile(new LandTile(Color.YELLOW), new TilePosition(0, 1));
+        board.addTile(new LandTile(Color.GREEN), new TilePosition(1, 0));
+        board.addTile(new LandTile(Color.PINK), new TilePosition(1, -1));
         try
         {
             PlotObjective plotObjective1 = new PlotObjective(5, List.of(Color.GREEN, Color.YELLOW), List.of(0));
@@ -188,10 +187,10 @@ public class PlotObjectiveTest
     void ObjectiveWithFourPlotsTest1()
     {
         LandTile l1 = new LandTile(Color.YELLOW), l2 = new LandTile(Color.GREEN), l3 = new LandTile(Color.PINK), l4 = new LandTile(Color.GREEN);
-        board.addTile(l1, new TilePosition(-1, 0), new ArrayList<>());
-        board.addTile(l2, new TilePosition(-1, 1), new ArrayList<>());
-        board.addTile(l3, new TilePosition(-2, 1), new ArrayList<>());
-        board.addTile(l4, new TilePosition(-2, 2), new ArrayList<>());
+        board.addTile(l1, new TilePosition(-1, 0));
+        board.addTile(l2, new TilePosition(-1, 1));
+        board.addTile(l3, new TilePosition(-2, 1));
+        board.addTile(l4, new TilePosition(-2, 2));
         board.getEdgeBetweenTwoTiles(l1, l2).addIrrigation();
         board.getEdgeBetweenTwoTiles(l2, l3).addIrrigation();
         board.getEdgeBetweenTwoTiles(l3, l4).addIrrigation();
@@ -223,12 +222,12 @@ public class PlotObjectiveTest
     void realObjectivePlotTest() // https://startyourmeeples.com/2019/05/26/which-are-the-best-takenoko-objective-cards/
     {
         LandTile l1 = new LandTile(Color.GREEN), l2 = new LandTile(Color.PINK), l3 = new LandTile(Color.YELLOW), l4 = new LandTile(Color.YELLOW), l5 = new LandTile(Color.YELLOW), l6 = new LandTile(Color.GREEN);
-        assertTrue(board.addTile(l1, new TilePosition(0, 1), new ArrayList<>())); // Take care of the order^^
-        assertTrue(board.addTile(l2, new TilePosition(1, 0), new ArrayList<>()));
-        assertTrue(board.addTile(l3, new TilePosition(1, -1), new ArrayList<>()));
-        assertTrue(board.addTile(l4, new TilePosition(0, -1), new ArrayList<>()));
-        assertTrue(board.addTile(l5, new TilePosition(-1, 0), new ArrayList<>()));
-        assertTrue(board.addTile(l6, new TilePosition(-1, 1), new ArrayList<>()));
+        assertTrue(board.addTile(l1, new TilePosition(0, 1))); // Take care of the order^^
+        assertTrue(board.addTile(l2, new TilePosition(1, 0)));
+        assertTrue(board.addTile(l3, new TilePosition(1, -1)));
+        assertTrue(board.addTile(l4, new TilePosition(0, -1)));
+        assertTrue(board.addTile(l5, new TilePosition(-1, 0)));
+        assertTrue(board.addTile(l6, new TilePosition(-1, 1)));
         board.getEdgeBetweenTwoTiles(l1, l2).addIrrigation();
         board.getEdgeBetweenTwoTiles(l2, l3).addIrrigation();
         board.getEdgeBetweenTwoTiles(l3, l4).addIrrigation();
@@ -237,10 +236,10 @@ public class PlotObjectiveTest
         board.getEdgeBetweenTwoTiles(l6, l1).addIrrigation();
 
         LandTile l7 = new LandTile(Color.GREEN), l8 = new LandTile(Color.YELLOW), l9 = new LandTile(Color.GREEN), l10 = new LandTile(Color.YELLOW);
-        assertTrue(board.addTile(l7, new TilePosition(-2, 1), new ArrayList<>()));
-        assertTrue(board.addTile(l8, new TilePosition(-2, 2), new ArrayList<>()));
-        assertTrue(board.addTile(l9, new TilePosition(-2, 0), new ArrayList<>()));
-        assertTrue(board.addTile(l10, new TilePosition(-1, -1), new ArrayList<>()));
+        assertTrue(board.addTile(l7, new TilePosition(-2, 1)));
+        assertTrue(board.addTile(l8, new TilePosition(-2, 2)));
+        assertTrue(board.addTile(l9, new TilePosition(-2, 0)));
+        assertTrue(board.addTile(l10, new TilePosition(-1, -1)));
         board.getEdgeBetweenTwoTiles(l5, l10).addIrrigation();
         board.getEdgeBetweenTwoTiles(l5, l9).addIrrigation();
         board.getEdgeBetweenTwoTiles(l5, l7).addIrrigation();
@@ -248,11 +247,11 @@ public class PlotObjectiveTest
         board.getEdgeBetweenTwoTiles(l7, l8).addIrrigation();
 
         LandTile l11 = new LandTile(Color.PINK), l12 = new LandTile(Color.PINK), l13 = new LandTile(Color.GREEN), l14 = new LandTile(Color.PINK), l15 = new LandTile(Color.PINK);
-        assertTrue(board.addTile(l11, new TilePosition(1, 1), new ArrayList<>()));
-        assertTrue(board.addTile(l12, new TilePosition(2, 0), new ArrayList<>()));
-        assertTrue(board.addTile(l13, new TilePosition(2, 1), new ArrayList<>()));
-        assertTrue(board.addTile(l14, new TilePosition(2, -1), new ArrayList<>()));
-        assertTrue(board.addTile(l15, new TilePosition(2, -2), new ArrayList<>()));
+        assertTrue(board.addTile(l11, new TilePosition(1, 1)));
+        assertTrue(board.addTile(l12, new TilePosition(2, 0)));
+        assertTrue(board.addTile(l13, new TilePosition(2, 1)));
+        assertTrue(board.addTile(l14, new TilePosition(2, -1)));
+        assertTrue(board.addTile(l15, new TilePosition(2, -2)));
         board.getEdgeBetweenTwoTiles(l2, l11).addIrrigation();
         board.getEdgeBetweenTwoTiles(l11, l12).addIrrigation();
         board.getEdgeBetweenTwoTiles(l11, l13).addIrrigation();

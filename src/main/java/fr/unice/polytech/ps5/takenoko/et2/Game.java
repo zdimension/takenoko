@@ -12,7 +12,6 @@ import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Game
@@ -30,7 +29,6 @@ public class Game
     private final Board board;
     private final Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks = new HashMap<>();
     private final List<LandTile> tileDeck;
-    private final List<BambooSection> bambooReserve;
     private final ArrayList<Player> playerList;
     private final boolean isFirstRound;
     private final boolean emperorTriggered;
@@ -44,11 +42,6 @@ public class Game
         GameAction.PLACE_IRRIGATION, this::placeIrrigation,
         GameAction.MOVE_GARDENER, this::moveGardener
     );
-
-    public List<BambooSection> getBambooReserve()
-    {
-        return bambooReserve;
-    }
 
     /**
      * Game contructor
@@ -76,10 +69,6 @@ public class Game
         this.objectiveDecks.put(PlotObjective.class, new ArrayList<>(plotObjectiveDeck));
         this.tileDeck = new ArrayList<>(tileDeck);
         this.emperorTriggered = false;
-        this.bambooReserve = tileDeck //TODO change to fit rules when Panda implemented
-            .stream()
-            .flatMap(t -> IntStream.range(0, 4).mapToObj(i -> new BambooSection(t.getColor())))
-            .collect(Collectors.toList());
     }
 
     /**
@@ -321,7 +310,7 @@ public class Game
             throwError(new IllegalArgumentException("Position of tile given is invalid"));
             return;
         }
-        board.addTile(chosenTile.first, chosenTile.second, bambooReserve);
+        board.addTile(chosenTile.first, chosenTile.second);
         tileDeck.remove(chosenTile.first);
     }
 
@@ -384,18 +373,7 @@ public class Game
     {
         Objects.requireNonNull(tile, "tile must not be null");
 
-        var res = this.bambooReserve.stream().filter(b -> b.getColor().equals(tile.getColor())).findAny();
-
-        if (res.isEmpty())
-        {
-            return;
-        }
-
-        var bambooSection = res.get();
-        if (tile.growBambooSection(bambooSection))
-        {
-            bambooReserve.remove(bambooSection);
-        }
+        tile.growBambooSection();
     }
 
     /**

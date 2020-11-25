@@ -1,6 +1,5 @@
 package fr.unice.polytech.ps5.takenoko.et2.decision;
 
-import fr.unice.polytech.ps5.takenoko.et2.BambooSection;
 import fr.unice.polytech.ps5.takenoko.et2.GameAction;
 import fr.unice.polytech.ps5.takenoko.et2.Player;
 import fr.unice.polytech.ps5.takenoko.et2.board.Board;
@@ -10,7 +9,6 @@ import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -66,14 +64,4 @@ public abstract class DecisionMaker
      * @return The desired landing position of the gardener
      */
     public abstract TilePosition chooseGardenerTarget(List<TilePosition> valid);
-
-    protected List<BambooSection> cloneBambooReserv(List<BambooSection> reserv)
-    {
-        List<BambooSection> listBambooReserv = new ArrayList<>();
-        for (BambooSection bambooSection : reserv)
-        {
-            listBambooReserv.add(new BambooSection(bambooSection.getColor()));
-        }
-        return listBambooReserv;
-    }
 }
