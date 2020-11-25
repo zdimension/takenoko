@@ -2,6 +2,7 @@ package fr.unice.polytech.ps5.takenoko.et2.decision;
 
 import fr.unice.polytech.ps5.takenoko.et2.GameAction;
 import fr.unice.polytech.ps5.takenoko.et2.Player;
+import fr.unice.polytech.ps5.takenoko.et2.Weather;
 import fr.unice.polytech.ps5.takenoko.et2.board.Edge;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
@@ -82,6 +83,28 @@ public class DecisionMakerDebugger extends DecisionMaker
     public TilePosition chooseGardenerTarget(List<TilePosition> validPos)
     {
         return readPosition(validPos);
+    }
+
+    @Override
+    public Weather chooseWeather(List<Weather> weatherList)
+    {
+        int input;
+        Weather weather;
+        do
+        {
+            System.out.println("Available weathers :");
+            weatherList.forEach(System.out::println);
+            System.out.println("Choose one (0, 1, 2...) :");
+            input = sc.nextInt();
+            if (input >= 0 && input < weatherList.size())
+            {
+                weather = weatherList.get(input);
+                break;
+            }
+        }
+        while (true);
+
+        return weather;
     }
 
     private TilePosition readPosition(List<TilePosition> validPos)
