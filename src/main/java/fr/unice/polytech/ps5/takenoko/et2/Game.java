@@ -480,5 +480,15 @@ public class Game
         }
     }
 
+    private Weather rollWeatherDice()
+    {
+        var diceResult = Weather.values()[diceRoller.nextInt(6)];
+        if (diceResult.equals(Weather.CLOUDS) && chipReserve.size() == 0)
+        {
+            return Weather.QUESTION_MARK;
+        }
+        return diceResult;
+    }
+
     //public getPlayerIndividualBoard(PLayer player)
 }
