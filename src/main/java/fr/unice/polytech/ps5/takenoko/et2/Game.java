@@ -131,27 +131,27 @@ public class Game
             int remaining = numberActionsInTurn;
 
             //un type sympa pour s'il y a la météo ou pas
-            Optional<Weather> turnWeather = Optional.empty();
+            Weather turnWeather = null;
 
             if (!isFirstRound)
             {
-                turnWeather = Optional.of(rollWeatherDice());
-                if (turnWeather.get().equals(Weather.QUESTION_MARK))
+                turnWeather = rollWeatherDice();
+                if (turnWeather.equals(Weather.QUESTION_MARK))
                 {
-                    turnWeather = Optional.of(chooseWeather(player));
+                    turnWeather = chooseWeather(player);
                 }
-                if (turnWeather.get().isDirectAction())
+                if (turnWeather.isDirectAction())
                 {
-                    switch (turnWeather.get())
+                    switch (turnWeather)
                     {
                         case RAIN:
-                            //TODO
+                            rainAction(player);
                             break;
                         case STORM:
-                            //TODO
+                            stormAction(player);
                             break;
                         case CLOUDS:
-                            //TODO
+                            cloudsAction(player);
                             break;
                         default:
                             throw new Exception("wtf");
@@ -159,7 +159,7 @@ public class Game
                 }
                 else
                 {
-                    if (turnWeather.get() == Weather.SUN)
+                    if (turnWeather == Weather.SUN)
                     {
                         remaining++;
                     }
@@ -237,7 +237,7 @@ public class Game
 
                 if (handler != null)
                 {
-                    if (turnWeather.isEmpty() || !turnWeather.get().equals(Weather.WIND))
+                    if (turnWeather != Weather.WIND)
                     {
                         actions.remove(action); // player has to choose two different actions
                     }
