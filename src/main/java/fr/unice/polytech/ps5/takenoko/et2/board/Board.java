@@ -1,6 +1,7 @@
 package fr.unice.polytech.ps5.takenoko.et2.board;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -184,6 +185,16 @@ public class Board implements Cloneable
             }
         }
         return null;
+    }
+
+    /**
+     *
+     * @return stream of irrigated tiles on board
+     */
+    public Map<TilePosition, LandTile> getIrrigatedTiles()
+    {
+        var ret =  tileCache.entrySet().stream().filter(map -> map.getValue() instanceof LandTile);
+        return ret.filter(map -> ((LandTile)map.getValue()).isIrrigated()).collect(Collectors.toMap(Map.Entry::getKey, e -> (LandTile)e.getValue()));
     }
 
     /**
