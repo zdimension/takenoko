@@ -2,6 +2,7 @@ package fr.unice.polytech.ps5.takenoko.et2.decision.bots;
 
 import fr.unice.polytech.ps5.takenoko.et2.GameAction;
 import fr.unice.polytech.ps5.takenoko.et2.Player;
+import fr.unice.polytech.ps5.takenoko.et2.Weather;
 import fr.unice.polytech.ps5.takenoko.et2.board.Board;
 import fr.unice.polytech.ps5.takenoko.et2.board.Edge;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
@@ -126,6 +127,12 @@ public class MinMaxBot extends DecisionMaker
     public TilePosition chooseGardenerTarget(List<TilePosition> valid)
     {
         return valid.get(0);
+    }
+
+    @Override
+    public Weather chooseWeather(List<Weather> weatherList)
+    {
+        return Weather.SUN; //TODO
     }
 
     private int evaluateAction(LandTile playedTile, TilePosition playedPos, List<LandTile> drawnTiles, List<TilePosition> ListValidsPositions, Board board, List<Objective> myObjectives, int n, boolean myTurn)

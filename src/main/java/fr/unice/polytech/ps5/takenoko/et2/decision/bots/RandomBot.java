@@ -2,6 +2,7 @@ package fr.unice.polytech.ps5.takenoko.et2.decision.bots;
 
 import fr.unice.polytech.ps5.takenoko.et2.GameAction;
 import fr.unice.polytech.ps5.takenoko.et2.Player;
+import fr.unice.polytech.ps5.takenoko.et2.Weather;
 import fr.unice.polytech.ps5.takenoko.et2.board.Edge;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
@@ -63,5 +64,11 @@ public class RandomBot extends DecisionMaker
     public TilePosition chooseGardenerTarget(List<TilePosition> valid)
     {
         return randomElement(valid);
+    }
+
+    @Override
+    public Weather chooseWeather(List<Weather> weatherList)
+    {
+        return Weather.SUN; //TODO
     }
 }

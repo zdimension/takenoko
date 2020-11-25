@@ -2,6 +2,7 @@ package fr.unice.polytech.ps5.takenoko.et2.decision;
 
 import fr.unice.polytech.ps5.takenoko.et2.GameAction;
 import fr.unice.polytech.ps5.takenoko.et2.Player;
+import fr.unice.polytech.ps5.takenoko.et2.Weather;
 import fr.unice.polytech.ps5.takenoko.et2.board.Board;
 import fr.unice.polytech.ps5.takenoko.et2.board.Edge;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
@@ -64,4 +65,11 @@ public abstract class DecisionMaker
      * @return The desired landing position of the gardener
      */
     public abstract TilePosition chooseGardenerTarget(List<TilePosition> valid);
+
+    /**
+     *
+     * @param weatherList to choose from
+     * @return chosen weather
+     */
+    public abstract Weather chooseWeather(List<Weather> weatherList);
 }
