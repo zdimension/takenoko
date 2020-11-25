@@ -31,7 +31,6 @@ public class Game
     private final List<LandTile> tileDeck;
     private final ArrayList<Player> playerList;
     private final boolean isFirstRound;
-    private final boolean emperorTriggered;
     private TilePosition gardenerPosition = TilePosition.ZERO;
     private int nbIrrigationsInDeck = 20;
     private final Map<GameAction, Consumer<Player>> ACTION_MAP = Map.of(
@@ -68,7 +67,6 @@ public class Game
         board = new Board();
         this.objectiveDecks.put(PlotObjective.class, new ArrayList<>(plotObjectiveDeck));
         this.tileDeck = new ArrayList<>(tileDeck);
-        this.emperorTriggered = false;
     }
 
     /**
@@ -238,32 +236,12 @@ public class Game
      *
      * @return list of winning players, empty list if no one won
      */
-    private ArrayList<Player> whoWins()
+    private List<Player> whoWins()
     {
-        int bestScore = 0;
-        ArrayList<Player> winners = new ArrayList<>();
-        for (Player player : playerList)
-        {
-            if (bestScore <= player.countPoints())
-            {
-                bestScore = player.countPoints();
-            }
-        }
-        if (bestScore < objectiveThreshold.get(playerList.size()))
-        {
-            return winners;
-        }
-
-        for (Player player : playerList)
-        {
-            if (bestScore == player.countPoints())
-            {
-                winners.add(player);
-            }
-        }
-        return winners;
+        return playerList
+            .stream().collect(Collectors.groupingBy(Player::countPoints)).entrySet()
+            .stream().max(Map.Entry.comparingByKey()).orElseThrow().getValue();
     }
-
 
     /**
      * @return board
@@ -340,12 +318,8 @@ public class Game
         }
         player.moveObjectiveToComplete(obj);
 
-        if (player.getNumberObjectivesCompleted()>= objectiveThreshold.get(playerList.size()))
+        if (player.completedObjectivesCount() >= objectiveThreshold.get(playerList.size()))
         {
-            if (emperorTriggered)
-            {
-                return;
-            }
             player.triggerEmperor();
         }
     }

@@ -34,9 +34,12 @@ public class Player
         this.hasTriggeredEmperor = false;
     }
 
-    public int getNumberObjectivesCompleted()
+    /**
+     * @return the number of objectives the player has completed during the game
+     */
+    public int completedObjectivesCount()
     {
-        return objectivesCompleted.size();
+        return this.objectivesCompleted.size();
     }
 
     /**
@@ -76,6 +79,7 @@ public class Player
             throw new IllegalArgumentException("Hand of player does not contain given objective");
         }
         objectivesCompleted.add(objective);
+        //System.out.println(completedObjectivesCount());
         hand.remove(objective);
     }
 
