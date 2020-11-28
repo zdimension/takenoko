@@ -5,14 +5,12 @@ import fr.unice.polytech.ps5.takenoko.et2.Player;
 import fr.unice.polytech.ps5.takenoko.et2.Weather;
 import fr.unice.polytech.ps5.takenoko.et2.board.Edge;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
+import fr.unice.polytech.ps5.takenoko.et2.board.Tile;
 import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DecisionMakerDebugger extends DecisionMaker
@@ -95,7 +93,18 @@ public class DecisionMakerDebugger extends DecisionMaker
     @Override
     public Pair<TilePosition, LandTile> chooseTileToAddBamboo(Map<TilePosition, LandTile> listIrrigatedTiles)
     {
-        return null; //TODO
+        TilePosition[] arr = listIrrigatedTiles.keySet().toArray(TilePosition[]::new);
+        int input;
+        do
+        {
+            System.out.println("Available choices :");
+            listIrrigatedTiles.forEach((k, v) -> System.out.println("position x :"+k.getX()+", position y : "+k.getY()+", color : "+v.getColor()+", actual bamboo size : "+v.getBambooSize()));
+            System.out.println("Choose one (0, 1, 2...) :");
+            input = sc.nextInt();
+        }
+        while (input < 0 || input >= listIrrigatedTiles.size());
+
+        return Pair.of(arr[input], listIrrigatedTiles.get(arr[input]));
     }
 
     private TilePosition readPosition(List<TilePosition> validPos)
