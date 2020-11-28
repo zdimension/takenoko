@@ -135,6 +135,12 @@ public class MinMaxBot extends DecisionMaker
         return Weather.SUN; //TODO
     }
 
+    @Override
+    public Pair<TilePosition, LandTile> chooseTileToAddBamboo(Map<TilePosition, LandTile> listIrrigatedTiles)
+    {
+        return null; //TODO
+    }
+
     private int evaluateAction(LandTile playedTile, TilePosition playedPos, List<LandTile> drawnTiles, List<TilePosition> ListValidsPositions, Board board, List<Objective> myObjectives, int n, boolean myTurn)
     {
         List<Objective> copyOfMyObjectives = new ArrayList<>(myObjectives);

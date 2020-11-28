@@ -516,20 +516,20 @@ public class Game
 
     public void rainAction(Player player)
     {
-        //DecisionMaker dm = player.getDecisionMaker();
-        //var listIrrigatedTiles = board.getIrrigatedTiles()
-        //    .entrySet()
-        //    .stream()
-        //    .filter(tile -> tile.getValue().getBambooSize() < 4)
-        //    .collect(Collectors.toList());
-        //if (listIrrigatedTiles.isEmpty())
-        //{
-        //    return;
-        //}
-        //var pair = dm.chooseTileToAddBamboo(listIrrigatedTiles);
-        //if (listIrrigatedTiles.get(pair.first))
-        ////check si le duo existe
-        ////ajouter le bmaboo
+        DecisionMaker dm = player.getDecisionMaker();
+        var listIrrigatedTiles = board.getIrrigatedTiles()
+            .entrySet()
+            .stream()
+            .filter(tile -> tile.getValue().getBambooSize() < 4)
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        if (listIrrigatedTiles.isEmpty())
+        {
+            return;
+        }
+        var pair = dm.chooseTileToAddBamboo(listIrrigatedTiles);
+        if (listIrrigatedTiles.get(pair.first).equals(pair.second)){
+            pair.second.growBambooSection();
+        }
     }
 
     public void stormAction(Player player)

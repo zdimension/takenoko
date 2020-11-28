@@ -10,6 +10,7 @@ import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -89,6 +90,12 @@ public class DecisionMakerDebugger extends DecisionMaker
     public Weather chooseWeather(List<Weather> weatherList)
     {
         return chooseItem(weatherList);
+    }
+
+    @Override
+    public Pair<TilePosition, LandTile> chooseTileToAddBamboo(Map<TilePosition, LandTile> listIrrigatedTiles)
+    {
+        return null; //TODO
     }
 
     private TilePosition readPosition(List<TilePosition> validPos)
