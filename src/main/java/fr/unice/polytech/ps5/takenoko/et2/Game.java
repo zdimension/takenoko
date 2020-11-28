@@ -504,6 +504,12 @@ public class Game
         }
     }
 
+    /**
+     * Picks a random weather
+     * if no chip is avaiable in the reserve, returns QUESTION_MARK weather
+     *
+     * @return random weather
+     */
     private Weather rollWeatherDice()
     {
         var diceResult = Weather.values()[diceRoller.nextInt(6)];
@@ -514,6 +520,11 @@ public class Game
         return diceResult;
     }
 
+    /**
+     * Adds a bamboo section on a tile DecisionMaker chooses from legal tiles
+     *
+     * @param player to act
+     */
     public void rainAction(Player player)
     {
         DecisionMaker dm = player.getDecisionMaker();
@@ -527,7 +538,8 @@ public class Game
             return;
         }
         var pair = dm.chooseTileToAddBamboo(listIrrigatedTiles);
-        if (listIrrigatedTiles.get(pair.first).equals(pair.second)){
+        if (listIrrigatedTiles.get(pair.first).equals(pair.second))
+        {
             pair.second.growBambooSection();
         }
     }
@@ -542,6 +554,12 @@ public class Game
         //TODO
     }
 
+    /**
+     * Asks DecisionMaker what weather to choose from a legal list of weathers
+     *
+     * @param player to act
+     * @return weather the player choose
+     */
     public Weather chooseWeather(Player player)
     {
         DecisionMaker dm = player.getDecisionMaker();
