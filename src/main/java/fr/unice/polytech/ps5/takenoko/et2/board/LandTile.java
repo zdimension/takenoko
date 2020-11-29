@@ -81,7 +81,7 @@ public class LandTile extends Tile implements Cloneable
             return false;
         }
         LandTile landTile = (LandTile) o;
-        return (landTile.color.equals(color) && landTile.bambooCount == this.bambooCount);// todo
+        return (landTile.color == color && landTile.bambooCount == this.bambooCount);// todo
     }
 
     /**

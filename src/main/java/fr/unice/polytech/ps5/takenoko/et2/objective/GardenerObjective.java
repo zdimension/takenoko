@@ -64,7 +64,7 @@ public class GardenerObjective extends Objective {
         for (LandTile tile : landTileList) {
             bambooColor = tile.getColor();
             bambooStackSize = tile.getBambooSize();
-            if (bambooStackSize == this.numberOfBambooSection && bambooColor.equals(this.color)) {
+            if (bambooStackSize == this.numberOfBambooSection && bambooColor == this.color) {
                 countBambooStack++;
             }
             if (this.numberOfBambooStack == countBambooStack) {

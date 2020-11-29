@@ -41,6 +41,11 @@ public class Game
         GameAction.PLACE_IRRIGATION, this::placeIrrigation,
         GameAction.MOVE_GARDENER, this::moveGardener
     );
+    private final Map<Weather, Consumer<Player>> WEATHER_MAP = Map.of(
+        Weather.RAIN, this::rainAction,
+        Weather.STORM, this::stormAction,
+        Weather.CLOUDS, this::cloudsAction
+    );
     private static final Random diceRoller = new Random();
     private final List<Object> chipReserve;
 
@@ -94,8 +99,6 @@ public class Game
      * Processes the game
      *
      * @return List of indexes of winners
-     * @throws IllegalArgumentException
-     * @throws DecisionMakerException
      */
     public List<Integer> gameProcessing() throws Exception
     {
@@ -136,26 +139,20 @@ public class Game
             if (!isFirstRound)
             {
                 turnWeather = rollWeatherDice();
-                if (turnWeather.equals(Weather.QUESTION_MARK))
+                if (turnWeather == Weather.QUESTION_MARK)
                 {
                     turnWeather = chooseWeather(player);
                 }
                 if (turnWeather.isDirectAction())
                 {
-                    switch (turnWeather)
+                    var handler = WEATHER_MAP.getOrDefault(turnWeather, null);
+
+                    if (handler == null)
                     {
-                        case RAIN:
-                            rainAction(player);
-                            break;
-                        case STORM:
-                            stormAction(player);
-                            break;
-                        case CLOUDS:
-                            cloudsAction(player);
-                            break;
-                        default:
-                            throw new Exception("wtf");
+                        throw new IllegalStateException();
                     }
+
+                    handler.accept(player);
                 }
                 else
                 {
@@ -383,7 +380,6 @@ public class Game
      * Adds a BambooSection to the given tile, if no bamboo is left in bambooReserve or if tile is at max of bambooSection capacity, does nothing
      *
      * @param tile to give BambooSection to
-     * @throws Exception
      */
     public void addBambooSectionToTile(LandTile tile)
     {
@@ -513,7 +509,7 @@ public class Game
     private Weather rollWeatherDice()
     {
         var diceResult = Weather.values()[diceRoller.nextInt(6)];
-        if (diceResult.equals(Weather.CLOUDS) && chipReserve.size() == 0)
+        if (diceResult == Weather.CLOUDS && chipReserve.size() == 0)
         {
             return Weather.QUESTION_MARK;
         }
@@ -529,18 +525,18 @@ public class Game
     {
         DecisionMaker dm = player.getDecisionMaker();
         var listIrrigatedTiles = board.getIrrigatedTiles()
-            .entrySet()
+            .values()
             .stream()
-            .filter(tile -> tile.getValue().getBambooSize() < 4)
-            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+            .filter(tile -> tile.getBambooSize() < 4)
+            .collect(Collectors.toUnmodifiableList());
         if (listIrrigatedTiles.isEmpty())
         {
             return;
         }
-        var pair = dm.chooseTileToAddBamboo(listIrrigatedTiles);
-        if (listIrrigatedTiles.get(pair.first).equals(pair.second))
+        var tile = dm.chooseTileToAddBamboo(listIrrigatedTiles);
+        if (listIrrigatedTiles.contains(tile))
         {
-            pair.second.growBambooSection();
+            tile.growBambooSection();
         }
     }
 
@@ -570,7 +566,7 @@ public class Game
             weatherList.remove(Weather.CLOUDS);
         }
         var weatherChosen = dm.chooseWeather(weatherList);
-        if (weatherChosen == null || !weatherList.contains(weatherChosen))
+        if (!weatherList.contains(weatherChosen))
         {
             throw new IllegalArgumentException("Chosen weather is invalid");
         }

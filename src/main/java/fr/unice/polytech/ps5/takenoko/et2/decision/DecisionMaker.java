@@ -11,7 +11,6 @@ import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public abstract class DecisionMaker
@@ -79,5 +78,5 @@ public abstract class DecisionMaker
      * @param listIrrigatedTiles to choose from to add bamboo
      * @return a tile and its position to add a BambooSection on it
      */
-    public abstract Pair<TilePosition, LandTile> chooseTileToAddBamboo(Map<TilePosition, LandTile> listIrrigatedTiles);
+    public abstract LandTile chooseTileToAddBamboo(List<LandTile> listIrrigatedTiles);
 }

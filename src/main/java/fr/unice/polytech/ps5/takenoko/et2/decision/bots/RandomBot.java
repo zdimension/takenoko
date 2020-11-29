@@ -11,7 +11,6 @@ import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -70,12 +69,12 @@ public class RandomBot extends DecisionMaker
     @Override
     public Weather chooseWeather(List<Weather> weatherList)
     {
-        return Weather.SUN; //TODO
+        return randomElement(weatherList);
     }
 
     @Override
-    public Pair<TilePosition, LandTile> chooseTileToAddBamboo(Map<TilePosition, LandTile> listIrrigatedTiles)
+    public LandTile chooseTileToAddBamboo(List<LandTile> listIrrigatedTiles)
     {
-        return null; //TODO
+        return randomElement(listIrrigatedTiles);
     }
 }

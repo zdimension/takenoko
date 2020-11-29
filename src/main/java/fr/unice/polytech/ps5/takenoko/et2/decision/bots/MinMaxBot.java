@@ -136,7 +136,7 @@ public class MinMaxBot extends DecisionMaker
     }
 
     @Override
-    public Pair<TilePosition, LandTile> chooseTileToAddBamboo(Map<TilePosition, LandTile> listIrrigatedTiles)
+    public LandTile chooseTileToAddBamboo(List<LandTile> listIrrigatedTiles)
     {
         return null; //TODO
     }
@@ -147,7 +147,7 @@ public class MinMaxBot extends DecisionMaker
         List<LandTile> copyOfDrawnTiles = new ArrayList<>(drawnTiles);
         for (int i = 0; i < copyOfDrawnTiles.size(); i++)
         {
-            if (copyOfDrawnTiles.get(i).equals(playedTile))
+            if (copyOfDrawnTiles.get(i) == playedTile)
             {
                 copyOfDrawnTiles.remove(i);
                 break;
