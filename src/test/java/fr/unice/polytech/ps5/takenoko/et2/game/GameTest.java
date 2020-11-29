@@ -36,7 +36,8 @@ class GameTest
 
     @Test
     void gameGameProcessing1Players() throws Exception
-    { var players = List.<DecisionMakerBuilder>of(
+    {
+        var players = List.<DecisionMakerBuilder>of(
             RandomBot::new
         );
 

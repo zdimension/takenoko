@@ -15,7 +15,8 @@ import java.util.stream.Collectors;
 /**
  * The class representing the gardener objective
  */
-public class GardenerObjective extends Objective {
+public class GardenerObjective extends Objective
+{
     private final Color color;
     private final int numberOfBambooStack;
     private final int numberOfBambooSection;
@@ -23,12 +24,13 @@ public class GardenerObjective extends Objective {
     /**
      * Construtor of a Gardener Objective
      *
-     * @param points Points of the Objective
-     * @param color Color of the bamboo's stacks and sections
-     * @param stack number of stacks of bamboo
+     * @param points  Points of the Objective
+     * @param color   Color of the bamboo's stacks and sections
+     * @param stack   number of stacks of bamboo
      * @param section number of bamboo section on each stack
      */
-    public GardenerObjective(int points, Color color, int stack, int section) {
+    public GardenerObjective(int points, Color color, int stack, int section)
+    {
         super(points);
         this.color = Objects.requireNonNull(color, "color must not be null");
         this.numberOfBambooStack = stack;
@@ -48,26 +50,30 @@ public class GardenerObjective extends Objective {
      * @return true if the Objective is validated in the Game, false otherwise
      */
     @Override
-    public boolean checkValidated(Board board) {
+    public boolean checkValidated(Board board)
+    {
         Objects.requireNonNull(board, "board must not be null");
 
         Map<TilePosition, Tile> listTiles = board.getTiles();
         Set<LandTile> landTileList = listTiles.values()
             .stream()
             .filter(tile -> tile instanceof LandTile)
-            .map(tile -> (LandTile)tile)
+            .map(tile -> (LandTile) tile)
             .collect(Collectors.toSet());
 
         int bambooStackSize;
         int countBambooStack = 0;
         Color bambooColor;
-        for (LandTile tile : landTileList) {
+        for (LandTile tile : landTileList)
+        {
             bambooColor = tile.getColor();
             bambooStackSize = tile.getBambooSize();
-            if (bambooStackSize == this.numberOfBambooSection && bambooColor == this.color) {
+            if (bambooStackSize == this.numberOfBambooSection && bambooColor == this.color)
+            {
                 countBambooStack++;
             }
-            if (this.numberOfBambooStack == countBambooStack) {
+            if (this.numberOfBambooStack == countBambooStack)
+            {
                 return true;
             }
         }
@@ -78,10 +84,11 @@ public class GardenerObjective extends Objective {
      * @return a String with the number of points, the color of the bamboo and the number of stack(s) and bamboo section
      */
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Gardener Objective : " + points + "points,"
-                                       + color.toString() + "bambou,"
-                                       + numberOfBambooStack + " bamboo stack(s),"
-                                       + numberOfBambooSection + "bamboo sections per stack";
+            + color.toString() + "bambou,"
+            + numberOfBambooStack + " bamboo stack(s),"
+            + numberOfBambooSection + "bamboo sections per stack";
     }
 }

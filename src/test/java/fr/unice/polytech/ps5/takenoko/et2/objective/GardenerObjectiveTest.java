@@ -26,11 +26,12 @@ class GardenerObjectiveTest
         Map<TilePosition, Tile> landTileList = new HashMap<>();
         LandTile[] tileList = new LandTile[12];
 
-        for (int i=0; i<12; i++) {
+        for (int i = 0; i < 12; i++)
+        {
             LandTile mockLandTile = mock(LandTile.class);
             TilePosition mockTilePosition = mock(TilePosition.class);
             tileList[i] = mockLandTile;
-            landTileList.put(mockTilePosition,mockLandTile);
+            landTileList.put(mockTilePosition, mockLandTile);
         }
 
         when(board.getTiles()).thenReturn(landTileList);
@@ -62,9 +63,10 @@ class GardenerObjectiveTest
     }
 
     @Test
-    void oneStackWithFourBambooSectionsTest() {
-        GardenerObjective greenGardenerObjective = new GardenerObjective(5, Color.GREEN , 1, 4);
-        GardenerObjective yellowGardenerObjective = new GardenerObjective(6, Color.YELLOW , 1, 4);
+    void oneStackWithFourBambooSectionsTest()
+    {
+        GardenerObjective greenGardenerObjective = new GardenerObjective(5, Color.GREEN, 1, 4);
+        GardenerObjective yellowGardenerObjective = new GardenerObjective(6, Color.YELLOW, 1, 4);
 
         assertTrue(greenGardenerObjective.checkValidated(board));
         assertEquals(5, greenGardenerObjective.getPoints());
@@ -74,10 +76,11 @@ class GardenerObjectiveTest
     }
 
     @Test
-    void threeStacksOfBambooTest() {
-        GardenerObjective greenGardenerObjective = new GardenerObjective(8, Color.GREEN , 4, 3);
-        GardenerObjective yellowGardenerObjective = new GardenerObjective(7, Color.YELLOW , 3, 3);
-        GardenerObjective pinkGardenerObjective = new GardenerObjective(6, Color.PINK, 2,3);
+    void threeStacksOfBambooTest()
+    {
+        GardenerObjective greenGardenerObjective = new GardenerObjective(8, Color.GREEN, 4, 3);
+        GardenerObjective yellowGardenerObjective = new GardenerObjective(7, Color.YELLOW, 3, 3);
+        GardenerObjective pinkGardenerObjective = new GardenerObjective(6, Color.PINK, 2, 3);
 
         assertTrue(greenGardenerObjective.checkValidated(board));
         assertEquals(8, greenGardenerObjective.getPoints());

@@ -10,7 +10,8 @@ import java.util.List;
 /**
  * The class representing the gardener objective
  */
-public class PandaObjective extends Objective {
+public class PandaObjective extends Objective
+{
 
     private final List<Color> listColors = new ArrayList<>();
     private final int numberOfBambooSection;
@@ -18,14 +19,16 @@ public class PandaObjective extends Objective {
     /**
      * Constructor
      *
-     * @param points points of the Objective
-     * @param listColors a list of bamboo section's color eg [PINK, YELLOW, GREEN]
+     * @param points                points of the Objective
+     * @param listColors            a list of bamboo section's color eg [PINK, YELLOW, GREEN]
      * @param numberOfBambooSection number of bamboo section
      */
-    public PandaObjective(int points, List<Color> listColors, int numberOfBambooSection ) {
+    public PandaObjective(int points, List<Color> listColors, int numberOfBambooSection)
+    {
         super(points);
         this.numberOfBambooSection = numberOfBambooSection;
-        if (listColors.size() == 0) {
+        if (listColors.isEmpty())
+        {
             throw new IllegalArgumentException("Invalid Objective");
         }
         this.listColors.addAll(listColors);

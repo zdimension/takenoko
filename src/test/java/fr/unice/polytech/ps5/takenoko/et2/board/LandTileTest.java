@@ -3,7 +3,8 @@ package fr.unice.polytech.ps5.takenoko.et2.board;
 import fr.unice.polytech.ps5.takenoko.et2.Color;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class LandTileTest
 {

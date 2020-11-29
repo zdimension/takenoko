@@ -26,11 +26,18 @@ public class Game
     );
     private static final int minNumberOfPlayers = 2;
     private static final int maxNumberOfPlayers = 4;
+    private static final Random diceRoller = new Random();
     private final Board board;
     private final Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks = new HashMap<>();
     private final List<LandTile> tileDeck;
     private final ArrayList<Player> playerList;
     private final boolean isFirstRound;
+    private final List<LandTileImprovement> chipReserve;
+    private final Map<Weather, Consumer<Player>> WEATHER_MAP = Map.of(
+        Weather.RAIN, this::rainAction,
+        Weather.STORM, this::stormAction,
+        Weather.CLOUDS, this::cloudsAction
+    );
     private TilePosition gardenerPosition = TilePosition.ZERO;
     private int nbIrrigationsInDeck = 20;
     private final Map<GameAction, Consumer<Player>> ACTION_MAP = Map.of(
@@ -41,13 +48,6 @@ public class Game
         GameAction.PLACE_IRRIGATION, this::placeIrrigation,
         GameAction.MOVE_GARDENER, this::moveGardener
     );
-    private final Map<Weather, Consumer<Player>> WEATHER_MAP = Map.of(
-        Weather.RAIN, this::rainAction,
-        Weather.STORM, this::stormAction,
-        Weather.CLOUDS, this::cloudsAction
-    );
-    private static final Random diceRoller = new Random();
-    private final List<LandTileImprovement> chipReserve;
 
     /**
      * Game contructor
@@ -60,11 +60,11 @@ public class Game
         Objects.requireNonNull(plotObjectiveDeck, "plotObjectiveDeck must not be null");
         Objects.requireNonNull(tileDeck, "tileDeck must not be null");
 
-        if (plotObjectiveDeck.size() == 0)
+        if (plotObjectiveDeck.isEmpty())
         {
             throw new IllegalArgumentException("PlotObjective deck is empty");
         }
-        if (tileDeck.size() == 0)
+        if (tileDeck.isEmpty())
         {
             throw new IllegalArgumentException("Game started with empty tile deck");
         }
@@ -509,7 +509,7 @@ public class Game
     private Weather rollWeatherDice()
     {
         var diceResult = Weather.values()[diceRoller.nextInt(6)];
-        if (diceResult == Weather.CLOUDS && chipReserve.size() == 0)
+        if (diceResult == Weather.CLOUDS && chipReserve.isEmpty())
         {
             return Weather.QUESTION_MARK;
         }
@@ -523,7 +523,6 @@ public class Game
      */
     public void rainAction(Player player)
     {
-        DecisionMaker dm = player.getDecisionMaker();
         var listIrrigatedTiles = board.getIrrigatedTiles()
             .values()
             .stream()
@@ -533,7 +532,7 @@ public class Game
         {
             return;
         }
-        var tile = dm.chooseTileToAddBamboo(listIrrigatedTiles);
+        var tile = player.getDecisionMaker().chooseTileToAddBamboo(listIrrigatedTiles);
         if (listIrrigatedTiles.contains(tile))
         {
             tile.growBambooSection();
@@ -547,26 +546,13 @@ public class Game
 
     public void cloudsAction(Player player)
     {
-        DecisionMaker dm = player.getDecisionMaker();
-        List<LandTileImprovement> possibleLandTileImprovementsList = new ArrayList<>();
-        for (LandTileImprovement landTileImprovement : chipReserve)
+        var chosen = player.getDecisionMaker().chooseLandTileImprovement(new ArrayList<>(chipReserve));
+        if (!chipReserve.contains(chosen))
         {
-            if (!possibleLandTileImprovementsList.contains(landTileImprovement))
-            {
-                possibleLandTileImprovementsList.add(landTileImprovement);
-            }
+            throw new IllegalArgumentException("Chosen LandTileImprovement is invalid");
         }
-        LandTileImprovement chosenLandTileImprovement = dm.chooseLandTileImprovement(possibleLandTileImprovementsList);
-        for (int i = 0; i < chipReserve.size(); i++)
-        {
-            if (chipReserve.get(i).equals(chosenLandTileImprovement))
-            {
-                player.addChip(chipReserve.get(i));
-                chipReserve.remove(i);
-                return;
-            }
-        }
-        throw new IllegalArgumentException("Chosen LandTileImprovement is invalid");
+        player.addChip(chosen);
+        chipReserve.remove(chosen);
     }
 
     /**
@@ -577,14 +563,13 @@ public class Game
      */
     public Weather chooseWeather(Player player)
     {
-        DecisionMaker dm = player.getDecisionMaker();
         var weatherList = Arrays.asList(Weather.values());
         weatherList.remove(Weather.QUESTION_MARK);
-        if (chipReserve.size() == 0)
+        if (chipReserve.isEmpty())
         {
             weatherList.remove(Weather.CLOUDS);
         }
-        var weatherChosen = dm.chooseWeather(weatherList);
+        var weatherChosen = player.getDecisionMaker().chooseWeather(weatherList);
         if (!weatherList.contains(weatherChosen))
         {
             throw new IllegalArgumentException("Chosen weather is invalid");

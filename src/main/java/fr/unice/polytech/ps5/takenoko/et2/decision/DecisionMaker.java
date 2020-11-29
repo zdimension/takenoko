@@ -19,7 +19,10 @@ public abstract class DecisionMaker
      *
      * @param player player the DecisionMaker will be bound to
      */
-    public DecisionMaker(Player player) { this.player = Objects.requireNonNull(player, "player must not be null"); }
+    public DecisionMaker(Player player)
+    {
+        this.player = Objects.requireNonNull(player, "player must not be null");
+    }
 
     /**
      * Get the board of the game of the player
@@ -64,7 +67,6 @@ public abstract class DecisionMaker
     public abstract TilePosition chooseGardenerTarget(List<TilePosition> valid);
 
     /**
-     *
      * @param weatherList to choose from
      * @return chosen weather
      */

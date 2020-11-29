@@ -9,13 +9,13 @@ import java.util.Objects;
  */
 public class LandTile extends Tile implements Cloneable
 {
+    private static final int maxBambooSize = 4;
     /**
      * Color of the land.
      */
     private final Color color;
     private LandTileImprovement landTileImprovement = null;
     private int bambooCount = 0;
-    private static final int maxBambooSize = 4;
 
     public LandTile(Color color)
     {

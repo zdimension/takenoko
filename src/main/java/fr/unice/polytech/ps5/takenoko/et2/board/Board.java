@@ -189,13 +189,12 @@ public class Board implements Cloneable
     }
 
     /**
-     *
      * @return stream of irrigated tiles on board
      */
     public Map<TilePosition, LandTile> getIrrigatedTiles()
     {
-        var ret =  tileCache.entrySet().stream().filter(map -> map.getValue() instanceof LandTile);
-        return ret.filter(map -> ((LandTile)map.getValue()).isIrrigated()).collect(Collectors.toMap(Map.Entry::getKey, e -> (LandTile)e.getValue()));
+        var ret = tileCache.entrySet().stream().filter(map -> map.getValue() instanceof LandTile);
+        return ret.filter(map -> ((LandTile) map.getValue()).isIrrigated()).collect(Collectors.toMap(Map.Entry::getKey, e -> (LandTile) e.getValue()));
     }
 
     /**

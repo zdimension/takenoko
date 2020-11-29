@@ -21,9 +21,9 @@ public class Player
     private final List<Objective> objectivesCompleted = new ArrayList<>();
     private final Game game;
     private final DecisionMaker decisionMaker;
+    private final List<LandTileImprovement> chipReserve = new ArrayList<>();
     private boolean hasTriggeredEmperor;
     private int nbIrrigationsInStock = 0;
-    private final List<LandTileImprovement> chipReserve = new ArrayList<>();
 
     /**
      * Constructor of the Player

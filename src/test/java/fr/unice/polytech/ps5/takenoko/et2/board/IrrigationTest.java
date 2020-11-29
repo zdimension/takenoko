@@ -98,8 +98,8 @@ public class IrrigationTest
         LandTile l4 = new LandTile(Color.PINK);
         LandTile l5 = new LandTile(Color.GREEN);
         LandTile l6 = new LandTile(Color.YELLOW);
-        assertTrue(board.addTile(l1, new TilePosition(0,  1)));
-        assertTrue(board.addTile(l2, new TilePosition(1,  0)));
+        assertTrue(board.addTile(l1, new TilePosition(0, 1)));
+        assertTrue(board.addTile(l2, new TilePosition(1, 0)));
         assertTrue(board.addTile(l3, new TilePosition(1, -1)));
         assertTrue(board.addTile(l4, new TilePosition(0, -1)));
         assertTrue(board.addTile(l5, new TilePosition(-1, 0)));
@@ -118,10 +118,10 @@ public class IrrigationTest
         LandTile l4 = new LandTile(Color.PINK);
         LandTile l5 = new LandTile(Color.GREEN);
         LandTile l6 = new LandTile(Color.YELLOW);
-        assertTrue(board.addTile(l1, new TilePosition( 0, 1)));
-        assertTrue(board.addTile(l2, new TilePosition( 1, 0)));
-        assertTrue(board.addTile(l3, new TilePosition( 1,-1)));
-        assertTrue(board.addTile(l4, new TilePosition( 0,-1)));
+        assertTrue(board.addTile(l1, new TilePosition(0, 1)));
+        assertTrue(board.addTile(l2, new TilePosition(1, 0)));
+        assertTrue(board.addTile(l3, new TilePosition(1, -1)));
+        assertTrue(board.addTile(l4, new TilePosition(0, -1)));
         assertTrue(board.addTile(l5, new TilePosition(-1, 0)));
         assertTrue(board.addTile(l6, new TilePosition(-1, 1)));
         Edge e1 = board.getEdgeBetweenTwoTiles(l1, l2);

@@ -75,7 +75,7 @@ public class Main
                 }
             }
         });
-        
+
         var duration = Duration.between(start, Instant.now());
         System.out.printf("Total: %d.%03ds (%.2f games/sec)%n",
             duration.getSeconds(),

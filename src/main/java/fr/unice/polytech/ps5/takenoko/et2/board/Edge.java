@@ -30,7 +30,10 @@ public class Edge
      * @param index tile number (0 or 1)
      * @return the tile corresponding to the specified number
      */
-    public Tile getTile(int index) { return tiles[index]; }
+    public Tile getTile(int index)
+    {
+        return tiles[index];
+    }
 
     /**
      * @param first tile on the one side
