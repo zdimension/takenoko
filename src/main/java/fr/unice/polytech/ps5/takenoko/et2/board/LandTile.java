@@ -13,6 +13,7 @@ public class LandTile extends Tile implements Cloneable
      * Color of the land.
      */
     private final Color color;
+    private LandTileImprovement landTileImprovement = null;
     private int bambooCount = 0;
     private static final int maxBambooSize = 4;
 
@@ -21,9 +22,30 @@ public class LandTile extends Tile implements Cloneable
         this.color = Objects.requireNonNull(color, "color must not be null");
     }
 
+    public LandTile(Color color, LandTileImprovement landTileImprovement)
+    {
+        this(color);
+        this.landTileImprovement = landTileImprovement;
+    }
+
     public Color getColor()
     {
         return color;
+    }
+
+    public LandTileImprovement getLandTileImprovement()
+    {
+        return landTileImprovement;
+    }
+
+    public boolean setLandTileImprovement(LandTileImprovement landTileImprovement)
+    {
+        if (bambooCount != 0)
+        {
+            return false;
+        }
+        this.landTileImprovement = landTileImprovement;
+        return true;
     }
 
     /**
@@ -69,7 +91,7 @@ public class LandTile extends Tile implements Cloneable
 
     public Object clone()
     {
-        LandTile o = new LandTile(color);
+        LandTile o = new LandTile(color, landTileImprovement);
         o.bambooCount = bambooCount;
         return o;
     }
@@ -81,7 +103,7 @@ public class LandTile extends Tile implements Cloneable
             return false;
         }
         LandTile landTile = (LandTile) o;
-        return (landTile.color == color && landTile.bambooCount == this.bambooCount);// todo
+        return (landTile.color == color && landTile.bambooCount == this.bambooCount && landTile.landTileImprovement == landTileImprovement);
     }
 
     /**
@@ -90,6 +112,6 @@ public class LandTile extends Tile implements Cloneable
     @Override
     public String toString()
     {
-        return "[Land tile, " + this.color + ", " + isIrrigated() + ", " + bambooCount + " sections]";
+        return "[Land tile, " + this.color + ", " + isIrrigated() + ", " + bambooCount + " sections, " + (landTileImprovement == null ? "No improvement" : landTileImprovement) + "]";
     }
 }

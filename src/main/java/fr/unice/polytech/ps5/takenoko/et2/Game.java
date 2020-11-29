@@ -399,7 +399,7 @@ public class Game
         p.pickIrrigation();
     }
 
-    private Stream<Edge> findIrrigableEdges()
+    public Stream<Edge> findIrrigableEdges()
     {
         return board
             .getTiles()

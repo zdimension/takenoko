@@ -23,6 +23,8 @@ public class MinMaxBot extends DecisionMaker
      */
     private final int depth;
 
+    private Edge maxEdge = null;
+
     /**
      * Class constructor
      *
@@ -46,7 +48,7 @@ public class MinMaxBot extends DecisionMaker
         {
             return GameAction.COMPLETE_OBJECTIVE;
         }
-        if (base.contains(GameAction.PLACE_IRRIGATION))
+        if (base.contains(GameAction.PLACE_IRRIGATION) && getMaxEdgeChangePoints() > 0)
         {
             return GameAction.PLACE_IRRIGATION;
         }
@@ -102,25 +104,39 @@ public class MinMaxBot extends DecisionMaker
         return validObjectives.stream().max(Comparator.comparing(Objective::getPoints)).orElseThrow(NoSuchElementException::new);
     }
 
-    //private
-
-    @Override
-    public Edge chooseIrrigationPosition(List<Edge> irrigableEdges)
+    private int getMaxEdgeChangePoints()
     {
-        for (Edge edge : irrigableEdges)
+        int maxPts = 0;
+        for (Edge edge : player.getGame().findIrrigableEdges().collect(Collectors.toUnmodifiableList()))
         {
             edge.irrigated = true;
             for (Objective objective : player.getHand())
             {
                 if (objective.checkValidated(getBoard()))
                 {
-                    edge.irrigated = false;
-                    return edge;
+                    maxEdge = edge;
+                    if (objective.getPoints() > maxPts)
+                    {
+                        maxPts = objective.getPoints();
+                    }
                 }
             }
             edge.irrigated = false;
         }
-        return irrigableEdges.get(0);
+        return maxPts;
+    }
+
+    @Override
+    public Edge chooseIrrigationPosition(List<Edge> irrigableEdges)
+    {
+        if (maxEdge == null || !irrigableEdges.contains(maxEdge))
+        {
+            maxEdge = null;
+            return irrigableEdges.get(0);
+        }
+        Edge edgeTmp = maxEdge;
+        maxEdge = null;
+        return edgeTmp;
     }
 
     @Override
