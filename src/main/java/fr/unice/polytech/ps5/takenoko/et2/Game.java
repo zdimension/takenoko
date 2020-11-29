@@ -47,7 +47,7 @@ public class Game
         Weather.CLOUDS, this::cloudsAction
     );
     private static final Random diceRoller = new Random();
-    private final List<Object> chipReserve;
+    private final List<LandTileImprovement> chipReserve;
 
     /**
      * Game contructor
