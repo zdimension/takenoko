@@ -5,6 +5,7 @@ import fr.unice.polytech.ps5.takenoko.et2.Player;
 import fr.unice.polytech.ps5.takenoko.et2.Weather;
 import fr.unice.polytech.ps5.takenoko.et2.board.Edge;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
+import fr.unice.polytech.ps5.takenoko.et2.board.LandTileImprovement;
 import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
@@ -95,6 +96,12 @@ public class DecisionMakerDebugger extends DecisionMaker
     public LandTile chooseTileToAddBamboo(List<LandTile> listIrrigatedTiles)
     {
         return chooseItem(listIrrigatedTiles);
+    }
+
+    @Override
+    public LandTileImprovement chooseLandTileImprovement(List<LandTileImprovement> listLandTileImprovements)
+    {
+        return listLandTileImprovements.get(0); // TODO
     }
 
     private TilePosition readPosition(List<TilePosition> validPos)

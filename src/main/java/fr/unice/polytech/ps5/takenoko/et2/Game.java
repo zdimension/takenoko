@@ -547,7 +547,26 @@ public class Game
 
     public void cloudsAction(Player player)
     {
-        //TODO
+        DecisionMaker dm = player.getDecisionMaker();
+        List<LandTileImprovement> possibleLandTileImprovementsList = new ArrayList<>();
+        for (LandTileImprovement landTileImprovement : chipReserve)
+        {
+            if (!possibleLandTileImprovementsList.contains(landTileImprovement))
+            {
+                possibleLandTileImprovementsList.add(landTileImprovement);
+            }
+        }
+        LandTileImprovement chosenLandTileImprovement = dm.chooseLandTileImprovement(possibleLandTileImprovementsList);
+        for (int i = 0; i < chipReserve.size(); i++)
+        {
+            if (chipReserve.get(i).equals(chosenLandTileImprovement))
+            {
+                player.addChip(chipReserve.get(i));
+                chipReserve.remove(i);
+                return;
+            }
+        }
+        throw new IllegalArgumentException("Chosen LandTileImprovement is invalid");
     }
 
     /**

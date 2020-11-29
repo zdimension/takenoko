@@ -2,6 +2,7 @@ package fr.unice.polytech.ps5.takenoko.et2;
 
 import fr.unice.polytech.ps5.takenoko.et2.board.Edge;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
+import fr.unice.polytech.ps5.takenoko.et2.board.LandTileImprovement;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
@@ -22,6 +23,7 @@ public class Player
     private final DecisionMaker decisionMaker;
     private boolean hasTriggeredEmperor;
     private int nbIrrigationsInStock = 0;
+    private final List<LandTileImprovement> chipReserve = new ArrayList<>();
 
     /**
      * Constructor of the Player
@@ -167,6 +169,26 @@ public class Player
             }
         }
         return true;
+    }
+
+    /**
+     * Add a LandTileImprovement to the player's reserve (called after a cloud)
+     *
+     * @param landTileImprovement The chip to add
+     */
+    public void addChip(LandTileImprovement landTileImprovement)
+    {
+        chipReserve.add(landTileImprovement);
+    }
+
+    /**
+     * Get a List containing the player's LandTileImprovements
+     *
+     * @return the List
+     */
+    public List<LandTileImprovement> getChipReserve()
+    {
+        return chipReserve;
     }
 
     /**

@@ -3,10 +3,7 @@ package fr.unice.polytech.ps5.takenoko.et2.decision.bots;
 import fr.unice.polytech.ps5.takenoko.et2.GameAction;
 import fr.unice.polytech.ps5.takenoko.et2.Player;
 import fr.unice.polytech.ps5.takenoko.et2.Weather;
-import fr.unice.polytech.ps5.takenoko.et2.board.Board;
-import fr.unice.polytech.ps5.takenoko.et2.board.Edge;
-import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
-import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
+import fr.unice.polytech.ps5.takenoko.et2.board.*;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
@@ -155,6 +152,12 @@ public class MinMaxBot extends DecisionMaker
     public LandTile chooseTileToAddBamboo(List<LandTile> listIrrigatedTiles)
     {
         return null; //TODO
+    }
+
+    @Override
+    public LandTileImprovement chooseLandTileImprovement(List<LandTileImprovement> listLandTileImprovements)
+    {
+        return listLandTileImprovements.get(0); // TODO
     }
 
     private int evaluateAction(LandTile playedTile, TilePosition playedPos, List<LandTile> drawnTiles, List<TilePosition> ListValidsPositions, Board board, List<Objective> myObjectives, int n, boolean myTurn)

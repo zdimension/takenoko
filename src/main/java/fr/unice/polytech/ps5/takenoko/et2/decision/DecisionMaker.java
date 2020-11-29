@@ -3,10 +3,7 @@ package fr.unice.polytech.ps5.takenoko.et2.decision;
 import fr.unice.polytech.ps5.takenoko.et2.GameAction;
 import fr.unice.polytech.ps5.takenoko.et2.Player;
 import fr.unice.polytech.ps5.takenoko.et2.Weather;
-import fr.unice.polytech.ps5.takenoko.et2.board.Board;
-import fr.unice.polytech.ps5.takenoko.et2.board.Edge;
-import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
-import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
+import fr.unice.polytech.ps5.takenoko.et2.board.*;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
@@ -73,10 +70,19 @@ public abstract class DecisionMaker
      */
     public abstract Weather chooseWeather(List<Weather> weatherList);
 
-    /** When it rains
+    /**
+     * When it rains
      *
      * @param listIrrigatedTiles to choose from to add bamboo
      * @return a tile and its position to add a BambooSection on it
      */
     public abstract LandTile chooseTileToAddBamboo(List<LandTile> listIrrigatedTiles);
+
+    /**
+     * When it rains, we can pick a LandTileImprovement
+     *
+     * @param listLandTileImprovements a list containing LandTilesImprovements in deck
+     * @return The chosen LandTileImprovement
+     */
+    public abstract LandTileImprovement chooseLandTileImprovement(List<LandTileImprovement> listLandTileImprovements);
 }
