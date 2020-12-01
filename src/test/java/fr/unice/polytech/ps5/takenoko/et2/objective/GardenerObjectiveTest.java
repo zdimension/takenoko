@@ -68,10 +68,10 @@ class GardenerObjectiveTest
         GardenerObjective greenGardenerObjective = new GardenerObjective(5, Color.GREEN, 1, 4);
         GardenerObjective yellowGardenerObjective = new GardenerObjective(6, Color.YELLOW, 1, 4);
 
-        assertTrue(greenGardenerObjective.checkValidated(board));
+        assertTrue(greenGardenerObjective.checkValidated(board, null));
         assertEquals(5, greenGardenerObjective.getPoints());
 
-        assertFalse(yellowGardenerObjective.checkValidated(board));
+        assertFalse(yellowGardenerObjective.checkValidated(board, null));
         assertEquals(6, yellowGardenerObjective.getPoints());
     }
 
@@ -82,13 +82,13 @@ class GardenerObjectiveTest
         GardenerObjective yellowGardenerObjective = new GardenerObjective(7, Color.YELLOW, 3, 3);
         GardenerObjective pinkGardenerObjective = new GardenerObjective(6, Color.PINK, 2, 3);
 
-        assertTrue(greenGardenerObjective.checkValidated(board));
+        assertTrue(greenGardenerObjective.checkValidated(board, null));
         assertEquals(8, greenGardenerObjective.getPoints());
 
-        assertFalse(yellowGardenerObjective.checkValidated(board));
+        assertFalse(yellowGardenerObjective.checkValidated(board, null));
         assertEquals(7, yellowGardenerObjective.getPoints());
 
-        assertTrue(pinkGardenerObjective.checkValidated(board));
+        assertTrue(pinkGardenerObjective.checkValidated(board, null));
         assertEquals(6, pinkGardenerObjective.getPoints());
     }
 }

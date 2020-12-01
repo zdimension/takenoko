@@ -109,7 +109,7 @@ public class MinMaxBot extends DecisionMaker
             edge.irrigated = true;
             for (Objective objective : player.getHand())
             {
-                if (objective.checkValidated(getBoard()))
+                if (objective.checkValidated(getBoard(), player))
                 {
                     maxEdge = edge;
                     if (objective.getPoints() > maxPts)
@@ -193,7 +193,7 @@ public class MinMaxBot extends DecisionMaker
                     continue;
                 }
                 PlotObjective plotObjective = (PlotObjective) copyOfMyObjectives.get(i);
-                if (plotObjective.checkValidated(newBoard))
+                if (plotObjective.checkValidated(newBoard, player))
                 {
                     if (max < plotObjective.getPoints())
                     {

@@ -30,8 +30,8 @@ public class PlotObjectiveTest
         {
             PlotObjective plotObjective = new PlotObjective(5, List.of(Color.GREEN), Collections.emptyList());
             PlotObjective plotObjective2 = new PlotObjective(5, List.of(Color.PINK), Collections.emptyList());
-            assertTrue(plotObjective.checkValidated(board));
-            assertFalse(plotObjective2.checkValidated(board));
+            assertTrue(plotObjective.checkValidated(board, null));
+            assertFalse(plotObjective2.checkValidated(board, null));
             assertEquals(5, plotObjective.getPoints());
         }
         catch (Exception e)
@@ -52,23 +52,23 @@ public class PlotObjectiveTest
             {
                 assertTrue(
                     new PlotObjective(5, List.of(Color.GREEN, Color.YELLOW), List.of(i))
-                        .checkValidated(board));
+                        .checkValidated(board, null));
 
                 assertTrue(
                     new PlotObjective(5, List.of(Color.YELLOW, Color.GREEN), List.of(i))
-                        .checkValidated(board));
+                        .checkValidated(board, null));
 
                 assertFalse(
                     new PlotObjective(5, List.of(Color.GREEN, Color.PINK), List.of(i))
-                        .checkValidated(board));
+                        .checkValidated(board, null));
 
                 assertFalse(
                     new PlotObjective(5, List.of(Color.YELLOW, Color.PINK), List.of(i))
-                        .checkValidated(board));
+                        .checkValidated(board, null));
             }
 
             PlotObjective plotObjective7Loop = new PlotObjective(5, List.of(Color.GREEN, Color.YELLOW, Color.GREEN, Color.YELLOW, Color.GREEN, Color.YELLOW, Color.GREEN, Color.YELLOW), List.of(0, 3, 0, 3, 0, 3, 0));
-            assertTrue(plotObjective7Loop.checkValidated(board)); // ヽ༼ ಠ益ಠ ༽ﾉ
+            assertTrue(plotObjective7Loop.checkValidated(board, null)); // ヽ༼ ಠ益ಠ ༽ﾉ
         }
         catch (Exception e)
         {
@@ -88,15 +88,15 @@ public class PlotObjectiveTest
             {
                 assertFalse(
                     new PlotObjective(5, List.of(Color.GREEN, Color.YELLOW), List.of(i))
-                        .checkValidated(board));
+                        .checkValidated(board, null));
             }
 
             PlotObjective plotObjective10 = new PlotObjective(5, List.of(Color.GREEN), Collections.emptyList());
             PlotObjective plotObjective11 = new PlotObjective(5, List.of(Color.YELLOW), Collections.emptyList());
             PlotObjective plotObjective12 = new PlotObjective(5, List.of(Color.PINK), Collections.emptyList());
-            assertTrue(plotObjective10.checkValidated(board));
-            assertTrue(plotObjective11.checkValidated(board));
-            assertFalse(plotObjective12.checkValidated(board));
+            assertTrue(plotObjective10.checkValidated(board, null));
+            assertTrue(plotObjective11.checkValidated(board, null));
+            assertFalse(plotObjective12.checkValidated(board, null));
         }
         catch (Exception e)
         {
@@ -119,20 +119,20 @@ public class PlotObjectiveTest
             PlotObjective plotObjective1 = new PlotObjective(5, List.of(Color.GREEN, Color.YELLOW), List.of(0));
             PlotObjective plotObjective2 = new PlotObjective(5, List.of(Color.YELLOW, Color.GREEN), List.of(4));
             PlotObjective plotObjective3 = new PlotObjective(5, List.of(Color.GREEN, Color.PINK), List.of(0));
-            assertTrue(plotObjective1.checkValidated(board));
-            assertTrue(plotObjective2.checkValidated(board));
-            assertFalse(plotObjective3.checkValidated(board));
+            assertTrue(plotObjective1.checkValidated(board, null));
+            assertTrue(plotObjective2.checkValidated(board, null));
+            assertFalse(plotObjective3.checkValidated(board, null));
 
             PlotObjective plotObjective11 = new PlotObjective(5, List.of(Color.YELLOW, Color.GREEN, Color.YELLOW), List.of(2, 0));
             PlotObjective plotObjective12 = new PlotObjective(5, List.of(Color.YELLOW, Color.GREEN, Color.YELLOW), List.of(1, 3));
             PlotObjective plotObjective13 = new PlotObjective(5, List.of(Color.GREEN, Color.YELLOW, Color.YELLOW), List.of(5, 1));
             PlotObjective plotObjective14 = new PlotObjective(5, List.of(Color.YELLOW, Color.GREEN, Color.YELLOW), List.of(1, 6)); // Impossible path
             PlotObjective plotObjective15 = new PlotObjective(5, List.of(Color.YELLOW, Color.GREEN, Color.YELLOW), List.of(1, 5)); // Possible path
-            assertTrue(plotObjective11.checkValidated(board));
-            assertTrue(plotObjective12.checkValidated(board));
-            assertTrue(plotObjective13.checkValidated(board));
-            assertFalse(plotObjective14.checkValidated(board));
-            assertTrue(plotObjective15.checkValidated(board));
+            assertTrue(plotObjective11.checkValidated(board, null));
+            assertTrue(plotObjective12.checkValidated(board, null));
+            assertTrue(plotObjective13.checkValidated(board, null));
+            assertFalse(plotObjective14.checkValidated(board, null));
+            assertTrue(plotObjective15.checkValidated(board, null));
         }
         catch (Exception e)
         {
@@ -152,14 +152,14 @@ public class PlotObjectiveTest
             PlotObjective plotObjective1 = new PlotObjective(5, List.of(Color.GREEN, Color.YELLOW), List.of(0));
             PlotObjective plotObjective2 = new PlotObjective(5, List.of(Color.YELLOW, Color.GREEN), List.of(4));
             PlotObjective plotObjective3 = new PlotObjective(5, List.of(Color.YELLOW, Color.PINK), List.of(0));
-            assertTrue(plotObjective1.checkValidated(board));
-            assertTrue(plotObjective2.checkValidated(board));
-            assertFalse(plotObjective3.checkValidated(board));
+            assertTrue(plotObjective1.checkValidated(board, null));
+            assertTrue(plotObjective2.checkValidated(board, null));
+            assertFalse(plotObjective3.checkValidated(board, null));
 
             PlotObjective plotObjective11 = new PlotObjective(5, List.of(Color.YELLOW, Color.GREEN, Color.YELLOW), List.of(2, 5));
             PlotObjective plotObjective12 = new PlotObjective(5, List.of(Color.GREEN, Color.PINK, Color.GREEN), List.of(1, 4));
-            assertTrue(plotObjective11.checkValidated(board));
-            assertTrue(plotObjective12.checkValidated(board));
+            assertTrue(plotObjective11.checkValidated(board, null));
+            assertTrue(plotObjective12.checkValidated(board, null));
 
             PlotObjective plotObjective21 = new PlotObjective(5, List.of(Color.YELLOW, Color.GREEN, Color.PINK), List.of(3, 4));
             PlotObjective plotObjective22 = new PlotObjective(5, List.of(Color.YELLOW, Color.GREEN, Color.PINK), List.of(0, 1));
@@ -168,13 +168,13 @@ public class PlotObjectiveTest
             PlotObjective plotObjective25 = new PlotObjective(5, List.of(Color.PINK, Color.GREEN, Color.YELLOW), List.of(4, 3));
             PlotObjective plotObjective26 = new PlotObjective(5, List.of(Color.PINK, Color.GREEN, Color.YELLOW), List.of(1, 0));
             PlotObjective plotObjective27 = new PlotObjective(5, List.of(Color.YELLOW, Color.GREEN, Color.PINK), List.of(1, 1));
-            assertTrue(plotObjective21.checkValidated(board));
-            assertTrue(plotObjective22.checkValidated(board));
-            assertFalse(plotObjective23.checkValidated(board));
-            assertFalse(plotObjective24.checkValidated(board));
-            assertTrue(plotObjective25.checkValidated(board));
-            assertTrue(plotObjective26.checkValidated(board));
-            assertFalse(plotObjective27.checkValidated(board));
+            assertTrue(plotObjective21.checkValidated(board, null));
+            assertTrue(plotObjective22.checkValidated(board, null));
+            assertFalse(plotObjective23.checkValidated(board, null));
+            assertFalse(plotObjective24.checkValidated(board, null));
+            assertTrue(plotObjective25.checkValidated(board, null));
+            assertTrue(plotObjective26.checkValidated(board, null));
+            assertFalse(plotObjective27.checkValidated(board, null));
         }
         catch (Exception e)
         {
@@ -203,13 +203,13 @@ public class PlotObjectiveTest
             PlotObjective plotObjective4 = new PlotObjective(5, List.of(Color.GREEN, Color.GREEN, Color.GREEN, Color.PINK, Color.YELLOW, Color.PINK), List.of(2, 5, 3, 2, 5));
             PlotObjective plotObjective5 = new PlotObjective(5, List.of(Color.GREEN, Color.GREEN, Color.PINK, Color.YELLOW), List.of(5, 3, 3));
             PlotObjective plotObjective5b = new PlotObjective(5, List.of(Color.GREEN, Color.GREEN, Color.PINK, Color.YELLOW), List.of(0, 4, 4));
-            assertTrue(plotObjective1.checkValidated(board));
-            assertTrue(plotObjective1b.checkValidated(board));
-            assertTrue(plotObjective2.checkValidated(board));
-            assertTrue(plotObjective3.checkValidated(board));
-            assertTrue(plotObjective4.checkValidated(board));
-            assertFalse(plotObjective5.checkValidated(board));
-            assertFalse(plotObjective5b.checkValidated(board));
+            assertTrue(plotObjective1.checkValidated(board, null));
+            assertTrue(plotObjective1b.checkValidated(board, null));
+            assertTrue(plotObjective2.checkValidated(board, null));
+            assertTrue(plotObjective3.checkValidated(board, null));
+            assertTrue(plotObjective4.checkValidated(board, null));
+            assertFalse(plotObjective5.checkValidated(board, null));
+            assertFalse(plotObjective5b.checkValidated(board, null));
         }
         catch (Exception e)
         {
@@ -262,28 +262,28 @@ public class PlotObjectiveTest
         try
         {
             PlotObjective plotObjective1 = new PlotObjective(2, List.of(Color.GREEN, Color.GREEN, Color.GREEN), List.of(0, 1));
-            assertTrue(plotObjective1.checkValidated(board));
+            assertTrue(plotObjective1.checkValidated(board, null));
             assertEquals(2, plotObjective1.getPoints());
             PlotObjective plotObjective2 = new PlotObjective(4, List.of(Color.PINK, Color.GREEN, Color.GREEN, Color.PINK), List.of(0, 2, 0));
-            assertFalse(plotObjective2.checkValidated(board));
+            assertFalse(plotObjective2.checkValidated(board, null));
             assertEquals(4, plotObjective2.getPoints());
             PlotObjective plotObjective3 = new PlotObjective(2, List.of(Color.GREEN, Color.GREEN, Color.GREEN), List.of(1, 3));
-            assertFalse(plotObjective3.checkValidated(board));
+            assertFalse(plotObjective3.checkValidated(board, null));
             assertEquals(2, plotObjective3.getPoints());
             PlotObjective plotObjective4 = new PlotObjective(5, List.of(Color.PINK, Color.PINK, Color.PINK, Color.PINK), List.of(0, 1, 3));
-            assertTrue(plotObjective4.checkValidated(board));
+            assertTrue(plotObjective4.checkValidated(board, null));
             assertEquals(5, plotObjective4.getPoints());
             PlotObjective plotObjective5 = new PlotObjective(2, List.of(Color.PINK, Color.PINK, Color.PINK), List.of(4, 4));
-            assertTrue(plotObjective5.checkValidated(board));
+            assertTrue(plotObjective5.checkValidated(board, null));
             assertEquals(2, plotObjective5.getPoints());
             PlotObjective plotObjective6 = new PlotObjective(5, List.of(Color.YELLOW, Color.PINK, Color.YELLOW, Color.PINK), List.of(3, 4, 0));
-            assertFalse(plotObjective6.checkValidated(board));
+            assertFalse(plotObjective6.checkValidated(board, null));
             assertEquals(5, plotObjective6.getPoints());
             PlotObjective plotObjective7 = new PlotObjective(3, List.of(Color.YELLOW, Color.GREEN, Color.YELLOW, Color.GREEN), List.of(1, 3, 4));
-            assertFalse(plotObjective7.checkValidated(board));
+            assertFalse(plotObjective7.checkValidated(board, null));
             assertEquals(3, plotObjective7.getPoints());
             PlotObjective plotObjective8 = new PlotObjective(4, List.of(Color.YELLOW, Color.YELLOW, Color.YELLOW, Color.YELLOW), List.of(2, 4, 5));
-            assertFalse(plotObjective8.checkValidated(board));
+            assertFalse(plotObjective8.checkValidated(board, null));
             assertEquals(4, plotObjective8.getPoints());
         }
         catch (Exception e)

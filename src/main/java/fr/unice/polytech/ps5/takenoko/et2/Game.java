@@ -202,6 +202,11 @@ public class Game
                     base.remove(GameAction.MOVE_GARDENER);
                 }
 
+                if (getValidPandaTargets().findAny().isEmpty())
+                {
+                    base.remove(GameAction.MOVE_PANDA);
+                }
+
                 if (player.getNbIrrigationsInStock() <= 0 || findIrrigableEdges().findAny().isEmpty())
                 {
                     base.remove(GameAction.PLACE_IRRIGATION);
@@ -338,7 +343,7 @@ public class Game
         return player
             .getHand()
             .stream()
-            .filter(o -> o.checkValidated(this));
+            .filter(o -> o.checkValidated(getBoard(), player));
     }
 
     /**
@@ -454,34 +459,7 @@ public class Game
 
     private Stream<TilePosition> getValidGardenerTargets()
     {
-        return board.getTiles().keySet().stream()
-            .filter(pos ->
-            {
-                // prevent the player from moving the gardener to the position it already occupies
-                if (pos.equals(gardenerPosition))
-                {
-                    return false;
-                }
-
-                var basis = pos.sub(gardenerPosition).getBasis();
-
-                // prevent from moving to a position not in a straight line from the current position
-                if (basis == null)
-                {
-                    return false;
-                }
-
-                // check that the line is full, i.e. there are no "holes"
-                for (var initial = gardenerPosition; initial != pos; initial = initial.add(basis))
-                {
-                    if (!board.getTiles().containsKey(initial))
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
-            });
+        return getValidTargets(gardenerPosition);
     }
 
     private void moveGardener(Player player)
@@ -607,16 +585,21 @@ public class Game
 
     private Stream<TilePosition> getValidPandaTargets()
     {
+        return getValidTargets(pandaPosition);
+    }
+
+    private Stream<TilePosition> getValidTargets(TilePosition piecePosition)
+    {
         return board.getTiles().keySet().stream()
             .filter(pos ->
             {
-                // prevent the player from moving the gardener to the position it already occupies
-                if (pos.equals(gardenerPosition))
+                // prevent the player from moving the piece to the position it already occupies
+                if (pos.equals(pandaPosition))
                 {
                     return false;
                 }
 
-                var basis = pos.sub(gardenerPosition).getBasis();
+                var basis = pos.sub(pandaPosition).getBasis();
 
                 // prevent from moving to a position not in a straight line from the current position
                 if (basis == null)
@@ -625,7 +608,7 @@ public class Game
                 }
 
                 // check that the line is full, i.e. there are no "holes"
-                for (var initial = gardenerPosition; initial != pos; initial = initial.add(basis))
+                for (var initial = pandaPosition; initial != pos; initial = initial.add(basis))
                 {
                     if (!board.getTiles().containsKey(initial))
                     {

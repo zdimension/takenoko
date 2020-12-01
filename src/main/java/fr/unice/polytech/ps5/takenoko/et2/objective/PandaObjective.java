@@ -1,7 +1,7 @@
 package fr.unice.polytech.ps5.takenoko.et2.objective;
 
 import fr.unice.polytech.ps5.takenoko.et2.Color;
-import fr.unice.polytech.ps5.takenoko.et2.Game;
+import fr.unice.polytech.ps5.takenoko.et2.Player;
 import fr.unice.polytech.ps5.takenoko.et2.board.Board;
 
 import java.util.ArrayList;
@@ -36,13 +36,7 @@ public class PandaObjective extends Objective
     }
 
     @Override
-    public boolean checkValidated(Game game)
-    {
-        return false;
-    }
-
-    @Override
-    public boolean checkValidated(Board board)
+    public boolean checkValidated(Board board, Player player)
     {
         return false;
     }

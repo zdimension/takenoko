@@ -1,7 +1,7 @@
 package fr.unice.polytech.ps5.takenoko.et2.objective;
 
 import fr.unice.polytech.ps5.takenoko.et2.Color;
-import fr.unice.polytech.ps5.takenoko.et2.Game;
+import fr.unice.polytech.ps5.takenoko.et2.Player;
 import fr.unice.polytech.ps5.takenoko.et2.board.Board;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.board.Tile;
@@ -37,20 +37,15 @@ public class GardenerObjective extends Objective
         this.numberOfBambooSection = section;
     }
 
-    @Override
-    public boolean checkValidated(Game game)
-    {
-        return checkValidated(game.getBoard());
-    }
-
     /**
      * Check if the objective is validated with the given board
      *
      * @param board The board to check
+     * @param player
      * @return true if the Objective is validated in the Game, false otherwise
      */
     @Override
-    public boolean checkValidated(Board board)
+    public boolean checkValidated(Board board, Player player)
     {
         Objects.requireNonNull(board, "board must not be null");
 
