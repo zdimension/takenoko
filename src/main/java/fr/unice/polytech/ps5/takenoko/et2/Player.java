@@ -24,6 +24,7 @@ public class Player
     private final List<LandTileImprovement> chipReserve = new ArrayList<>();
     private boolean hasTriggeredEmperor;
     private int nbIrrigationsInStock = 0;
+    private final List<BambooSection> bambooSectionReserve= new ArrayList<>();
 
     /**
      * Constructor of the Player
@@ -190,6 +191,25 @@ public class Player
     {
         return chipReserve;
     }
+
+
+    /**
+     * Add a BambooSection to the player's reserve (called after moving the panda)
+     *
+     * @param bambooSection the BambooSection to add
+     */
+    public void addBambooSection(BambooSection bambooSection)
+    {
+        bambooSectionReserve.add(bambooSection);
+    }
+
+    /**
+     * Get a List containing the player's BambooSection
+     *
+     * @return the List
+     */
+    public List<BambooSection> getBambooSectionReserve() { return bambooSectionReserve; }
+
 
     /**
      * @return a String describing the player

@@ -63,6 +63,21 @@ public class LandTile extends Tile implements Cloneable
         return true;
     }
 
+    /**
+     * @return if success or failure to remove bamboo section to tile
+     */
+    public boolean cutBambooSection()
+    {
+        if (bambooCount == 00)
+        {
+            return false;
+        }
+
+        bambooCount--;
+
+        return true;
+    }
+
     public int getBambooSize()
     {
         return bambooCount;
