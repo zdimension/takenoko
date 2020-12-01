@@ -39,6 +39,7 @@ public class Game
         Weather.CLOUDS, this::cloudsAction
     );
     private TilePosition gardenerPosition = TilePosition.ZERO;
+    private TilePosition pandaPosition = TilePosition.ZERO;
     private int nbIrrigationsInDeck = 20;
     private final Map<GameAction, Consumer<Player>> ACTION_MAP = Map.of(
         GameAction.DRAW_OBJECTIVE, this::drawObjective,
@@ -46,7 +47,8 @@ public class Game
         GameAction.COMPLETE_OBJECTIVE, this::completeObjective,
         GameAction.PICK_IRRIGATION, this::pickIrrigation,
         GameAction.PLACE_IRRIGATION, this::placeIrrigation,
-        GameAction.MOVE_GARDENER, this::moveGardener
+        GameAction.MOVE_GARDENER, this::moveGardener,
+        GameAction.MOVE_PANDA, this::movePanda
     );
 
     /**
@@ -389,6 +391,32 @@ public class Game
     }
 
     /**
+     * Removes a BambooSection to the given tile, if tile has no bambooSection, does nothing
+     *
+     * @param tile to remove BambooSection to
+     */
+    public void removeBambooSectionToTile(LandTile tile)
+    {
+        Objects.requireNonNull(tile, "tile must not be null");
+
+        tile.cutBambooSection();
+    }
+
+    /**
+     * Gives a BambooSection to a Player
+     *
+     * @param p Player to give the bambooSection
+     * @param bambooSection to give to the player
+     */
+    public void getBambooSection(Player p, BambooSection bambooSection)
+    {
+        Objects.requireNonNull(p, "player must not be null");
+        Objects.requireNonNull(bambooSection, "bambooSection must not be null");
+
+        p.addBambooSection(bambooSection);
+    }
+
+    /**
      * Give an irrigation from the deck, to a Player normally (just remove 1 irrigation from the deck)
      *
      * @param p to give the irrigation
@@ -575,6 +603,74 @@ public class Game
             throw new IllegalArgumentException("Chosen weather is invalid");
         }
         return weatherChosen;
+    }
+
+    private Stream<TilePosition> getValidPandaTargets()
+    {
+        return board.getTiles().keySet().stream()
+            .filter(pos ->
+            {
+                // prevent the player from moving the gardener to the position it already occupies
+                if (pos.equals(gardenerPosition))
+                {
+                    return false;
+                }
+
+                var basis = pos.sub(gardenerPosition).getBasis();
+
+                // prevent from moving to a position not in a straight line from the current position
+                if (basis == null)
+                {
+                    return false;
+                }
+
+                // check that the line is full, i.e. there are no "holes"
+                for (var initial = gardenerPosition; initial != pos; initial = initial.add(basis))
+                {
+                    if (!board.getTiles().containsKey(initial))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+    }
+
+    private void movePanda(Player player)
+    {
+        var valid = getValidPandaTargets().collect(Collectors.toList());
+        TilePosition chosenPos = player
+            .getDecisionMaker()
+            .choosePandaTarget(valid);
+        if (!valid.contains(chosenPos))
+        {
+            return;
+        }
+
+        pandaPosition = chosenPos;
+
+        var landing = board.getTiles().get(chosenPos);
+
+        if (!(landing instanceof LandTile))
+        {
+            return;
+        }
+
+        var cast = (LandTile) landing;
+
+        try
+        {
+            removeBambooSectionToTile(cast);
+            BambooSection b = new BambooSection(cast.getColor());
+            getBambooSection(player, b);
+
+        }
+        catch (Exception e)
+        {
+            // critical error, indicates corruption of game state
+            throw new RuntimeException(e);
+        }
     }
 
     //public getPlayerIndividualBoard(PLayer player)
