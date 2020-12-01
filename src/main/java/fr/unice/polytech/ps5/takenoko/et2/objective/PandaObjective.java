@@ -50,6 +50,12 @@ public class PandaObjective extends Objective
     @Override
     public String toString()
     {
-        return null;
+        StringBuilder message = new StringBuilder("PandaObjective : Nombre de points de l'objectif : " + points
+            + "couleurs des sections de bambous : ");
+            for (Color color : listColors) {
+                message.append(color.toString());
+            }
+            message.append("nombre de sections de bambou : ").append(numberOfBambooSection);
+        return message.toString();
     }
 }
