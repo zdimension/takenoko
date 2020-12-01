@@ -93,6 +93,12 @@ public class DecisionMakerDebugger extends DecisionMaker
     }
 
     @Override
+    public TilePosition choosePandaTarget(List<TilePosition> valid)
+    {
+        return valid.get(0);
+    }
+
+    @Override
     public LandTile chooseTileToAddBamboo(List<LandTile> listIrrigatedTiles)
     {
         return chooseItem(listIrrigatedTiles);

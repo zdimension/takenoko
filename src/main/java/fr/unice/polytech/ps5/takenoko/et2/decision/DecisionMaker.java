@@ -73,6 +73,11 @@ public abstract class DecisionMaker
     public abstract Weather chooseWeather(List<Weather> weatherList);
 
     /**
+     * @return The desired landing position of the panda
+     */
+    public abstract TilePosition choosePandaTarget(List<TilePosition> valid);
+
+    /**
      * When it rains
      *
      * @param listIrrigatedTiles to choose from to add bamboo
