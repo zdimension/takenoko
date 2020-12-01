@@ -149,6 +149,12 @@ public class MinMaxBot extends DecisionMaker
     }
 
     @Override
+    public TilePosition choosePandaTarget(List<TilePosition> valid)
+    {
+        return valid.get(0);
+    }
+
+    @Override
     public LandTile chooseTileToAddBamboo(List<LandTile> listIrrigatedTiles)
     {
         return null; //TODO
