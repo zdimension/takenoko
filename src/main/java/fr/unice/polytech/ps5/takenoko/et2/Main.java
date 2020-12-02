@@ -42,6 +42,7 @@ public class Main
         var freq = players.stream().map(p -> new AtomicInteger()).toArray(AtomicInteger[]::new);
         final var N = 10000;
         AtomicInteger Nempty = new AtomicInteger();
+        AtomicInteger Nlimit = new AtomicInteger();
         var start = Instant.now();
         IntStream.range(0, N).parallel().mapToObj(i ->
         {
@@ -64,9 +65,13 @@ public class Main
             }
         }).forEach(res ->
         {
-            if (res.isEmpty())
+            if (res == null)
             {
                 Nempty.getAndIncrement();
+            }
+            else if (res.isEmpty())
+            {
+                Nlimit.getAndIncrement();
             }
             else
             {
@@ -83,6 +88,7 @@ public class Main
             duration.getNano() / 1000000,
             N * 1000000000d / duration.toNanos());
         System.out.println(Arrays.toString(Arrays.stream(freq).mapToInt(AtomicInteger::get).asDoubleStream().map(d -> d / N).toArray()));
+        System.out.printf("%.2f%% reached limit%n", Nlimit.get() * 100.0 / N);
         System.out.printf("%.2f%% dead-ends%n", Nempty.get() * 100.0 / N);
     }
 }

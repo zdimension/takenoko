@@ -220,7 +220,7 @@ public class Game
                 if (base.isEmpty())
                 {
                     LOGGER.log(Level.SEVERE, "No available actions.");
-                    return Collections.emptyList();
+                    return null;
                 }
 
                 LOGGER.log(Level.FINE, "Available actions: {0}", base.stream().map(o -> o == null ? "null" : o.toString()).collect(Collectors.joining(", ")));
@@ -279,6 +279,7 @@ public class Game
         if (turn == MAX_TURNS)
         {
             LOGGER.log(Level.WARNING, "Max turn count reached ({0})", turn);
+            return Collections.emptyList();
         }
 
         return whoWins().stream().map(playerList::indexOf).collect(Collectors.toList());
