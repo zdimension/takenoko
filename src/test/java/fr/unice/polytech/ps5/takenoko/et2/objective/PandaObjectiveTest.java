@@ -10,8 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 class PandaObjectiveTest
 {
@@ -47,6 +47,11 @@ class PandaObjectiveTest
 
         assertFalse(yellowPandaObjective.checkValidated(mockBoard, mockPlayer));
         assertEquals(4, yellowPandaObjective.getPoints());
+
+        verify(mockPlayer, times(2)).getBambooSectionReserve();
+
+        verifyNoMoreInteractions(mockBoard);
+        verifyNoMoreInteractions(mockPlayer);
     }
 
     @Test
@@ -63,6 +68,23 @@ class PandaObjectiveTest
 
         assertFalse(greenYellowPinkPandaObjective2.checkValidated(mockBoard, mockPlayer));
         assertEquals(6, greenYellowPinkPandaObjective2.getPoints());
+
+        verify(mockPlayer, times(2)).getBambooSectionReserve();
+
+        verifyNoMoreInteractions(mockBoard);
+        verifyNoMoreInteractions(mockPlayer);
+    }
+
+    @Test
+    void checkValidatedNotNullArgumentTest()
+    {
+        Map<Color, Integer> objectiveBambooSections1 = Map.of(Color.YELLOW, 2);
+        PandaObjective yellowPandaObjective = new PandaObjective(5, objectiveBambooSections1);
+
+        assertThrows(NullPointerException.class, () -> yellowPandaObjective.checkValidated(null, mockPlayer));
+        assertThrows(NullPointerException.class, () -> yellowPandaObjective.checkValidated(mockBoard, null));
+        assertThrows(NullPointerException.class, () -> yellowPandaObjective.checkValidated(null, null));
+
     }
 
 
