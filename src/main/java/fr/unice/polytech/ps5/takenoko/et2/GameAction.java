@@ -12,7 +12,6 @@ public enum GameAction
     PICK_IRRIGATION,
     PLACE_IRRIGATION(true),
     MOVE_GARDENER,
-    MOVE_PANDA,
     PLACE_IMPROVEMENT(true);
 
     private final boolean unlimited;

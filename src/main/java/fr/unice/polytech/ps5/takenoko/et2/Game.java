@@ -54,7 +54,7 @@ public class Game
         GameAction.PICK_IRRIGATION, this::pickIrrigation,
         GameAction.PLACE_IRRIGATION, this::placeIrrigation,
         GameAction.MOVE_GARDENER, this::moveGardener,
-        GameAction.MOVE_PANDA, this::movePanda,
+        //GameAction.MOVE_PANDA, this::movePanda,
         GameAction.PLACE_IMPROVEMENT, this::placeImprovement
     );
 
@@ -230,10 +230,6 @@ public class Game
                 if (noneAvailable(getValidGardenerTargets()))
                 {
                     base.remove(GameAction.MOVE_GARDENER);
-                }
-                if (noneAvailable(getValidPandaTargets()))
-                {
-                    base.remove(GameAction.MOVE_PANDA);
                 }
 
                 if (player.getNbIrrigationsInStock() <= 0 || noneAvailable(findIrrigableEdges()))
@@ -622,7 +618,10 @@ public class Game
 
     public void stormAction(Player player)
     {
-        //TODO
+        if (noneAvailable(getValidPandaTargets()))
+        {
+            movePanda(player);
+        }
     }
 
     public void cloudsAction(Player player)
