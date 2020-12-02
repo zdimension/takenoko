@@ -153,6 +153,7 @@ public class Player
 
     public boolean irrigateEdge(Edge edge)
     {
+        Objects.requireNonNull(edge, "edge must not be null");
         if (nbIrrigationsInStock <= 0)
         {
             return false;
@@ -188,6 +189,7 @@ public class Player
      */
     public void addChip(LandTileImprovement landTileImprovement)
     {
+        Objects.requireNonNull(landTileImprovement, "landTileImprovement must not be null");
         chipReserve.add(landTileImprovement);
     }
 
@@ -209,6 +211,7 @@ public class Player
      */
     public void addBambooSection(Color color)
     {
+        Objects.requireNonNull(color, "color must not be null");
         bambooSectionReserve.put(color, bambooSectionReserve.get(color) + 1);
     }
 
@@ -219,6 +222,11 @@ public class Player
      */
     public void removeBambooSection(Map<Color, Integer> bambooSectionList)
     {
+        if (bambooSectionList.isEmpty())
+        {
+            throw new IllegalArgumentException("bambooList must not be empty");
+        }
+
         for(Color color : bambooSectionList.keySet()) {
             Integer newValue = this.bambooSectionReserve.get(color) - bambooSectionList.get(color);
             bambooSectionReserve.put(color, newValue);
