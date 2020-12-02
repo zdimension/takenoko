@@ -63,10 +63,10 @@ public class GardenerObjective extends Objective
             {
                 countBambooStack++;
             }
-            if (this.numberOfBambooStack == countBambooStack)
-            {
-                return true;
-            }
+        }
+        if (this.numberOfBambooStack <= countBambooStack)
+        {
+            return true;
         }
         return false;
     }

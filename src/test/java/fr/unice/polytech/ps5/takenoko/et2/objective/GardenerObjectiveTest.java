@@ -10,20 +10,20 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class GardenerObjectiveTest
 {
     Board mockBoard;
     Player mockPlayer;
+    List<LandTile> tileList;
 
     @BeforeEach
     void init()
     {
         mockBoard = mock(Board.class);
         mockPlayer = mock(Player.class);
-        List<LandTile> tileList = new ArrayList<>();
+        tileList = new ArrayList<>();
 
         for (int i = 0; i < 12; i++)
         {
@@ -60,7 +60,8 @@ class GardenerObjectiveTest
         when(tileList.get(9).getBambooSize()).thenReturn(2);
         when(tileList.get(10).getBambooSize()).thenReturn(3);
         when(tileList.get(11).getBambooSize()).thenReturn(3);
-    }
+
+           }
 
     @Test
     void oneStackWithFourBambooSectionsTest()
@@ -73,6 +74,20 @@ class GardenerObjectiveTest
 
         assertFalse(yellowGardenerObjective.checkValidated(mockBoard, mockPlayer));
         assertEquals(6, yellowGardenerObjective.getPoints());
+
+        verify(mockBoard, times(2)).getLandTiles();
+        for(int i=0; i<12; i++)
+        {
+            verify(tileList.get(i), times(2)).getColor();
+            verify(tileList.get(i),times(2)).getBambooSize();
+        }
+
+        verifyNoMoreInteractions(mockBoard);
+        for(int i=0; i<12; i++)
+        {
+            verifyNoMoreInteractions(tileList.get(i));
+        }
+
     }
 
     @Test
@@ -90,5 +105,18 @@ class GardenerObjectiveTest
 
         assertTrue(pinkGardenerObjective.checkValidated(mockBoard, mockPlayer));
         assertEquals(6, pinkGardenerObjective.getPoints());
+
+        verify(mockBoard, times(3)).getLandTiles();
+        for(int i=0; i<12; i++)
+        {
+            verify(tileList.get(i), times(3)).getColor();
+            verify(tileList.get(i),times(3)).getBambooSize();
+        }
+
+        verifyNoMoreInteractions(mockBoard);
+        for(int i=0; i<12; i++)
+        {
+            verifyNoMoreInteractions(tileList.get(i));
+        }
     }
 }
