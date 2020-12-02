@@ -193,7 +193,7 @@ public class Game
                 {
                     base = new ArrayList<>(actions);
 
-                    if (player.getHand().size() == 5 || objectiveDecks.values().stream().allMatch(List::isEmpty))
+                    if (player.isHandFull() || objectiveDecks.values().stream().allMatch(List::isEmpty))
                     {
                         base.remove(GameAction.DRAW_OBJECTIVE);
                     }
@@ -204,26 +204,24 @@ public class Game
                     }
                 }
 
-                if (board.getLandTilesWithoutImprovement().findAny().isEmpty() || player.getChipReserve().isEmpty())
+                if (noneAvailable(board.getLandTilesWithoutImprovement()) || player.getChipReserve().isEmpty())
                 {
                     base.remove(GameAction.PLACE_IMPROVEMENT);
                 }
-                if (findCompletableObjectives(player).findAny().isEmpty())
+                if (noneAvailable(findCompletableObjectives(player)))
                 {
                     base.remove(GameAction.COMPLETE_OBJECTIVE);
                 }
-
-                if (getValidGardenerTargets().findAny().isEmpty())
+                if (noneAvailable(getValidGardenerTargets()))
                 {
                     base.remove(GameAction.MOVE_GARDENER);
                 }
-
-                if (getValidPandaTargets().findAny().isEmpty())
+                if (noneAvailable(getValidPandaTargets()))
                 {
                     base.remove(GameAction.MOVE_PANDA);
                 }
 
-                if (player.getNbIrrigationsInStock() <= 0 || findIrrigableEdges().findAny().isEmpty())
+                if (player.getNbIrrigationsInStock() <= 0 || noneAvailable(findIrrigableEdges()))
                 {
                     base.remove(GameAction.PLACE_IRRIGATION);
                 }
@@ -300,6 +298,11 @@ public class Game
         }
 
         return whoWins().stream().map(playerList::indexOf).collect(Collectors.toList());
+    }
+
+    private static <T> boolean noneAvailable(Stream<T> stream)
+    {
+        return stream.findAny().isEmpty();
     }
 
     /**
