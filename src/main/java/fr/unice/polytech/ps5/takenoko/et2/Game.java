@@ -696,5 +696,10 @@ public class Game
         player.getChipReserve().remove(chosenTileNImprovement.second);
     }
 
+    public Stream<Player> getPlayers()
+    {
+        return playerList.stream();
+    }
+
     //public getPlayerIndividualBoard(PLayer player)
 }
