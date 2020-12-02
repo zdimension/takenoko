@@ -1,5 +1,9 @@
 package fr.unice.polytech.ps5.takenoko.et2;
 
+/**
+ * Actions DecisionMaker can perform in his turn during the DecisionMaker phase. Constants may
+ * have a parameter to indicate weather an action is unlimited or not.
+ */
 public enum GameAction
 {
     DRAW_TILE,

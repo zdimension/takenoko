@@ -1,5 +1,8 @@
 package fr.unice.polytech.ps5.takenoko.et2;
 
+/**
+ * Color that applies to the LandTile
+ */
 public enum Color
 {
     GREEN

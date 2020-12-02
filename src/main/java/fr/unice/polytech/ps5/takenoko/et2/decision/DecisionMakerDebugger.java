@@ -15,6 +15,11 @@ import java.util.Objects;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+/**
+ * Debugging class initially created when no bot had been born yet to check wheather the
+ * interaction architecture between DecisionMaker and Game was viable. Can be used to test any
+ * other class if the bots are not up to date
+ */
 public class DecisionMakerDebugger extends DecisionMaker
 {
     private final Scanner sc;

@@ -15,6 +15,11 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Core of the Takenoko game upon what happens, links classes to give it sense. Asks DecisionMaker
+ * to act rather than letting DecisionMaker act on its own to avoid any unwanted interruption,
+ * redundancy, forbidden action like the gamemaster in an RPG or 'loup-garou de Thiercelieux' game
+ */
 public class Game
 {
     private static final Logger LOGGER = Logger.getLogger(Game.class.getSimpleName());
@@ -100,7 +105,12 @@ public class Game
     }
 
     /**
-     * Processes the game
+     * Processes the game, needs players to be added before via addPlayer (between 2 and 4 players).
+     * Starts the game, process each turn in two phases :
+     * - Weather phase : weather is picked randomly and prompts DecisionMaker to act when needed.
+     * - DecisionMaker phase : prompts DecisionMaker to perform actions.
+     * Ends the game one round after a player triggered the Emperor by completing a certain amount
+     * of objectives.
      *
      * @return List of indexes of winners
      */
@@ -110,7 +120,12 @@ public class Game
     }
 
     /**
-     * Processes the game
+     * Processes the game, needs players to be added before via addPlayer (between 2 and 4 players).
+     * Starts the game, process each turn in two phases :
+     * - Weather phase : weather is picked randomly and prompts DecisionMaker to act when needed.
+     * - DecisionMaker phase : prompts DecisionMaker to perform actions.
+     * Ends the game one round after a player triggered the Emperor by completing a certain amount
+     * of objectives.
      *
      * @return List of indexes of winners
      */
@@ -325,6 +340,12 @@ public class Game
         return board;
     }
 
+    /**
+     * Prompts DecisionMaker to choose an objective deck. An objective is drawn from this deck and
+     * put in the player's hand.
+     *
+     * @param player
+     */
     private void drawObjective(Player player)
     {
         List<Class<? extends Objective>> valid =
@@ -343,6 +364,11 @@ public class Game
         player.addObjective(objectiveDecks.get(chosen).remove(0));
     }
 
+    /**
+     * Prompts DecisionMaker to choose one LandTile from the three on top of the deck and a
+     * position on the board to put it.
+     * @param p
+     */
     private void drawAndAddTile(Player p)
     {
         DecisionMaker dm = p.getDecisionMaker();
@@ -366,6 +392,11 @@ public class Game
         tileDeck.remove(chosenTile.first);
     }
 
+    /**
+     * Finds the objectives a player can complete from the objectives in their hand.
+     * @param player
+     * @return a stream of the objectives that can be complete by the payer
+     */
     private Stream<Objective> findCompletableObjectives(Player player)
     {
         return player

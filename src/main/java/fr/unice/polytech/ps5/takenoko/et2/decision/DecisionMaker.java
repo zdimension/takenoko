@@ -10,8 +10,21 @@ import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Class making decisions over the course of the game.
+ *
+ * All the fonctions are called by Game when the 'human player'
+ * is expected to act in the 'real' game.
+ *
+ * This class is separated from the Player class because a living brain and
+ * its belongings are not one unbreakable entity (Cf. 'Brain in a vat' from René
+ * Descartes and Gilbert Harman).
+ */
 public abstract class DecisionMaker
 {
+    /**
+     * Player on which DecisionMaker acts
+     */
     protected final Player player;
 
     /**
@@ -34,29 +47,34 @@ public abstract class DecisionMaker
         return player.getGame().getBoard();
     }
 
-    /**
+    /**Chooses one action out of allowed actions to perform during the turn
+     *
      * @param base
      * @return chosen action
      */
     public abstract GameAction chooseAction(List<GameAction> base);
 
-    /**
+    /**Chooses one deck from which to draw an objective
+     *
      * @return class of the deck chosen
      */
     public abstract Class<? extends Objective> chooseDeck(List<Class<? extends Objective>> available);
 
-    /**
+    /**Chooses one from three LandTiles and a position on the board to put it
+     *
      * @param drawnTiles to choose from
      * @return chosen tile
      */
     public abstract Pair<LandTile, TilePosition> chooseTile(List<LandTile> drawnTiles, List<TilePosition> validPos); //drawnTiles.size() = 3
 
-    /**
+    /**Chooses an objective to complete among objectives in the player's hand
+     *
      * @return Objective to complete
      */
     public abstract Objective chooseObjectiveToComplete(List<Objective> validObjectives);
 
-    /**
+    /**Chooses an edge on the board on which to put an irrigation
+     *
      * @return An Edge, the position of the irrigation
      */
     public abstract Edge chooseIrrigationPosition(List<Edge> irrigableEdges);
@@ -66,7 +84,8 @@ public abstract class DecisionMaker
      */
     public abstract TilePosition chooseGardenerTarget(List<TilePosition> valid);
 
-    /**
+    /**Chooses one weather to happen during the turn among allowed weathers
+     *
      * @param weatherList to choose from
      * @return chosen weather
      */
@@ -78,7 +97,7 @@ public abstract class DecisionMaker
     public abstract TilePosition choosePandaTarget(List<TilePosition> valid);
 
     /**
-     * When it rains
+     * When it rains, chooses a tile on which to add bamboo
      *
      * @param listIrrigatedTiles to choose from to add bamboo
      * @return a tile and its position to add a BambooSection on it
@@ -86,7 +105,7 @@ public abstract class DecisionMaker
     public abstract LandTile chooseTileToAddBamboo(List<LandTile> listIrrigatedTiles);
 
     /**
-     * When it rains, we can pick a LandTileImprovement
+     * When it's cloudy, picks a LandTileImprovement
      *
      * @param listLandTileImprovements a list containing LandTilesImprovements in deck
      * @return The chosen LandTileImprovement

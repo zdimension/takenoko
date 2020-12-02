@@ -48,9 +48,9 @@ public class Player
     }
 
     /**
-     * Count the total points of the player
+     * Counts the total amount of points the player has earned completing objectives.
      *
-     * @return total points of completed objectifs
+     * @return total points of completed objectives
      */
     public int countPoints()
     {
@@ -76,6 +76,12 @@ public class Player
         this.hand.add(Objects.requireNonNull(objective, "objective must not be null"));
     }
 
+    /**
+     * Moves an objective from the hand of the player to their objectivesCompleted storage.
+     * Must be called when an objective was just completed.
+     *
+     * @param objective to move from hand to objectivesCompleted
+     */
     public void moveObjectiveToComplete(Objective objective)
     {
         Objects.requireNonNull(objective, "objective must not be null");
@@ -124,8 +130,8 @@ public class Player
     }
 
     /**
-     * Triggers the emperor
-     * sets hasTriggeredEmperor to true
+     * Triggers the emperor.
+     * Sets hasTriggeredEmperor to true
      */
     public void triggerEmperor()
     {
