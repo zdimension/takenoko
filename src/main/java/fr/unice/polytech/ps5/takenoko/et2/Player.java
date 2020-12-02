@@ -209,11 +209,15 @@ public class Player
     /**
      * Remove the bamboo sections of the player's reserve (called after PandaObjective validated)
      *
-     * @param color List of Color of the bamboo sections eg [GREEN, PINK, YELLOW]
+     * @param bambooSectionList Map of Color and number of the bamboo sections eg [GREEN, 1, PINK, 2]
      */
-    public void removeBambooSection(Color color)
+    public void removeBambooSection(Map<Color, Integer> bambooSectionList)
     {
-        bambooSectionReserve.put(color, bambooSectionReserve.get(color) - 1);
+        for(Color color : bambooSectionList.keySet()) {
+            Integer newValue = this.bambooSectionReserve.get(color) - bambooSectionList.get(color);
+            bambooSectionReserve.put(color, newValue);
+        }
+
     }
 
     /**
