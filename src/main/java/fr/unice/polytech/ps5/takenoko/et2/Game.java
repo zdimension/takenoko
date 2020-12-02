@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 public class Game
 {
     private static final Logger LOGGER = Logger.getLogger(Game.class.getSimpleName());
-
+    private static final int MAX_TURNS = 200;
     private static final int numberActionsInTurn = 2;
     private static final Map<Integer, Integer> objectiveThreshold = Map.of(
         2, 9,
@@ -122,8 +122,8 @@ public class Game
 
         int numberPlayers = playerList.size();
         int i = 0;
-
-        do
+        int turn;
+        for (turn = 0; turn < MAX_TURNS; turn++)
         {
             LOGGER.log(Level.FINE, "Turn of player {0}'", i);
             var player = playerList.get(i);
@@ -219,9 +219,11 @@ public class Game
 
                 if (base.isEmpty())
                 {
-                    LOGGER.log(Level.WARNING, "Dead-end game");
+                    LOGGER.log(Level.SEVERE, "No available actions.");
                     return Collections.emptyList();
                 }
+
+                LOGGER.log(Level.FINE, "Available actions: {0}", base.stream().map(o -> o == null ? "null" : o.toString()).collect(Collectors.joining(", ")));
 
                 var action = dm.chooseAction(base);
 
@@ -273,7 +275,12 @@ public class Game
                 i++;
             }
         }
-        while (true);
+
+        if (turn == MAX_TURNS)
+        {
+            LOGGER.log(Level.WARNING, "Max turn count reached ({0})", turn);
+        }
+
         return whoWins().stream().map(playerList::indexOf).collect(Collectors.toList());
     }
 
@@ -362,7 +369,9 @@ public class Game
         {
             return;
         }
+
         player.moveObjectiveToComplete(obj);
+        LOGGER.log(Level.INFO, "Player validated objective, N=" + player.completedObjectivesCount());
 
         if (player.completedObjectivesCount() >= objectiveThreshold.get(playerList.size()))
         {
@@ -594,12 +603,12 @@ public class Game
             .filter(pos ->
             {
                 // prevent the player from moving the piece to the position it already occupies
-                if (pos.equals(pandaPosition))
+                if (pos.equals(piecePosition))
                 {
                     return false;
                 }
 
-                var basis = pos.sub(pandaPosition).getBasis();
+                var basis = pos.sub(piecePosition).getBasis();
 
                 // prevent from moving to a position not in a straight line from the current position
                 if (basis == null)
@@ -608,7 +617,7 @@ public class Game
                 }
 
                 // check that the line is full, i.e. there are no "holes"
-                for (var initial = pandaPosition; initial != pos; initial = initial.add(basis))
+                for (var initial = piecePosition; !initial.equals(pos); initial = initial.add(basis))
                 {
                     if (!board.getTiles().containsKey(initial))
                     {

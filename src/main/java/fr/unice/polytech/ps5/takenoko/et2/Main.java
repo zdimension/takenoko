@@ -24,15 +24,16 @@ public class Main
             "%1$tF %1$tT %4$s %3$s : %5$s%6$s%n");
 
         // only show warnings
-        Arrays.stream(LogManager.getLogManager().getLogger("").getHandlers())
-            .forEach(h -> h.setLevel(Level.SEVERE));
+        var level = Level.SEVERE;
+        var root = LogManager.getLogManager().getLogger("");
+        root.setLevel(level);
+        Arrays.stream(root.getHandlers()).forEach(h -> h.setLevel(level));
 
         var players = List.<DecisionMakerBuilder>of(
             //MinMaxBot::new,
             //MinMaxBot.getBuilder(2),
             //MinMaxBot.getBuilder(2),
             //MinMaxBot.getBuilder(2),
-            //MinMaxBot.getBuilder(1),
             RandomBot::new,
             //RandomBot::new,
             //RandomBot::new,
