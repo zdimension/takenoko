@@ -40,8 +40,8 @@ public final class GameData
             var color = x.getKey();
             var score = x.getValue();
             objectives.add(new PlotObjective(score, Collections.nCopies(3, color), List.of(0, 2)));
-            objectives.add(new PlotObjective(score, Collections.nCopies(3, color), List.of(0, 2)));
-            objectives.add(new PlotObjective(score, Collections.nCopies(3, color), List.of(0, 2)));
+            objectives.add(new PlotObjective(score, Collections.nCopies(3, color), List.of(5, 0)));
+            objectives.add(new PlotObjective(score, Collections.nCopies(3, color), List.of(5, 5)));
             objectives.add(new PlotObjective(score + 1, Collections.nCopies(4, color), List.of(0, 2, 3)));
         }
         objectives.add(new PlotObjective(3, List.of(Color.GREEN, Color.GREEN, Color.YELLOW, Color.YELLOW), List.of(2, 3, 5)));

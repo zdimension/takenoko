@@ -106,6 +106,16 @@ public class Game
      */
     public List<Integer> gameProcessing() throws Exception
     {
+        return this.gameProcessing(false);
+    }
+
+    /**
+     * Processes the game
+     *
+     * @return List of indexes of winners
+     */
+    public List<Integer> gameProcessing(boolean ignoreLimitReached) throws Exception
+    {
         if (playerList.size() < minNumberOfPlayers)
         {
             throw new IllegalArgumentException("Game started with less than " + minNumberOfPlayers + " players");
@@ -281,7 +291,8 @@ public class Game
         if (turn == MAX_TURNS)
         {
             LOGGER.log(Level.WARNING, "Max turn count reached ({0})", turn);
-            return Collections.emptyList();
+            if (!ignoreLimitReached)
+                return Collections.emptyList();
         }
 
         return whoWins().stream().map(playerList::indexOf).collect(Collectors.toList());
