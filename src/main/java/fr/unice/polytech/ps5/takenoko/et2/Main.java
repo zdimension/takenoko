@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Main
@@ -45,7 +46,7 @@ public class Main
             RandomBot::new
         );
         var freq = players.stream().map(p -> new AtomicInteger()).toArray(AtomicInteger[]::new);
-        final var N = 100;
+        final var N = 1;
         AtomicInteger Nempty = new AtomicInteger();
         AtomicInteger Nlimit = new AtomicInteger();
         var start = Instant.now();
@@ -88,12 +89,14 @@ public class Main
         });
 
         var duration = Duration.between(start, Instant.now());
-        System.out.printf("Total: %d.%03ds (%.2f games/sec)%n",
+        System.out.printf("Total time elapsed: %d.%03ds (%.2f games/sec)%n",
             duration.getSeconds(),
             duration.getNano() / 1000000,
             N * 1000000000d / duration.toNanos());
-        System.out.println(Arrays.toString(Arrays.stream(freq).mapToInt(AtomicInteger::get).asDoubleStream().map(d -> d / N).toArray()));
-        System.out.printf("%.2f%% reached limit%n", Nlimit.get() * 100.0 / N);
-        System.out.printf("%.2f%% dead-ends%n", Nempty.get() * 100.0 / N);
+        System.out.println("Percentage of games");
+        System.out.println("- won per player: " +
+            Arrays.stream(freq).mapToInt(AtomicInteger::get).mapToObj(d -> String.format("%.2f%%", (double) d * 100 / N)).collect(Collectors.joining(" ; ")));
+        System.out.printf("- that reached max turn count limit: %.2f%%%n", Nlimit.get() * 100.0 / N);
+        System.out.printf("- that were deadlocked: %.2f%%%n", Nempty.get() * 100.0 / N);
     }
 }
