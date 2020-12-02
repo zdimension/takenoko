@@ -50,12 +50,7 @@ public class GardenerObjective extends Objective
         Objects.requireNonNull(board, "board must not be null");
         Objects.requireNonNull(player, "player must not be null");
 
-        Map<TilePosition, Tile> listTiles = board.getTiles();
-        Set<LandTile> landTileList = listTiles.values()
-            .stream()
-            .filter(tile -> tile instanceof LandTile)
-            .map(tile -> (LandTile) tile)
-            .collect(Collectors.toSet());
+        Set<LandTile> landTileList = board.getLandTiles();
 
         int bambooStackSize;
         int countBambooStack = 0;

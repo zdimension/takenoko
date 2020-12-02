@@ -4,13 +4,10 @@ import fr.unice.polytech.ps5.takenoko.et2.Color;
 import fr.unice.polytech.ps5.takenoko.et2.Player;
 import fr.unice.polytech.ps5.takenoko.et2.board.Board;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
-import fr.unice.polytech.ps5.takenoko.et2.board.Tile;
-import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -26,43 +23,43 @@ class GardenerObjectiveTest
     {
         mockBoard = mock(Board.class);
         mockPlayer = mock(Player.class);
-        Map<TilePosition, Tile> landTileList = new HashMap<>();
-        LandTile[] tileList = new LandTile[12];
+        List<LandTile> tileList = new ArrayList<>();
 
         for (int i = 0; i < 12; i++)
         {
             LandTile mockLandTile = mock(LandTile.class);
-            TilePosition mockTilePosition = mock(TilePosition.class);
-            tileList[i] = mockLandTile;
-            landTileList.put(mockTilePosition, mockLandTile);
+            tileList.add(mockLandTile);
         }
 
-        when(mockBoard.getTiles()).thenReturn(landTileList);
-        when(tileList[0].getColor()).thenReturn(Color.GREEN);
-        when(tileList[1].getColor()).thenReturn(Color.GREEN);
-        when(tileList[2].getColor()).thenReturn(Color.GREEN);
-        when(tileList[3].getColor()).thenReturn(Color.GREEN);
-        when(tileList[4].getColor()).thenReturn(Color.GREEN);
-        when(tileList[5].getColor()).thenReturn(Color.GREEN);
-        when(tileList[6].getColor()).thenReturn(Color.YELLOW);
-        when(tileList[7].getColor()).thenReturn(Color.YELLOW);
-        when(tileList[8].getColor()).thenReturn(Color.YELLOW);
-        when(tileList[9].getColor()).thenReturn(Color.YELLOW);
-        when(tileList[10].getColor()).thenReturn(Color.PINK);
-        when(tileList[11].getColor()).thenReturn(Color.PINK);
+        Set<LandTile> landTileList = new HashSet<>(tileList);
 
-        when(tileList[0].getBambooSize()).thenReturn(4);
-        when(tileList[1].getBambooSize()).thenReturn(3);
-        when(tileList[2].getBambooSize()).thenReturn(3);
-        when(tileList[3].getBambooSize()).thenReturn(3);
-        when(tileList[4].getBambooSize()).thenReturn(3);
-        when(tileList[5].getBambooSize()).thenReturn(3);
-        when(tileList[6].getBambooSize()).thenReturn(2);
-        when(tileList[7].getBambooSize()).thenReturn(3);
-        when(tileList[8].getBambooSize()).thenReturn(3);
-        when(tileList[9].getBambooSize()).thenReturn(2);
-        when(tileList[10].getBambooSize()).thenReturn(3);
-        when(tileList[11].getBambooSize()).thenReturn(3);
+        when(mockBoard.getLandTiles()).thenReturn(landTileList);
+
+        when(tileList.get(0).getColor()).thenReturn(Color.GREEN);
+        when(tileList.get(1).getColor()).thenReturn(Color.GREEN);
+        when(tileList.get(2).getColor()).thenReturn(Color.GREEN);
+        when(tileList.get(3).getColor()).thenReturn(Color.GREEN);
+        when(tileList.get(4).getColor()).thenReturn(Color.GREEN);
+        when(tileList.get(5).getColor()).thenReturn(Color.GREEN);
+        when(tileList.get(6).getColor()).thenReturn(Color.YELLOW);
+        when(tileList.get(7).getColor()).thenReturn(Color.YELLOW);
+        when(tileList.get(8).getColor()).thenReturn(Color.YELLOW);
+        when(tileList.get(9).getColor()).thenReturn(Color.YELLOW);
+        when(tileList.get(10).getColor()).thenReturn(Color.PINK);
+        when(tileList.get(11).getColor()).thenReturn(Color.PINK);
+
+        when(tileList.get(0).getBambooSize()).thenReturn(4);
+        when(tileList.get(1).getBambooSize()).thenReturn(3);
+        when(tileList.get(2).getBambooSize()).thenReturn(3);
+        when(tileList.get(3).getBambooSize()).thenReturn(3);
+        when(tileList.get(4).getBambooSize()).thenReturn(3);
+        when(tileList.get(5).getBambooSize()).thenReturn(3);
+        when(tileList.get(6).getBambooSize()).thenReturn(2);
+        when(tileList.get(7).getBambooSize()).thenReturn(3);
+        when(tileList.get(8).getBambooSize()).thenReturn(3);
+        when(tileList.get(9).getBambooSize()).thenReturn(2);
+        when(tileList.get(10).getBambooSize()).thenReturn(3);
+        when(tileList.get(11).getBambooSize()).thenReturn(3);
     }
 
     @Test
