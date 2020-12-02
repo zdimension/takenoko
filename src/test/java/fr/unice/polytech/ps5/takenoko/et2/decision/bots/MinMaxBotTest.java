@@ -1,9 +1,6 @@
 package fr.unice.polytech.ps5.takenoko.et2.decision.bots;
 
-import fr.unice.polytech.ps5.takenoko.et2.Game;
-import fr.unice.polytech.ps5.takenoko.et2.GameAction;
-import fr.unice.polytech.ps5.takenoko.et2.GameData;
-import fr.unice.polytech.ps5.takenoko.et2.Player;
+import fr.unice.polytech.ps5.takenoko.et2.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -54,6 +51,17 @@ public class MinMaxBotTest
         {
             possibleActions.add(gameAction);
             assertTrue(possibleActions.contains(bot.chooseAction(possibleActions)));
+        }
+    }
+
+    @Test
+    void chooseWeatherTest()
+    {
+        List<Weather> possibleWeathers = new ArrayList<>();
+        for (Weather weather : possibleWeathers)
+        {
+            possibleWeathers.add(weather);
+            assertTrue(possibleWeathers.contains(bot.chooseWeather(possibleWeathers)));
         }
     }
 }
