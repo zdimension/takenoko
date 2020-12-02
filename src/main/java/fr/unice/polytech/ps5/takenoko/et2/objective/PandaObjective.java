@@ -4,52 +4,59 @@ import fr.unice.polytech.ps5.takenoko.et2.Color;
 import fr.unice.polytech.ps5.takenoko.et2.Player;
 import fr.unice.polytech.ps5.takenoko.et2.board.Board;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * The class representing the gardener objective
  */
 public class PandaObjective extends Objective
 {
-
-    private final List<Color> listColors = new ArrayList<>();
-    private final int numberOfBambooSection;
+    private final Map<Color, Integer> bambooSectionList;
 
     /**
      * Constructor
      *
-     * @param points                points of the Objective
-     * @param listColors            a list of bamboo section's color eg [PINK, YELLOW, GREEN]
-     * @param numberOfBambooSection number of bamboo section
+     * @param points                 points of the Objective
+     * @param bambooSectionList    a map of bamboo section color and the number of each one eg [YELLOW, 2]
      */
-    public PandaObjective(int points, List<Color> listColors, int numberOfBambooSection)
+    public PandaObjective(int points, Map<Color,Integer> bambooSectionList)
     {
         super(points);
-        this.numberOfBambooSection = numberOfBambooSection;
-        if (listColors.isEmpty())
+        if (bambooSectionList.isEmpty())
         {
             throw new IllegalArgumentException("Invalid Objective");
         }
-        this.listColors.addAll(listColors);
-
+        this.bambooSectionList = Collections.unmodifiableMap(bambooSectionList);
     }
 
     @Override
     public boolean checkValidated(Board board, Player player)
     {
-        return false;
+        Objects.requireNonNull(board, "board must not be null");
+        Objects.requireNonNull(player, "player must not be null");
+        Map<Color, Integer> playerReserve = player.getBambooSectionReserve();
+
+        for (Color bambooColor : this.bambooSectionList.keySet()) {
+            Integer objectiveBamboo = this.bambooSectionList.get(bambooColor);
+            Integer playerBamboo = playerReserve.get(bambooColor);
+            if(playerBamboo<objectiveBamboo) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public String toString()
     {
-        StringBuilder message = new StringBuilder("PandaObjective : Nombre de points de l'objectif : " + points
-            + "couleurs des sections de bambous : ");
-            for (Color color : listColors) {
-                message.append(color.toString());
+        StringBuilder message = new StringBuilder("PandaObjective : Nombre de points de l'objectif : " + points);
+        for (Color bambooColor : this.bambooSectionList.keySet()) {
+            Integer numberOfEachColor = this.bambooSectionList.get(bambooColor);
+            if (numberOfEachColor!=0){
+                message.append(bambooColor.toString());
+                message.append(":"+ numberOfEachColor);
             }
-            message.append("nombre de sections de bambou : ").append(numberOfBambooSection);
+        }
         return message.toString();
     }
 }

@@ -438,14 +438,14 @@ public class Game
      * Gives a BambooSection to a Player
      *
      * @param p Player to give the bambooSection
-     * @param bambooSection to give to the player
+     * @param color Color of the bamboo section to give to the player
      */
-    public void getBambooSection(Player p, BambooSection bambooSection)
+    public void getBambooSection(Player p, Color color)
     {
         Objects.requireNonNull(p, "player must not be null");
-        Objects.requireNonNull(bambooSection, "bambooSection must not be null");
+        Objects.requireNonNull(color, "color of the bamboo section must not be null");
 
-        p.addBambooSection(bambooSection);
+        p.addBambooSection(color);
     }
 
     /**
@@ -672,8 +672,7 @@ public class Game
         try
         {
             removeBambooSectionToTile(cast);
-            BambooSection b = new BambooSection(cast.getColor());
-            getBambooSection(player, b);
+            getBambooSection(player, cast.getColor());
 
         }
         catch (Exception e)

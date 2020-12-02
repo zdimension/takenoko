@@ -48,6 +48,7 @@ public class GardenerObjective extends Objective
     public boolean checkValidated(Board board, Player player)
     {
         Objects.requireNonNull(board, "board must not be null");
+        Objects.requireNonNull(player, "player must not be null");
 
         Map<TilePosition, Tile> listTiles = board.getTiles();
         Set<LandTile> landTileList = listTiles.values()
