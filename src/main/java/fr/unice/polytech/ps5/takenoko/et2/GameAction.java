@@ -8,7 +8,8 @@ public enum GameAction
     PICK_IRRIGATION,
     PLACE_IRRIGATION(true),
     MOVE_GARDENER,
-    MOVE_PANDA;
+    MOVE_PANDA,
+    PLACE_IMPROVEMENT;
 
     private final boolean unlimited;
 

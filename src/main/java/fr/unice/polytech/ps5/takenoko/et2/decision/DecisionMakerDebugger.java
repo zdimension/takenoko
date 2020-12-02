@@ -110,6 +110,12 @@ public class DecisionMakerDebugger extends DecisionMaker
         return listLandTileImprovements.get(0); // TODO
     }
 
+    @Override
+    public Pair<LandTile, LandTileImprovement> chooseImprovementAndLandTile(List<LandTile> vacantLandTile, List<LandTileImprovement> availableImprovements)
+    {
+        return Pair.of(vacantLandTile.get(0), availableImprovements.get(0)); // TODO
+    }
+
     private TilePosition readPosition(List<TilePosition> validPos)
     {
         Objects.requireNonNull(validPos, "validPos must not be null");

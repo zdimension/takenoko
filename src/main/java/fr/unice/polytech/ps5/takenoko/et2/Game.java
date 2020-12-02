@@ -6,6 +6,7 @@ import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerException;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
+import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -48,7 +49,8 @@ public class Game
         GameAction.PICK_IRRIGATION, this::pickIrrigation,
         GameAction.PLACE_IRRIGATION, this::placeIrrigation,
         GameAction.MOVE_GARDENER, this::moveGardener,
-        GameAction.MOVE_PANDA, this::movePanda
+        GameAction.MOVE_PANDA, this::movePanda,
+        GameAction.PLACE_IMPROVEMENT, this::placeImprovement
     );
 
     /**
@@ -664,6 +666,19 @@ public class Game
             // critical error, indicates corruption of game state
             throw new RuntimeException(e);
         }
+    }
+
+    private void placeImprovement(Player player)
+    {
+        List<LandTile> vacantLandTile = (new ArrayList<>(board.getTiles().values())).stream().filter(LandTile.class::isInstance).map(x -> (LandTile) x).filter(x -> x.getLandTileImprovement() == null).collect(Collectors.toList());
+        List<LandTileImprovement> availableImprovements = player.getChipReserve();
+        Pair<LandTile, LandTileImprovement> chosenTileNImprovement = player.getDecisionMaker().chooseImprovementAndLandTile(vacantLandTile, availableImprovements);
+        if (!vacantLandTile.contains(chosenTileNImprovement.first) || !availableImprovements.contains(chosenTileNImprovement.second))
+        {
+            throw new IllegalArgumentException("Chosen LandTile or Improvement is invalid");
+        }
+        chosenTileNImprovement.first.setLandTileImprovement(chosenTileNImprovement.second);
+        player.getChipReserve().remove(chosenTileNImprovement.second);
     }
 
     //public getPlayerIndividualBoard(PLayer player)

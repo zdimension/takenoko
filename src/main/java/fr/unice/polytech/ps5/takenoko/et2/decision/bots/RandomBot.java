@@ -90,4 +90,10 @@ public class RandomBot extends DecisionMaker
     {
         return randomElement(listLandTileImprovements);
     }
+
+    @Override
+    public Pair<LandTile, LandTileImprovement> chooseImprovementAndLandTile(List<LandTile> vacantLandTile, List<LandTileImprovement> availableImprovements)
+    {
+        return Pair.of(vacantLandTile.get(0), availableImprovements.get(0)); // TODO
+    }
 }

@@ -156,6 +156,12 @@ public class MinMaxBot extends DecisionMaker
         return listLandTileImprovements.get(0); // TODO
     }
 
+    @Override
+    public Pair<LandTile, LandTileImprovement> chooseImprovementAndLandTile(List<LandTile> vacantLandTile, List<LandTileImprovement> availableImprovements)
+    {
+        return Pair.of(vacantLandTile.get(0), availableImprovements.get(0)); // TODO
+    }
+
     private int evaluateAction(LandTile playedTile, TilePosition playedPos, List<LandTile> drawnTiles, List<TilePosition> ListValidsPositions, Board board, List<Objective> myObjectives, int n, boolean myTurn)
     {
         List<Objective> copyOfMyObjectives = new ArrayList<>(myObjectives);
