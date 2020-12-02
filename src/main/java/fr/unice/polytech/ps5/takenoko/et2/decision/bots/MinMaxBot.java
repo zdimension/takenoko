@@ -78,8 +78,8 @@ public class MinMaxBot extends DecisionMaker
     public Pair<LandTile, TilePosition> chooseTile(List<LandTile> drawnTiles, List<TilePosition> validPos)
     {
         var valid = player.getGame().getBoard().getValidEmptyPositions().collect(Collectors.toList());
-        return drawnTiles.stream().parallel().flatMap(landTile ->
-            validPos.stream().parallel().map(position ->
+        return drawnTiles.stream().flatMap(landTile ->
+            validPos.stream().map(position ->
                 Map.entry(evaluateAction(landTile, position, drawnTiles, valid, player.getGame().getBoard(), player.getHand(), depth, true),
                     Pair.of(landTile, position))
             )).max(Map.Entry.comparingByKey()).map(Map.Entry::getValue).orElse(Pair.of(drawnTiles.get(0), validPos.get(0)));
@@ -213,9 +213,9 @@ public class MinMaxBot extends DecisionMaker
             newListValidsPositions.add(tilePosition);
         }
         scoreReturn -= newListValidsPositions
-            .stream().parallel()
+            .stream()
             .flatMapToInt(tilePosition ->
-                copyOfDrawnTiles.stream().parallel()
+                copyOfDrawnTiles.stream()
                     .mapToInt(
                         landTile -> evaluateAction(landTile, tilePosition, copyOfDrawnTiles, newListValidsPositions, newBoard, copyOfMyObjectives, n - 1, !myTurn)
                     )).sum() * power;
