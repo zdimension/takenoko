@@ -17,8 +17,9 @@ import java.util.Objects;
  */
 public class Player
 {
-    private final List<Objective> hand = new ArrayList<>();
-    private final List<Objective> objectivesCompleted = new ArrayList<>();
+    public static final int HAND_SIZE = 5;
+    private final List<Objective> hand = new ArrayList<>(HAND_SIZE);
+    private final List<Objective> objectivesCompleted = new ArrayList<>(HAND_SIZE);
     private final Game game;
     private final DecisionMaker decisionMaker;
     private final List<LandTileImprovement> chipReserve = new ArrayList<>();
@@ -82,7 +83,6 @@ public class Player
             throw new IllegalArgumentException("Hand of player does not contain given objective");
         }
         objectivesCompleted.add(objective);
-        //System.out.println(completedObjectivesCount());
         hand.remove(objective);
     }
 
@@ -95,6 +95,8 @@ public class Player
     {
         return Collections.unmodifiableList(hand);
     }
+
+    public boolean isHandFull() { return hand.size() == HAND_SIZE; }
 
     /**
      * @return associated DecisionMaker
