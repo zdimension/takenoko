@@ -1,11 +1,12 @@
 package fr.unice.polytech.ps5.takenoko.et2.decision.bots;
 
 import fr.unice.polytech.ps5.takenoko.et2.*;
+import fr.unice.polytech.ps5.takenoko.et2.board.LandTileImprovement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,7 +43,7 @@ public class MinMaxBotTest
     @Test
     void chooseActionTest()
     {
-        List<GameAction> possibleActions = Arrays.asList(GameAction.DRAW_TILE);
+        List<GameAction> possibleActions = Collections.singletonList(GameAction.DRAW_TILE);
         assertTrue(possibleActions.contains(bot.chooseAction(possibleActions)));
 
         // I consider than using a loop here is frowned upon, but it seems to be preferable
@@ -58,10 +59,21 @@ public class MinMaxBotTest
     void chooseWeatherTest()
     {
         List<Weather> possibleWeathers = new ArrayList<>();
-        for (Weather weather : possibleWeathers)
+        for (Weather weather : Weather.values())
         {
             possibleWeathers.add(weather);
             assertTrue(possibleWeathers.contains(bot.chooseWeather(possibleWeathers)));
+        }
+    }
+
+    @Test
+    void chooseLandTileImprovementTest()
+    {
+        List<LandTileImprovement> possibleLandTileImprovements = new ArrayList<>();
+        for (LandTileImprovement landTileImprovement : LandTileImprovement.values())
+        {
+            possibleLandTileImprovements.add(landTileImprovement);
+            assertTrue(possibleLandTileImprovements.contains(bot.chooseLandTileImprovement(possibleLandTileImprovements)));
         }
     }
 }
