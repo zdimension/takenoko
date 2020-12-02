@@ -1,6 +1,7 @@
 package fr.unice.polytech.ps5.takenoko.et2.objective;
 
 import fr.unice.polytech.ps5.takenoko.et2.Color;
+import fr.unice.polytech.ps5.takenoko.et2.Player;
 import fr.unice.polytech.ps5.takenoko.et2.board.Board;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.board.Tile;
@@ -17,12 +18,14 @@ import static org.mockito.Mockito.when;
 
 class GardenerObjectiveTest
 {
-    Board board;
+    Board mockBoard;
+    Player mockPlayer;
 
     @BeforeEach
     void init()
     {
-        board = mock(Board.class);
+        mockBoard = mock(Board.class);
+        mockPlayer = mock(Player.class);
         Map<TilePosition, Tile> landTileList = new HashMap<>();
         LandTile[] tileList = new LandTile[12];
 
@@ -34,7 +37,7 @@ class GardenerObjectiveTest
             landTileList.put(mockTilePosition, mockLandTile);
         }
 
-        when(board.getTiles()).thenReturn(landTileList);
+        when(mockBoard.getTiles()).thenReturn(landTileList);
         when(tileList[0].getColor()).thenReturn(Color.GREEN);
         when(tileList[1].getColor()).thenReturn(Color.GREEN);
         when(tileList[2].getColor()).thenReturn(Color.GREEN);
@@ -68,10 +71,10 @@ class GardenerObjectiveTest
         GardenerObjective greenGardenerObjective = new GardenerObjective(5, Color.GREEN, 1, 4);
         GardenerObjective yellowGardenerObjective = new GardenerObjective(6, Color.YELLOW, 1, 4);
 
-        assertTrue(greenGardenerObjective.checkValidated(board, null));
+        assertTrue(greenGardenerObjective.checkValidated(mockBoard, mockPlayer));
         assertEquals(5, greenGardenerObjective.getPoints());
 
-        assertFalse(yellowGardenerObjective.checkValidated(board, null));
+        assertFalse(yellowGardenerObjective.checkValidated(mockBoard, mockPlayer));
         assertEquals(6, yellowGardenerObjective.getPoints());
     }
 
@@ -82,13 +85,13 @@ class GardenerObjectiveTest
         GardenerObjective yellowGardenerObjective = new GardenerObjective(7, Color.YELLOW, 3, 3);
         GardenerObjective pinkGardenerObjective = new GardenerObjective(6, Color.PINK, 2, 3);
 
-        assertTrue(greenGardenerObjective.checkValidated(board, null));
+        assertTrue(greenGardenerObjective.checkValidated(mockBoard, mockPlayer));
         assertEquals(8, greenGardenerObjective.getPoints());
 
-        assertFalse(yellowGardenerObjective.checkValidated(board, null));
+        assertFalse(yellowGardenerObjective.checkValidated(mockBoard, mockPlayer));
         assertEquals(7, yellowGardenerObjective.getPoints());
 
-        assertTrue(pinkGardenerObjective.checkValidated(board, null));
+        assertTrue(pinkGardenerObjective.checkValidated(mockBoard, mockPlayer));
         assertEquals(6, pinkGardenerObjective.getPoints());
     }
 }

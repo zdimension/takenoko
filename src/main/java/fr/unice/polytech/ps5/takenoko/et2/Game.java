@@ -193,7 +193,7 @@ public class Game
                 {
                     base = new ArrayList<>(actions);
 
-                    if (player.getHand().size() == 5 || objectiveDecks.values().stream().allMatch(List::isEmpty))
+                    if (player.isHandFull() || objectiveDecks.values().stream().allMatch(List::isEmpty))
                     {
                         base.remove(GameAction.DRAW_OBJECTIVE);
                     }
@@ -204,26 +204,24 @@ public class Game
                     }
                 }
 
-                if (board.getLandTilesWithoutImprovement().findAny().isEmpty() || player.getChipReserve().isEmpty())
+                if (noneAvailable(board.getLandTilesWithoutImprovement()) || player.getChipReserve().isEmpty())
                 {
                     base.remove(GameAction.PLACE_IMPROVEMENT);
                 }
-                if (findCompletableObjectives(player).findAny().isEmpty())
+                if (noneAvailable(findCompletableObjectives(player)))
                 {
                     base.remove(GameAction.COMPLETE_OBJECTIVE);
                 }
-
-                if (getValidGardenerTargets().findAny().isEmpty())
+                if (noneAvailable(getValidGardenerTargets()))
                 {
                     base.remove(GameAction.MOVE_GARDENER);
                 }
-
-                if (getValidPandaTargets().findAny().isEmpty())
+                if (noneAvailable(getValidPandaTargets()))
                 {
                     base.remove(GameAction.MOVE_PANDA);
                 }
 
-                if (player.getNbIrrigationsInStock() <= 0 || findIrrigableEdges().findAny().isEmpty())
+                if (player.getNbIrrigationsInStock() <= 0 || noneAvailable(findIrrigableEdges()))
                 {
                     base.remove(GameAction.PLACE_IRRIGATION);
                 }
@@ -300,6 +298,11 @@ public class Game
         }
 
         return whoWins().stream().map(playerList::indexOf).collect(Collectors.toList());
+    }
+
+    private static <T> boolean noneAvailable(Stream<T> stream)
+    {
+        return stream.findAny().isEmpty();
     }
 
     /**
@@ -438,14 +441,14 @@ public class Game
      * Gives a BambooSection to a Player
      *
      * @param p Player to give the bambooSection
-     * @param bambooSection to give to the player
+     * @param color Color of the bamboo section to give to the player
      */
-    public void getBambooSection(Player p, BambooSection bambooSection)
+    public void getBambooSection(Player p, Color color)
     {
         Objects.requireNonNull(p, "player must not be null");
-        Objects.requireNonNull(bambooSection, "bambooSection must not be null");
+        Objects.requireNonNull(color, "color of the bamboo section must not be null");
 
-        p.addBambooSection(bambooSection);
+        p.addBambooSection(color);
     }
 
     /**
@@ -672,8 +675,7 @@ public class Game
         try
         {
             removeBambooSectionToTile(cast);
-            BambooSection b = new BambooSection(cast.getColor());
-            getBambooSection(player, b);
+            getBambooSection(player, cast.getColor());
 
         }
         catch (Exception e)

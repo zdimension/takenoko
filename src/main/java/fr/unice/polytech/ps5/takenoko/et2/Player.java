@@ -7,10 +7,7 @@ import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * The class representing the player.
@@ -25,7 +22,8 @@ public class Player
     private final List<LandTileImprovement> chipReserve = new ArrayList<>();
     private boolean hasTriggeredEmperor;
     private int nbIrrigationsInStock = 0;
-    private final List<BambooSection> bambooSectionReserve= new ArrayList<>();
+    private Map<Color, Integer> bambooSectionReserve= new HashMap<>();
+
 
     /**
      * Constructor of the Player
@@ -36,6 +34,9 @@ public class Player
         this.game = Objects.requireNonNull(game, "game must not be null");
         this.decisionMaker = builder.build(this);
         this.hasTriggeredEmperor = false;
+        bambooSectionReserve.put(Color.GREEN, 0);
+        bambooSectionReserve.put(Color.YELLOW, 0);
+        bambooSectionReserve.put(Color.PINK, 0);
     }
 
     /**
@@ -196,13 +197,23 @@ public class Player
 
 
     /**
-     * Add a BambooSection to the player's reserve (called after moving the panda)
+     * Add a bamboo section to the player's reserve (called after moving the panda)
      *
-     * @param bambooSection the BambooSection to add
+     * @param color the Color of the bamboo section to add to the player hand
      */
-    public void addBambooSection(BambooSection bambooSection)
+    public void addBambooSection(Color color)
     {
-        bambooSectionReserve.add(bambooSection);
+        bambooSectionReserve.put(color, bambooSectionReserve.get(color) + 1);
+    }
+
+    /**
+     * Remove the bamboo sections of the player's reserve (called after PandaObjective validated)
+     *
+     * @param color List of Color of the bamboo sections eg [GREEN, PINK, YELLOW]
+     */
+    public void removeBambooSection(Color color)
+    {
+        bambooSectionReserve.put(color, bambooSectionReserve.get(color) - 1);
     }
 
     /**
@@ -210,7 +221,7 @@ public class Player
      *
      * @return the List
      */
-    public List<BambooSection> getBambooSectionReserve() { return bambooSectionReserve; }
+    public Map<Color, Integer> getBambooSectionReserve() { return bambooSectionReserve; }
 
 
     /**
