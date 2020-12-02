@@ -406,8 +406,8 @@ public class Game
     }
 
     /**
-     * Tries to complete desired objective of the player
-     * the player triggers the emperor if he has enough objectives complete
+     * Prompts DecisionMaker to return an objective to complete, then tries to complete it.
+     * The player triggers the emperor if they have enough objectives complete.
      *
      * @param player to ask from what objective to complete
      */
@@ -483,7 +483,7 @@ public class Game
     }
 
     /**
-     * Give an irrigation from the deck, to a Player normally (just remove 1 irrigation from the deck)
+     * Gives an irrigation from the deck, to a Player normally (just remove 1 irrigation from the deck)
      *
      * @param p to give the irrigation
      */
@@ -493,6 +493,13 @@ public class Game
         p.pickIrrigation();
     }
 
+    /**
+     * Returns all the irrigable edges of the board. An edge is irrigable if it has a common vertex
+     * with an irrigated edge. All edges around the Pond are irrigated. An irrigated edge is not
+     * irrigable.
+     *
+     * @return stream of irrigable edges
+     */
     public Stream<Edge> findIrrigableEdges()
     {
         return board
@@ -506,6 +513,12 @@ public class Game
             .filter(Edge::canBeIrrigated);
     }
 
+    /**
+     * Prompts DecisionMaker to choose one edge on which to put an irrigation from all irrigable
+     * edges.
+     *
+     * @param p to choose one edge
+     */
     public void placeIrrigation(Player p)
     {
         DecisionMaker dm = p.getDecisionMaker();
@@ -568,8 +581,9 @@ public class Game
     }
 
     /**
-     * Picks a random weather
-     * if no chip is avaiable in the reserve, returns QUESTION_MARK weather
+     * Picks a random weather condition.
+     * If no chip is avaiable in the reserve, returns QUESTION_MARK weather so DecisionMaker can
+     * choose another weather condition.
      *
      * @return random weather
      */
@@ -584,9 +598,9 @@ public class Game
     }
 
     /**
-     * Adds a bamboo section on a tile DecisionMaker chooses from legal tiles
+     * WHen it rains, prompts DecisionMaker to choose a tile to grow bamboo on.
      *
-     * @param player to act
+     * @param player to choose a tile
      */
     public void rainAction(Player player)
     {
