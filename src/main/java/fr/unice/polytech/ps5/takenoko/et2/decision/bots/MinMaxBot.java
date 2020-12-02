@@ -77,22 +77,12 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public Pair<LandTile, TilePosition> chooseTile(List<LandTile> drawnTiles, List<TilePosition> validPos)
     {
-        Pair<LandTile, TilePosition> pairMaxPoints = null;
-        int maxPoints = 0;
-        for (LandTile landTile : drawnTiles)
-        {
-            for (TilePosition position : validPos)
-            {
-                int actionEvaluated = evaluateAction(landTile, position, drawnTiles, player.getGame().getBoard().getValidEmptyPositions().collect(Collectors.toList()), player.getGame().getBoard(), player.getHand(), depth, true);
-                if (actionEvaluated > maxPoints)
-                {
-                    maxPoints = actionEvaluated;
-                    pairMaxPoints = Pair.of(landTile, position);
-                }
-            }
-        }
-
-        return Objects.requireNonNullElseGet(pairMaxPoints, () -> Pair.of(drawnTiles.get(0), validPos.get(0)));
+        var valid = player.getGame().getBoard().getValidEmptyPositions().collect(Collectors.toList());
+        return drawnTiles.stream().parallel().flatMap(landTile ->
+            validPos.stream().parallel().map(position ->
+                Map.entry(evaluateAction(landTile, position, drawnTiles, valid, player.getGame().getBoard(), player.getHand(), depth, true),
+                    Pair.of(landTile, position))
+            )).max(Map.Entry.comparingByKey()).map(Map.Entry::getValue).orElse(Pair.of(drawnTiles.get(0), validPos.get(0)));
     }
 
     @Override
@@ -222,13 +212,13 @@ public class MinMaxBot extends DecisionMaker
             }
             newListValidsPositions.add(tilePosition);
         }
-        for (TilePosition tilePosition : newListValidsPositions)
-        {
-            for (LandTile landTile : copyOfDrawnTiles)
-            {
-                scoreReturn -= evaluateAction(landTile, tilePosition, copyOfDrawnTiles, newListValidsPositions, newBoard, copyOfMyObjectives, n - 1, !myTurn) * power;
-            }
-        }
+        scoreReturn -= newListValidsPositions
+            .stream().parallel()
+            .flatMapToInt(tilePosition ->
+                copyOfDrawnTiles.stream().parallel()
+                    .mapToInt(
+                        landTile -> evaluateAction(landTile, tilePosition, copyOfDrawnTiles, newListValidsPositions, newBoard, copyOfMyObjectives, n - 1, !myTurn)
+                    )).sum() * power;
         return scoreReturn;
     }
 
