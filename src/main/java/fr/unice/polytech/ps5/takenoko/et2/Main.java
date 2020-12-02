@@ -26,7 +26,7 @@ public class Main
             "%1$tF %1$tT %4$s %3$s : %5$s%6$s%n");
 
         // only show warnings
-        var level = Level.SEVERE;
+        var level = Level.FINEST;
         var root = LogManager.getLogManager().getLogger("");
         root.setLevel(level);
         Arrays.stream(root.getHandlers()).forEach(h -> h.setLevel(level));

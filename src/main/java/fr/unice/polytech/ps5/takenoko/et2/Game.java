@@ -147,6 +147,7 @@ public class Game
             var dm = player.getDecisionMaker();
             int remaining = numberActionsInTurn;
 
+            //un type sympa pour s'il y a la météo ou pas
             Weather turnWeather = null;
 
             if (!isFirstRound)
@@ -192,7 +193,7 @@ public class Game
                 {
                     base = new ArrayList<>(actions);
 
-                    if (player.isHandFull() || objectiveDecks.values().stream().allMatch(List::isEmpty))
+                    if (player.getHand().size() == 5 || objectiveDecks.values().stream().allMatch(List::isEmpty))
                     {
                         base.remove(GameAction.DRAW_OBJECTIVE);
                     }
@@ -203,21 +204,21 @@ public class Game
                     }
                 }
 
-                if (noneAvailable(board.getLandTilesWithoutImprovement()) || player.getChipReserve().isEmpty())
+                if (board.getLandTilesWithoutImprovement().findAny().isEmpty() || player.getChipReserve().isEmpty())
                 {
                     base.remove(GameAction.PLACE_IMPROVEMENT);
                 }
-                if (noneAvailable(findCompletableObjectives(player)))
+                if (findCompletableObjectives(player).findAny().isEmpty())
                 {
                     base.remove(GameAction.COMPLETE_OBJECTIVE);
                 }
 
-                if (noneAvailable(getValidGardenerTargets()))
+                if (getValidGardenerTargets().findAny().isEmpty())
                 {
                     base.remove(GameAction.MOVE_GARDENER);
                 }
 
-                if (noneAvailable(getValidPandaTargets()))
+                if (getValidPandaTargets().findAny().isEmpty())
                 {
                     base.remove(GameAction.MOVE_PANDA);
                 }
@@ -299,11 +300,6 @@ public class Game
         }
 
         return whoWins().stream().map(playerList::indexOf).collect(Collectors.toList());
-    }
-
-    private static <T> boolean noneAvailable(Stream<T> stream)
-    {
-        return stream.findAny().isEmpty();
     }
 
     /**
@@ -698,6 +694,11 @@ public class Game
         }
         chosenTileNImprovement.first.setLandTileImprovement(chosenTileNImprovement.second);
         player.getChipReserve().remove(chosenTileNImprovement.second);
+    }
+
+    public Stream<Player> getPlayers()
+    {
+        return playerList.stream();
     }
 
     //public getPlayerIndividualBoard(PLayer player)
