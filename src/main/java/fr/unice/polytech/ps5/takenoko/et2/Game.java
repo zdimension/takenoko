@@ -343,7 +343,7 @@ public class Game
         var validPos =
             board
                 .getValidEmptyPositions()
-                .collect(Collectors.toList());
+                .collect(Collectors.toUnmodifiableList());
         var chosenTile = dm.chooseTile(validTiles, validPos);
         if (!validTiles.contains(chosenTile.first))
         {
@@ -487,7 +487,7 @@ public class Game
 
     private void moveGardener(Player player)
     {
-        var valid = getValidGardenerTargets().collect(Collectors.toList());
+        var valid = getValidGardenerTargets().collect(Collectors.toUnmodifiableList());
         TilePosition chosenPos = player
             .getDecisionMaker()
             .chooseGardenerTarget(valid);
@@ -592,13 +592,13 @@ public class Game
      */
     public Weather chooseWeather(Player player)
     {
-        var weatherList = Arrays.asList(Weather.values());
+        var weatherList = new ArrayList<>(Arrays.asList(Weather.values()));
         weatherList.remove(Weather.QUESTION_MARK);
         if (chipReserve.isEmpty())
         {
             weatherList.remove(Weather.CLOUDS);
         }
-        var weatherChosen = player.getDecisionMaker().chooseWeather(weatherList);
+        var weatherChosen = player.getDecisionMaker().chooseWeather(Collections.unmodifiableList(weatherList));
         if (!weatherList.contains(weatherChosen))
         {
             throw new IllegalArgumentException("Chosen weather is invalid");
@@ -645,7 +645,7 @@ public class Game
 
     private void movePanda(Player player)
     {
-        var valid = getValidPandaTargets().collect(Collectors.toList());
+        var valid = getValidPandaTargets().collect(Collectors.toUnmodifiableList());
         TilePosition chosenPos = player
             .getDecisionMaker()
             .choosePandaTarget(valid);
