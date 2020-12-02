@@ -197,6 +197,11 @@ public class Board implements Cloneable
         return ret.filter(map -> ((LandTile) map.getValue()).isIrrigated()).collect(Collectors.toMap(Map.Entry::getKey, e -> (LandTile) e.getValue()));
     }
 
+    public Stream<LandTile> getLandTilesWithoutImprovement()
+    {
+        return tileCache.values().stream().filter(LandTile.class::isInstance).map(x -> (LandTile) x).filter(x -> x.getLandTileImprovement() == null);
+    }
+
     /**
      * @return a String of the Board
      */

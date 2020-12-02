@@ -204,6 +204,10 @@ public class Game
                     }
                 }
 
+                if (board.getLandTilesWithoutImprovement().findAny().isEmpty() || player.getChipReserve().isEmpty())
+                {
+                    base.remove(GameAction.PLACE_IMPROVEMENT);
+                }
                 if (findCompletableObjectives(player).findAny().isEmpty())
                 {
                     base.remove(GameAction.COMPLETE_OBJECTIVE);
@@ -681,7 +685,7 @@ public class Game
 
     private void placeImprovement(Player player)
     {
-        List<LandTile> vacantLandTile = (new ArrayList<>(board.getTiles().values())).stream().filter(LandTile.class::isInstance).map(x -> (LandTile) x).filter(x -> x.getLandTileImprovement() == null).collect(Collectors.toList());
+        List<LandTile> vacantLandTile = board.getLandTilesWithoutImprovement().collect(Collectors.toUnmodifiableList());
         List<LandTileImprovement> availableImprovements = player.getChipReserve();
         Pair<LandTile, LandTileImprovement> chosenTileNImprovement = player.getDecisionMaker().chooseImprovementAndLandTile(vacantLandTile, availableImprovements);
         if (!vacantLandTile.contains(chosenTileNImprovement.first) || !availableImprovements.contains(chosenTileNImprovement.second))
