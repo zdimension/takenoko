@@ -1,5 +1,6 @@
 package fr.unice.polytech.ps5.takenoko.et2;
 
+import fr.unice.polytech.ps5.takenoko.et2.board.Edge;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTileImprovement;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import fr.unice.polytech.ps5.takenoko.et2.objective.GardenerObjective;
@@ -182,5 +183,42 @@ class PlayerTest
 
         verifyNoMoreInteractions(mockGame);
     }
+
+    @Test
+    void pickIrrigationTest()
+    {
+        assertEquals(0,p.getNbIrrigationsInStock());
+        p.pickIrrigation();
+        assertEquals(1,p.getNbIrrigationsInStock());
+        verifyNoMoreInteractions(mockGame);
+    }
+
+    @Test
+    void irrigateEdgeTest()
+    {
+        assertThrows(NullPointerException.class, () -> p.irrigateEdge(null));
+
+        Edge mockEdge1 = mock(Edge.class);
+        Edge mockEdge2 = mock(Edge.class);
+
+        when(mockEdge1.isIrrigated()).thenReturn(true);
+        when(mockEdge2.isIrrigated()).thenReturn(false);
+
+        assertFalse(p.irrigateEdge(mockEdge1));
+
+        p.pickIrrigation();
+
+        assertFalse(p.irrigateEdge(mockEdge1));
+        assertTrue(p.irrigateEdge(mockEdge2));
+
+        verify(mockEdge1,times(1)).isIrrigated();
+        verify(mockEdge1,times(1)).isIrrigated();
+
+        verifyNoMoreInteractions(mockEdge1);
+        //verifyNoMoreInteractions(mockEdge2);
+        verifyNoMoreInteractions(mockGame);
+
+    }
+
 
 }
