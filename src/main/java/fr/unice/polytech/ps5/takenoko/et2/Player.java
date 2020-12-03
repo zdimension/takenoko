@@ -22,7 +22,7 @@ public class Player
     private final List<LandTileImprovement> chipReserve = new ArrayList<>();
     private boolean hasTriggeredEmperor;
     private int nbIrrigationsInStock = 0;
-    private Map<Color, Integer> bambooSectionReserve= new HashMap<>();
+    private final Map<Color, Integer> bambooSectionReserve= new HashMap<>();
 
 
     /**
@@ -222,6 +222,7 @@ public class Player
      */
     public void removeBambooSection(Map<Color, Integer> bambooSectionList)
     {
+        Objects.requireNonNull(bambooSectionList, "bambooSectionList must not be null");
         if (bambooSectionList.isEmpty())
         {
             throw new IllegalArgumentException("bambooList must not be empty");
