@@ -2,6 +2,7 @@
   <configuration default="false" name="CLI run" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="fr.unice.polytech.ps5.takenoko.et2.Main" />
     <module name="TakenokoET2" />
+    <option name="PROGRAM_PARAMETERS" value="minmax(1) random -n 10" />
     <method v="2">
       <option name="Make" enabled="true" />
       <option name="RunConfigurationTask" enabled="true" run_configuration_name="Run all tests" run_configuration_type="JUnit" />

@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  * interaction architecture between DecisionMaker and Game was viable. Can be used to test any
  * other class if the bots are not up to date
  */
-public class DecisionMakerDebugger extends DecisionMaker
+public class CLIDecisionMaker extends DecisionMaker
 {
     private final Scanner sc;
 
@@ -29,7 +29,7 @@ public class DecisionMakerDebugger extends DecisionMaker
      *
      * @param player
      */
-    public DecisionMakerDebugger(Player player)
+    public CLIDecisionMaker(Player player)
     {
         super(player);
         sc = new Scanner(System.in);

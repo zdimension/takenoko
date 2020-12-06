@@ -8,6 +8,7 @@ import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTileImprovement;
 import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
+import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
@@ -24,6 +25,11 @@ public class RandomBot extends DecisionMaker
     public RandomBot(Player player)
     {
         super(player);
+    }
+
+    public static DecisionMakerBuilder getBuilder()
+    {
+        return RandomBot::new;
     }
 
     private static <T> T randomElement(List<T> list)
