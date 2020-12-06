@@ -454,7 +454,7 @@ public class Game
         player.moveObjectiveToComplete(obj);
         LOGGER.log(Level.INFO, "Player validated objective, N=" + player.completedObjectivesCount());
 
-        if (player.completedObjectivesCount() >= objectiveThreshold.get(playerList.size()))
+        if ((player.completedObjectivesCount() >= objectiveThreshold.get(playerList.size())) && !hasSomeoneTriggeredTheEmperor())
         {
             player.triggerEmperor();
         }
@@ -789,6 +789,11 @@ public class Game
     public Stream<Player> getPlayers()
     {
         return playerList.stream();
+    }
+
+    private boolean hasSomeoneTriggeredTheEmperor()
+    {
+        return playerList.stream().anyMatch(Player::isHasTriggeredEmperor);
     }
 
     //public getPlayerIndividualBoard(PLayer player)
