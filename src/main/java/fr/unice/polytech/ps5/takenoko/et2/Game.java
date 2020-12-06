@@ -745,7 +745,7 @@ public class Game
 
         try
         {
-            if(!cast.getLandTileImprovement().equals(LandTileImprovement.ENCLOSURE))
+            if(cast.getLandTileImprovement() != LandTileImprovement.ENCLOSURE)
             {
                 removeBambooSectionToTile(cast);
                 getBambooSection(player, cast.getColor());
