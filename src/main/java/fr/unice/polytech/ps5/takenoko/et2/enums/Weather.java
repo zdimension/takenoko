@@ -36,7 +36,7 @@ public enum Weather
      * DecisionMaker chooses another weather condition.
      */
     QUESTION_MARK("Question Mark");
-    
+
     private final String name;
     private final boolean directAction;
 

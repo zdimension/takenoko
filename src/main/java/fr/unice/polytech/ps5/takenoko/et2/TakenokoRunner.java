@@ -1,8 +1,7 @@
 package fr.unice.polytech.ps5.takenoko.et2;
 
-import fr.unice.polytech.ps5.takenoko.et2.commandline.DecisionMakerConverter;
-import fr.unice.polytech.ps5.takenoko.et2.commandline.LogLevelCandidates;
-import fr.unice.polytech.ps5.takenoko.et2.commandline.LogLevelConverter;
+import fr.unice.polytech.ps5.takenoko.et2.commandline.DecisionMakerHandler;
+import fr.unice.polytech.ps5.takenoko.et2.commandline.LogLevelHandler;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.Game;
 import picocli.CommandLine;
@@ -16,23 +15,24 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
-@CommandLine.Command(name = "takenoko", mixinStandardHelpOptions = true)
+@CommandLine.Command(name = "takenoko", mixinStandardHelpOptions = true, abbreviateSynopsis = true, requiredOptionMarker = '*', sortOptions = false)
 public class TakenokoRunner implements Runnable
 {
     private static final Logger LOGGER = Logger.getLogger(TakenokoRunner.class.getSimpleName());
 
     @CommandLine.Parameters(
-        paramLabel = "botType",
+        paramLabel = "TYPE",
         index = "0",
-        description = "List of bots to use",
-        converter = DecisionMakerConverter.class,
+        description = { "List of bots to use.", "Valid values: ${COMPLETION-CANDIDATES}" },
+        completionCandidates = DecisionMakerHandler.class,
+        converter = DecisionMakerHandler.class,
         arity = "2..4")
     private DecisionMakerBuilder[] players;
 
     @CommandLine.Option(
         required = true,
         names = { "-n", "--num-games" },
-        description = "Number of games to run")
+        description = "Number of games to run.")
     private Integer numGames;
 
     @CommandLine.Option(
@@ -40,8 +40,8 @@ public class TakenokoRunner implements Runnable
         names = { "-l", "--log-level" },
         description = { "Logging level (default: ${DEFAULT-VALUE}).", "Valid values: ${COMPLETION-CANDIDATES}" },
         defaultValue = "SEVERE",
-        completionCandidates = LogLevelCandidates.class,
-        converter = LogLevelConverter.class
+        completionCandidates = LogLevelHandler.class,
+        converter = LogLevelHandler.class
     )
     private Level logLevel;
 
