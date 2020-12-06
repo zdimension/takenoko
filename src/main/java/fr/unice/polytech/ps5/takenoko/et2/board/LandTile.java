@@ -90,6 +90,10 @@ public class LandTile extends Tile implements Cloneable
      */
     public boolean isIrrigated()
     {
+        if (landTileImprovement == LandTileImprovement.WATERSHED)
+        {
+            return true;
+        }
         for (Edge edge : edges)
         {
             if (edge == null)
