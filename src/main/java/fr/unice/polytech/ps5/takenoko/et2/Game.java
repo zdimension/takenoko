@@ -6,7 +6,6 @@ import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerException;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
-import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -202,45 +201,16 @@ public class Game
                 List<GameAction> base;
                 if (remaining == 0)
                 {
-                    base = unlimited;
+                    base = new ArrayList<>(unlimited);
                 }
                 else
                 {
                     base = new ArrayList<>(actions);
-
-                    if (player.isHandFull() || objectiveDecks.values().stream().allMatch(List::isEmpty))
-                    {
-                        base.remove(GameAction.DRAW_OBJECTIVE);
-                    }
-
-                    if (tileDeck.isEmpty())
-                    {
-                        base.remove(GameAction.DRAW_TILE);
-                    }
                 }
 
-                if (noneAvailable(board.getLandTilesWithoutImprovement()) || player.getChipReserve().isEmpty())
-                {
-                    base.remove(GameAction.PLACE_IMPROVEMENT);
-                }
-                if (noneAvailable(findCompletableObjectives(player)))
-                {
-                    base.remove(GameAction.COMPLETE_OBJECTIVE);
-                }
-                if (noneAvailable(getValidGardenerTargets()))
-                {
-                    base.remove(GameAction.MOVE_GARDENER);
-                }
-
-                if (player.getNbIrrigationsInStock() <= 0 || noneAvailable(findIrrigableEdges()))
-                {
-                    base.remove(GameAction.PLACE_IRRIGATION);
-                }
-
-                if (nbIrrigationsInDeck <= 0)
-                {
-                    base.remove(GameAction.PICK_IRRIGATION);
-                }
+                base.removeIf(action ->
+                    action != null &&  // keep the "end turn" action
+                        !isActionAvailable(action, player));
 
                 if (base.isEmpty())
                 {
@@ -286,14 +256,9 @@ public class Game
                 }
             }
 
-            //System.out.printf("Player %d : %d pts%n", i, player.countPoints());
-
             if (i == numberPlayers - 1)
             {
                 i = 0;
-                //if(isFirstRound){
-                //    isFirstRound = false;
-                //}
             }
             else
             {
@@ -314,6 +279,49 @@ public class Game
     private static <T> boolean noneAvailable(Stream<T> stream)
     {
         return stream.findAny().isEmpty();
+    }
+
+    private static <T> boolean someAvailable(Stream<T> stream)
+    {
+        return stream.findAny().isPresent();
+    }
+
+    /**
+     * @param act a game action
+     * @param player the current player
+     * @return whether the specified action can be performed given the current game state
+     */
+    private boolean isActionAvailable(GameAction act, Player player)
+    {
+        Objects.requireNonNull(act, "act must not be null");
+
+        switch(act)
+        {
+            case PLACE_IMPROVEMENT:
+                return someAvailable(board.getLandTilesWithoutImprovement())
+                    && !player.getChipReserve().isEmpty();
+
+            case COMPLETE_OBJECTIVE:
+                return someAvailable(findCompletableObjectives(player));
+
+            case MOVE_GARDENER:
+                return someAvailable(getValidGardenerTargets());
+
+            case PLACE_IRRIGATION:
+                return player.getNbIrrigationsInStock() > 0 && someAvailable(findIrrigableEdges());
+
+            case PICK_IRRIGATION:
+                return nbIrrigationsInDeck > 0;
+
+            case DRAW_OBJECTIVE:
+                return !player.isHandFull() && objectiveDecks.values().stream().anyMatch(l -> !l.isEmpty());
+
+            case DRAW_TILE:
+                return !tileDeck.isEmpty();
+
+            default:
+                throw new IllegalArgumentException("Invalid action provided");
+        }
     }
 
     /**
@@ -731,10 +739,12 @@ public class Game
 
     private void placeImprovement(Player player)
     {
-        List<LandTile> vacantLandTile = board.getLandTilesWithoutImprovement().collect(Collectors.toUnmodifiableList());
-        List<LandTileImprovement> availableImprovements = player.getChipReserve();
-        Pair<LandTile, LandTileImprovement> chosenTileNImprovement = player.getDecisionMaker().chooseImprovementAndLandTile(vacantLandTile, availableImprovements);
-        if (!vacantLandTile.contains(chosenTileNImprovement.first) || !availableImprovements.contains(chosenTileNImprovement.second))
+        var vacantLandTile = board.getLandTilesWithoutImprovement().collect(Collectors.toUnmodifiableList());
+        var availableImprovements = player.getChipReserve();
+        var chosenTileNImprovement = player.getDecisionMaker().chooseImprovementAndLandTile(vacantLandTile, availableImprovements);
+
+        if (!vacantLandTile.contains(chosenTileNImprovement.first) ||
+            !availableImprovements.contains(chosenTileNImprovement.second))
         {
             throw new IllegalArgumentException("Chosen LandTile or Improvement is invalid");
         }
