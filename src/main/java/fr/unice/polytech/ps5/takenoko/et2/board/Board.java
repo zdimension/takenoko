@@ -213,14 +213,72 @@ public class Board implements Cloneable
     @Override
     public String toString()
     {
-        StringBuilder board = new StringBuilder();
-        var sortedPositions = new TreeSet<>(TilePosition::storageComparer);
-        sortedPositions.addAll(tileCache.keySet());
-        for (TilePosition position : sortedPositions)
+        final var template = new char[][]
+            {
+                "   _ _   ".toCharArray(),
+                " /     \\ ".toCharArray(),
+                "/       \\".toCharArray(),
+                "\\       /".toCharArray(),
+                " \\ _ _ / ".toCharArray(),
+            };
+        int minX = 0, minY = 0, maxX = 0, maxY = 0;
+        for (TilePosition pos : tileCache.keySet())
         {
-            board.append(position.toString()).append(tileCache.get(position).toString()).append("\n");
+            if (pos.getX() > maxX)
+                maxX = pos.getX();
+            if (pos.getX() < minX)
+                minX = pos.getX();
+            if (pos.getY() > maxY)
+                maxY = pos.getY();
+            if (pos.getY() < minY)
+                minY = pos.getY();
         }
-        return board.toString();
+        final int hexWidth = 9;
+        final int hexHeight = 5;
+        final int hexSide = 2;
+        var width = maxX - minX + 1;
+        var height = maxY - minY + 1;
+        var charsX = (hexWidth - hexSide) * width + 2;
+        var charsY = (width - 1) * hexHeight / 2 + height * hexHeight;
+        var lines = new char[charsY][charsX];
+        for (char[] line : lines)
+        {
+            Arrays.fill(line, ' ');
+        }
+        for (TilePosition pos : tileCache.keySet())
+        {
+            var fixX = pos.getX() - minX;
+            var fixY = pos.getY() - minY;
+            var coordX = fixX * (hexWidth - hexSide);
+            var coordY = fixX * (hexHeight / 2) + fixY * (hexHeight - 1);
+            if (coordY <0)
+            {
+                var g = 5;
+            }
+            for (int i = 0; i < template.length; i++)
+            {
+                for (var x = 0; x < 9; x++)
+                {
+                    var temp = template[i][x];
+                    if (temp == ' ')
+                        continue;
+                    lines[coordY + i][coordX + x] = temp;
+                }
+            }
+            var posStr = String.format("%d,%d", pos.getX(), pos.getY()).toCharArray();
+            System.arraycopy(posStr, 0, lines[coordY + 2], coordX + 1, posStr.length);
+            var tile = tileCache.get(pos);
+            if (tile instanceof PondTile)
+            {
+                posStr = "POND".toCharArray();
+            }
+            else if (tile instanceof  LandTile)
+            {
+                posStr = ((LandTile)tile).getColor().toString().toCharArray();
+            }
+            System.arraycopy(posStr, 0, lines[coordY + 3], coordX + 1, posStr.length);
+        }
+        return Arrays.stream(lines).map(String::new).collect(Collectors.joining("\n"));
     }
 
     public Object clone()
