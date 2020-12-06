@@ -41,7 +41,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>fr.unice.polytech.ps5.takenoko.et2.Main</mainClass>
+                    <mainClass>fr.unice.polytech.ps5.takenoko.et2.TakenokoRunner</mainClass>
                 </configuration>
             </plugin>
         </plugins>

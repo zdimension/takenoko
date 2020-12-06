@@ -1,4 +1,4 @@
-package fr.unice.polytech.ps5.takenoko.et2;
+package fr.unice.polytech.ps5.takenoko.et2.enums;
 
 /**
  * Weather conditions occuring during a turn. Constants may have a parameter to indicate wheather

@@ -1,6 +1,6 @@
 package fr.unice.polytech.ps5.takenoko.et2.objective;
 
-import fr.unice.polytech.ps5.takenoko.et2.Player;
+import fr.unice.polytech.ps5.takenoko.et2.gameplay.Player;
 import fr.unice.polytech.ps5.takenoko.et2.board.Board;
 
 /**

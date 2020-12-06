@@ -1,7 +1,7 @@
 package fr.unice.polytech.ps5.takenoko.et2.objective;
 
-import fr.unice.polytech.ps5.takenoko.et2.Color;
-import fr.unice.polytech.ps5.takenoko.et2.Player;
+import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
+import fr.unice.polytech.ps5.takenoko.et2.gameplay.Player;
 import fr.unice.polytech.ps5.takenoko.et2.board.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

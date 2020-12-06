@@ -1,6 +1,6 @@
 package fr.unice.polytech.ps5.takenoko.et2.board;
 
-import fr.unice.polytech.ps5.takenoko.et2.Color;
+import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,32 +1,25 @@
 package fr.unice.polytech.ps5.takenoko.et2;
 
-import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
+import fr.unice.polytech.ps5.takenoko.et2.commandline.DecisionMakerConverter;
+import fr.unice.polytech.ps5.takenoko.et2.commandline.LogLevelCandidates;
+import fr.unice.polytech.ps5.takenoko.et2.commandline.LogLevelConverter;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
-import fr.unice.polytech.ps5.takenoko.et2.decision.bots.MinMaxBot;
-import fr.unice.polytech.ps5.takenoko.et2.decision.bots.RandomBot;
+import fr.unice.polytech.ps5.takenoko.et2.gameplay.Game;
 import picocli.CommandLine;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @CommandLine.Command(name = "takenoko", mixinStandardHelpOptions = true)
-public class Main implements Runnable
+public class TakenokoRunner implements Runnable
 {
-    private static final Logger LOGGER = Logger.getLogger(Main.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(TakenokoRunner.class.getSimpleName());
 
     @CommandLine.Parameters(
         paramLabel = "botType",
@@ -66,7 +59,7 @@ public class Main implements Runnable
         System.setProperty("java.util.logging.SimpleFormatter.format",
             "%1$tF %1$tT %4$s %3$s : %5$s%6$s%n");
 
-        new CommandLine(new Main())
+        new CommandLine(new TakenokoRunner())
             .setCaseInsensitiveEnumValuesAllowed(true)
             .execute(args);
     }
@@ -77,14 +70,19 @@ public class Main implements Runnable
         root.setLevel(logLevel);
         Arrays.stream(root.getHandlers()).forEach(h -> h.setLevel(logLevel));
 
+        var botNames = spec.positionalParameters().get(0).originalStringValues();
+        System.out.printf("Running %d games %s with bots: %s%n", numGames, sequential ? "sequentially" : "in parallel", botNames);
+
         var freq = Arrays.stream(players).map(p -> new AtomicInteger()).toArray(AtomicInteger[]::new);
         final var N = numGames;
         AtomicInteger Nempty = new AtomicInteger();
         AtomicInteger Nlimit = new AtomicInteger();
         var start = Instant.now();
-        var stream =IntStream.range(0, N);
+        var stream = IntStream.range(0, N);
         if (!sequential)
+        {
             stream = stream.parallel();
+        }
         stream.forEach(i ->
         {
             try
@@ -126,77 +124,13 @@ public class Main implements Runnable
             duration.getSeconds(),
             duration.getNano() / 1000000,
             N * 1000000000d / duration.toNanos());
+        System.out.println("Victory statistics:");
+        for (int i = 0; i < players.length; i++)
+        {
+            System.out.printf("- #%d [%-10s] : %.2f%%%n", i + 1, botNames.get(i), freq[i].get() * 100d / N);
+        }
         System.out.println("Percentage of games");
-        System.out.println("- won per player: " +
-            Arrays.stream(freq).mapToInt(AtomicInteger::get).mapToObj(d -> String.format("%.2f%%", (double) d * 100 / N)).collect(Collectors.joining(" ; ")));
         System.out.printf("- that reached max turn count limit: %.2f%%%n", Nlimit.get() * 100.0 / N);
         System.out.printf("- that were deadlocked: %.2f%%%n", Nempty.get() * 100.0 / N);
-    }
-
-    private static class DecisionMakerConverter implements CommandLine.ITypeConverter<DecisionMakerBuilder>
-    {
-        private static final Map<String, Class<? extends DecisionMaker>> types = Map.of(
-            "random", RandomBot.class,
-            "minmax", MinMaxBot.class
-        );
-        private static final Pattern namePattern = Pattern.compile("^(\\w+)(?:\\(([^,]+(?:,[^,]+)*)?\\))?$");
-
-        private Method getBuilder(Class<? extends DecisionMaker> cl)
-        {
-            return Arrays.stream(cl.getMethods()).filter(m -> m.getName().equals("getBuilder")).findFirst().get();
-        }
-
-        @Override
-        public DecisionMakerBuilder convert(String s) throws IllegalArgumentException
-        {
-            s = s.replace(" ", "");
-            var matcher = namePattern.matcher(s);
-            if (!matcher.find())
-            {
-                throw new IllegalArgumentException();
-            }
-            var name = matcher.group(1);
-            var clazz =  Objects.requireNonNull(types.getOrDefault(name, null));
-            var meth = getBuilder(clazz);
-            var params = meth.getParameters();
-            try
-            {
-                var paramsGroup = matcher.group(2);
-                String[] groupstr;
-                if (paramsGroup == null)
-                    groupstr = new String[0];
-                else
-                    groupstr = paramsGroup.split(",");
-                if (groupstr.length != params.length)
-                {
-                    throw new IllegalArgumentException();
-                }
-                return (DecisionMakerBuilder) meth.invoke(null, IntStream.range(0, params.length).mapToObj(i -> Integer.parseInt(groupstr[i])).toArray());
-            }
-            catch (Exception e)
-            {
-                throw new IllegalArgumentException();
-            }
-        }
-    }
-
-    private static class LogLevelCandidates extends ArrayList<String>
-    {
-        LogLevelCandidates()
-        {
-            super(Arrays.stream(Level.class.getDeclaredFields()).filter(f ->
-                Modifier.isStatic(f.getModifiers()) &&
-                    Modifier.isFinal(f.getModifiers()) &&
-                    f.getType() == Level.class).map(Field::getName).collect(Collectors.toList()));
-        }
-    }
-
-    private static class LogLevelConverter implements CommandLine.ITypeConverter<Level>
-    {
-        @Override
-        public Level convert(String s) throws IllegalArgumentException
-        {
-            return Level.parse(s);
-        }
     }
 }

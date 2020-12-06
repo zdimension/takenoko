@@ -2,6 +2,10 @@ package fr.unice.polytech.ps5.takenoko.et2.decision.bots;
 
 import fr.unice.polytech.ps5.takenoko.et2.*;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTileImprovement;
+import fr.unice.polytech.ps5.takenoko.et2.enums.Weather;
+import fr.unice.polytech.ps5.takenoko.et2.gameplay.Game;
+import fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction;
+import fr.unice.polytech.ps5.takenoko.et2.gameplay.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

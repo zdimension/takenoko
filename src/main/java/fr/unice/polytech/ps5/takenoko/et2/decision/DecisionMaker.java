@@ -1,8 +1,8 @@
 package fr.unice.polytech.ps5.takenoko.et2.decision;
 
-import fr.unice.polytech.ps5.takenoko.et2.GameAction;
-import fr.unice.polytech.ps5.takenoko.et2.Player;
-import fr.unice.polytech.ps5.takenoko.et2.Weather;
+import fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction;
+import fr.unice.polytech.ps5.takenoko.et2.gameplay.Player;
+import fr.unice.polytech.ps5.takenoko.et2.enums.Weather;
 import fr.unice.polytech.ps5.takenoko.et2.board.*;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;

@@ -1,4 +1,4 @@
-package fr.unice.polytech.ps5.takenoko.et2;
+package fr.unice.polytech.ps5.takenoko.et2.gameplay;
 
 import java.util.Arrays;
 import java.util.List;
