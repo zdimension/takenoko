@@ -202,6 +202,10 @@ public class Board implements Cloneable
         return tileCache.values().stream().filter(LandTile.class::isInstance).map(x -> (LandTile) x).filter(x -> x.getLandTileImprovement() == null);
     }
 
+    /**
+     * Get all the Land Tiles of the Board
+     * @return a Set of all the Land Tiles
+     */
     public Set<LandTile> getLandTiles()
     {
         return tileCache.values().stream().filter(tile -> tile instanceof LandTile).map(tile -> (LandTile) tile).collect(Collectors.toSet());

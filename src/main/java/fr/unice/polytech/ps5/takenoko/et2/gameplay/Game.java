@@ -7,6 +7,7 @@ import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerException;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
+import fr.unice.polytech.ps5.takenoko.et2.objective.PandaObjective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 
 import java.util.*;
@@ -452,6 +453,9 @@ public class Game
         }
 
         player.moveObjectiveToComplete(obj);
+        if (obj instanceof PandaObjective){
+            player.removeBambooSection(((PandaObjective) obj).getBambooSectionList());
+        }
         LOGGER.log(Level.INFO, "Player validated objective, N=" + player.completedObjectivesCount());
 
         if ((player.completedObjectivesCount() >= objectiveThreshold.get(playerList.size())) && !hasSomeoneTriggeredTheEmperor())
