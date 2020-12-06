@@ -735,8 +735,11 @@ public class Game
 
         try
         {
-            removeBambooSectionToTile(cast);
-            getBambooSection(player, cast.getColor());
+            if(cast.getLandTileImprovement() != LandTileImprovement.ENCLOSURE)
+            {
+                removeBambooSectionToTile(cast);
+                getBambooSection(player, cast.getColor());
+            }
 
         }
         catch (Exception e)
