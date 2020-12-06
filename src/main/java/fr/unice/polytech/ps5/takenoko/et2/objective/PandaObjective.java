@@ -29,6 +29,18 @@ public class PandaObjective extends Objective
         this.bambooSectionList = Collections.unmodifiableMap(bambooSectionList);
     }
 
+    /**
+     * Get the bamboo section of the objectif in order to remove it from the player reserve after validating it
+     * @return a Map containing the color of the bamboo and the number of each of them
+     */
+    public Map<Color, Integer> getBambooSectionList() { return this.bambooSectionList; }
+
+    /**
+     * Check if the objective is validated. The player bamboo reserve contains the 
+     * @param board the game board
+     * @param player the player
+     * @return true if the objective is validated false otherwise
+     */
     @Override
     public boolean checkValidated(Board board, Player player)
     {
@@ -46,6 +58,10 @@ public class PandaObjective extends Objective
         return true;
     }
 
+    /**
+     * Describe the Panda Objective, gives it number of points, the number of each bamboo section color
+     * @return a String with the number of points and the number of each bamboo section color
+     */
     @Override
     public String toString()
     {
