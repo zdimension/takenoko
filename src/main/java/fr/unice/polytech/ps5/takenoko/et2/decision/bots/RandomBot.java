@@ -82,7 +82,7 @@ public class RandomBot extends DecisionMaker
     @Override
     public TilePosition choosePandaTarget(List<TilePosition> valid)
     {
-        return valid.get(0);
+        return randomElement(valid);
     }
 
     @Override
@@ -100,6 +100,6 @@ public class RandomBot extends DecisionMaker
     @Override
     public Pair<LandTile, LandTileImprovement> chooseImprovementAndLandTile(List<LandTile> vacantLandTile, List<LandTileImprovement> availableImprovements)
     {
-        return Pair.of(vacantLandTile.get(0), availableImprovements.get(0)); // TODO
+        return Pair.of(randomElement(vacantLandTile), randomElement(availableImprovements));
     }
 }
