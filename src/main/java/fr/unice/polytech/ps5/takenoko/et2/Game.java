@@ -148,8 +148,8 @@ public class Game
 
         int numberPlayers = playerList.size();
         int i = 0;
-        int turn;
-        for (turn = 0; turn < MAX_TURNS; turn++)
+        int turn = 0;
+        while (turn < MAX_TURNS)
         {
             LOGGER.log(Level.FINE, "Turn of player {0}'", i);
             var player = playerList.get(i);
@@ -158,102 +158,12 @@ public class Game
                 break;
             }
 
-            var dm = player.getDecisionMaker();
-            int remaining = numberActionsInTurn;
-
-            //un type sympa pour s'il y a la météo ou pas
-            Weather turnWeather = null;
-
-            if (!isFirstRound)
+            if (!processTurn(player)) // deadlock
             {
-                turnWeather = rollWeatherDice();
-                if (turnWeather == Weather.QUESTION_MARK)
-                {
-                    turnWeather = chooseWeather(player);
-                }
-                if (turnWeather.isDirectAction())
-                {
-                    var handler = WEATHER_MAP.getOrDefault(turnWeather, null);
-
-                    if (handler == null)
-                    {
-                        throw new IllegalStateException();
-                    }
-
-                    handler.accept(player);
-                }
-                else
-                {
-                    if (turnWeather == Weather.SUN)
-                    {
-                        remaining++;
-                    }
-                }
-            }
-
-            var actions = new ArrayList<>(Arrays.asList(GameAction.values()));
-            var unlimited = actions
-                .stream()
-                .filter(GameAction::isUnlimited).collect(Collectors.toCollection(ArrayList::new));
-            unlimited.add(null); // player can choose "null" after the required 2 actions are performed
-            while (true)
-            {
-                List<GameAction> base;
-                if (remaining == 0)
-                {
-                    base = new ArrayList<>(unlimited);
-                }
-                else
-                {
-                    base = new ArrayList<>(actions);
-                }
-
-                base.removeIf(action ->
-                    action != null &&  // keep the "end turn" action
-                        !isActionAvailable(action, player));
-
-                if (base.isEmpty())
-                {
-                    LOGGER.log(Level.SEVERE, "No available actions.");
-                    return null;
-                }
-
-                LOGGER.log(Level.FINE, "Available actions: {0}", base.stream().map(o -> o == null ? "null" : o.toString()).collect(Collectors.joining(", ")));
-
-                var action = dm.chooseAction(base);
-
-                if (!base.contains(action))
-                {
-                    throwError(new DecisionMakerException("Invalid action"));
-                }
-
-                LOGGER.log(Level.FINE, "Action chosen: {0}", action == null ? "<end turn>" : action.toString());
-
-                if (action == null)
-                {
+                if (ignoreLimitReached)
                     break;
-                }
-
-                var handler = ACTION_MAP.getOrDefault(action, null);
-
-                if (handler != null)
-                {
-                    if (turnWeather != Weather.WIND)
-                    {
-                        actions.remove(action); // player has to choose two different actions
-                    }
-                    handler.accept(player);
-                }
                 else
-                {
-                    throwError(new IllegalArgumentException("Value of chosenAction does not conform to available values"));
-                    continue;
-                }
-
-                if (!action.isUnlimited())
-                {
-                    remaining--;
-                }
+                    return null;
             }
 
             if (i == numberPlayers - 1)
@@ -264,6 +174,7 @@ public class Game
             {
                 i++;
             }
+            turn++;
         }
 
         if (turn == MAX_TURNS)
@@ -274,6 +185,114 @@ public class Game
         }
 
         return whoWins().stream().map(playerList::indexOf).collect(Collectors.toList());
+    }
+
+    /**
+     * Processes the current turn
+     * @param player the current player
+     * @return true if the turn was completed, false if a deadlock happened
+     * @throws DecisionMakerException if the player makes invalid choices
+     */
+    private boolean processTurn(Player player) throws DecisionMakerException
+    {
+        var dm = player.getDecisionMaker();
+        int remaining = numberActionsInTurn;
+
+        //un type sympa pour s'il y a la météo ou pas
+        Weather turnWeather = null;
+
+        if (!isFirstRound)
+        {
+            turnWeather = rollWeatherDice();
+            if (turnWeather == Weather.QUESTION_MARK)
+            {
+                turnWeather = chooseWeather(player);
+            }
+            if (turnWeather.isDirectAction())
+            {
+                var handler = WEATHER_MAP.getOrDefault(turnWeather, null);
+
+                if (handler == null)
+                {
+                    throw new IllegalStateException();
+                }
+
+                handler.accept(player);
+            }
+            else
+            {
+                if (turnWeather == Weather.SUN)
+                {
+                    remaining++;
+                }
+            }
+        }
+
+        var actions = new ArrayList<>(Arrays.asList(GameAction.values()));
+        var unlimited = actions
+            .stream()
+            .filter(GameAction::isUnlimited).collect(Collectors.toCollection(ArrayList::new));
+        unlimited.add(null); // player can choose "null" after the required 2 actions are performed
+        while (true)
+        {
+            List<GameAction> base;
+            if (remaining == 0)
+            {
+                base = new ArrayList<>(unlimited);
+            }
+            else
+            {
+                base = new ArrayList<>(actions);
+            }
+
+            base.removeIf(action ->
+                action != null &&  // keep the "end turn" action
+                    !isActionAvailable(action, player));
+
+            if (base.isEmpty())
+            {
+                LOGGER.log(Level.SEVERE, "No available actions.");
+                return false;
+            }
+
+            LOGGER.log(Level.FINE, "Available actions: {0}", base.stream().map(o -> o == null ? "null" : o.toString()).collect(Collectors.joining(", ")));
+
+            var action = dm.chooseAction(base);
+
+            if (!base.contains(action))
+            {
+                throwError(new DecisionMakerException("Invalid action"));
+            }
+
+            LOGGER.log(Level.FINE, "Action chosen: {0}", action == null ? "<end turn>" : action.toString());
+
+            if (action == null)
+            {
+                break;
+            }
+
+            var handler = ACTION_MAP.getOrDefault(action, null);
+
+            if (handler != null)
+            {
+                if (turnWeather != Weather.WIND)
+                {
+                    actions.remove(action); // player has to choose two different actions
+                }
+                handler.accept(player);
+            }
+            else
+            {
+                throwError(new IllegalArgumentException("Value of chosenAction does not conform to available values"));
+                continue;
+            }
+
+            if (!action.isUnlimited())
+            {
+                remaining--;
+            }
+        }
+        return true;
     }
 
     private static <T> boolean noneAvailable(Stream<T> stream)
