@@ -11,85 +11,44 @@ public enum Weather
      * When the Sun shines, DecisionMaker gains an additional action to perform during his turn. This
      * additional action faces the same constraints the ordinary actions do.
      */
-    SUN
-        {
-            @Override
-            public String toString()
-            {
-                return "Sun";
-            }
-        },
+    SUN("Sun"),
     /**
      * When it rains, DecisionMaker can choose to make bamboo grow. Oridnary constraints are applied
      * to this growth.
      */
-    RAIN(true)
-        {
-            @Override
-            public String toString()
-            {
-                return "Rain";
-            }
-        },
+    RAIN("Rain", true),
     /**
      * When the wind blows, DecisionMaker can perform two identical actions during the turn if he
      * pleases.
      */
-    WIND
-        {
-
-            @Override
-            public String toString()
-            {
-                return "Wind";
-            }
-        },
+    WIND("Wind"),
     /**
      * When the storm bursts, DecisionMaker can choose to put the panda on a tile of his choice so
      * it eats bamboo on the tile it lands on.
      */
-    STORM(true)
-        {
-            @Override
-            public String toString()
-            {
-                return "Storm";
-            }
-        },
+    STORM("Storm", true),
     /**
      * When clouds overcast the sky, DecisionMaker draws an improvement chip from the reserve. If
      * there is no chip left, DecisionMaker chooses another weather condition.
      */
-    CLOUDS(true)
-        {
-            @Override
-            public String toString()
-            {
-                return "Clouds";
-            }
-        },
+    CLOUDS("Clouds", true),
     /**
      * DecisionMaker chooses another weather condition.
      */
-    QUESTION_MARK
-        {
-            @Override
-            public String toString()
-            {
-                return "Question Mark";
-            }
-        };
-
+    QUESTION_MARK("Question Mark");
+    
+    private final String name;
     private final boolean directAction;
 
-    Weather(boolean directAction)
+    Weather(String name, boolean directAction)
     {
+        this.name = name;
         this.directAction = directAction;
     }
 
-    Weather()
+    Weather(String name)
     {
-        this(false);
+        this(name, false);
     }
 
     public boolean isDirectAction()
@@ -97,5 +56,9 @@ public enum Weather
         return directAction;
     }
 
-
+    @Override
+    public String toString()
+    {
+        return this.name;
+    }
 }
