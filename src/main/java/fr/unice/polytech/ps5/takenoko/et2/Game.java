@@ -104,14 +104,9 @@ public class Game
     }
 
     /**
-     * Processes the game, needs players to be added before via addPlayer (between 2 and 4 players).
-     * Starts the game, process each turn in two phases :
-     * - Weather phase : weather is picked randomly and prompts DecisionMaker to act when needed.
-     * - DecisionMaker phase : prompts DecisionMaker to perform actions.
-     * Ends the game one round after a player triggered the Emperor by completing a certain amount
-     * of objectives.
+     * {@code ignoreLimitReached} defaults to {@code false}
      *
-     * @return List of indexes of winners
+     * @see Game#gameProcessing(boolean)
      */
     public List<Integer> gameProcessing() throws Exception
     {
@@ -138,11 +133,11 @@ public class Game
         objectiveDecks.values().forEach(Collections::shuffle);
         Collections.shuffle(tileDeck);
 
-        for (Player player1 : playerList)
+        for (Player player : playerList)
         {
             for (var deck : objectiveDecks.values())
             {
-                player1.addObjective(deck.remove(0));
+                player.addObjective(deck.remove(0));
             }
         }
 
@@ -229,9 +224,7 @@ public class Game
         }
 
         var actions = new ArrayList<>(Arrays.asList(GameAction.values()));
-        var unlimited = actions
-            .stream()
-            .filter(GameAction::isUnlimited).collect(Collectors.toCollection(ArrayList::new));
+        var unlimited = new ArrayList<>(GameAction.getUnlimitedActions());
         unlimited.add(null); // player can choose "null" after the required 2 actions are performed
         while (true)
         {
@@ -251,7 +244,7 @@ public class Game
 
             if (base.isEmpty())
             {
-                LOGGER.log(Level.SEVERE, "No available actions.");
+                LOGGER.log(Level.WARNING, "No available actions.");
                 return false;
             }
 
@@ -295,11 +288,10 @@ public class Game
         return true;
     }
 
-    private static <T> boolean noneAvailable(Stream<T> stream)
-    {
-        return stream.findAny().isEmpty();
-    }
-
+    /**
+     * @param stream a stream of items
+     * @return whether the stream contains at least one item
+     */
     private static <T> boolean someAvailable(Stream<T> stream)
     {
         return stream.findAny().isPresent();
@@ -367,7 +359,7 @@ public class Game
      * Prompts DecisionMaker to choose an objective deck. An objective is drawn from this deck and
      * put in the player's hand.
      *
-     * @param player
+     * @param player the current player
      */
     private void drawObjective(Player player)
     {
@@ -390,7 +382,7 @@ public class Game
     /**
      * Prompts DecisionMaker to choose one LandTile from the three on top of the deck and a
      * position on the board to put it.
-     * @param p
+     * @param p the current player
      */
     private void drawAndAddTile(Player p)
     {
@@ -417,7 +409,7 @@ public class Game
 
     /**
      * Finds the objectives a player can complete from the objectives in their hand.
-     * @param player
+     * @param player the current player
      * @return a stream of the objectives that can be complete by the payer
      */
     private Stream<Objective> findCompletableObjectives(Player player)
@@ -517,11 +509,9 @@ public class Game
     }
 
     /**
-     * Returns all the irrigable edges of the board. An edge is irrigable if it has a common vertex
+     * @return all the irrigable edges of the board. An edge is irrigable if it has a common vertex
      * with an irrigated edge. All edges around the Pond are irrigated. An irrigated edge is not
      * irrigable.
-     *
-     * @return stream of irrigable edges
      */
     public Stream<Edge> findIrrigableEdges()
     {
@@ -645,7 +635,7 @@ public class Game
 
     public void stormAction(Player player)
     {
-        if (noneAvailable(getValidPandaTargets()))
+        if (someAvailable(getValidPandaTargets()))
         {
             movePanda(player);
         }
