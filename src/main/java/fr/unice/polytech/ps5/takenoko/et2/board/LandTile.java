@@ -60,6 +60,11 @@ public class LandTile extends Tile implements Cloneable
 
         bambooCount++;
 
+        if (landTileImprovement == LandTileImprovement.FERTILIZER && (bambooCount < maxBambooSize))
+        {
+            bambooCount++;
+        }
+
         return true;
     }
 
