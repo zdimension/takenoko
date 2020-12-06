@@ -38,13 +38,13 @@ public class Game
     private final ArrayList<Player> playerList;
     private final boolean isFirstRound;
     private final List<LandTileImprovement> chipReserve;
+    private TilePosition gardenerPosition = TilePosition.ZERO;
+    private TilePosition pandaPosition = TilePosition.ZERO;
     private final Map<Weather, Consumer<Player>> WEATHER_MAP = Map.of(
         Weather.RAIN, this::rainAction,
         Weather.STORM, this::stormAction,
         Weather.CLOUDS, this::cloudsAction
     );
-    private TilePosition gardenerPosition = TilePosition.ZERO;
-    private TilePosition pandaPosition = TilePosition.ZERO;
     private int nbIrrigationsInDeck = 20;
     private final Map<GameAction, Consumer<Player>> ACTION_MAP = Map.of(
         GameAction.DRAW_OBJECTIVE, this::drawObjective,
@@ -53,7 +53,7 @@ public class Game
         GameAction.PICK_IRRIGATION, this::pickIrrigation,
         GameAction.PLACE_IRRIGATION, this::placeIrrigation,
         GameAction.MOVE_GARDENER, this::moveGardener,
-        //GameAction.MOVE_PANDA, this::movePanda,
+        GameAction.MOVE_PANDA, this::movePanda,
         GameAction.PLACE_IMPROVEMENT, this::placeImprovement
     );
 
@@ -83,6 +83,15 @@ public class Game
         this.objectiveDecks.put(PlotObjective.class, new ArrayList<>(plotObjectiveDeck));
         this.tileDeck = new ArrayList<>(tileDeck);
         this.chipReserve = new ArrayList<>();
+    }
+
+    /**
+     * @param stream a stream of items
+     * @return whether the stream contains at least one item
+     */
+    private static <T> boolean someAvailable(Stream<T> stream)
+    {
+        return stream.findAny().isPresent();
     }
 
     /**
@@ -156,9 +165,13 @@ public class Game
             if (!processTurn(player)) // deadlock
             {
                 if (ignoreLimitReached)
+                {
                     break;
+                }
                 else
+                {
                     return null;
+                }
             }
 
             if (i == numberPlayers - 1)
@@ -176,7 +189,9 @@ public class Game
         {
             LOGGER.log(Level.WARNING, "Max turn count reached ({0})", turn);
             if (!ignoreLimitReached)
+            {
                 return Collections.emptyList();
+            }
         }
 
         return whoWins().stream().map(playerList::indexOf).collect(Collectors.toList());
@@ -184,6 +199,7 @@ public class Game
 
     /**
      * Processes the current turn
+     *
      * @param player the current player
      * @return true if the turn was completed, false if a deadlock happened
      * @throws DecisionMakerException if the player makes invalid choices
@@ -289,16 +305,7 @@ public class Game
     }
 
     /**
-     * @param stream a stream of items
-     * @return whether the stream contains at least one item
-     */
-    private static <T> boolean someAvailable(Stream<T> stream)
-    {
-        return stream.findAny().isPresent();
-    }
-
-    /**
-     * @param act a game action
+     * @param act    a game action
      * @param player the current player
      * @return whether the specified action can be performed given the current game state
      */
@@ -306,7 +313,7 @@ public class Game
     {
         Objects.requireNonNull(act, "act must not be null");
 
-        switch(act)
+        switch (act)
         {
             case PLACE_IMPROVEMENT:
                 return someAvailable(board.getLandTilesWithoutImprovement())
@@ -317,6 +324,9 @@ public class Game
 
             case MOVE_GARDENER:
                 return someAvailable(getValidGardenerTargets());
+
+            case MOVE_PANDA:
+                return someAvailable(getValidPandaTargets());
 
             case PLACE_IRRIGATION:
                 return player.getNbIrrigationsInStock() > 0 && someAvailable(findIrrigableEdges());
@@ -382,6 +392,7 @@ public class Game
     /**
      * Prompts DecisionMaker to choose one LandTile from the three on top of the deck and a
      * position on the board to put it.
+     *
      * @param p the current player
      */
     private void drawAndAddTile(Player p)
@@ -409,6 +420,7 @@ public class Game
 
     /**
      * Finds the objectives a player can complete from the objectives in their hand.
+     *
      * @param player the current player
      * @return a stream of the objectives that can be complete by the payer
      */
@@ -486,7 +498,7 @@ public class Game
     /**
      * Gives a BambooSection to a Player
      *
-     * @param p Player to give the bambooSection
+     * @param p     Player to give the bambooSection
      * @param color Color of the bamboo section to give to the player
      */
     public void getBambooSection(Player p, Color color)
@@ -637,7 +649,7 @@ public class Game
     {
         if (someAvailable(getValidPandaTargets()))
         {
-            movePanda(player);
+            movePanda(player, true);
         }
     }
 
@@ -713,7 +725,15 @@ public class Game
 
     private void movePanda(Player player)
     {
-        var valid = getValidPandaTargets().collect(Collectors.toUnmodifiableList());
+        movePanda(player, false);
+    }
+
+    private void movePanda(Player player, boolean anyPosition)
+    {
+        var valid =
+            anyPosition
+                ? List.copyOf(board.getTiles().keySet())
+                : getValidPandaTargets().collect(Collectors.toUnmodifiableList());
         TilePosition chosenPos = player
             .getDecisionMaker()
             .choosePandaTarget(valid);
@@ -735,7 +755,7 @@ public class Game
 
         try
         {
-            if(cast.getLandTileImprovement() != LandTileImprovement.ENCLOSURE)
+            if (cast.getLandTileImprovement() != LandTileImprovement.ENCLOSURE)
             {
                 removeBambooSectionToTile(cast);
                 getBambooSection(player, cast.getColor());
