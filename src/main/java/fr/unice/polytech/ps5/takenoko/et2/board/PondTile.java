@@ -5,6 +5,9 @@ package fr.unice.polytech.ps5.takenoko.et2.board;
  */
 public class PondTile extends Tile
 {
+    /**
+     * Constructor. Should be called once
+     */
     public PondTile()
     {
         for (int i = 0; i < this.edges.length; i++)
