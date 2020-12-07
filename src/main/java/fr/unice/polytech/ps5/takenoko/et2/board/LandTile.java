@@ -10,34 +10,58 @@ import java.util.Objects;
 public class LandTile extends Tile implements Cloneable
 {
     private static final int maxBambooSize = 4;
-    /**
-     * Color of the land.
-     */
-    private final Color color;
+    private final Color color; // Color of the land
     private LandTileImprovement landTileImprovement = null;
     private int bambooCount = 0;
 
+    /**
+     * Constructor, generate a new LandTile with the given Color
+     *
+     * @param color Color of the LandTile
+     */
     public LandTile(Color color)
     {
         this.color = Objects.requireNonNull(color, "color must not be null");
     }
 
+    /**
+     * Constructor, generate a new LandTile with the given Color and Improvement
+     *
+     * @param color               Color of the LandTile
+     * @param landTileImprovement Improvement of the LandTile
+     */
     public LandTile(Color color, LandTileImprovement landTileImprovement)
     {
         this(color);
         this.landTileImprovement = landTileImprovement;
     }
 
+    /**
+     * Get the LandTile's Color
+     *
+     * @return Color of the LandTile
+     */
     public Color getColor()
     {
         return color;
     }
 
+    /**
+     * Get the LandTile's improvement
+     *
+     * @return The LandTileImprovement
+     */
     public LandTileImprovement getLandTileImprovement()
     {
         return landTileImprovement;
     }
 
+    /**
+     * Set the LandTileImprovement for this LandTile. Possible only if there is no bamboo and no other improvement
+     *
+     * @param landTileImprovement The improvement
+     * @return true if the change is ok, false otherwise
+     */
     public boolean setLandTileImprovement(LandTileImprovement landTileImprovement)
     {
         if (bambooCount != 0)
@@ -83,6 +107,11 @@ public class LandTile extends Tile implements Cloneable
         return true;
     }
 
+    /**
+     * Get the size of th bamboo in this LandTile
+     *
+     * @return Size of the bamboo
+     */
     public int getBambooSize()
     {
         return bambooCount;
@@ -113,6 +142,11 @@ public class LandTile extends Tile implements Cloneable
         return false;
     }
 
+    /**
+     * Clone the current LandTile into a new Object
+     *
+     * @return the new cloned Landtile, with an Object object
+     */
     public Object clone()
     {
         LandTile o = new LandTile(color, landTileImprovement);
@@ -120,6 +154,12 @@ public class LandTile extends Tile implements Cloneable
         return o;
     }
 
+    /**
+     * Check if the given object is equal to current LandTile
+     *
+     * @param o Object to check
+     * @return true if the Object is an instance of LandTile with same fields, false otherwise
+     */
     public boolean equals(Object o)
     {
         if (!(o instanceof LandTile))

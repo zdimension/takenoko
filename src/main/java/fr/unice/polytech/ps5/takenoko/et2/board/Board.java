@@ -272,22 +272,26 @@ public class Board implements Cloneable
             {
                 posStr = "POND".toCharArray();
             }
-            else if (tile instanceof  LandTile)
+            else if (tile instanceof LandTile)
             {
-                posStr = ((LandTile)tile).getColor().toString().toCharArray();
+                posStr = ((LandTile) tile).getColor().toString().toCharArray();
             }
             System.arraycopy(posStr, 0, lines[coordY + 3], coordX + 1, posStr.length);
         }
         return Arrays.stream(lines).map(String::new).collect(Collectors.joining("\n"));
     }
 
+    /**
+     * Clone the current Board
+     *
+     * @return the new Board, as an Object
+     */
     public Object clone()
     {
-        //return this;
         Board o = new Board();
         if (tileCache.size() != orderAdd.size() + 1)
         {
-            System.out.println("Err size");
+            throw new IllegalArgumentException("Board.clone(): tileCache.size() != orderAdd.size()");
         }
         try
         {
@@ -301,7 +305,7 @@ public class Board implements Cloneable
                 LandTile newLandTile = (LandTile) ((LandTile) oldTile).clone();
                 if (!o.addTileInternal(newLandTile, tilePosition, false))
                 {
-                    System.err.println("Error in board.clone()");
+                    throw new IllegalArgumentException("Board.clone(): irrigation problem");
                 }
                 for (int i = 0; i < 6; i++)
                 {
