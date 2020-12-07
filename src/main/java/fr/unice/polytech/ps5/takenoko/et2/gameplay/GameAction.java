@@ -31,6 +31,11 @@ public enum GameAction
         this(false);
     }
 
+    /**
+     * Get list of all unlimited GameActions
+     *
+     * @return The list of unlimited GameAction
+     */
     public static List<GameAction> getUnlimitedActions()
     {
         return Arrays.stream(values())
@@ -38,6 +43,11 @@ public enum GameAction
             .collect(Collectors.toUnmodifiableList());
     }
 
+    /**
+     * Check if a GameAction is unlimited
+     *
+     * @return true if unlimited, false otherwise
+     */
     public boolean isUnlimited()
     {
         return unlimited;
