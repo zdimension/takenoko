@@ -9,6 +9,9 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
+/**
+ * Handles the command-line parsing and completion for log levels (-l parameter)
+ */
 public class LogLevelHandler extends ArrayList<String> implements CommandLine.ITypeConverter<Level>
 {
     LogLevelHandler()

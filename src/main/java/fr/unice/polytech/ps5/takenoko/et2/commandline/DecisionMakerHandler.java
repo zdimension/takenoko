@@ -13,6 +13,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * Handles the command-line parsing and completion for bot names and parameters
+ */
 public class DecisionMakerHandler extends ArrayList<String> implements CommandLine.ITypeConverter<DecisionMakerBuilder>
 {
     private static final Map<String, Method> types = new HashMap<>();
