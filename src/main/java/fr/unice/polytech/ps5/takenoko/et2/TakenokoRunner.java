@@ -66,9 +66,7 @@ public class TakenokoRunner implements Runnable
 
     public void run()
     {
-        var root = LogManager.getLogManager().getLogger("");
-        root.setLevel(logLevel);
-        Arrays.stream(root.getHandlers()).forEach(h -> h.setLevel(logLevel));
+        updateLogLevel();
 
         var botNames = spec.positionalParameters().get(0).originalStringValues();
         System.out.printf("Running %d games %s with bots: %s%n", numGames, sequential ? "sequentially" : "in parallel", botNames);
@@ -132,5 +130,12 @@ public class TakenokoRunner implements Runnable
         System.out.println("Percentage of games");
         System.out.printf("- that reached max turn count limit: %.2f%%%n", Nlimit.get() * 100.0 / N);
         System.out.printf("- that were deadlocked: %.2f%%%n", Nempty.get() * 100.0 / N);
+    }
+
+    private void updateLogLevel()
+    {
+        var root = LogManager.getLogManager().getLogger("");
+        root.setLevel(logLevel);
+        Arrays.stream(root.getHandlers()).forEach(h -> h.setLevel(logLevel));
     }
 }

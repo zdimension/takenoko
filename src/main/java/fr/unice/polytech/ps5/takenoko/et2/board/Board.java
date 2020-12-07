@@ -255,10 +255,6 @@ public class Board implements Cloneable
             var fixY = pos.getY() - minY;
             var coordX = fixX * (hexWidth - hexSide);
             var coordY = fixX * (hexHeight / 2) + fixY * (hexHeight - 1);
-            if (coordY <0)
-            {
-                var g = 5;
-            }
             for (int i = 0; i < template.length; i++)
             {
                 for (var x = 0; x < 9; x++)
