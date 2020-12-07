@@ -1,8 +1,8 @@
 package fr.unice.polytech.ps5.takenoko.et2.objective;
 
+import fr.unice.polytech.ps5.takenoko.et2.board.*;
 import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.Player;
-import fr.unice.polytech.ps5.takenoko.et2.board.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +36,13 @@ public class PlotObjective extends Objective
         listPaths.addAll(listP);
     }
 
+    /**
+     * Check if the PlotObjective is validated
+     *
+     * @param board  the game board
+     * @param player the player
+     * @return true if validated, false otherwise
+     */
     public boolean checkValidated(Board board, Player player)
     {
         for (int i = 0; i < 6; i++)
