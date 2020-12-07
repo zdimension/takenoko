@@ -1,7 +1,7 @@
 package fr.unice.polytech.ps5.takenoko.et2.objective;
 
-import fr.unice.polytech.ps5.takenoko.et2.gameplay.Player;
 import fr.unice.polytech.ps5.takenoko.et2.board.Board;
+import fr.unice.polytech.ps5.takenoko.et2.gameplay.Player;
 
 /**
  * An abstract class for the objectives
@@ -41,7 +41,7 @@ public abstract class Objective
     }
 
     /**
-     * @param board ghe game board
+     * @param board  the game board
      * @param player the player
      * @return whether the objective is validated
      */
