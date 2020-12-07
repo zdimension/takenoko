@@ -54,6 +54,13 @@ public class DecisionMakerHandler extends ArrayList<String> implements CommandLi
         return Arrays.stream(cl.getMethods()).filter(m -> m.getName().equals("getBuilder")).findFirst().get();
     }
 
+    /**
+     * Convert a String into a real DecisionMakerBuilder
+     *
+     * @param s
+     * @return
+     * @throws IllegalArgumentException
+     */
     @Override
     public DecisionMakerBuilder convert(String s) throws IllegalArgumentException
     {
