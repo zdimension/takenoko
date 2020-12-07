@@ -287,11 +287,10 @@ public class Board implements Cloneable
 
     public Object clone()
     {
-        //return this;
         Board o = new Board();
         if (tileCache.size() != orderAdd.size() + 1)
         {
-            System.out.println("Err size");
+            throw new IllegalArgumentException("Board.clone(): tileCache.size() != orderAdd.size()");
         }
         try
         {
@@ -305,7 +304,7 @@ public class Board implements Cloneable
                 LandTile newLandTile = (LandTile) ((LandTile) oldTile).clone();
                 if (!o.addTileInternal(newLandTile, tilePosition, false))
                 {
-                    System.err.println("Error in board.clone()");
+                    throw new IllegalArgumentException("Board.clone(): irrigation problem");
                 }
                 for (int i = 0; i < 6; i++)
                 {
