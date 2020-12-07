@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
 @CommandLine.Command(name = "takenoko", mixinStandardHelpOptions = true, abbreviateSynopsis = true, requiredOptionMarker = '*', sortOptions = false)
-public class TakenokoRunner implements Runnable
+class TakenokoRunner implements Runnable
 {
     private static final Logger LOGGER = Logger.getLogger(TakenokoRunner.class.getSimpleName());
 

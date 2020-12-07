@@ -15,7 +15,7 @@ import java.util.*;
  */
 public class Player
 {
-    public static final int HAND_SIZE = 5;
+    private static final int HAND_SIZE = 5;
     private final List<Objective> hand = new ArrayList<>(HAND_SIZE);
     private final List<Objective> objectivesCompleted = new ArrayList<>(HAND_SIZE);
     private final Game game;

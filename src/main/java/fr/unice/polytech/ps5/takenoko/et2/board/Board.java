@@ -55,7 +55,7 @@ public class Board implements Cloneable
      * @param pos tile position
      * @return the tile at the specified position
      */
-    public Tile findTile(TilePosition pos)
+    private Tile findTile(TilePosition pos)
     {
         Objects.requireNonNull(pos, "tile position must not be null");
         return tileCache.getOrDefault(pos, null);
@@ -105,7 +105,7 @@ public class Board implements Cloneable
      * @param pos desired position
      * @return whether it is possible or not to place a tile at the specified position
      */
-    public boolean isValid(TilePosition pos)
+    private boolean isValid(TilePosition pos)
     {
         Objects.requireNonNull(pos, "tile position must not be null");
         if (this.tileCache.containsKey(pos))

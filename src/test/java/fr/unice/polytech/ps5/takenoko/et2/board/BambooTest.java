@@ -8,19 +8,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BambooTest
 {
-    Board board;
-    LandTile l1;
-    LandTile l2;
-    LandTile l3;
-    LandTile l4;
-    LandTile l5;
-    LandTile l6;
-    LandTile l7;
-    LandTile l8;
-    LandTile l9;
-    LandTile l10;
-    LandTile l11;
-    LandTile l12;
+    private Board board;
+    private LandTile l1;
+    private LandTile l2;
+    private LandTile l3;
+    private LandTile l4;
+    private LandTile l5;
+    private LandTile l6;
+    private LandTile l7;
+    private LandTile l8;
+    private LandTile l9;
+    private LandTile l10;
+    private LandTile l11;
+    private LandTile l12;
 
     @BeforeEach
     void init()

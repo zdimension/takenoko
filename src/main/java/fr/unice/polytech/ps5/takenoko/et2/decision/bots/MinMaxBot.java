@@ -29,7 +29,7 @@ public class MinMaxBot extends DecisionMaker
      *
      * @param player The player for the Bot
      */
-    public MinMaxBot(Player player, int depth)
+    private MinMaxBot(Player player, int depth)
     {
         super(player);
         this.depth = depth;

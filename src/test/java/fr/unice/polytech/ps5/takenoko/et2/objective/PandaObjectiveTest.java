@@ -15,9 +15,9 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 class PandaObjectiveTest
 {
-    Board mockBoard;
-    Player mockPlayer;
-    Map<Color, Integer> playerBambooReserve = new HashMap<>();
+    private Board mockBoard;
+    private Player mockPlayer;
+    private Map<Color, Integer> playerBambooReserve = new HashMap<>();
 
     @BeforeEach
     void init()

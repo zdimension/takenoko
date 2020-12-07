@@ -12,9 +12,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PlotObjectiveTest
+class PlotObjectiveTest
 {
-    Board board;
+    private Board board;
 
     @BeforeEach
     void initBoard()

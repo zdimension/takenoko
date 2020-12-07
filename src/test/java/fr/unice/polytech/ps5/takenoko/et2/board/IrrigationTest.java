@@ -11,11 +11,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class IrrigationTest
+class IrrigationTest
 {
-    Game game;
-    Player p;
-    Board board;
+    private Game game;
+    private Player p;
+    private Board board;
 
     @BeforeEach
     void init()

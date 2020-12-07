@@ -17,10 +17,10 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class MinMaxBotTest
+class MinMaxBotTest
 {
-    MinMaxBot bot;
-    Game game;
+    private MinMaxBot bot;
+    private Game game;
 
     @BeforeEach
     void initBot()

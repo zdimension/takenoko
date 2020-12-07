@@ -17,9 +17,9 @@ import static org.junit.jupiter.api.Assertions.fail;
 class BambooTest
 {
 
-    Game game;
-    Player p;
-    Board board;
+    private Game game;
+    private Player p;
+    private Board board;
 
     @BeforeEach
     void init()

@@ -14,9 +14,9 @@ import static org.mockito.Mockito.*;
 
 class GardenerObjectiveTest
 {
-    Board mockBoard;
-    Player mockPlayer;
-    List<LandTile> tileList;
+    private Board mockBoard;
+    private Player mockPlayer;
+    private List<LandTile> tileList;
 
     @BeforeEach
     void init()

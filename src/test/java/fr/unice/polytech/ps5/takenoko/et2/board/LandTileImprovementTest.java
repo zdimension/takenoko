@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class LandTileImprovementTest
+class LandTileImprovementTest
 {
-    LandTile landTile;
+    private LandTile landTile;
 
     @BeforeEach
     void init()

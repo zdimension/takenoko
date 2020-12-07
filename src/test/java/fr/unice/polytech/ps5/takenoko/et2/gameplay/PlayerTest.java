@@ -21,9 +21,9 @@ import static org.mockito.Mockito.*;
 
 class PlayerTest
 {
-    Game mockGame;
-    DecisionMakerBuilder mockBuilder;
-    Player p;
+    private Game mockGame;
+    private DecisionMakerBuilder mockBuilder;
+    private Player p;
 
     @BeforeEach
     void init()

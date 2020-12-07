@@ -494,7 +494,7 @@ public class Game
      *
      * @param tile to remove BambooSection to
      */
-    public void removeBambooSectionToTile(LandTile tile)
+    private void removeBambooSectionToTile(LandTile tile)
     {
         Objects.requireNonNull(tile, "tile must not be null");
 
@@ -507,7 +507,7 @@ public class Game
      * @param p     Player to give the bambooSection
      * @param color Color of the bamboo section to give to the player
      */
-    public void getBambooSection(Player p, Color color)
+    private void getBambooSection(Player p, Color color)
     {
         Objects.requireNonNull(p, "player must not be null");
         Objects.requireNonNull(color, "color of the bamboo section must not be null");
@@ -550,7 +550,7 @@ public class Game
      *
      * @param p to choose one edge
      */
-    public void placeIrrigation(Player p)
+    private void placeIrrigation(Player p)
     {
         DecisionMaker dm = p.getDecisionMaker();
         var valid = findIrrigableEdges().collect(Collectors.toUnmodifiableList());

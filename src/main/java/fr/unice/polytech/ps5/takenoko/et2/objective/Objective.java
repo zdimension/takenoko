@@ -8,14 +8,14 @@ import fr.unice.polytech.ps5.takenoko.et2.gameplay.Player;
  */
 public abstract class Objective
 {
-    protected int points;
+    int points;
 
     /**
      * Constructor
      *
      * @param points How many points is worth the objective
      */
-    public Objective(int points)
+    Objective(int points)
     {
         this.points = points;
     }
