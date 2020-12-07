@@ -1,11 +1,11 @@
 package fr.unice.polytech.ps5.takenoko.et2.gameplay;
 
-import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
-import fr.unice.polytech.ps5.takenoko.et2.enums.Weather;
 import fr.unice.polytech.ps5.takenoko.et2.board.*;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerException;
+import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
+import fr.unice.polytech.ps5.takenoko.et2.enums.Weather;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PandaObjective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
@@ -633,7 +633,7 @@ public class Game
      *
      * @param player to choose a tile
      */
-    public void rainAction(Player player)
+    private void rainAction(Player player)
     {
         var listIrrigatedTiles = board.getIrrigatedTiles()
             .values()
@@ -651,7 +651,7 @@ public class Game
         }
     }
 
-    public void stormAction(Player player)
+    private void stormAction(Player player)
     {
         if (someAvailable(getValidPandaTargets()))
         {
@@ -659,7 +659,7 @@ public class Game
         }
     }
 
-    public void cloudsAction(Player player)
+    private void cloudsAction(Player player)
     {
         var chosen = player.getDecisionMaker().chooseLandTileImprovement(new ArrayList<>(chipReserve));
         if (!chipReserve.contains(chosen))
@@ -676,7 +676,7 @@ public class Game
      * @param player to act
      * @return weather the player choose
      */
-    public Weather chooseWeather(Player player)
+    private Weather chooseWeather(Player player)
     {
         var weatherList = new ArrayList<>(Arrays.asList(Weather.values()));
         weatherList.remove(Weather.QUESTION_MARK);
@@ -790,6 +790,11 @@ public class Game
         player.getChipReserve().remove(chosenTileNImprovement.second);
     }
 
+    /**
+     * Get all Players in the Game
+     *
+     * @return A stream of all Game's Players
+     */
     public Stream<Player> getPlayers()
     {
         return playerList.stream();
