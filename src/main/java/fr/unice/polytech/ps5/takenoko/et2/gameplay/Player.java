@@ -104,7 +104,15 @@ public class Player
         return Collections.unmodifiableList(hand);
     }
 
-    public boolean isHandFull() { return hand.size() == HAND_SIZE; }
+    /**
+     * Check if the player's hand of Objectives is full
+     *
+     * @return true if the Player can pick up another Objective, false otherwise
+     */
+    public boolean isHandFull()
+    {
+        return hand.size() == HAND_SIZE;
+    }
 
     /**
      * @return associated DecisionMaker
@@ -147,11 +155,22 @@ public class Player
         nbIrrigationsInStock++;
     }
 
+    /**
+     * Get the number of irrigations in the Player's stock
+     *
+     * @return The number of the Player's irrigations
+     */
     public int getNbIrrigationsInStock()
     {
         return nbIrrigationsInStock;
     }
 
+    /**
+     * Irrigate a specific Edge
+     *
+     * @param edge the Edge to be irrigated
+     * @return true if the Edge could be irrigated, false otherwise
+     */
     public boolean irrigateEdge(Edge edge)
     {
         Objects.requireNonNull(edge, "edge must not be null");
@@ -241,7 +260,10 @@ public class Player
      *
      * @return the List
      */
-    public Map<Color, Integer> getBambooSectionReserve() { return bambooSectionReserve; }
+    public Map<Color, Integer> getBambooSectionReserve()
+    {
+        return bambooSectionReserve;
+    }
 
 
     /**
