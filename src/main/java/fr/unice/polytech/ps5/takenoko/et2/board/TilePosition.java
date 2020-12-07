@@ -7,6 +7,9 @@ import java.util.Objects;
  */
 public class TilePosition
 {
+    /**
+     * The null position
+     */
     public static final TilePosition ZERO = new TilePosition(0, 0);
 
     /**
@@ -54,11 +57,21 @@ public class TilePosition
         return n < 0 ? -1 : 1;
     }
 
+    /**
+     * Get X coordinate of TilePosition
+     *
+     * @return The X coordinate
+     */
     public int getX()
     {
         return x;
     }
 
+    /**
+     * Get Y coordinate of TilePosition
+     *
+     * @return The Y coordinate
+     */
     public int getY()
     {
         return y;
@@ -103,6 +116,12 @@ public class TilePosition
         return null;
     }
 
+    /**
+     * Check if the TilePosition is equal to another object
+     *
+     * @param other The other Object
+     * @return true if the Object is an instance of TilePosition and the fieds are equals, false otherwise
+     */
     @Override
     public boolean equals(Object other)
     {
@@ -116,6 +135,11 @@ public class TilePosition
         return false;
     }
 
+    /**
+     * HashCode of the position
+     *
+     * @return Objects.hash(x, y)
+     */
     @Override
     public int hashCode()
     {
