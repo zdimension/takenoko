@@ -2,8 +2,7 @@ package fr.unice.polytech.ps5.takenoko.et2.commandline;
 
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
-import fr.unice.polytech.ps5.takenoko.et2.decision.bots.MinMaxBot;
-import fr.unice.polytech.ps5.takenoko.et2.decision.bots.RandomBot;
+import org.reflections.Reflections;
 import picocli.CommandLine;
 
 import java.lang.reflect.Method;
@@ -23,8 +22,13 @@ public class DecisionMakerHandler extends ArrayList<String> implements CommandLi
 
     static
     {
-        registerBot("random", RandomBot.class);
-        registerBot("minmax", MinMaxBot.class);
+        var bots = new Reflections("fr.unice.polytech.ps5.takenoko.et2")
+            .getTypesAnnotatedWith(Bot.class);
+        for (Class<?> bot : bots)
+        {
+            //noinspection unchecked
+            registerBot(bot.getAnnotation(Bot.class).key(), (Class<? extends DecisionMaker>) bot);
+        }
     }
 
     DecisionMakerHandler()

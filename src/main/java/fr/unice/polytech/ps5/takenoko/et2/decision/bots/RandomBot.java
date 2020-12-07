@@ -1,14 +1,15 @@
 package fr.unice.polytech.ps5.takenoko.et2.decision.bots;
 
-import fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction;
-import fr.unice.polytech.ps5.takenoko.et2.gameplay.Player;
-import fr.unice.polytech.ps5.takenoko.et2.enums.Weather;
 import fr.unice.polytech.ps5.takenoko.et2.board.Edge;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTileImprovement;
 import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
+import fr.unice.polytech.ps5.takenoko.et2.commandline.Bot;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
+import fr.unice.polytech.ps5.takenoko.et2.enums.Weather;
+import fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction;
+import fr.unice.polytech.ps5.takenoko.et2.gameplay.Player;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
@@ -18,6 +19,7 @@ import java.util.Random;
 /**
  * This bot chooses randomly among valid choices every time.
  */
+@Bot(key = "random")
 public class RandomBot extends DecisionMaker
 {
     private static final Random RNG = new Random();

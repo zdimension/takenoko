@@ -1,11 +1,12 @@
 package fr.unice.polytech.ps5.takenoko.et2.decision.bots;
 
-import fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction;
-import fr.unice.polytech.ps5.takenoko.et2.gameplay.Player;
-import fr.unice.polytech.ps5.takenoko.et2.enums.Weather;
 import fr.unice.polytech.ps5.takenoko.et2.board.*;
+import fr.unice.polytech.ps5.takenoko.et2.commandline.Bot;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
+import fr.unice.polytech.ps5.takenoko.et2.enums.Weather;
+import fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction;
+import fr.unice.polytech.ps5.takenoko.et2.gameplay.Player;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
@@ -13,6 +14,7 @@ import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Bot(key = "minmax")
 public class MinMaxBot extends DecisionMaker
 {
     /**
