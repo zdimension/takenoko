@@ -51,11 +51,21 @@ public enum Weather
         this(name, false);
     }
 
+    /**
+     * Check if the weather is a direct action
+     *
+     * @return true if direct action, false otherwise
+     */
     public boolean isDirectAction()
     {
         return directAction;
     }
 
+    /**
+     * toString() for Weather
+     *
+     * @return A String representing the Weather, eg "Clouds"
+     */
     @Override
     public String toString()
     {
