@@ -276,15 +276,20 @@ public class Board implements Cloneable
             {
                 posStr = "POND".toCharArray();
             }
-            else if (tile instanceof  LandTile)
+            else if (tile instanceof LandTile)
             {
-                posStr = ((LandTile)tile).getColor().toString().toCharArray();
+                posStr = ((LandTile) tile).getColor().toString().toCharArray();
             }
             System.arraycopy(posStr, 0, lines[coordY + 3], coordX + 1, posStr.length);
         }
         return Arrays.stream(lines).map(String::new).collect(Collectors.joining("\n"));
     }
 
+    /**
+     * Clone the current Board
+     *
+     * @return the new Board, as an Object
+     */
     public Object clone()
     {
         Board o = new Board();
