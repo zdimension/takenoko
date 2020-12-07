@@ -6,7 +6,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * Base tile class. Mother of LandTile and PondTile
+ * Base tile class.
  */
 public abstract class Tile
 {
@@ -32,31 +32,16 @@ public abstract class Tile
         return edges[fixEdgeNum(num)];
     }
 
-    /**
-     * Get all the Edges of the Tile
-     *
-     * @return A Stream for all the Edges (6)
-     */
     public Stream<Edge> getEdges()
     {
         return Arrays.stream(edges).filter(Objects::nonNull);
     }
 
-    /**
-     * Get the Tile's position, if known
-     *
-     * @return the Tile position, in the Board
-     */
     public Optional<TilePosition> getPosition()
     {
         return Optional.ofNullable(position);
     }
 
-    /**
-     * Set the position of the Tile (doesn't change the real position, only useful for getPosition)
-     *
-     * @param position The position of the Tile
-     */
     public void setPosition(TilePosition position)
     {
         this.position = position;
