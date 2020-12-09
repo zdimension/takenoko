@@ -1,5 +1,6 @@
 package fr.unice.polytech.ps5.takenoko.et2.objective;
 
+import fr.unice.polytech.ps5.takenoko.et2.board.LandTileImprovement;
 import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.Player;
 import fr.unice.polytech.ps5.takenoko.et2.board.Board;
@@ -16,6 +17,7 @@ public class GardenerObjective extends Objective
     private final Color color;
     private final int numberOfBambooStack;
     private final int numberOfBambooSection;
+    private final LandTileImprovement landTileImprovement;
 
     /**
      * Construtor of a Gardener Objective
@@ -25,19 +27,38 @@ public class GardenerObjective extends Objective
      * @param stack   number of stacks of bamboo
      * @param section number of bamboo section on each stack
      */
-    public GardenerObjective(int points, Color color, int stack, int section)
+    GardenerObjective(int points, Color color, int stack, int section)
     {
         super(points);
         this.color = Objects.requireNonNull(color, "color must not be null");
         this.numberOfBambooStack = stack;
         this.numberOfBambooSection = section;
+        this.landTileImprovement = null;
+    }
+
+    /**
+     * Construtor of a Gardener Objective with a specific LandTileImprovement, especially for the one stack objective
+     *
+     * @param points  Points of the Objective
+     * @param color   Color of the bamboo's stacks and sections
+     * @param stack   number of stacks of bamboo
+     * @param section number of bamboo section on each stack
+     * @param imp     landTileImprovment requiered (only with one bambooStack)
+     */
+    GardenerObjective(int points, Color color, int stack, int section, LandTileImprovement imp)
+    {
+        super(points);
+        this.color = Objects.requireNonNull(color, "color must not be null");
+        this.numberOfBambooStack = stack;
+        this.numberOfBambooSection = section;
+        this.landTileImprovement = imp;
     }
 
     /**
      * Check if the objective is validated with the given board
      *
      * @param board The board to check
-     * @param player
+     * @param player the player who have this objective in hand
      * @return true if the Objective is validated in the Game, false otherwise
      */
     @Override
@@ -51,20 +72,27 @@ public class GardenerObjective extends Objective
         int bambooStackSize;
         int countBambooStack = 0;
         Color bambooColor;
+        LandTileImprovement improvement;
         for (LandTile tile : landTileList)
         {
             bambooColor = tile.getColor();
             bambooStackSize = tile.getBambooSize();
+            improvement = tile.getLandTileImprovement();
             if (bambooStackSize == this.numberOfBambooSection && bambooColor == this.color)
             {
-                countBambooStack++;
+                if (this.numberOfBambooStack == 1){
+                    if (improvement == this.landTileImprovement)
+                    {
+                        countBambooStack++;
+                    }
+                }
+                else {
+                    countBambooStack++;
+                }
             }
         }
-        if (this.numberOfBambooStack <= countBambooStack)
-        {
-            return true;
-        }
-        return false;
+
+        return this.numberOfBambooStack <= countBambooStack;
     }
 
     /**
@@ -73,9 +101,13 @@ public class GardenerObjective extends Objective
     @Override
     public String toString()
     {
-        return "Gardener Objective : " + points + "points,"
-            + color.toString() + "bambou,"
-            + numberOfBambooStack + " bamboo stack(s),"
-            + numberOfBambooSection + "bamboo sections per stack";
+        String message =  "Gardener Objective : " + points + " points, "
+            + color.toString() + " bamboo, "
+            + numberOfBambooStack + " bamboo stack(s), "
+            + numberOfBambooSection + " bamboo sections per stack, ";
+        if(this.landTileImprovement!=null) {
+            message += landTileImprovement.toString() + " land tile improvement";
+        }
+        return message;
     }
 }
