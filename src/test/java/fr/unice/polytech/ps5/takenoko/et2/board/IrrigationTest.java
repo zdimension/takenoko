@@ -305,8 +305,6 @@ class IrrigationTest
         game.pickIrrigation(p);
         game.pickIrrigation(p);
         p.irrigateEdge(l1.getEdge(2));
-        System.out.println(l1.getEdge(2).hashCode());
-        System.out.println(board.getEdgeBetweenTwoTiles(l1, l2).hashCode());
         p.irrigateEdge(l1.getEdge(1));
         p.irrigateEdge(l2.getEdge(0));
         p.irrigateEdge(l2.getEdge(1));
