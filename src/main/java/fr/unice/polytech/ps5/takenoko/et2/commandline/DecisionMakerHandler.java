@@ -61,7 +61,7 @@ public class DecisionMakerHandler extends ArrayList<String> implements CommandLi
         var matcher = namePattern.matcher(s);
         if (!matcher.find())
         {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Invalid name");
         }
         var name = matcher.group(1);
         var meth = Objects.requireNonNull(types.getOrDefault(name, null));
@@ -80,13 +80,17 @@ public class DecisionMakerHandler extends ArrayList<String> implements CommandLi
             }
             if (groupstr.length != params.length)
             {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException(String.format("Invalid parameter count (expected %d, got %d). Maybe your shell is stripping off parentheses?", params.length, groupstr.length));
             }
             return (DecisionMakerBuilder) meth.invoke(null, IntStream.range(0, params.length).mapToObj(i -> Integer.parseInt(groupstr[i])).toArray());
         }
+        catch (IllegalArgumentException e)
+        {
+            throw e;
+        }
         catch (Exception e)
         {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(e);
         }
     }
 }
