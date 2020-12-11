@@ -7,6 +7,7 @@ import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
+import fr.unice.polytech.ps5.takenoko.et2.objective.PandaObjective;
 
 import java.util.*;
 
@@ -55,16 +56,20 @@ public class Player
      */
     public int countPoints()
     {
-        int totalPoint = 0;
-        for (Objective objective : this.objectivesCompleted)
-        {
-            totalPoint += objective.getPoints();
-        }
-        if (hasTriggeredEmperor)
-        {
-            totalPoint += 2;
-        }
-        return totalPoint;
+        return objectivesCompleted
+            .stream()
+            .mapToInt(Objective::getPoints).sum() + (hasTriggeredEmperor ? 2 : 0);
+    }
+
+    /**
+     * @return the amount of points earned from panda objectives
+     */
+    public int countPointsPanda()
+    {
+        return objectivesCompleted
+            .stream()
+            .filter(obj -> obj instanceof PandaObjective)
+            .mapToInt(Objective::getPoints).sum();
     }
 
     /**

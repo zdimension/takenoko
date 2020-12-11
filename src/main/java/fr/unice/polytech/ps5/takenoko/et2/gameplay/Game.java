@@ -9,6 +9,7 @@ import fr.unice.polytech.ps5.takenoko.et2.enums.Weather;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PandaObjective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
+import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -356,8 +357,8 @@ public class Game
     private List<Player> whoWins()
     {
         return playerList
-            .stream().collect(Collectors.groupingBy(Player::countPoints)).entrySet()
-            .stream().max(Map.Entry.comparingByKey()).orElseThrow().getValue();
+            .stream().collect(Collectors.groupingBy(p -> Pair.of(p.countPoints(), p.countPointsPanda()))).entrySet()
+            .stream().max(Map.Entry.comparingByKey(Pair.getComparator())).orElseThrow().getValue();
     }
 
     /**
