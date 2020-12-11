@@ -52,6 +52,21 @@ public class Board implements Cloneable
     }
 
     /**
+     * Get a Tile from his position
+     *
+     * @param tilePosition Position of the Tile
+     * @return Tile from the position
+     */
+    public Tile getTileFromPosition(TilePosition tilePosition)
+    {
+        if (tileCache.containsKey(tilePosition))
+        {
+            return tileCache.get(tilePosition);
+        }
+        return null;
+    }
+
+    /**
      * @param pos tile position
      * @return the tile at the specified position
      */
