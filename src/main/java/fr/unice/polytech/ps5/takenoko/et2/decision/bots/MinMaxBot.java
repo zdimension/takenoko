@@ -7,6 +7,7 @@ import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import fr.unice.polytech.ps5.takenoko.et2.enums.Weather;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.Player;
+import fr.unice.polytech.ps5.takenoko.et2.objective.GardenerObjective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
@@ -131,7 +132,40 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public TilePosition chooseGardenerTarget(List<TilePosition> valid)
     {
-        return valid.get(0);
+        int maxPts = 0;
+        TilePosition bestPosition = null;
+        for (TilePosition tilePosition : valid)
+        {
+            Board b = (Board) getBoard().clone();
+            Tile tile = b.getTileFromPosition(tilePosition);
+            if (!(tile instanceof LandTile))
+            {
+                continue;
+            }
+            LandTile landTile = (LandTile) tile;
+            landTile.growBambooSection();
+            for (Objective objective : player.getHand())
+            {
+                if (!(objective instanceof GardenerObjective))
+                {
+                    continue;
+                }
+                GardenerObjective gardenerObjective = (GardenerObjective) objective;
+                if (gardenerObjective.checkValidated(b, player))
+                {
+                    if (gardenerObjective.getPoints() > maxPts)
+                    {
+                        bestPosition = tilePosition;
+                        maxPts = gardenerObjective.getPoints();
+                    }
+                }
+            }
+        }
+        if (bestPosition == null)
+        {
+            return valid.get(0);
+        }
+        return bestPosition;
     }
 
     @Override
