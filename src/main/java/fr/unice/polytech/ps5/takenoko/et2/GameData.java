@@ -29,12 +29,12 @@ public final class GameData
             Stream.generate(() -> new LandTile(Color.GREEN, LandTileImprovement.ENCLOSURE)).limit(2),
             Stream.generate(() -> new LandTile(Color.GREEN, LandTileImprovement.FERTILIZER)).limit(1),
 
-            Stream.generate(() -> new LandTile(Color.YELLOW)).limit(4),
+            Stream.generate(() -> new LandTile(Color.YELLOW)).limit(6),
             Stream.generate(() -> new LandTile(Color.YELLOW, LandTileImprovement.WATERSHED)).limit(1),
             Stream.generate(() -> new LandTile(Color.YELLOW, LandTileImprovement.ENCLOSURE)).limit(1),
             Stream.generate(() -> new LandTile(Color.YELLOW, LandTileImprovement.FERTILIZER)).limit(1),
 
-            Stream.generate(() -> new LandTile(Color.PINK)).limit(6),
+            Stream.generate(() -> new LandTile(Color.PINK)).limit(4),
             Stream.generate(() -> new LandTile(Color.PINK, LandTileImprovement.WATERSHED)).limit(1),
             Stream.generate(() -> new LandTile(Color.PINK, LandTileImprovement.ENCLOSURE)).limit(1),
             Stream.generate(() -> new LandTile(Color.PINK, LandTileImprovement.FERTILIZER)).limit(1)
