@@ -27,7 +27,7 @@ public class GardenerObjective extends Objective
      * @param stack   number of stacks of bamboo
      * @param section number of bamboo section on each stack
      */
-    GardenerObjective(int points, Color color, int stack, int section)
+    public GardenerObjective(int points, Color color, int stack, int section)
     {
         super(points);
         this.color = Objects.requireNonNull(color, "color must not be null");
@@ -45,7 +45,7 @@ public class GardenerObjective extends Objective
      * @param section number of bamboo section on each stack
      * @param imp     landTileImprovment requiered (only with one bambooStack)
      */
-    GardenerObjective(int points, Color color, int stack, int section, LandTileImprovement imp)
+    public GardenerObjective(int points, Color color, int stack, int section, LandTileImprovement imp)
     {
         super(points);
         this.color = Objects.requireNonNull(color, "color must not be null");

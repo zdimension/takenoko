@@ -6,6 +6,7 @@ import fr.unice.polytech.ps5.takenoko.et2.decision.bots.RandomBot;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -14,9 +15,9 @@ class GameTest
 {
 
     @Test
-    void gameConstructorEmptyPlotObjectiveDeck()
+    void gameConstructorEmptyObjectiveDeck()
     {
-        assertThrows(IllegalArgumentException.class, () -> new Game(new ArrayList<>(), GameData.getStandardLandTiles()));
+        assertThrows(IllegalArgumentException.class, () -> new Game(new HashMap<>(), GameData.getStandardLandTiles()));
     }
 
     @Test

@@ -8,7 +8,6 @@ import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
 import fr.unice.polytech.ps5.takenoko.et2.enums.Weather;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PandaObjective;
-import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
 import java.util.*;
@@ -117,17 +116,17 @@ public class Game
     /**
      * Game contructor
      *
-     * @param plotObjectiveDeck
+     * @param objectiveDecks
      * @param tileDeck
      */
-    public Game(List<PlotObjective> plotObjectiveDeck, List<LandTile> tileDeck)
+    public Game(Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks, List<LandTile> tileDeck)
     {
-        Objects.requireNonNull(plotObjectiveDeck, "plotObjectiveDeck must not be null");
+        Objects.requireNonNull(objectiveDecks, "pbjectiveDecks must not be null");
         Objects.requireNonNull(tileDeck, "tileDeck must not be null");
 
-        if (plotObjectiveDeck.isEmpty())
+        if (objectiveDecks.isEmpty())
         {
-            throw new IllegalArgumentException("PlotObjective deck is empty");
+            throw new IllegalArgumentException("Objective deck is empty");
         }
         if (tileDeck.isEmpty())
         {
@@ -137,7 +136,10 @@ public class Game
         playerList = new ArrayList<>();
         isFirstRound = true;
         board = new Board();
-        this.objectiveDecks.put(PlotObjective.class, new ArrayList<>(plotObjectiveDeck));
+        for (var deck : objectiveDecks.entrySet())
+        {
+            this.objectiveDecks.put(deck.getKey(), new ArrayList<>(deck.getValue()));
+        }
         this.tileDeck = new ArrayList<>(tileDeck);
         this.chipReserve = new ArrayList<>();
     }
