@@ -77,7 +77,7 @@ public class LandTile extends Tile implements Cloneable
      */
     public boolean growBambooSection()
     {
-        if (bambooCount == maxBambooSize || !isIrrigated())
+        if (!canGrowBamboo())
         {
             return false;
         }
@@ -92,12 +92,17 @@ public class LandTile extends Tile implements Cloneable
         return true;
     }
 
+    public boolean canGrowBamboo()
+    {
+        return bambooCount < maxBambooSize && isIrrigated();
+    }
+
     /**
      * @return if success or failure to remove bamboo section to tile
      */
     public boolean cutBambooSection()
     {
-        if (bambooCount == 00)
+        if (bambooCount == 0)
         {
             return false;
         }

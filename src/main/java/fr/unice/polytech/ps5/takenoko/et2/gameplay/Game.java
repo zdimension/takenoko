@@ -695,11 +695,7 @@ public class Game
      */
     private void rainAction(Player player)
     {
-        var listIrrigatedTiles = board.getIrrigatedTiles()
-            .values()
-            .stream()
-            .filter(tile -> tile.getBambooSize() < 4)
-            .collect(Collectors.toList());
+        var listIrrigatedTiles = board.getBambooableTiles();
         if (listIrrigatedTiles.isEmpty())
         {
             return;
@@ -736,7 +732,7 @@ public class Game
      * @param player to act
      * @return weather the player choose
      */
-    private Weather chooseWeather(Player player)
+    Weather chooseWeather(Player player)
     {
         var weatherList = new ArrayList<>(Arrays.asList(Weather.values()));
         weatherList.remove(Weather.QUESTION_MARK);

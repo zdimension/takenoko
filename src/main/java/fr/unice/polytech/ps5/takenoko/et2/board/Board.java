@@ -338,4 +338,12 @@ public class Board implements Cloneable
         }
         return o;
     }
+
+    public List<LandTile> getBambooableTiles()
+    {
+        return getLandTiles()
+            .stream()
+            .filter(LandTile::canGrowBamboo)
+            .collect(Collectors.toList());
+    }
 }
