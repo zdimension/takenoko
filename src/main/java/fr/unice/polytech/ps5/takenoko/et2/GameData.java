@@ -23,15 +23,21 @@ public final class GameData
      */
     public static List<LandTile> getStandardLandTiles()
     {
-        return getLandTiles(11, 9, 7);
-    }
-
-    private static List<LandTile> getLandTiles(int green, int yellow, int pink)
-    {
         return Stream.of(
-            Stream.generate(() -> new LandTile(Color.GREEN)).limit(green),
-            Stream.generate(() -> new LandTile(Color.YELLOW)).limit(yellow),
-            Stream.generate(() -> new LandTile(Color.PINK)).limit(pink)
+            Stream.generate(() -> new LandTile(Color.GREEN)).limit(6),
+            Stream.generate(() -> new LandTile(Color.GREEN, LandTileImprovement.WATERSHED)).limit(2),
+            Stream.generate(() -> new LandTile(Color.GREEN, LandTileImprovement.ENCLOSURE)).limit(2),
+            Stream.generate(() -> new LandTile(Color.GREEN, LandTileImprovement.FERTILIZER)).limit(1),
+
+            Stream.generate(() -> new LandTile(Color.YELLOW)).limit(4),
+            Stream.generate(() -> new LandTile(Color.YELLOW, LandTileImprovement.WATERSHED)).limit(1),
+            Stream.generate(() -> new LandTile(Color.YELLOW, LandTileImprovement.ENCLOSURE)).limit(1),
+            Stream.generate(() -> new LandTile(Color.YELLOW, LandTileImprovement.FERTILIZER)).limit(1),
+
+            Stream.generate(() -> new LandTile(Color.PINK)).limit(6),
+            Stream.generate(() -> new LandTile(Color.PINK, LandTileImprovement.WATERSHED)).limit(1),
+            Stream.generate(() -> new LandTile(Color.PINK, LandTileImprovement.ENCLOSURE)).limit(1),
+            Stream.generate(() -> new LandTile(Color.PINK, LandTileImprovement.FERTILIZER)).limit(1)
         ).reduce(Stream::concat).get().collect(Collectors.toList());
     }
 
