@@ -9,6 +9,7 @@ import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 /**
  * Class making decisions over the course of the game.
@@ -22,6 +23,7 @@ import java.util.Objects;
  */
 public abstract class DecisionMaker
 {
+    private static final Random RNG = new Random();
     /**
      * Player on which DecisionMaker acts
      */
@@ -45,6 +47,11 @@ public abstract class DecisionMaker
     protected Board getBoard()
     {
         return player.getGame().getBoard();
+    }
+
+    protected static <T> T randomElement(List<T> list)
+    {
+        return list.get(RNG.nextInt(list.size()));
     }
 
     /**Chooses one action out of allowed actions to perform during the turn

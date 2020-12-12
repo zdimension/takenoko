@@ -704,6 +704,10 @@ public class Game
         return getValidTargets(pandaPosition);
     }
 
+    /**
+     * @param piecePosition starting position of the piece
+     * @return a stream of valid target positions for the piece
+     */
     private Stream<TilePosition> getValidTargets(TilePosition piecePosition)
     {
         return board.getTiles().keySet().stream()

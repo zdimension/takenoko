@@ -64,7 +64,7 @@ public class MinMaxBot extends DecisionMaker
         {
             return GameAction.DRAW_TILE;
         }
-        return base.get(0);
+        return randomElement(base);// TODO
     }
 
     @Override
@@ -74,7 +74,7 @@ public class MinMaxBot extends DecisionMaker
         {
             return PlotObjective.class;
         }
-        return available.get(0);
+        return randomElement(available);// TODO
     }
 
     @Override
@@ -122,7 +122,7 @@ public class MinMaxBot extends DecisionMaker
         if (maxEdge == null || !irrigableEdges.contains(maxEdge))
         {
             maxEdge = null;
-            return irrigableEdges.get(0);
+            return randomElement(irrigableEdges);
         }
         Edge edgeTmp = maxEdge;
         maxEdge = null;
@@ -163,7 +163,7 @@ public class MinMaxBot extends DecisionMaker
         }
         if (bestPosition == null)
         {
-            return valid.get(0);
+            return randomElement(valid);
         }
         return bestPosition;
     }
@@ -171,31 +171,31 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public Weather chooseWeather(List<Weather> weatherList)
     {
-        return Weather.SUN; //TODO
+        return randomElement(weatherList); //TODO
     }
 
     @Override
     public TilePosition choosePandaTarget(List<TilePosition> valid)
     {
-        return valid.get(0);
+        return randomElement(valid);// TODO
     }
 
     @Override
     public LandTile chooseTileToAddBamboo(List<LandTile> listIrrigatedTiles)
     {
-        return null; //TODO
+        return randomElement(listIrrigatedTiles); //TODO
     }
 
     @Override
     public LandTileImprovement chooseLandTileImprovement(List<LandTileImprovement> listLandTileImprovements)
     {
-        return listLandTileImprovements.get(0); // TODO
+        return randomElement(listLandTileImprovements); // TODO
     }
 
     @Override
     public Pair<LandTile, LandTileImprovement> chooseImprovementAndLandTile(List<LandTile> vacantLandTile, List<LandTileImprovement> availableImprovements)
     {
-        return Pair.of(vacantLandTile.get(0), availableImprovements.get(0)); // TODO
+        return Pair.of(randomElement(vacantLandTile), randomElement(availableImprovements)); // TODO
     }
 
     private int evaluateAction(LandTile playedTile, TilePosition playedPos, List<LandTile> drawnTiles, List<TilePosition> ListValidsPositions, Board board, List<Objective> myObjectives, int n, boolean myTurn)

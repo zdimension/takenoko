@@ -14,7 +14,6 @@ import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * This bot chooses randomly among valid choices every time.
@@ -22,8 +21,6 @@ import java.util.Random;
 @Bot(key = "random")
 public class RandomBot extends DecisionMaker
 {
-    private static final Random RNG = new Random();
-
     public RandomBot(Player player)
     {
         super(player);
@@ -32,11 +29,6 @@ public class RandomBot extends DecisionMaker
     public static DecisionMakerBuilder getBuilder()
     {
         return RandomBot::new;
-    }
-
-    private static <T> T randomElement(List<T> list)
-    {
-        return list.get(RNG.nextInt(list.size()));
     }
 
     @Override
