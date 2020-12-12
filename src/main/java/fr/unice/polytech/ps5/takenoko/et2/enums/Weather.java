@@ -37,15 +37,31 @@ public enum Weather
      */
     QUESTION_MARK("Question Mark");
 
+    /**
+     * Name of the Weahter.
+     */
     private final String name;
+    /**
+     * Defines if an action associated with the weather has to be performed in the Weather Phase.
+     * (doesn't apply to QUESTION_MARK)
+     */
     private final boolean directAction;
 
+    /**
+     * Main constructor.
+     * @param name of the Weather
+     * @param directAction of the Weather
+     */
     Weather(String name, boolean directAction)
     {
         this.name = name;
         this.directAction = directAction;
     }
 
+    /**
+     * Constructor overload. directAction set to false.
+     * @param name of the Weather
+     */
     Weather(String name)
     {
         this(name, false);

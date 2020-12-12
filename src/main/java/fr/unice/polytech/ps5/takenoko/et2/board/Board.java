@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
- * Main game board.
+ * Main game board. Contains PondTile as in the middle.
  */
 public class Board implements Cloneable
 {

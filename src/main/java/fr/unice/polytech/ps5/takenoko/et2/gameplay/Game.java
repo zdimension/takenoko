@@ -25,31 +25,84 @@ import java.util.stream.Stream;
  */
 public class Game
 {
+    //TODO document
     private static final Logger LOGGER = Logger.getLogger(Game.class.getSimpleName());
+    //TODO document
     private static final int MAX_TURNS = 200;
+    /**
+     * Number of actions a DecisionMaker is allowed to performed during their turn, in the
+     * DecisionMaker phase.
+     */
     private static final int numberActionsInTurn = 2;
+    /**
+     * Defines how many objectives need to be completed for the emperor to be triggered, depending
+     * on the number of players.
+     */
     private static final Map<Integer, Integer> objectiveThreshold = Map.of(
         2, 9,
         3, 8,
         4, 7
     );
+    /**
+     * Minimum number of players in the game.
+     */
     private static final int minNumberOfPlayers = 2;
+    /**
+     * Maximum number of players in the game.
+     */
     private static final int maxNumberOfPlayers = 4;
+    /**
+     * Random field used in rollWeatherDice to set the weather during a turn.
+     */
     private static final Random diceRoller = new Random();
+    /**
+     * Board of the game, on which DecisionMaker will place LandTiles and irrigations.
+     */
     private final Board board;
+    /**
+     * All three decks of objectives.
+     */
     private final Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks = new HashMap<>();
+    /**
+     * Deck of LandTile avaiable and unplaced.
+     */
     private final List<LandTile> tileDeck;
+    /**
+     * All players in the game.
+     */
     private final ArrayList<Player> playerList;
+    /**
+     * Set to true before the first round, set to false at the end of it. The only usage of this
+     * field is to unable Weather functionalities during the first round.
+     */
     private boolean isFirstRound;
+    /**
+     * LandTileImprovement stock.
+     */
     private final List<LandTileImprovement> chipReserve;
+    /**
+     * Position of the gardener. It starts on the PondTile.
+     */
     private TilePosition gardenerPosition = TilePosition.ZERO;
+    /**
+     * Position of the panda. It starts on the PondTile.
+     */
     private TilePosition pandaPosition = TilePosition.ZERO;
+    /**
+     * Association of Weather (with directAction = true) and functions.
+     */
     private final Map<Weather, Consumer<Player>> WEATHER_MAP = Map.of(
         Weather.RAIN, this::rainAction,
         Weather.STORM, this::stormAction,
         Weather.CLOUDS, this::cloudsAction
     );
+    /**
+     * Number of irrigations avaiable for the DecisionMaker to pick.
+     */
     private int nbIrrigationsInDeck = 20;
+    /**
+     * Association of GameAction and functions.
+     */
     private final Map<GameAction, Consumer<Player>> ACTION_MAP = Map.of(
         GameAction.DRAW_OBJECTIVE, this::drawObjective,
         GameAction.DRAW_TILE, this::drawAndAddTile,
@@ -136,7 +189,7 @@ public class Game
      *
      * @return List of indexes of winners
      */
-    public List<Integer> gameProcessing(boolean ignoreLimitReached) throws Exception
+    public List<Integer> gameProcessing(boolean ignoreThreshold) throws Exception
     {
         if (playerList.size() < minNumberOfPlayers)
         {
@@ -168,7 +221,7 @@ public class Game
 
             if (!processTurn(player)) // deadlock
             {
-                if (ignoreLimitReached)
+                if (ignoreThreshold)
                 {
                     break;
                 }
@@ -197,7 +250,7 @@ public class Game
         if (turn == MAX_TURNS)
         {
             LOGGER.log(Level.WARNING, "Max turn count reached ({0})", turn);
-            if (!ignoreLimitReached)
+            if (!ignoreThreshold)
             {
                 return Collections.emptyList();
             }
