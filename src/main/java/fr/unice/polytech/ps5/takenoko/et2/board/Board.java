@@ -341,6 +341,10 @@ public class Board implements Cloneable
         return o;
     }
 
+    /**
+     *
+     * @return list of tiles of the board that can grow bamboo on it.
+     */
     public List<LandTile> getBambooableTiles()
     {
         return getLandTiles()
