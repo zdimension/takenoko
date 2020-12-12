@@ -57,6 +57,14 @@ public class LandTile extends Tile implements Cloneable
     }
 
     /**
+     * @return whether an improvement can be added to the tile
+     */
+    boolean canSetImprovement()
+    {
+        return bambooCount == 0 && landTileImprovement == null;
+    }
+
+    /**
      * Set the LandTileImprovement for this LandTile. Possible only if there is no bamboo and no other improvement
      *
      * @param landTileImprovement The improvement
@@ -64,7 +72,7 @@ public class LandTile extends Tile implements Cloneable
      */
     public boolean setLandTileImprovement(LandTileImprovement landTileImprovement)
     {
-        if (bambooCount != 0)
+        if (!canSetImprovement())
         {
             return false;
         }

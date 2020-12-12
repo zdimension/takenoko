@@ -214,7 +214,9 @@ public class Board implements Cloneable
 
     public Stream<LandTile> getLandTilesWithoutImprovement()
     {
-        return tileCache.values().stream().filter(LandTile.class::isInstance).map(x -> (LandTile) x).filter(x -> x.getLandTileImprovement() == null);
+        return tileCache.values().stream()
+            .filter(LandTile.class::isInstance).map(x -> (LandTile) x)
+            .filter(LandTile::canSetImprovement);
     }
 
     /**
