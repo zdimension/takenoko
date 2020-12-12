@@ -732,7 +732,7 @@ public class Game
      * @param player to act
      * @return weather the player choose
      */
-    Weather chooseWeather(Player player)
+    private Weather chooseWeather(Player player)
     {
         var weatherList = new ArrayList<>(Arrays.asList(Weather.values()));
         weatherList.remove(Weather.QUESTION_MARK);
