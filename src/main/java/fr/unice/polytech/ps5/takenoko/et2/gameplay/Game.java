@@ -40,7 +40,7 @@ public class Game
     private final Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks = new HashMap<>();
     private final List<LandTile> tileDeck;
     private final ArrayList<Player> playerList;
-    private final boolean isFirstRound;
+    private boolean isFirstRound;
     private final List<LandTileImprovement> chipReserve;
     private TilePosition gardenerPosition = TilePosition.ZERO;
     private TilePosition pandaPosition = TilePosition.ZERO;
@@ -187,6 +187,11 @@ public class Game
                 i++;
             }
             turn++;
+
+            if(isFirstRound && turn == numberPlayers -1)
+            {
+                isFirstRound = false;
+            }
         }
 
         if (turn == MAX_TURNS)
@@ -213,7 +218,6 @@ public class Game
         var dm = player.getDecisionMaker();
         int remaining = numberActionsInTurn;
 
-        //un type sympa pour s'il y a la météo ou pas
         Weather turnWeather = null;
 
         if (!isFirstRound)
@@ -640,7 +644,7 @@ public class Game
             .values()
             .stream()
             .filter(tile -> tile.getBambooSize() < 4)
-            .collect(Collectors.toUnmodifiableList());
+            .collect(Collectors.toList());
         if (listIrrigatedTiles.isEmpty())
         {
             return;
