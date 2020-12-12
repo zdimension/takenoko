@@ -113,7 +113,7 @@ public abstract class DecisionMaker
     public abstract LandTileImprovement chooseLandTileImprovement(List<LandTileImprovement> listLandTileImprovements);
 
     /**
-     * Player can choose which LandTileImprovement he can place and where
+     * Chooses which LandTileImprovement he can place and where
      *
      * @param vacantLandTile        LandTile without improvement
      * @param availableImprovements improvements owned by the player
