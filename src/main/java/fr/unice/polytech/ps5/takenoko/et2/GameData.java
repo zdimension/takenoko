@@ -1,8 +1,12 @@
 package fr.unice.polytech.ps5.takenoko.et2;
 
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
+import fr.unice.polytech.ps5.takenoko.et2.board.LandTileImprovement;
 import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.Game;
+import fr.unice.polytech.ps5.takenoko.et2.objective.GardenerObjective;
+import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
+import fr.unice.polytech.ps5.takenoko.et2.objective.PandaObjective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 
 import java.util.ArrayList;
@@ -22,7 +26,7 @@ public final class GameData
         return getLandTiles(11, 9, 7);
     }
 
-    public static List<LandTile> getLandTiles(int green, int yellow, int pink)
+    private static List<LandTile> getLandTiles(int green, int yellow, int pink)
     {
         return Stream.of(
             Stream.generate(() -> new LandTile(Color.GREEN)).limit(green),
@@ -34,7 +38,7 @@ public final class GameData
     /**
      * @return a list containing the 15 standard Takenoko plot objectives
      */
-    public static ArrayList<PlotObjective> getStandardObjectives()
+    private static ArrayList<PlotObjective> getStandardPlotObjectives()
     {
         var objectives = new ArrayList<PlotObjective>();
         for (var x : Map.of(Color.GREEN, 2, Color.YELLOW, 3, Color.PINK, 4).entrySet())
@@ -50,6 +54,47 @@ public final class GameData
         objectives.add(new PlotObjective(4, List.of(Color.GREEN, Color.GREEN, Color.PINK, Color.PINK), List.of(2, 3, 5)));
         objectives.add(new PlotObjective(5, List.of(Color.PINK, Color.PINK, Color.YELLOW, Color.YELLOW), List.of(2, 3, 5)));
         return objectives;
+    }
+
+    private static ArrayList<PandaObjective> getStandardPandaObjectives()
+    {
+        var res = new ArrayList<PandaObjective>();
+        for (var i = 0; i < 5; i++)
+            res.add(new PandaObjective(3, Map.of(Color.GREEN, 2)));
+        for (var i = 0; i < 4; i++)
+            res.add(new PandaObjective(4, Map.of(Color.YELLOW, 2)));
+        for (var i = 0; i < 3; i++)
+            res.add(new PandaObjective(5, Map.of(Color.PINK, 2)));
+        for (var i = 0; i < 3; i++)
+            res.add(new PandaObjective(6, Map.of(Color.GREEN, 1, Color.YELLOW, 1, Color.PINK, 1)));
+        return res;
+    }
+
+    private static ArrayList<GardenerObjective> getStandardGardenerObjectives()
+    {
+        var res = new ArrayList<GardenerObjective>();
+
+        for (var x : Map.of(Color.GREEN, 3, Color.YELLOW, 4, Color.PINK, 5).entrySet())
+        {
+            var col = x.getKey();
+            var score = x.getValue();
+            res.add(new GardenerObjective(score, col, 1, 4, LandTileImprovement.FERTILIZER));
+            res.add(new GardenerObjective(score + 1, col, 1, 4, LandTileImprovement.WATERSHED));
+            res.add(new GardenerObjective(score + 1, col, 1, 4, LandTileImprovement.ENCLOSURE));
+            res.add(new GardenerObjective(score + 2, col, 1, 4));
+            res.add(new GardenerObjective(11 - score, col, 7 - score, 3));
+        }
+
+        return res;
+    }
+
+    public static Map<Class<? extends Objective>, List<? extends Objective>> getStandardObjectives()
+    {
+        return Map.of(
+            PlotObjective.class, getStandardPlotObjectives(),
+            PandaObjective.class, getStandardPandaObjectives(),
+            GardenerObjective.class, getStandardGardenerObjectives()
+        );
     }
 
     /**
