@@ -6,9 +6,8 @@ import java.util.stream.Collectors;
 
 /**
  * Actions DecisionMaker can perform in his turn during the DecisionMaker phase. Constants may
- * have a parameter to indicate weather an action is unlimited or not. When an action is unlimited,
- * it doesn't count as a limited action, so it can be performed before, between and/or after
- * limited actions (2 for each turn most of the time).
+ * have a parameter to indicate weather an action is unlimited or not. When the parameter is not
+ * specified, the action is limited.
  */
 public enum GameAction
 {
@@ -57,6 +56,10 @@ public enum GameAction
      */
     PLACE_IMPROVEMENT(true);
 
+    /**
+     * When an action is unlimited, it doesn't count as a limited action, so it can be performed
+     * before, between and/or after limited actions (2 for each turn except when it's sunny).
+     */
     private final boolean unlimited;
 
     GameAction(boolean unlimited)

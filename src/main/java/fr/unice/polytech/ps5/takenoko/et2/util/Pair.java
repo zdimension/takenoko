@@ -3,7 +3,7 @@ package fr.unice.polytech.ps5.takenoko.et2.util;
 import java.util.Comparator;
 
 /**
- * Generic Pair class (God bless C++)
+ * Generic Pair class
  */
 public class Pair<T1, T2>
 {

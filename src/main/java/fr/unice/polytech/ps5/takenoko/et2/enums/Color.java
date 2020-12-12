@@ -5,6 +5,9 @@ package fr.unice.polytech.ps5.takenoko.et2.enums;
  */
 public enum Color
 {
+    /**
+     * GREEN color
+     */
     GREEN
         {
             @Override
@@ -13,6 +16,9 @@ public enum Color
                 return "Green";
             }
         },
+    /**
+     * YELLOW color
+     */
     YELLOW
         {
             @Override
@@ -21,6 +27,9 @@ public enum Color
                 return "Yellow";
             }
         },
+    /**
+     * PINK color
+     */
     PINK
         {
             @Override
