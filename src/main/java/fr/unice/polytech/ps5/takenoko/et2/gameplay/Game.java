@@ -57,7 +57,7 @@ public class Game
     /**
      * All three decks of objectives.
      */
-    private final Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks = new HashMap<>();
+    final Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks = new HashMap<>();
     /**
      * Deck of LandTile avaiable and unplaced.
      */
@@ -70,7 +70,7 @@ public class Game
      * Set to true before the first round, set to false at the end of it. The only usage of this
      * field is to unable Weather functionalities during the first round.
      */
-    private boolean isFirstRound;
+    boolean isFirstRound;
     /**
      * LandTileImprovement stock.
      */
@@ -124,6 +124,7 @@ public class Game
     {
         this(objectiveDecks, tileDeck, new Random().nextLong());
     }
+
     public Game(Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks, List<LandTile> tileDeck, long rndSeed){
         Objects.requireNonNull(objectiveDecks, "pbjectiveDecks must not be null");
         Objects.requireNonNull(tileDeck, "tileDeck must not be null");
@@ -278,7 +279,7 @@ public class Game
      * @return true if the turn was completed, false if a deadlock happened
      * @throws DecisionMakerException if the player makes invalid choices
      */
-    private boolean processTurn(Player player) throws DecisionMakerException
+    boolean processTurn(Player player) throws DecisionMakerException
     {
         var dm = player.getDecisionMaker();
         int remaining = numberActionsInTurn;
@@ -742,7 +743,7 @@ public class Game
      * @param player to act
      * @return weather the player choose
      */
-    private Weather chooseWeather(Player player)
+    Weather chooseWeather(Player player)
     {
         var weatherList = new ArrayList<>(Arrays.asList(Weather.values()));
         weatherList.remove(Weather.QUESTION_MARK);

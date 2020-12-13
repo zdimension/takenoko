@@ -221,6 +221,7 @@ public class Board implements Cloneable
 
     /**
      * Get all the Land Tiles of the Board
+     *
      * @return a Set of all the Land Tiles
      */
     public Set<LandTile> getLandTiles()
@@ -246,13 +247,21 @@ public class Board implements Cloneable
         for (TilePosition pos : tileCache.keySet())
         {
             if (pos.getX() > maxX)
+            {
                 maxX = pos.getX();
+            }
             if (pos.getX() < minX)
+            {
                 minX = pos.getX();
+            }
             if (pos.getY() > maxY)
+            {
                 maxY = pos.getY();
+            }
             if (pos.getY() < minY)
+            {
                 minY = pos.getY();
+            }
         }
         final int hexWidth = 9;
         final int hexHeight = 5;
@@ -349,7 +358,6 @@ public class Board implements Cloneable
     }
 
     /**
-     *
      * @return list of tiles of the board that can grow bamboo on it.
      */
     public List<LandTile> getBambooableTiles()
