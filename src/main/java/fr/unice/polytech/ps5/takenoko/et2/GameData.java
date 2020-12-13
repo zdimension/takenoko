@@ -112,4 +112,15 @@ public final class GameData
     {
         return new Game(getStandardObjectives(), getStandardLandTiles());
     }
+
+    /**
+     * @return a Game instance containing standard Takenoko game items using a seed for usage of random
+     * @param seed to be used by random
+     * @see GameData#getStandardLandTiles()
+     * @see GameData#getStandardObjectives()
+     */
+    public static Game getStandardGame(long seed)
+    {
+        return new Game(getStandardObjectives(), getStandardLandTiles(), seed);
+    }
 }
