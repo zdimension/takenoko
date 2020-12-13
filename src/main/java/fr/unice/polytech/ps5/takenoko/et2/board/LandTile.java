@@ -171,12 +171,7 @@ public class LandTile extends Tile implements Cloneable
         return o;
     }
 
-    /**
-     * Check if the given object is equal to current LandTile
-     *
-     * @param o Object to check
-     * @return true if the Object is an instance of LandTile with same fields, false otherwise
-     */
+    @Override
     public boolean equals(Object o)
     {
         if (!(o instanceof LandTile))
@@ -187,9 +182,6 @@ public class LandTile extends Tile implements Cloneable
         return (landTile.color == color && landTile.bambooCount == this.bambooCount && landTile.landTileImprovement == landTileImprovement);
     }
 
-    /**
-     * @return a String describing the LandTile
-     */
     @Override
     public String toString()
     {

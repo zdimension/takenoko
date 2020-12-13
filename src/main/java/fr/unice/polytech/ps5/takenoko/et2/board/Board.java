@@ -359,4 +359,19 @@ public class Board implements Cloneable
             .filter(LandTile::canGrowBamboo)
             .collect(Collectors.toList());
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Board board = (Board) o;
+        return Objects.equals(tileCache, board.tileCache) && Objects.equals(orderAdd, board.orderAdd);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(center, tileCache, orderAdd);
+    }
 }
