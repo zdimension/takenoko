@@ -8,7 +8,6 @@ import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
 import fr.unice.polytech.ps5.takenoko.et2.enums.Weather;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PandaObjective;
-import fr.unice.polytech.ps5.takenoko.et2.util.CustomRandom;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
 import java.util.*;
@@ -51,10 +50,6 @@ public class Game
      * Maximum number of players in the game.
      */
     private static final int maxNumberOfPlayers = 4;
-    /**
-     * Random field used in rollWeatherDice to set the weather during a turn.
-     */
-    private final CustomRandom diceRoller;
     /**
      * Board of the game, on which DecisionMaker will place LandTiles and irrigations.
      */
@@ -115,6 +110,11 @@ public class Game
     );
 
     /**
+     * Seedable random of the game
+     */
+    private final Random random;
+
+    /**
      * Game contructor
      *
      * @param objectiveDecks
@@ -124,9 +124,7 @@ public class Game
     {
         this(objectiveDecks, tileDeck, new Random().nextLong());
     }
-
-    public Game(Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks, List<LandTile> tileDeck, long seedDice)
-    {
+    public Game(Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks, List<LandTile> tileDeck, long rndSeed){
         Objects.requireNonNull(objectiveDecks, "pbjectiveDecks must not be null");
         Objects.requireNonNull(tileDeck, "tileDeck must not be null");
 
@@ -139,7 +137,6 @@ public class Game
             throw new IllegalArgumentException("Game started with empty tile deck");
         }
 
-        diceRoller = new CustomRandom(seedDice);
         playerList = new ArrayList<>();
         isFirstRound = true;
         board = new Board();
@@ -149,7 +146,12 @@ public class Game
         }
         this.tileDeck = new ArrayList<>(tileDeck);
         this.chipReserve = new ArrayList<>();
+        random = new Random(rndSeed);
+    }
 
+    public Random getRandom()
+    {
+        return random;
     }
 
     /**
@@ -688,7 +690,7 @@ public class Game
      */
     private Weather rollWeatherDice()
     {
-        var diceResult = Weather.values()[diceRoller.rnd.nextInt(6)];
+        var diceResult = Weather.values()[random.nextInt(6)];
         if (diceResult == Weather.CLOUDS && chipReserve.isEmpty())
         {
             return Weather.QUESTION_MARK;

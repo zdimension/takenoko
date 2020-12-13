@@ -23,7 +23,6 @@ import java.util.Random;
  */
 public abstract class DecisionMaker
 {
-    private static final Random RNG = new Random();
     /**
      * Player on which DecisionMaker acts
      */
@@ -49,9 +48,9 @@ public abstract class DecisionMaker
         return player.getGame().getBoard();
     }
 
-    protected static <T> T randomElement(List<T> list)
+    protected <T> T randomElement(List<T> list)
     {
-        return list.get(RNG.nextInt(list.size()));
+        return list.get(player.getGame().getRandom().nextInt(list.size()));
     }
 
     /**Chooses one action out of allowed actions to perform during the turn
