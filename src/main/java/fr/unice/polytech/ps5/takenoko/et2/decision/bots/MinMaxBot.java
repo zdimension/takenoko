@@ -137,7 +137,7 @@ public class MinMaxBot extends DecisionMaker
         for (TilePosition tilePosition : valid)
         {
             Board b = (Board) getBoard().clone();
-            Tile tile = b.getTileFromPosition(tilePosition);
+            Tile tile = b.findTile(tilePosition);
             if (!(tile instanceof LandTile))
             {
                 continue;
