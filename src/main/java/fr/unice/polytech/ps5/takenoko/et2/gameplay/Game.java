@@ -8,6 +8,7 @@ import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
 import fr.unice.polytech.ps5.takenoko.et2.enums.Weather;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PandaObjective;
+import fr.unice.polytech.ps5.takenoko.et2.util.CustomRandom;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
 import java.util.*;
@@ -53,7 +54,7 @@ public class Game
     /**
      * Random field used in rollWeatherDice to set the weather during a turn.
      */
-    private static final Random diceRoller = new Random();
+    private final CustomRandom diceRoller;
     /**
      * Board of the game, on which DecisionMaker will place LandTiles and irrigations.
      */
@@ -121,6 +122,11 @@ public class Game
      */
     public Game(Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks, List<LandTile> tileDeck)
     {
+        this(objectiveDecks, tileDeck, new Random().nextLong());
+    }
+
+    public Game(Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks, List<LandTile> tileDeck, long seedDice)
+    {
         Objects.requireNonNull(objectiveDecks, "pbjectiveDecks must not be null");
         Objects.requireNonNull(tileDeck, "tileDeck must not be null");
 
@@ -133,6 +139,7 @@ public class Game
             throw new IllegalArgumentException("Game started with empty tile deck");
         }
 
+        diceRoller = new CustomRandom(seedDice);
         playerList = new ArrayList<>();
         isFirstRound = true;
         board = new Board();
@@ -142,6 +149,7 @@ public class Game
         }
         this.tileDeck = new ArrayList<>(tileDeck);
         this.chipReserve = new ArrayList<>();
+
     }
 
     /**
@@ -680,7 +688,7 @@ public class Game
      */
     private Weather rollWeatherDice()
     {
-        var diceResult = Weather.values()[diceRoller.nextInt(6)];
+        var diceResult = Weather.values()[diceRoller.rnd.nextInt(6)];
         if (diceResult == Weather.CLOUDS && chipReserve.isEmpty())
         {
             return Weather.QUESTION_MARK;
