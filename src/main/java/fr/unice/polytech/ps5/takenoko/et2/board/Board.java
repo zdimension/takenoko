@@ -278,13 +278,20 @@ public class Board implements Cloneable
                 {
                     var temp = template[i][x];
                     if (temp == ' ')
+                    {
                         continue;
+                    }
                     lines[coordY + i][coordX + x] = temp;
                 }
             }
             var posStr = String.format("%d,%d", pos.getX(), pos.getY()).toCharArray();
             System.arraycopy(posStr, 0, lines[coordY + 2], coordX + 1, posStr.length);
             var tile = tileCache.get(pos);
+            if (tile instanceof LandTile)
+            {
+                posStr = String.valueOf(((LandTile) tile).getBambooSize()).toCharArray();
+                System.arraycopy(posStr, 0, lines[coordY + 1], coordX + 3, posStr.length);
+            }
             if (tile instanceof PondTile)
             {
                 posStr = "POND".toCharArray();
