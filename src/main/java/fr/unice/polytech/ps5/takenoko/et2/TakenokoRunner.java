@@ -3,6 +3,7 @@ package fr.unice.polytech.ps5.takenoko.et2;
 import fr.unice.polytech.ps5.takenoko.et2.commandline.DecisionMakerHandler;
 import fr.unice.polytech.ps5.takenoko.et2.commandline.LogLevelHandler;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
+import fr.unice.polytech.ps5.takenoko.et2.gameplay.Game;
 import picocli.CommandLine;
 
 import java.time.Duration;
@@ -84,7 +85,7 @@ class TakenokoRunner implements Runnable
         {
             try
             {
-                var game = GameData.getStandardGame();
+                var game = new Game();
                 for (DecisionMakerBuilder player : players)
                 {
                     game.addPlayer(player);

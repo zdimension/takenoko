@@ -27,7 +27,7 @@ class MinMaxBotTest
     {
         try
         {
-            game = GameData.getStandardGame();
+            game = new Game();
             game.addPlayer(MinMaxBot.getBuilder(1));
             game.addPlayer(MinMaxBot.getBuilder(1));
             Optional<Player> p = game.getPlayers().findAny();

@@ -1,5 +1,6 @@
 package fr.unice.polytech.ps5.takenoko.et2.gameplay;
 
+import fr.unice.polytech.ps5.takenoko.et2.GameData;
 import fr.unice.polytech.ps5.takenoko.et2.board.*;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
@@ -55,13 +56,9 @@ public class Game
      */
     private final Board board;
     /**
-     * All three decks of objectives.
+     * Decks and other game elements.
      */
-    final Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks = new HashMap<>();
-    /**
-     * Deck of LandTile avaiable and unplaced.
-     */
-    private final List<LandTile> tileDeck;
+    final GameData gameData;
     /**
      * All players in the game.
      */
@@ -71,10 +68,6 @@ public class Game
      * field is to unable Weather functionalities during the first round.
      */
     boolean isFirstRound;
-    /**
-     * LandTileImprovement stock.
-     */
-    private final List<LandTileImprovement> chipReserve;
     /**
      * Position of the gardener. It starts on the PondTile.
      */
@@ -114,39 +107,33 @@ public class Game
      */
     private final Random random;
 
+    public Game()
+    {
+        this(new GameData());
+    }
+
     /**
      * Game contructor
      *
-     * @param objectiveDecks
-     * @param tileDeck
+     * @param gameData
      */
-    public Game(Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks, List<LandTile> tileDeck)
+    public Game(GameData gameData)
     {
-        this(objectiveDecks, tileDeck, new Random());
+        this(gameData, new Random());
     }
 
-    public Game(Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks, List<LandTile> tileDeck, Random rng){
-        Objects.requireNonNull(objectiveDecks, "pbjectiveDecks must not be null");
-        Objects.requireNonNull(tileDeck, "tileDeck must not be null");
+    public Game(Random rng)
+    {
+        this(new GameData(), rng);
+    }
 
-        if (objectiveDecks.isEmpty())
-        {
-            throw new IllegalArgumentException("Objective deck is empty");
-        }
-        if (tileDeck.isEmpty())
-        {
-            throw new IllegalArgumentException("Game started with empty tile deck");
-        }
+    public Game(GameData gameData, Random rng){
+        Objects.requireNonNull(gameData, "gameData must not be null");
 
         playerList = new ArrayList<>();
         isFirstRound = true;
         board = new Board();
-        for (var deck : objectiveDecks.entrySet())
-        {
-            this.objectiveDecks.put(deck.getKey(), new ArrayList<>(deck.getValue()));
-        }
-        this.tileDeck = new ArrayList<>(tileDeck);
-        this.chipReserve = new ArrayList<>();
+        this.gameData = gameData;
         this.random = rng;
     }
 
@@ -209,12 +196,12 @@ public class Game
             throw new IllegalArgumentException("Game started with less than " + minNumberOfPlayers + " players");
         }
 
-        objectiveDecks.values().forEach(Collections::shuffle);
-        Collections.shuffle(tileDeck);
+        gameData.objectiveDecks.values().forEach(Collections::shuffle);
+        Collections.shuffle(gameData.tileDeck);
 
         for (Player player : playerList)
         {
-            for (var deck : objectiveDecks.values())
+            for (var deck : gameData.objectiveDecks.values())
             {
                 player.addObjective(deck.remove(0));
             }
@@ -409,10 +396,10 @@ public class Game
                 return nbIrrigationsInDeck > 0;
 
             case DRAW_OBJECTIVE:
-                return !player.isHandFull() && objectiveDecks.values().stream().anyMatch(l -> !l.isEmpty());
+                return !player.isHandFull() && gameData.objectiveDecks.values().stream().anyMatch(l -> !l.isEmpty());
 
             case DRAW_TILE:
-                return !tileDeck.isEmpty();
+                return !gameData.tileDeck.isEmpty();
 
             default:
                 throw new IllegalArgumentException("Invalid action provided");
@@ -448,7 +435,7 @@ public class Game
     private void drawObjective(Player player)
     {
         List<Class<? extends Objective>> valid =
-            objectiveDecks
+            gameData.objectiveDecks
                 .entrySet()
                 .stream()
                 .filter(e -> !e.getValue().isEmpty())
@@ -460,7 +447,7 @@ public class Game
             throwError(new IllegalArgumentException("Invalid deck chosen"));
             return;
         }
-        player.addObjective(objectiveDecks.get(chosen).remove(0));
+        player.addObjective(gameData.objectiveDecks.get(chosen).remove(0));
     }
 
     /**
@@ -472,7 +459,7 @@ public class Game
     private void drawAndAddTile(Player p)
     {
         DecisionMaker dm = p.getDecisionMaker();
-        var validTiles = Collections.unmodifiableList(tileDeck.subList(0, Math.min(tileDeck.size(), 3)));
+        var validTiles = Collections.unmodifiableList(gameData.tileDeck.subList(0, Math.min(gameData.tileDeck.size(), 3)));
         var validPos =
             board
                 .getValidEmptyPositions()
@@ -489,7 +476,7 @@ public class Game
             return;
         }
         board.addTile(chosenTile.first, chosenTile.second);
-        tileDeck.remove(chosenTile.first);
+        gameData.tileDeck.remove(chosenTile.first);
     }
 
     /**
@@ -692,7 +679,7 @@ public class Game
     private Weather rollWeatherDice()
     {
         var diceResult = Weather.values()[random.nextInt(6)];
-        if (diceResult == Weather.CLOUDS && chipReserve.isEmpty())
+        if (diceResult == Weather.CLOUDS && gameData.chipReserve.isEmpty())
         {
             return Weather.QUESTION_MARK;
         }
@@ -728,13 +715,13 @@ public class Game
 
     private void cloudsAction(Player player)
     {
-        var chosen = player.getDecisionMaker().chooseLandTileImprovement(new ArrayList<>(chipReserve));
-        if (!chipReserve.contains(chosen))
+        var chosen = player.getDecisionMaker().chooseLandTileImprovement(new ArrayList<>(gameData.chipReserve));
+        if (!gameData.chipReserve.contains(chosen))
         {
             throw new IllegalArgumentException("Chosen LandTileImprovement is invalid");
         }
         player.addChip(chosen);
-        chipReserve.remove(chosen);
+        gameData.chipReserve.remove(chosen);
     }
 
     /**
@@ -747,7 +734,7 @@ public class Game
     {
         var weatherList = new ArrayList<>(Arrays.asList(Weather.values()));
         weatherList.remove(Weather.QUESTION_MARK);
-        if (chipReserve.isEmpty())
+        if (gameData.chipReserve.isEmpty())
         {
             weatherList.remove(Weather.CLOUDS);
         }

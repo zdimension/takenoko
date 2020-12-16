@@ -1,12 +1,9 @@
 package fr.unice.polytech.ps5.takenoko.et2.gameplay;
 
-import fr.unice.polytech.ps5.takenoko.et2.GameData;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import fr.unice.polytech.ps5.takenoko.et2.decision.bots.RandomBot;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -15,21 +12,9 @@ class GameTest
 {
 
     @Test
-    void gameConstructorEmptyObjectiveDeck()
-    {
-        assertThrows(IllegalArgumentException.class, () -> new Game(new HashMap<>(), GameData.getStandardLandTiles()));
-    }
-
-    @Test
-    void gameContructorEmptyTileDeck()
-    {
-        assertThrows(IllegalArgumentException.class, () -> new Game(GameData.getStandardObjectives(), new ArrayList<>()));
-    }
-
-    @Test
     void gameGameProcessing0Players()
     {
-        var game = GameData.getStandardGame();
+        var game = new Game();
 
         assertThrows(IllegalArgumentException.class, game::gameProcessing);
     }
@@ -41,7 +26,7 @@ class GameTest
             RandomBot::new
         );
 
-        var game = GameData.getStandardGame();
+        var game = new Game();
 
         for (DecisionMakerBuilder player : players)
         {
@@ -61,7 +46,7 @@ class GameTest
             RandomBot::new
         );
 
-        var game = GameData.getStandardGame();
+        var game = new Game();
 
         for (DecisionMakerBuilder player : players)
         {

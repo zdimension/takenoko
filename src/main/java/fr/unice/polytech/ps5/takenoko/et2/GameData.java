@@ -3,7 +3,6 @@ package fr.unice.polytech.ps5.takenoko.et2;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTileImprovement;
 import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
-import fr.unice.polytech.ps5.takenoko.et2.gameplay.Game;
 import fr.unice.polytech.ps5.takenoko.et2.objective.GardenerObjective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PandaObjective;
@@ -15,6 +14,31 @@ import java.util.stream.Stream;
 
 public final class GameData
 {
+    /**
+     * Deck of LandTile avaiable and unplaced.
+     */
+    public final List<LandTile> tileDeck;
+    /**
+     * All three decks of objectives.
+     */
+    public final Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks;
+    /**
+     * LandTileImprovement stock.
+     */
+    public final List<LandTileImprovement> chipReserve;
+
+    public GameData()
+    {
+        this(getStandardLandTiles(), getStandardObjectives(), getStandardImprovements());
+    }
+
+    public GameData(List<LandTile> tileDeck, Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks, List<LandTileImprovement> chipReserve)
+    {
+        this.tileDeck = tileDeck;
+        this.objectiveDecks = objectiveDecks;
+        this.chipReserve = chipReserve;
+    }
+
     /**
      * @return a list containing the 27 standard Takenoko land tiles (11 green, 9 yellow and 7 pink)
      */
@@ -36,6 +60,18 @@ public final class GameData
             Stream.generate(() -> new LandTile(Color.PINK, LandTileImprovement.ENCLOSURE)).limit(1),
             Stream.generate(() -> new LandTile(Color.PINK, LandTileImprovement.FERTILIZER)).limit(1)
         ).reduce(Stream::concat).get().collect(Collectors.toList());
+    }
+
+    /**
+     * @return a list containing the 9 standard improvement chips (3 of each kind)
+     */
+    public static List<LandTileImprovement> getStandardImprovements()
+    {
+        return Stream.of(
+            Collections.nCopies(3, LandTileImprovement.WATERSHED),
+            Collections.nCopies(3, LandTileImprovement.FERTILIZER),
+            Collections.nCopies(3, LandTileImprovement.ENCLOSURE)
+        ).flatMap(Collection::stream).collect(Collectors.toList());
     }
 
     /**
@@ -98,26 +134,5 @@ public final class GameData
             PandaObjective.class, getStandardPandaObjectives(),
             GardenerObjective.class, getStandardGardenerObjectives()
         );
-    }
-
-    /**
-     * @return a Game instance containing standard Takenoko game items
-     * @see GameData#getStandardLandTiles()
-     * @see GameData#getStandardObjectives()
-     */
-    public static Game getStandardGame()
-    {
-        return new Game(getStandardObjectives(), getStandardLandTiles());
-    }
-
-    /**
-     * @return a Game instance containing standard Takenoko game items using a seed for usage of random
-     * @param rng Random number generator
-     * @see GameData#getStandardLandTiles()
-     * @see GameData#getStandardObjectives()
-     */
-    public static Game getStandardGame(Random rng)
-    {
-        return new Game(getStandardObjectives(), getStandardLandTiles(), rng);
     }
 }

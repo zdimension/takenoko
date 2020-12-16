@@ -26,7 +26,7 @@ class BambooTest
     {
         try
         {
-            game = GameData.getStandardGame();
+            game = new Game();
             DecisionMakerBuilder dm = RandomBot::new;
             p = game.addPlayer(dm);
             board = game.getBoard();
