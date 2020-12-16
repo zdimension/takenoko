@@ -51,6 +51,11 @@ public class MinMaxBot extends DecisionMaker
             return GameAction.COMPLETE_OBJECTIVE;
         }
 
+        if (base.contains(GameAction.DRAW_OBJECTIVE) && player.getHand().size() < 10)
+        {
+            return GameAction.DRAW_OBJECTIVE;
+        }
+
         Map<GameAction, Integer> actionsWithPlayerObjectives = new HashMap<>();
         if (base.contains(GameAction.MOVE_GARDENER))
         {
@@ -72,28 +77,24 @@ public class MinMaxBot extends DecisionMaker
                 bestActionGardenerPandaIrrigation = entry;
             }
         }
-        if (bestActionGardenerPandaIrrigation != null)
+        if (bestActionGardenerPandaIrrigation != null && bestActionGardenerPandaIrrigation.getValue() > 3) /// TODO : check if objectives are possible
         {
             return bestActionGardenerPandaIrrigation.getKey();
         }
 
-        if (base.contains(GameAction.DRAW_OBJECTIVE) && player.getHand().size() < 15)
+        if (base.contains(GameAction.PICK_IRRIGATION) && player.getNbIrrigationsInStock() < depth)
         {
-            return GameAction.DRAW_OBJECTIVE;
+            return GameAction.PICK_IRRIGATION;
         }
-
         if (base.contains(GameAction.PLACE_IRRIGATION) && (getMaxEdgeChangePoints() > 0 || (float) getBoard().getBambooableTiles().size() / (float) getBoard().getTiles().size() < 0.75))
         {
             return GameAction.PLACE_IRRIGATION;
         }
-        if (base.contains(GameAction.DRAW_TILE))
+        if (base.contains(GameAction.DRAW_TILE) && player.getGame().getRandom().nextInt() % 2 == 0) // TODO : check objectives
         {
             return GameAction.DRAW_TILE;
         }
-        if (base.contains(GameAction.PICK_IRRIGATION) && player.getNbIrrigationsInStock() < 3)
-        {
-            return GameAction.PICK_IRRIGATION;
-        }
+
         if (base.contains(GameAction.PLACE_IMPROVEMENT))
         {
             return GameAction.PLACE_IMPROVEMENT;
