@@ -76,7 +76,7 @@ class TakenokoRunner implements Runnable
         updateLogLevel();
 
         var botNames = spec.positionalParameters().get(0).originalStringValues();
-        System.out.printf("Running %d games %s with bots: %s%n", numGames, sequential ? "sequentially" : "in parallel", botNames);
+        System.out.printf("Running %d games %s with bots: %s. Please wait...%n", numGames, sequential ? "sequentially" : "in parallel", botNames);
 
         var freq = Arrays.stream(players).map(p -> new AtomicInteger()).toArray(AtomicInteger[]::new);
         final var N = numGames;
