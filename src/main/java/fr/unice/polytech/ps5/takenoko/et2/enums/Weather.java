@@ -1,9 +1,41 @@
 package fr.unice.polytech.ps5.takenoko.et2.enums;
 
 /**
- * Weather conditions occuring during a turn. Constants may have a parameter to indicate wheather
+ * Weather conditions occuring during a turn. directAction indicates wheather
  * the weather condition involve DecisionMaker to perform an action instantly or not.
  * All the processing is performed in Game.
+ *
+ * <table style="width:70%">
+ *     <thead>
+ *         <tr>
+ *           <th style="text-align:right;width:60%;padding-right:7px">Value</th>
+ *           <th style="text-align:left;width:40%;padding-right:7px">directAction</th>
+ *         </tr>
+ *     </thead>
+ *     <tbody>
+ *         <tr>
+ *             <td style="text-align:right;padding-right:7px">{@link fr.unice.polytech.ps5.takenoko.et2.enums.Weather#SUN}</td>
+ *         </tr>
+ *         <tr>
+ *             <td style="text-align:right;padding-right:7px">{@link fr.unice.polytech.ps5.takenoko.et2.enums.Weather#RAIN}</td>
+ *             <td style="padding-left:7px">✔</td>
+ *         </tr>
+ *         <tr>
+ *             <td style="text-align:right;padding-right:7px">{@link fr.unice.polytech.ps5.takenoko.et2.enums.Weather#WIND}</td>
+ *         </tr>
+ *         <tr>
+ *             <td style="text-align:right;padding-right:7px">{@link fr.unice.polytech.ps5.takenoko.et2.enums.Weather#STORM}</td>
+ *             <td style="padding-left:7px">✔</td>
+ *         </tr>
+ *         <tr>
+ *             <td style="text-align:right;padding-right:7px">{@link fr.unice.polytech.ps5.takenoko.et2.enums.Weather#CLOUDS}</td>
+ *             <td style="padding-left:7px">✔</td>
+ *         </tr>
+ *         <tr>
+ *             <td style="text-align:right;padding-right:7px">{@link fr.unice.polytech.ps5.takenoko.et2.enums.Weather#QUESTION_MARK}</td>
+ *         </tr>
+ *     </tbody>
+ * </table>
  */
 public enum Weather
 {
