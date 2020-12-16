@@ -57,6 +57,15 @@ class TakenokoRunner implements Runnable
         description = "Custom seed to use for the RNG.")
     private long seed;
 
+    @CommandLine.Option(
+        names = { "-i", "--ignore-threshold" },
+        description = {
+            "Ignore objective threshold (default: ${DEFAULT-VALUE}).",
+            "Games ending because of turn count limit or deadlocks will still designate winners based on their score, even if it doesn't reach the win threshold."
+        },
+    defaultValue = "false")
+    private boolean ignoreThreshold;
+
     @CommandLine.Spec
     private CommandLine.Model.CommandSpec spec;
 
@@ -103,7 +112,7 @@ class TakenokoRunner implements Runnable
                     game.addPlayer(player);
                 }
                 LOGGER.info("start " + i);
-                var res = game.gameProcessing(true);
+                var res = game.gameProcessing(ignoreThreshold);
                 LOGGER.info("end " + i);
 
                 if (res == null)
@@ -138,9 +147,16 @@ class TakenokoRunner implements Runnable
         {
             System.out.printf("- #%d [%-10s] : %.2f%%%n", i + 1, botNames.get(i), freq[i].get() * 100d / N);
         }
-        System.out.println("Percentage of games");
-        System.out.printf("- that reached max turn count limit: %.2f%%%n", Nlimit.get() * 100.0 / N);
-        System.out.printf("- that were deadlocked: %.2f%%%n", Nempty.get() * 100.0 / N);
+        if (ignoreThreshold)
+        {
+            System.out.println("The objective threshold was ignored (--ignore-threshold). The above statistics ignore turn count limits and deadlocks.");
+        }
+        else
+        {
+            System.out.println("Percentage of games");
+            System.out.printf("- that reached max turn count limit: %.2f%%%n", Nlimit.get() * 100.0 / N);
+            System.out.printf("- that were deadlocked: %.2f%%%n", Nempty.get() * 100.0 / N);
+        }
     }
 
     private void updateLogLevel()
