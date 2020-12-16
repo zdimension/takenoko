@@ -125,7 +125,6 @@ public class TilePosition
     @Override
     public boolean equals(Object other)
     {
-        Objects.requireNonNull(other, "other must not be null");
         if (other instanceof TilePosition)
         {
             TilePosition pos = (TilePosition) other;
