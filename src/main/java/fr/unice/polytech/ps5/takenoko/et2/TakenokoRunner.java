@@ -92,14 +92,17 @@ class TakenokoRunner implements Runnable
 
         var freq = Arrays.stream(players).map(p -> new AtomicInteger()).toArray(AtomicInteger[]::new);
         final var N = numGames;
+        final var progWidth = 50;
         AtomicInteger Nempty = new AtomicInteger();
         AtomicInteger Nlimit = new AtomicInteger();
+        AtomicInteger Nfinished = new AtomicInteger();
         var start = Instant.now();
         var stream = IntStream.range(0, N);
         if (!sequential)
         {
             stream = stream.parallel();
         }
+
         stream.forEach(i ->
         {
             try
@@ -115,6 +118,11 @@ class TakenokoRunner implements Runnable
                 LOGGER.info("start " + i);
                 var res = game.gameProcessing(ignoreThreshold);
                 LOGGER.info("end " + i);
+
+                var count = Nfinished.incrementAndGet();
+
+                var width = count * progWidth / N;
+                System.out.print("\r[" + "*".repeat(width) + " ".repeat(progWidth - width) + "] " + (count * 100 / N) + "%");
 
                 if (res == null)
                 {
@@ -137,7 +145,7 @@ class TakenokoRunner implements Runnable
                 throw new RuntimeException(e);
             }
         });
-
+        System.out.println();
         var duration = Duration.between(start, Instant.now());
         System.out.printf("Total time elapsed: %d.%03ds (%.2f games/sec)%n",
             duration.getSeconds(),
