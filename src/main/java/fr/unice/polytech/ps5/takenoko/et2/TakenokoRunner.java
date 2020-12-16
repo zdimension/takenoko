@@ -9,6 +9,8 @@ import picocli.CommandLine;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.Optional;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -50,6 +52,11 @@ class TakenokoRunner implements Runnable
         description = "Run the games sequentially (default: parallel).")
     private boolean sequential;
 
+    @CommandLine.Option(
+        names = { "-S", "--seed" },
+        description = "Custom seed to use for the RNG.")
+    private long seed;
+
     @CommandLine.Spec
     private CommandLine.Model.CommandSpec spec;
 
@@ -85,7 +92,10 @@ class TakenokoRunner implements Runnable
         {
             try
             {
-                var game = new Game();
+                var game = Optional.ofNullable(spec.optionsMap().getOrDefault("--seed", null))
+                    .map(opt -> new Game(new Random(seed)))
+                    .orElseGet(Game::new);
+
                 for (DecisionMakerBuilder player : players)
                 {
                     game.addPlayer(player);
