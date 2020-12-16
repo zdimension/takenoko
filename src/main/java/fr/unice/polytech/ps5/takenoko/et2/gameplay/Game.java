@@ -704,6 +704,7 @@ public class Game
         var listIrrigatedTiles = board.getBambooableTiles();
         if (listIrrigatedTiles.isEmpty())
         {
+            LOGGER.log(Level.FINE, "No tile to grow bamboo on available");
             return;
         }
         var tile = player.getDecisionMaker().chooseTileToAddBamboo(listIrrigatedTiles);
