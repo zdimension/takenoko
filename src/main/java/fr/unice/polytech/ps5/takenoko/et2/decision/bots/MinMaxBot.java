@@ -46,21 +46,37 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public GameAction chooseAction(List<GameAction> base)
     {
-        long nbGardenerObjective = player.getHand().stream().filter(GardenerObjective.class::isInstance).count(); // TODO : optimize Action
-        long nbPandaObjective = player.getHand().stream().filter(PandaObjective.class::isInstance).count();
-        long nbPlotObjective = player.getHand().stream().filter(PlotObjective.class::isInstance).count();
         if (base.contains(GameAction.COMPLETE_OBJECTIVE))
         {
             return GameAction.COMPLETE_OBJECTIVE;
         }
-        if (base.contains(GameAction.MOVE_PANDA))
-        {
-            return GameAction.MOVE_PANDA;
-        }
+
+        Map<GameAction, Integer> actionsWithPlayerObjectives = new HashMap<>();
         if (base.contains(GameAction.MOVE_GARDENER))
         {
-            return GameAction.MOVE_GARDENER;
+            actionsWithPlayerObjectives.put(GameAction.MOVE_GARDENER, (int) player.getHand().stream().filter(GardenerObjective.class::isInstance).count());
         }
+        if (base.contains(GameAction.MOVE_PANDA))
+        {
+            actionsWithPlayerObjectives.put(GameAction.MOVE_PANDA, (int) player.getHand().stream().filter(PandaObjective.class::isInstance).count());
+        }
+        if (base.contains(GameAction.PLACE_IRRIGATION))
+        {
+            actionsWithPlayerObjectives.put(GameAction.PLACE_IRRIGATION, (int) player.getHand().stream().filter(PlotObjective.class::isInstance).count());
+        }
+        Map.Entry<GameAction, Integer> bestActionGardenerPandaIrrigation = null;
+        for (Map.Entry<GameAction, Integer> entry : actionsWithPlayerObjectives.entrySet())
+        {
+            if (bestActionGardenerPandaIrrigation == null || entry.getValue() > bestActionGardenerPandaIrrigation.getValue())
+            {
+                bestActionGardenerPandaIrrigation = entry;
+            }
+        }
+        if (bestActionGardenerPandaIrrigation != null)
+        {
+            return bestActionGardenerPandaIrrigation.getKey();
+        }
+
         if (base.contains(GameAction.PLACE_IMPROVEMENT))
         {
             return GameAction.PLACE_IMPROVEMENT;
@@ -290,7 +306,7 @@ public class MinMaxBot extends DecisionMaker
         {
             return bestLandTile;
         }
-        return randomElement(listIrrigatedTiles); //TODO
+        return randomElement(listIrrigatedTiles);
     }
 
     private int evaluateGardenerPosition(List<GardenerObjective> listGardenerObjectives, Board b, LandTile landTile)
