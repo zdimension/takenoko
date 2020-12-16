@@ -1,10 +1,12 @@
 package fr.unice.polytech.ps5.takenoko.et2.objective;
 
+import fr.unice.polytech.ps5.takenoko.et2.board.Board;
 import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.Player;
-import fr.unice.polytech.ps5.takenoko.et2.board.Board;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * The class representing the gardener objective
@@ -48,10 +50,32 @@ public class PandaObjective extends Objective
         Objects.requireNonNull(player, "player must not be null");
         Map<Color, Integer> playerReserve = player.getBambooSectionReserve();
 
-        for (Color bambooColor : this.bambooSectionList.keySet()) {
+        for (Color bambooColor : this.bambooSectionList.keySet())
+        {
             Integer objectiveBamboo = this.bambooSectionList.get(bambooColor);
             Integer playerBamboo = playerReserve.get(bambooColor);
-            if(playerBamboo<objectiveBamboo) {
+            if (playerBamboo < objectiveBamboo)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Check if the objective is validated with given Map. Useful for the bots
+     *
+     * @param playerReserve Map for the player's bamboo reserve
+     * @return true if validated with given parameters, false otherwise
+     */
+    public boolean checkValidated(Map<Color, Integer> playerReserve)
+    {
+        for (Color bambooColor : this.bambooSectionList.keySet())
+        {
+            Integer objectiveBamboo = this.bambooSectionList.get(bambooColor);
+            Integer playerBamboo = playerReserve.get(bambooColor);
+            if (playerBamboo < objectiveBamboo)
+            {
                 return false;
             }
         }
@@ -60,13 +84,15 @@ public class PandaObjective extends Objective
 
     /**
      * Describe the Panda Objective, gives it number of points, the number of each bamboo section color
+     *
      * @return a String with the number of points and the number of each bamboo section color
      */
     @Override
     public String toString()
     {
         StringBuilder message = new StringBuilder("PandaObjective : Nombre de points de l'objectif : " + points);
-        for (Color bambooColor : this.bambooSectionList.keySet()) {
+        for (Color bambooColor : this.bambooSectionList.keySet())
+        {
             Integer numberOfEachColor = this.bambooSectionList.get(bambooColor);
             if (numberOfEachColor!=0){
                 message.append(bambooColor.toString());

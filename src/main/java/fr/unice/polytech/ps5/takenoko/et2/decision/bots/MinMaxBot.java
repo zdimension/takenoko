@@ -4,6 +4,7 @@ import fr.unice.polytech.ps5.takenoko.et2.board.*;
 import fr.unice.polytech.ps5.takenoko.et2.commandline.Bot;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
+import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
 import fr.unice.polytech.ps5.takenoko.et2.enums.Weather;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.Player;
@@ -45,6 +46,9 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public GameAction chooseAction(List<GameAction> base)
     {
+        long nbGardenerObjective = player.getHand().stream().filter(GardenerObjective.class::isInstance).count();
+        long nbPandaObjective = player.getHand().stream().filter(PandaObjective.class::isInstance).count();
+        long nbPlotObjective = player.getHand().stream().filter(PlotObjective.class::isInstance).count();
         if (base.contains(GameAction.COMPLETE_OBJECTIVE))
         {
             return GameAction.COMPLETE_OBJECTIVE;
@@ -77,7 +81,7 @@ public class MinMaxBot extends DecisionMaker
         {
             return GameAction.DRAW_TILE;
         }
-        return randomElement(base);// TODO
+        return randomElement(base);// TODO (improve ?)
     }
 
     @Override
@@ -198,7 +202,49 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public TilePosition choosePandaTarget(List<TilePosition> valid)
     {
+        List<PandaObjective> listPandaObjectives = player.getHand().stream().filter(PandaObjective.class::isInstance).map(o -> (PandaObjective) o).collect(Collectors.toList());
+        Board b = (Board) getBoard().clone();
+        HashMap<Color, Integer> playerReserve = new HashMap<Color, Integer>(player.getBambooSectionReserve());
+        TilePosition bestPosition = null;
+        int max = 0;
+        for (TilePosition tilePosition : valid)
+        {
+            int valuePos = evaluatePandaPosition(tilePosition, b, listPandaObjectives, playerReserve);
+            if (valuePos > max)
+            {
+                max = valuePos;
+                bestPosition = tilePosition;
+            }
+        }
+        if (bestPosition != null)
+        {
+            return bestPosition;
+        }
         return randomElement(valid);// TODO
+    }
+
+    private int evaluatePandaPosition(TilePosition tilePosition, Board b, List<PandaObjective> listPandaObjectives, HashMap<Color, Integer> playerReserve)
+    {
+        Tile tile = b.findTile(tilePosition);
+        if (!(tile instanceof LandTile))
+        {
+            return 0;
+        }
+        LandTile landTile = (LandTile) tile;
+        if (landTile.getBambooSize() == 0 || landTile.getLandTileImprovement() == LandTileImprovement.ENCLOSURE)
+        {
+            return 0;
+        }
+        playerReserve.replace(landTile.getColor(), playerReserve.get(landTile.getColor()) + 1);
+        int max = 0;
+        for (PandaObjective pandaObjective : listPandaObjectives)
+        {
+            if (pandaObjective.checkValidated(playerReserve) && pandaObjective.getPoints() > max)
+            {
+                max = pandaObjective.getPoints();
+            }
+        }
+        return max;
     }
 
     @Override
