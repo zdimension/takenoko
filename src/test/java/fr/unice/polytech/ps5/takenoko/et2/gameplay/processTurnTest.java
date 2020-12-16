@@ -14,10 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -38,7 +35,7 @@ class processTurnTest
     @BeforeEach
     void init() throws IllegalAccessException
     {
-        game = GameData.getStandardGame(999999999);
+        game = GameData.getStandardGame(new Random(999999999));
 
         mockDecisionMaker1 = mock(DecisionMaker.class);
         mockDecisionMaker2 = mock(DecisionMaker.class);

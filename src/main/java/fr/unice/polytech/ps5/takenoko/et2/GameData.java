@@ -9,10 +9,7 @@ import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PandaObjective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -119,8 +116,8 @@ public final class GameData
      * @see GameData#getStandardLandTiles()
      * @see GameData#getStandardObjectives()
      */
-    public static Game getStandardGame(long seed)
+    public static Game getStandardGame(Random rnd)
     {
-        return new Game(getStandardObjectives(), getStandardLandTiles(), seed);
+        return new Game(getStandardObjectives(), getStandardLandTiles(), rnd);
     }
 }
