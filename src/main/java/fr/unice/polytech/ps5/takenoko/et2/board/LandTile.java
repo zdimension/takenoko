@@ -179,7 +179,13 @@ public class LandTile extends Tile implements Cloneable
             return false;
         }
         LandTile landTile = (LandTile) o;
-        return (landTile.color == color && landTile.bambooCount == this.bambooCount && landTile.landTileImprovement == landTileImprovement);
+        return (landTile.color == color && landTile.bambooCount == this.bambooCount && landTile.landTileImprovement == landTileImprovement && Objects.equals(landTile.position, this.position));
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(color, landTileImprovement, bambooCount, position);
     }
 
     @Override

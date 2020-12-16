@@ -31,6 +31,7 @@ public class Board implements Cloneable
     public Board()
     {
         this.center = new PondTile();
+        this.center.setPosition(TilePosition.ZERO);
         this.tileCache = new HashMap<>();
         this.tileCache.put(TilePosition.ZERO, center);
     }
@@ -148,8 +149,8 @@ public class Board implements Cloneable
             return false;
         }
 
-        tileCache.put(pos, tile);
         tile.setPosition(pos);
+        tileCache.put(pos, tile);
 
         for (var i = 0; i < 6; i++)
         {

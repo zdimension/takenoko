@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 public abstract class Tile
 {
     final Edge[] edges = new Edge[6];
-    private TilePosition position = null;
+    protected TilePosition position = null;
 
     private static int fixEdgeNum(int num)
     {

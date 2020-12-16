@@ -27,6 +27,12 @@ public class PondTile extends Tile
     @Override
     public boolean equals(Object obj)
     {
-        return obj instanceof PondTile && Objects.equals(getPosition(), ((PondTile) obj).getPosition());
+        return obj instanceof PondTile && Objects.equals(position, ((PondTile) obj).position);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hashCode(this.position);
     }
 }
