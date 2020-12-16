@@ -9,10 +9,7 @@ import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PandaObjective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -115,12 +112,12 @@ public final class GameData
 
     /**
      * @return a Game instance containing standard Takenoko game items using a seed for usage of random
-     * @param seed to be used by random
+     * @param rng Random number generator
      * @see GameData#getStandardLandTiles()
      * @see GameData#getStandardObjectives()
      */
-    public static Game getStandardGame(long seed)
+    public static Game getStandardGame(Random rng)
     {
-        return new Game(getStandardObjectives(), getStandardLandTiles(), seed);
+        return new Game(getStandardObjectives(), getStandardLandTiles(), rng);
     }
 }

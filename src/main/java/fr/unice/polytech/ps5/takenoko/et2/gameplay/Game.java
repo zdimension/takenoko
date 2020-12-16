@@ -122,10 +122,10 @@ public class Game
      */
     public Game(Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks, List<LandTile> tileDeck)
     {
-        this(objectiveDecks, tileDeck, new Random().nextLong());
+        this(objectiveDecks, tileDeck, new Random());
     }
 
-    public Game(Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks, List<LandTile> tileDeck, long rndSeed){
+    public Game(Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks, List<LandTile> tileDeck, Random rng){
         Objects.requireNonNull(objectiveDecks, "pbjectiveDecks must not be null");
         Objects.requireNonNull(tileDeck, "tileDeck must not be null");
 
@@ -147,7 +147,7 @@ public class Game
         }
         this.tileDeck = new ArrayList<>(tileDeck);
         this.chipReserve = new ArrayList<>();
-        random = new Random(rndSeed);
+        this.random = rng;
     }
 
     public Random getRandom()
