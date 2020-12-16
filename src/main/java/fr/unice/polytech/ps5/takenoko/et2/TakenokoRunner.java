@@ -10,7 +10,6 @@ import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
-import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
@@ -107,9 +106,9 @@ class TakenokoRunner implements Runnable
         {
             try
             {
-                var game = Optional.ofNullable(spec.optionsMap().getOrDefault("--seed", null))
-                    .map(opt -> new Game(new Random(seed)))
-                    .orElseGet(() -> new Game(RNG));
+                var game = new Game(spec.optionsMap().get("--seed").stringValues().isEmpty()
+                    ? RNG
+                    : new Random(seed));
 
                 for (DecisionMakerBuilder player : players)
                 {
