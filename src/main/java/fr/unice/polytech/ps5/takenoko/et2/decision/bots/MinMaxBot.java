@@ -272,20 +272,12 @@ public class MinMaxBot extends DecisionMaker
         int max = 0;
         for (LandTile landTile : listIrrigatedTiles)
         {
-            TilePosition tilePosition = null;
-            for (Map.Entry<TilePosition, Tile> entry : getBoard().getTiles().entrySet())
-            {
-                if (entry.getValue() == landTile)
-                {
-                    tilePosition = entry.getKey();
-                    break;
-                }
-            }
-            if (tilePosition == null)
+            Optional<TilePosition> tilePosition = landTile.getPosition();
+            if (tilePosition.isEmpty())
             {
                 continue;
             }
-            Tile newTile = b.findTile(tilePosition);
+            Tile newTile = b.findTile(tilePosition.get());
             if (!(newTile instanceof LandTile))
             {
                 continue;
