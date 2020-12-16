@@ -9,6 +9,7 @@ import fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.Player;
 import fr.unice.polytech.ps5.takenoko.et2.objective.GardenerObjective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
+import fr.unice.polytech.ps5.takenoko.et2.objective.PandaObjective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
@@ -48,6 +49,18 @@ public class MinMaxBot extends DecisionMaker
         {
             return GameAction.COMPLETE_OBJECTIVE;
         }
+        if (base.contains(GameAction.MOVE_PANDA))
+        {
+            return GameAction.MOVE_PANDA;
+        }
+        if (base.contains(GameAction.MOVE_GARDENER))
+        {
+            return GameAction.MOVE_GARDENER;
+        }
+        if (base.contains(GameAction.PLACE_IMPROVEMENT))
+        {
+            return GameAction.PLACE_IMPROVEMENT;
+        }
         if (base.contains(GameAction.PLACE_IRRIGATION) && getMaxEdgeChangePoints() > 0)
         {
             return GameAction.PLACE_IRRIGATION;
@@ -70,11 +83,19 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public Class<? extends Objective> chooseDeck(List<Class<? extends Objective>> available)
     {
-        if (available.contains(PlotObjective.class))
+        if (available.contains(PlotObjective.class) && getBoard().getLandTiles().size() > 20)
         {
             return PlotObjective.class;
         }
-        return randomElement(available);// TODO
+        if (available.contains(GardenerObjective.class) && getBoard().getLandTiles().stream().filter(l -> (l.getBambooSize() > 0)).count() > 10)
+        {
+            return GardenerObjective.class;
+        }
+        if (available.contains(PandaObjective.class) && player.getBambooSum() > 5)
+        {
+            return PandaObjective.class;
+        }
+        return randomElement(available); // return Random if can't choose
     }
 
     @Override
