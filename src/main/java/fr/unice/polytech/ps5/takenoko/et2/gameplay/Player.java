@@ -270,6 +270,20 @@ public class Player
         return bambooSectionReserve;
     }
 
+    /**
+     * Get number of bamboos owned by Player
+     *
+     * @return the sum
+     */
+    public int getBambooSum()
+    {
+        int total = 0;
+        for (Map.Entry<Color, Integer> entry : bambooSectionReserve.entrySet())
+        {
+            total += entry.getValue();
+        }
+        return total;
+    }
 
     /**
      * @return a String describing the player
