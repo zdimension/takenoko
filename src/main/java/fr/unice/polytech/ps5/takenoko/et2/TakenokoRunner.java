@@ -71,6 +71,8 @@ class TakenokoRunner implements Runnable
             .execute(args);
     }
 
+    private static final Random RNG = new Random();
+
     public void run()
     {
         updateLogLevel();
@@ -94,7 +96,7 @@ class TakenokoRunner implements Runnable
             {
                 var game = Optional.ofNullable(spec.optionsMap().getOrDefault("--seed", null))
                     .map(opt -> new Game(new Random(seed)))
-                    .orElseGet(Game::new);
+                    .orElseGet(() -> new Game(RNG));
 
                 for (DecisionMakerBuilder player : players)
                 {
