@@ -86,6 +86,4 @@ class PandaObjectiveTest
         assertThrows(NullPointerException.class, () -> yellowPandaObjective.checkValidated(null, null));
 
     }
-
-
 }

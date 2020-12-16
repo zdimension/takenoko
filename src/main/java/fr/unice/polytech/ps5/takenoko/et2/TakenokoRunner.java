@@ -6,6 +6,7 @@ import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.Game;
 import picocli.CommandLine;
 
+import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
@@ -80,7 +81,7 @@ class TakenokoRunner implements Runnable
             .execute(args);
     }
 
-    private static final Random RNG = new Random();
+    private static final Random RNG = new SecureRandom(); // new Random();
 
     public void run()
     {

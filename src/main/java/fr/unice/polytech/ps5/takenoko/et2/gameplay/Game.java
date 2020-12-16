@@ -161,7 +161,7 @@ public class Game
     public Player addPlayer(DecisionMakerBuilder builder) throws IllegalAccessException
     {
         Objects.requireNonNull(builder, "builder must not be null");
-        if (this.playerList.size() == maxNumberOfPlayers)
+        if (getPlayerCount() == maxNumberOfPlayers)
         {
             throw new IllegalAccessException("Game should not have more than " + maxNumberOfPlayers + " players");
         }
@@ -192,7 +192,7 @@ public class Game
      */
     public List<Integer> gameProcessing(boolean ignoreThreshold) throws Exception
     {
-        if (playerList.size() < minNumberOfPlayers)
+        if (getPlayerCount() < minNumberOfPlayers)
         {
             throw new IllegalArgumentException("Game started with less than " + minNumberOfPlayers + " players");
         }
@@ -208,7 +208,7 @@ public class Game
             }
         }
 
-        int numberPlayers = playerList.size();
+        int numberPlayers = getPlayerCount();
         int i = 0;
         int turn = 0;
         while (turn < MAX_TURNS)
@@ -486,8 +486,9 @@ public class Game
      * @param player the current player
      * @return a stream of the objectives that can be complete by the payer
      */
-    private Stream<Objective> findCompletableObjectives(Player player)
+    Stream<Objective> findCompletableObjectives(Player player)
     {
+        Objects.requireNonNull(player, "player must not be null");
         return player
             .getHand()
             .stream()
@@ -500,7 +501,7 @@ public class Game
      *
      * @param player to ask from what objective to complete
      */
-    private void completeObjective(Player player)
+    void completeObjective(Player player)
     {
         Objects.requireNonNull(player, "player must not be null");
         // the collection is always populated because gameProcessing checks for non-emptiness
@@ -518,10 +519,15 @@ public class Game
         }
         LOGGER.log(Level.INFO, "Player validated objective, N=" + player.completedObjectivesCount());
 
-        if ((player.completedObjectivesCount() >= objectiveThreshold.get(playerList.size())) && !hasSomeoneTriggeredTheEmperor())
+        if ((player.completedObjectivesCount() >= objectiveThreshold.get(getPlayerCount())) && !hasSomeoneTriggeredTheEmperor())
         {
             player.triggerEmperor();
         }
+    }
+
+    public int getPlayerCount()
+    {
+        return playerList.size();
     }
 
     private <T extends Exception> void throwError(T exc) throws T
