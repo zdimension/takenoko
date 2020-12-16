@@ -196,8 +196,8 @@ public class Game
             throw new IllegalArgumentException("Game started with less than " + minNumberOfPlayers + " players");
         }
 
-        gameData.objectiveDecks.values().forEach(Collections::shuffle);
-        Collections.shuffle(gameData.tileDeck);
+        gameData.objectiveDecks.values().forEach(o -> Collections.shuffle(o, random));
+        Collections.shuffle(gameData.tileDeck, random);
 
         for (Player player : playerList)
         {
