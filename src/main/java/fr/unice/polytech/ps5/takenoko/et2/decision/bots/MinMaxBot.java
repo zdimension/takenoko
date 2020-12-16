@@ -82,9 +82,13 @@ public class MinMaxBot extends DecisionMaker
             return GameAction.DRAW_OBJECTIVE;
         }
 
-        if (base.contains(GameAction.PLACE_IRRIGATION) && getMaxEdgeChangePoints() > 0)
+        if (base.contains(GameAction.PLACE_IRRIGATION) && (getMaxEdgeChangePoints() > 0 || (float) getBoard().getBambooableTiles().size() / (float) getBoard().getTiles().size() < 0.75))
         {
             return GameAction.PLACE_IRRIGATION;
+        }
+        if (base.contains(GameAction.DRAW_TILE))
+        {
+            return GameAction.DRAW_TILE;
         }
         if (base.contains(GameAction.PICK_IRRIGATION) && player.getNbIrrigationsInStock() < 3)
         {
@@ -93,10 +97,6 @@ public class MinMaxBot extends DecisionMaker
         if (base.contains(GameAction.PLACE_IMPROVEMENT))
         {
             return GameAction.PLACE_IMPROVEMENT;
-        }
-        if (base.contains(GameAction.DRAW_TILE))
-        {
-            return GameAction.DRAW_TILE;
         }
         return randomElement(base);// TODO (improve ?)
     }
