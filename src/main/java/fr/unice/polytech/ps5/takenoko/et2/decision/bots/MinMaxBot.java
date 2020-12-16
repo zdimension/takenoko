@@ -77,21 +77,22 @@ public class MinMaxBot extends DecisionMaker
             return bestActionGardenerPandaIrrigation.getKey();
         }
 
-        if (base.contains(GameAction.PLACE_IMPROVEMENT))
+        if (base.contains(GameAction.DRAW_OBJECTIVE) && player.getHand().size() < 15)
         {
-            return GameAction.PLACE_IMPROVEMENT;
+            return GameAction.DRAW_OBJECTIVE;
         }
+
         if (base.contains(GameAction.PLACE_IRRIGATION) && getMaxEdgeChangePoints() > 0)
         {
             return GameAction.PLACE_IRRIGATION;
         }
-        if (base.contains(GameAction.DRAW_OBJECTIVE))
-        {
-            return GameAction.DRAW_OBJECTIVE;
-        }
         if (base.contains(GameAction.PICK_IRRIGATION) && player.getNbIrrigationsInStock() < 3)
         {
             return GameAction.PICK_IRRIGATION;
+        }
+        if (base.contains(GameAction.PLACE_IMPROVEMENT))
+        {
+            return GameAction.PLACE_IMPROVEMENT;
         }
         if (base.contains(GameAction.DRAW_TILE))
         {
@@ -318,12 +319,20 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public LandTileImprovement chooseLandTileImprovement(List<LandTileImprovement> listLandTileImprovements)
     {
+        if (listLandTileImprovements.contains(LandTileImprovement.WATERSHED))
+        {
+            return LandTileImprovement.WATERSHED;
+        }
         return randomElement(listLandTileImprovements); // TODO
     }
 
     @Override
     public Pair<LandTile, LandTileImprovement> chooseImprovementAndLandTile(List<LandTile> vacantLandTile, List<LandTileImprovement> availableImprovements)
     {
+        if (availableImprovements.contains(LandTileImprovement.WATERSHED))
+        {
+            return Pair.of(randomElement(vacantLandTile), LandTileImprovement.WATERSHED);
+        }
         return Pair.of(randomElement(vacantLandTile), randomElement(availableImprovements)); // TODO
     }
 
