@@ -127,7 +127,8 @@ public class Game
         this(new GameData(), rng);
     }
 
-    public Game(GameData gameData, Random rng){
+    public Game(GameData gameData, Random rng)
+    {
         Objects.requireNonNull(gameData, "gameData must not be null");
 
         playerList = new ArrayList<>();
@@ -241,7 +242,7 @@ public class Game
             }
             turn++;
 
-            if(isFirstRound && turn == numberPlayers -1)
+            if (isFirstRound && turn == numberPlayers - 1)
             {
                 isFirstRound = false;
             }
@@ -512,7 +513,8 @@ public class Game
         }
 
         player.moveObjectiveToComplete(obj);
-        if (obj instanceof PandaObjective){
+        if (obj instanceof PandaObjective)
+        {
             player.removeBambooSection(((PandaObjective) obj).getBambooSectionList());
         }
         LOGGER.log(Level.INFO, "Player validated objective, N=" + player.completedObjectivesCount());
@@ -693,7 +695,7 @@ public class Game
     }
 
     /**
-     * WHen it rains, prompts DecisionMaker to choose a tile to grow bamboo on.
+     * When it rains, prompts DecisionMaker to choose a tile to grow bamboo on.
      *
      * @param player to choose a tile
      */
@@ -708,6 +710,10 @@ public class Game
         if (listIrrigatedTiles.contains(tile))
         {
             tile.growBambooSection();
+        }
+        else
+        {
+            LOGGER.log(Level.FINE, "Player did not make bamboo grow during rain");
         }
     }
 
