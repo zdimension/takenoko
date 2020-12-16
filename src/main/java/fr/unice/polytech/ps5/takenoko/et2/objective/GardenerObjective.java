@@ -1,10 +1,10 @@
 package fr.unice.polytech.ps5.takenoko.et2.objective;
 
+import fr.unice.polytech.ps5.takenoko.et2.board.Board;
+import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTileImprovement;
 import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.Player;
-import fr.unice.polytech.ps5.takenoko.et2.board.Board;
-import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 
 import java.util.Objects;
 import java.util.Set;
@@ -86,7 +86,45 @@ public class GardenerObjective extends Objective
                         countBambooStack++;
                     }
                 }
-                else {
+                else
+                {
+                    countBambooStack++;
+                }
+            }
+        }
+
+        return this.numberOfBambooStack <= countBambooStack;
+    }
+
+    /**
+     * Check if the objective is validated with the given board
+     *
+     * @param board The board to check
+     * @return true if the Objective is validated in the Game, false otherwise
+     */
+    public boolean checkValidated(Board board)
+    {
+        Set<LandTile> landTileList = board.getLandTiles();
+        int bambooStackSize;
+        int countBambooStack = 0;
+        Color bambooColor;
+        LandTileImprovement improvement;
+        for (LandTile tile : landTileList)
+        {
+            bambooColor = tile.getColor();
+            bambooStackSize = tile.getBambooSize();
+            improvement = tile.getLandTileImprovement();
+            if (bambooStackSize == this.numberOfBambooSection && bambooColor == this.color)
+            {
+                if (this.numberOfBambooStack == 1)
+                {
+                    if (improvement == this.landTileImprovement)
+                    {
+                        countBambooStack++;
+                    }
+                }
+                else
+                {
                     countBambooStack++;
                 }
             }
@@ -101,7 +139,7 @@ public class GardenerObjective extends Objective
     @Override
     public String toString()
     {
-        String message =  "Gardener Objective : " + points + " points, "
+        String message = "Gardener Objective : " + points + " points, "
             + color.toString() + " bamboo, "
             + numberOfBambooStack + " bamboo stack(s), "
             + numberOfBambooSection + " bamboo sections per stack, ";

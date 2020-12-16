@@ -46,7 +46,7 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public GameAction chooseAction(List<GameAction> base)
     {
-        long nbGardenerObjective = player.getHand().stream().filter(GardenerObjective.class::isInstance).count();
+        long nbGardenerObjective = player.getHand().stream().filter(GardenerObjective.class::isInstance).count(); // TODO : optimize Action
         long nbPandaObjective = player.getHand().stream().filter(PandaObjective.class::isInstance).count();
         long nbPlotObjective = player.getHand().stream().filter(PlotObjective.class::isInstance).count();
         if (base.contains(GameAction.COMPLETE_OBJECTIVE))
@@ -108,7 +108,7 @@ public class MinMaxBot extends DecisionMaker
         var valid = player.getGame().getBoard().getValidEmptyPositions().collect(Collectors.toList());
         return drawnTiles.stream().flatMap(landTile ->
             validPos.stream().map(position ->
-                Map.entry(evaluateAction(landTile, position, drawnTiles, valid, player.getGame().getBoard(), player.getHand(), depth, true),
+                Map.entry(evaluatePlotAction(landTile, position, drawnTiles, valid, player.getGame().getBoard(), player.getHand(), depth, true),
                     Pair.of(landTile, position))
             )).max(Map.Entry.comparingByKey()).map(Map.Entry::getValue).orElse(Pair.of(drawnTiles.get(0), validPos.get(0)));
     }
@@ -200,7 +200,7 @@ public class MinMaxBot extends DecisionMaker
     }
 
     @Override
-    public TilePosition choosePandaTarget(List<TilePosition> valid)
+    public TilePosition choosePandaTarget(List<TilePosition> valid) // TODO : not recursive right now
     {
         List<PandaObjective> listPandaObjectives = player.getHand().stream().filter(PandaObjective.class::isInstance).map(o -> (PandaObjective) o).collect(Collectors.toList());
         Board b = (Board) getBoard().clone();
@@ -220,7 +220,7 @@ public class MinMaxBot extends DecisionMaker
         {
             return bestPosition;
         }
-        return randomElement(valid);// TODO
+        return randomElement(valid);
     }
 
     private int evaluatePandaPosition(TilePosition tilePosition, Board b, List<PandaObjective> listPandaObjectives, HashMap<Color, Integer> playerReserve)
@@ -248,9 +248,63 @@ public class MinMaxBot extends DecisionMaker
     }
 
     @Override
-    public LandTile chooseTileToAddBamboo(List<LandTile> listIrrigatedTiles)
+    public LandTile chooseTileToAddBamboo(List<LandTile> listIrrigatedTiles)  // TODO : not recursive right now
     {
+        List<GardenerObjective> listGardenerObjectives = player.getHand().stream().filter(GardenerObjective.class::isInstance).map(o -> (GardenerObjective) o).collect(Collectors.toList());
+        Board b = (Board) getBoard().clone();
+        LandTile bestLandTile = null;
+        int max = 0;
+        for (LandTile landTile : listIrrigatedTiles)
+        {
+            TilePosition tilePosition = null;
+            for (Map.Entry<TilePosition, Tile> entry : getBoard().getTiles().entrySet())
+            {
+                if (entry.getValue() == landTile)
+                {
+                    tilePosition = entry.getKey();
+                    break;
+                }
+            }
+            if (tilePosition == null)
+            {
+                continue;
+            }
+            Tile newTile = b.findTile(tilePosition);
+            if (!(newTile instanceof LandTile))
+            {
+                continue;
+            }
+            LandTile newLandTile = (LandTile) newTile;
+            if (!newLandTile.canGrowBamboo())
+            {
+                continue;
+            }
+            int valueL = evaluateGardenerPosition(listGardenerObjectives, b, newLandTile);
+            if (valueL > max)
+            {
+                max = valueL;
+                bestLandTile = landTile;
+            }
+        }
+        if (bestLandTile != null)
+        {
+            return bestLandTile;
+        }
         return randomElement(listIrrigatedTiles); //TODO
+    }
+
+    private int evaluateGardenerPosition(List<GardenerObjective> listGardenerObjectives, Board b, LandTile landTile)
+    {
+        landTile.growBambooSection();
+        int max = 0;
+        for (GardenerObjective gardenerObjective : listGardenerObjectives)
+        {
+            if (gardenerObjective.checkValidated(b) && gardenerObjective.getPoints() > max)
+            {
+                max = gardenerObjective.getPoints();
+            }
+        }
+        return max;
     }
 
     @Override
@@ -265,7 +319,7 @@ public class MinMaxBot extends DecisionMaker
         return Pair.of(randomElement(vacantLandTile), randomElement(availableImprovements)); // TODO
     }
 
-    private int evaluateAction(LandTile playedTile, TilePosition playedPos, List<LandTile> drawnTiles, List<TilePosition> ListValidsPositions, Board board, List<Objective> myObjectives, int n, boolean myTurn)
+    private int evaluatePlotAction(LandTile playedTile, TilePosition playedPos, List<LandTile> drawnTiles, List<TilePosition> ListValidsPositions, Board board, List<Objective> myObjectives, int n, boolean myTurn)
     {
         List<Objective> copyOfMyObjectives = new ArrayList<>(myObjectives);
         List<LandTile> copyOfDrawnTiles = new ArrayList<>(drawnTiles);
@@ -326,7 +380,7 @@ public class MinMaxBot extends DecisionMaker
             .flatMapToInt(tilePosition ->
                 copyOfDrawnTiles.stream()
                     .mapToInt(
-                        landTile -> evaluateAction(landTile, tilePosition, copyOfDrawnTiles, newListValidsPositions, newBoard, copyOfMyObjectives, n - 1, !myTurn)
+                        landTile -> evaluatePlotAction(landTile, tilePosition, copyOfDrawnTiles, newListValidsPositions, newBoard, copyOfMyObjectives, n - 1, !myTurn)
                     )).sum() * power;
         return scoreReturn;
     }
