@@ -88,7 +88,7 @@ class ProcessTurnTest
         var t2 = new LandTile(Color.YELLOW);
         board.addTile(t2,  new TilePosition(0, 1));
         t2.growBambooSection();
-        // todo: broken since improvements added
+
         assertEquals(board, game.getBoard());
     }
 

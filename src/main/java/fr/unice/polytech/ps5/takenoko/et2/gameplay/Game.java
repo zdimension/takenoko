@@ -277,9 +277,11 @@ public class Game
         if (!isFirstRound)
         {
             turnWeather = rollWeatherDice();
+            LOGGER.log(Level.FINE, "Weather : {0}", turnWeather);
             if (turnWeather == Weather.QUESTION_MARK)
             {
                 turnWeather = chooseWeather(player);
+                LOGGER.log(Level.FINE, "Player chose wheather : {0}", turnWeather);
             }
             if (turnWeather.isDirectAction())
             {
