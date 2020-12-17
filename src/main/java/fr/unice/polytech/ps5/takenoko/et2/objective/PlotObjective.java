@@ -60,6 +60,29 @@ public class PlotObjective extends Objective
         return false;
     }
 
+    /**
+     * Check if the PlotObjective is validated
+     *
+     * @param board the game board
+     * @return true if validated, false otherwise
+     */
+    public boolean checkValidated(Board board)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            for (int j = 0; j < listPaths.size(); j++)
+            {
+                listPaths.set(j, (listPaths.get(j) + 1) % 6);
+            }
+
+            if (checkValidatedSpecificRotation(board))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private boolean checkValidatedSpecificRotation(Board board)
     {
         Map<TilePosition, Tile> listTiles = board.getTiles();

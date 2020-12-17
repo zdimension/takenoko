@@ -95,7 +95,7 @@ public class MinMaxBot extends DecisionMaker
             return GameAction.DRAW_TILE;
         }
 
-        if (base.contains(GameAction.PLACE_IMPROVEMENT))
+        if (base.contains(GameAction.PLACE_IMPROVEMENT) && player.getGame().getRandom().nextInt() % 2 == 0)
         {
             return GameAction.PLACE_IMPROVEMENT;
         }
@@ -160,16 +160,94 @@ public class MinMaxBot extends DecisionMaker
     }
 
     @Override
-    public Edge chooseIrrigationPosition(List<Edge> irrigableEdges)
+    public Edge chooseIrrigationPosition(List<Edge> irrigableEdges) /// TODO: must be improved
     {
-        if (maxEdge == null || !irrigableEdges.contains(maxEdge))
+        Board b = (Board) getBoard().clone();
+        List<GardenerObjective> listGardenerObjectives = player.getHand().stream().filter(GardenerObjective.class::isInstance).map(o -> (GardenerObjective) o).collect(Collectors.toList());
+        List<PlotObjective> listPlotObjectives = player.getHand().stream().filter(PlotObjective.class::isInstance).map(o -> (PlotObjective) o).collect(Collectors.toList());
+        Edge bestEdge = null;
+        int max = 0;
+        for (Edge edge : irrigableEdges)
         {
-            maxEdge = null;
-            return randomElement(irrigableEdges);
+            Tile realTile1 = edge.getTile(0);
+            Tile realTile2 = edge.getTile(1);
+            TilePosition tilePosition1 = null;
+            TilePosition tilePosition2 = null;
+            if (realTile1 != null)
+            {
+                tilePosition1 = realTile1.getPosition().get();
+            }
+            if (realTile2 != null)
+            {
+                tilePosition2 = realTile2.getPosition().get();
+            }
+            if (tilePosition1 == null && tilePosition2 == null)
+            {
+                continue;
+            }
+            Tile newTile1 = null;
+            Tile newTile2 = null;
+            if (tilePosition1 != null)
+            {
+                newTile1 = b.findTile(tilePosition1);
+            }
+            if (tilePosition2 != null)
+            {
+                newTile2 = b.findTile(tilePosition2);
+            }
+            if (newTile1 == null && newTile2 == null)
+            {
+                continue;
+            }
+            Edge newEdge = b.getEdgeBetweenTwoTiles(newTile1, newTile2);
+            if (newEdge == null)
+            {
+                continue;
+            }
+            int valueEdge = evaluateIrrigationPosition(newEdge, b, listGardenerObjectives, listPlotObjectives);
+            if (valueEdge > max)
+            {
+                max = valueEdge;
+                bestEdge = edge;
+            }
         }
-        Edge edgeTmp = maxEdge;
-        maxEdge = null;
-        return edgeTmp;
+        if (bestEdge != null)
+        {
+            return bestEdge;
+        }
+        return randomElement(irrigableEdges);
+    }
+
+    private int evaluateIrrigationPosition(Edge edge, Board b, List<GardenerObjective> listGardenerObjectives, List<PlotObjective> listPlotObjectives)
+    {
+        if (!edge.canBeIrrigated())
+        {
+            return 0;
+        }
+        LandTile[] landTilesIrrigated = edge.addIrrigation();
+        for (LandTile landTile : landTilesIrrigated)
+        {
+            if (landTile != null)
+            {
+                landTile.growBambooSection();
+            }
+        }
+        int max = 0;
+        for (GardenerObjective gardenerObjective : listGardenerObjectives)
+        {
+            if (gardenerObjective.checkValidated(b) && gardenerObjective.getPoints() > max)
+            {
+                max = gardenerObjective.getPoints();
+            }
+        }
+        for (PlotObjective plotObjective : listPlotObjectives)
+        {
+            if (plotObjective.checkValidated(b) && plotObjective.getPoints() > max)
+            {
+                max = plotObjective.getPoints();
+            }
+        }
+        return max;
     }
 
     @Override
