@@ -170,40 +170,30 @@ public class MinMaxBot extends DecisionMaker
         for (Edge edge : irrigableEdges)
         {
             Tile realTile1 = edge.getTile(0);
-            Tile realTile2 = edge.getTile(1);
-            TilePosition tilePosition1 = null;
-            TilePosition tilePosition2 = null;
-            if (realTile1 != null)
+            if (realTile1 == null)
             {
-                tilePosition1 = realTile1.getPosition().get();
+                throw new IllegalArgumentException("Get Tile from Edge: pb");
             }
-            if (realTile2 != null)
+            int numEdge = edge.getPositionFromTile(realTile1);
+            TilePosition tilePosition1 = realTile1.getPosition().get();
+            if (tilePosition1 == null)
             {
-                tilePosition2 = realTile2.getPosition().get();
+                throw new IllegalArgumentException("getPosition(): pb");
             }
-            if (tilePosition1 == null && tilePosition2 == null)
+            Tile newTile1 = b.findTile(tilePosition1);
+            if (newTile1 == null)
             {
-                continue;
+                throw new IllegalArgumentException("findTile: pb");
             }
-            Tile newTile1 = null;
-            Tile newTile2 = null;
-            if (tilePosition1 != null)
-            {
-                newTile1 = b.findTile(tilePosition1);
-            }
-            if (tilePosition2 != null)
-            {
-                newTile2 = b.findTile(tilePosition2);
-            }
-            if (newTile1 == null && newTile2 == null)
-            {
-                continue;
-            }
-            Edge newEdge = b.getEdgeBetweenTwoTiles(newTile1, newTile2);
+            Edge newEdge = newTile1.getEdge(numEdge);
             if (newEdge == null)
             {
-                continue;
+                throw new IllegalArgumentException("getEdge: pb");
             }
+            /*if(!newEdge.canBeIrrigated())
+            {
+                throw new IllegalArgumentException("newEdge.canBeIrrigated(): pb: "+newEdge.irrigated);
+            }*/
             int valueEdge = evaluateIrrigationPosition(newEdge, b, listGardenerObjectives, listPlotObjectives);
             if (valueEdge > max)
             {

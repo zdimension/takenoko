@@ -34,6 +34,10 @@ public class Board implements Cloneable
         this.center.setPosition(TilePosition.ZERO);
         this.tileCache = new HashMap<>();
         this.tileCache.put(TilePosition.ZERO, center);
+        for (int i = 0; i < 6; i++)
+        {
+            center.edges[i] = new Edge(center);
+        }
     }
 
     /**
@@ -160,6 +164,10 @@ public class Board implements Cloneable
                 var edge = nb.getEdge(i + 3);
                 edge.setTile(tile);
                 tile.edges[i] = edge;
+                if (nb instanceof PondTile)
+                {
+                    edge.irrigated = true;
+                }
             }
             else
             {
@@ -307,6 +315,13 @@ public class Board implements Cloneable
      */
     public Object clone()
     {
+        for (int i = 0; i < 6; i++)
+        {
+            if (!center.getEdge(i).irrigated)
+            {
+                throw new IllegalArgumentException("All PondTile's Edges must be irrigated");
+            }
+        }
         Board o = new Board();
         if (tileCache.size() != orderAdd.size() + 1)
         {
@@ -331,6 +346,10 @@ public class Board implements Cloneable
                     if (oldTile.getEdge(i).isIrrigated())
                     {
                         newLandTile.getEdge(i).irrigated = true;
+                    }
+                    else
+                    {
+                        newLandTile.getEdge(i).irrigated = false;
                     }
                 }
             }

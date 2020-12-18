@@ -62,7 +62,29 @@ public class Edge
         }
 
         tiles[1] = tile;
+        if (tile instanceof PondTile)
+        {
+            irrigated = true;
+        }
         return true;
+    }
+
+    /**
+     * Get the Edge position in relation to the Tile
+     *
+     * @param tile Tile to check the position
+     * @return The position, between 0 and 5, or Exception if not found
+     */
+    public int getPositionFromTile(Tile tile)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            if (tile.getEdge(i) == this)
+            {
+                return i;
+            }
+        }
+        throw new IllegalArgumentException("Tile is not associated with this Edge");
     }
 
     /**
