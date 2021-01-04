@@ -636,7 +636,7 @@ public class Game
         p.irrigateEdge(chosenEdge);
     }
 
-    private Stream<TilePosition> getValidGardenerTargets()
+    public Stream<TilePosition> getValidGardenerTargets()
     {
         return getValidTargets(gardenerPosition);
     }

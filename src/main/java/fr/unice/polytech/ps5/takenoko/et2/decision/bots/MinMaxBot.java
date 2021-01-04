@@ -112,9 +112,17 @@ public class MinMaxBot extends DecisionMaker
     {
         switch (action)
         {
+            case MOVE_GARDENER:
+                List<TilePosition> positionsGardener = player.getGame().getValidGardenerTargets().collect(Collectors.toUnmodifiableList());
+                chooseGardenerTarget(positionsGardener);
+                return globalMax;
             case MOVE_PANDA:
                 List<TilePosition> positionsPanda = player.getGame().getValidPandaTargets().collect(Collectors.toUnmodifiableList());
                 choosePandaTarget(positionsPanda, false);
+                return globalMax;
+            case PLACE_IRRIGATION:
+                List<Edge> positionsIrrigation = player.getGame().findIrrigableEdges().collect(Collectors.toUnmodifiableList());
+                chooseIrrigationPosition(positionsIrrigation);
                 return globalMax;
         }
         return 0;
@@ -228,6 +236,7 @@ public class MinMaxBot extends DecisionMaker
                 bestEdge = edge;
             }
         }
+        globalMax = max;
         if (bestEdge != null)
         {
             return bestEdge;
@@ -299,6 +308,7 @@ public class MinMaxBot extends DecisionMaker
                 }
             }
         }
+        globalMax = maxPts;
         if (bestPosition == null)
         {
             return randomElement(valid);
@@ -338,6 +348,7 @@ public class MinMaxBot extends DecisionMaker
         {
             return bestPosition;
         }
+        //return null; // Panda doesn't move
         return player.getGame().getPandaPosition();
     }
 
