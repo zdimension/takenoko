@@ -331,11 +331,10 @@ class ProcessTurnTest
         t2.growBambooSection();
 
 
-        var PandaPositionAvailableList = Collections.unmodifiableList(new ArrayList<TilePosition>()
+        var PandaPositionAvailableList = new ArrayList<TilePosition>()
         {{
-            add(null);
             addAll(game.getBoard().getTiles().keySet());
-        }});
+        }};
 
         when(p1.getDecisionMaker().choosePandaTarget(PandaPositionAvailableList, true)).thenReturn(t2.getPosition().get());
 
@@ -396,11 +395,10 @@ class ProcessTurnTest
 
 
 
-        var PandaPositionAvailableList = Collections.unmodifiableList(new ArrayList<TilePosition>()
+        var PandaPositionAvailableList = new ArrayList<TilePosition>()
         {{
-            add(null);
             addAll(game.getBoard().getTiles().keySet());
-        }});
+        }};
 
         when(p1.getDecisionMaker().choosePandaTarget(PandaPositionAvailableList, true)).thenReturn(t2.getPosition().get());
 
@@ -460,13 +458,12 @@ class ProcessTurnTest
         t2.cutBambooSection();
 
 
-        var PandaPositionAvailableList = Collections.unmodifiableList(new ArrayList<TilePosition>()
+        var PandaPositionAvailableList = new ArrayList<TilePosition>()
         {{
-            add(null);
             addAll(game.getBoard().getTiles().keySet());
-        }});
+        }};
 
-        when(p1.getDecisionMaker().choosePandaTarget(PandaPositionAvailableList, true)).thenReturn(t2.getPosition().get()); 
+        when(p1.getDecisionMaker().choosePandaTarget(PandaPositionAvailableList, true)).thenReturn(t2.getPosition().get());
 
         List<GameAction> gameActionList1;
         List<GameAction> gameActionList2;
