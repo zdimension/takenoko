@@ -819,14 +819,15 @@ public class Game
         TilePosition chosenPos = player
             .getDecisionMaker()
             .choosePandaTarget(valid, anyPosition);
-        if (!valid.contains(chosenPos))
-        {
-            return;
-        }
 
         if (chosenPos == null)
         {
             return; // we're in a storm and the player has decided not to move the Panda
+        }
+
+        if (!valid.contains(chosenPos))
+        {
+            return;
         }
 
         pandaPosition = chosenPos;
