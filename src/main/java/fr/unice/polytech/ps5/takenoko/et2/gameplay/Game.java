@@ -82,6 +82,11 @@ public class Game
         return pandaPosition;
     }
 
+    public GameData getGameData()
+    {
+        return gameData;
+    }
+
     /**
      * Position of the panda. It starts on the PondTile.
      */
