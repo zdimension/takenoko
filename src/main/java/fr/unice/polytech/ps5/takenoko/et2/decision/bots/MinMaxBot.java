@@ -305,6 +305,10 @@ public class MinMaxBot extends DecisionMaker
         int max = 0;
         for (TilePosition tilePosition : valid)
         {
+            if (tilePosition == null)
+            {
+                continue;
+            }
             int valuePos = evaluatePandaPosition(tilePosition, b, listPandaObjectives, playerReserve);
             if (valuePos > max)
             {
@@ -316,7 +320,7 @@ public class MinMaxBot extends DecisionMaker
         {
             return bestPosition;
         }
-        return randomElement(valid);
+        return randomElement(valid); // null ?
     }
 
     private int evaluatePandaPosition(TilePosition tilePosition, Board b, List<PandaObjective> listPandaObjectives, HashMap<Color, Integer> playerReserve)
@@ -396,7 +400,7 @@ public class MinMaxBot extends DecisionMaker
     }
 
     @Override
-    public LandTileImprovement chooseLandTileImprovement(List<LandTileImprovement> listLandTileImprovements)
+    public LandTileImprovement chooseLandTileImprovement(List<LandTileImprovement> listLandTileImprovements) // TODO: not recursive right now
     {
         List<LandTileImprovement> newListImprovements = new ArrayList<>();
         for (LandTileImprovement landTileImprovement : listLandTileImprovements)
@@ -427,7 +431,7 @@ public class MinMaxBot extends DecisionMaker
     }
 
     @Override
-    public Pair<LandTile, LandTileImprovement> chooseImprovementAndLandTile(List<LandTile> vacantLandTile, List<LandTileImprovement> availableImprovements)
+    public Pair<LandTile, LandTileImprovement> chooseImprovementAndLandTile(List<LandTile> vacantLandTile, List<LandTileImprovement> availableImprovements) // TODO: not recursive right now
     {
         int max = 0;
         LandTile bestLandTile = null;
