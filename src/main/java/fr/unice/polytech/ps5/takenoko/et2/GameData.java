@@ -65,7 +65,7 @@ public final class GameData
     /**
      * @return a list containing the 9 standard improvement chips (3 of each kind)
      */
-    private static List<LandTileImprovement> getStandardImprovements()
+    public static List<LandTileImprovement> getStandardImprovements()
     {
         return Stream.of(
             Collections.nCopies(3, LandTileImprovement.WATERSHED),
