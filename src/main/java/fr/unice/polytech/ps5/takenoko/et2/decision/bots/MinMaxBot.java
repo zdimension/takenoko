@@ -454,7 +454,7 @@ public class MinMaxBot extends DecisionMaker
         }
         if (bestImprovement == null || bestLandTile == null)
         {
-            return Pair.of(randomElement(vacantLandTile), randomElement(availableImprovements)); // TODO
+            return Pair.of(randomElement(vacantLandTile), randomElement(availableImprovements));
         }
         return Pair.of(bestLandTile, bestImprovement);
     }
