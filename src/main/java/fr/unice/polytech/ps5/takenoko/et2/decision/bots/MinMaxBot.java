@@ -33,6 +33,8 @@ public class MinMaxBot extends DecisionMaker
 
     private Edge maxEdge = null;
     private int globalMax;
+    private Map<GameAction, Object> actionsChosen = new HashMap<>();
+    private GameAction lastActionChosen = null;
 
     /**
      * Class constructor
@@ -43,6 +45,10 @@ public class MinMaxBot extends DecisionMaker
     {
         super(player);
         this.depth = depth;
+        for (GameAction gameAction : GameAction.values())
+        {
+            actionsChosen.put(gameAction, null);
+        }
     }
 
     public static DecisionMakerBuilder getBuilder(int depth)
@@ -53,6 +59,7 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public GameAction chooseAction(List<GameAction> base)
     {
+        lastActionChosen = null;
         if (base.contains(GameAction.COMPLETE_OBJECTIVE))
         {
             return GameAction.COMPLETE_OBJECTIVE;
@@ -80,6 +87,7 @@ public class MinMaxBot extends DecisionMaker
         }
         if (bestAction != null)
         {
+            lastActionChosen = bestAction;
             return bestAction;
         }
 
@@ -96,26 +104,26 @@ public class MinMaxBot extends DecisionMaker
         {
             case MOVE_GARDENER:
                 List<TilePosition> positionsGardener = player.getGame().getValidGardenerTargets().collect(Collectors.toUnmodifiableList());
-                chooseGardenerTarget(positionsGardener);
+                actionsChosen.replace(GameAction.MOVE_GARDENER, chooseGardenerTarget(positionsGardener));
                 return globalMax;
             case MOVE_PANDA:
                 List<TilePosition> positionsPanda = player.getGame().getValidPandaTargets().collect(Collectors.toUnmodifiableList());
-                choosePandaTarget(positionsPanda, false);
+                actionsChosen.replace(GameAction.MOVE_PANDA, choosePandaTarget(positionsPanda, false));
                 return globalMax;
             case PLACE_IRRIGATION:
                 List<Edge> positionsIrrigation = player.getGame().findIrrigableEdges().collect(Collectors.toUnmodifiableList());
-                chooseIrrigationPosition(positionsIrrigation);
+                actionsChosen.replace(GameAction.PLACE_IRRIGATION, chooseIrrigationPosition(positionsIrrigation));
                 return globalMax;
             case DRAW_TILE:
                 GameData gameData = player.getGame().getGameData();
                 var validTiles = Collections.unmodifiableList(gameData.tileDeck.subList(0, Math.min(gameData.tileDeck.size(), 3)));
                 var validPos = getBoard().getValidEmptyPositions().collect(Collectors.toUnmodifiableList());
-                chooseTile(validTiles, validPos);
+                actionsChosen.replace(GameAction.DRAW_TILE, chooseTile(validTiles, validPos));
                 return globalMax;
             case PLACE_IMPROVEMENT:
                 var vacantLandTile = getBoard().getLandTilesWithoutImprovement().collect(Collectors.toUnmodifiableList());
                 var availableImprovements = player.getChipReserve();
-                chooseImprovementAndLandTile(vacantLandTile, availableImprovements);
+                actionsChosen.replace(GameAction.PLACE_IMPROVEMENT, chooseImprovementAndLandTile(vacantLandTile, availableImprovements));
                 return globalMax;
         }
         return 0;
@@ -142,6 +150,19 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public Pair<LandTile, TilePosition> chooseTile(List<LandTile> drawnTiles, List<TilePosition> validPos)
     {
+        if (lastActionChosen == GameAction.DRAW_TILE)
+        {
+            Object a = actionsChosen.get(GameAction.DRAW_TILE);
+            if (a != null)
+            {
+                Pair<LandTile, TilePosition> action = (Pair<LandTile, TilePosition>) a;
+                if (drawnTiles.contains(action.first) && validPos.contains(action.second))
+                {
+                    return action;
+                }
+            }
+        }
+
         var valid = player.getGame().getBoard().getValidEmptyPositions().collect(Collectors.toList());
         var returns = drawnTiles.stream().flatMap(landTile -> validPos.stream().map(position -> Map.entry(evaluatePlotAction(landTile, position, drawnTiles, valid, player.getGame().getBoard(), player.getHand(), depth, true), Pair.of(landTile, position)))).max(Map.Entry.comparingByKey());
         globalMax = returns.get().getKey();
@@ -184,6 +205,19 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public Edge chooseIrrigationPosition(List<Edge> irrigableEdges) /// TODO: must be improved
     {
+        if (lastActionChosen == GameAction.PLACE_IRRIGATION)
+        {
+            Object a = actionsChosen.get(GameAction.PLACE_IRRIGATION);
+            if (a != null)
+            {
+                Edge action = (Edge) a;
+                if (irrigableEdges.contains(action))
+                {
+                    return action;
+                }
+            }
+        }
+
         Board b = (Board) getBoard().clone();
         List<GardenerObjective> listGardenerObjectives = player.getHand().stream().filter(GardenerObjective.class::isInstance).map(o -> (GardenerObjective) o).collect(Collectors.toList());
         List<PlotObjective> listPlotObjectives = player.getHand().stream().filter(PlotObjective.class::isInstance).map(o -> (PlotObjective) o).collect(Collectors.toList());
@@ -271,6 +305,19 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public TilePosition chooseGardenerTarget(List<TilePosition> valid)
     {
+        if (lastActionChosen == GameAction.MOVE_GARDENER)
+        {
+            Object a = actionsChosen.get(GameAction.MOVE_GARDENER);
+            if (a != null)
+            {
+                TilePosition action = (TilePosition) a;
+                if (valid.contains(action))
+                {
+                    return action;
+                }
+            }
+        }
+
         int maxPts = 0;
         TilePosition bestPosition = null;
         for (TilePosition tilePosition : valid)
@@ -317,6 +364,19 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public TilePosition choosePandaTarget(List<TilePosition> valid, boolean isStorm) // TODO : not recursive right now
     {
+        if (lastActionChosen == GameAction.MOVE_PANDA)
+        {
+            Object a = actionsChosen.get(GameAction.MOVE_PANDA);
+            if (a != null)
+            {
+                TilePosition action = (TilePosition) a;
+                if (valid.contains(action))
+                {
+                    return action;
+                }
+            }
+        }
+
         List<PandaObjective> listPandaObjectives = player.getHand().stream().filter(PandaObjective.class::isInstance).map(o -> (PandaObjective) o).collect(Collectors.toList());
         Board b = (Board) getBoard().clone();
         HashMap<Color, Integer> playerReserve = new HashMap<Color, Integer>(player.getBambooSectionReserve());
@@ -454,6 +514,19 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public Pair<LandTile, LandTileImprovement> chooseImprovementAndLandTile(List<LandTile> vacantLandTile, List<LandTileImprovement> availableImprovements) // TODO: not recursive right now
     {
+        if (lastActionChosen == GameAction.PLACE_IMPROVEMENT)
+        {
+            Object a = actionsChosen.get(GameAction.PLACE_IMPROVEMENT);
+            if (a != null)
+            {
+                Pair<LandTile, LandTileImprovement> action = (Pair<LandTile, LandTileImprovement>) a;
+                if (vacantLandTile.contains(action.first) && availableImprovements.contains(action.second))
+                {
+                    return action;
+                }
+            }
+        }
+
         int max = 0;
         LandTile bestLandTile = null;
         LandTileImprovement bestImprovement = null;
