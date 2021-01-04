@@ -147,22 +147,23 @@ public class MinMaxBot extends DecisionMaker
         int maxPts = 0;
         for (Edge edge : player.getGame().findIrrigableEdges().collect(Collectors.toUnmodifiableList()))
         {
-            boolean alreadyIrrigated = edge.irrigated;
-            edge.irrigated = true;
-            for (Objective objective : player.getHand())
+            try(var ignored = edge.setTemporaryIrrigationState(true))
             {
-                if (objective.checkValidated(getBoard(), player))
+                for (Objective objective : player.getHand())
                 {
-                    maxEdge = edge;
-                    if (objective.getPoints() > maxPts)
+                    if (objective.checkValidated(getBoard(), player))
                     {
-                        maxPts = objective.getPoints();
+                        maxEdge = edge;
+                        if (objective.getPoints() > maxPts)
+                        {
+                            maxPts = objective.getPoints();
+                        }
                     }
                 }
             }
-            if (!alreadyIrrigated)
+            catch (Exception e)
             {
-                edge.irrigated = false;
+                throw new RuntimeException(e);
             }
         }
         return maxPts;
