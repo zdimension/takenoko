@@ -760,7 +760,7 @@ public class Game
         return weatherChosen;
     }
 
-    private Stream<TilePosition> getValidPandaTargets()
+    public Stream<TilePosition> getValidPandaTargets()
     {
         return getValidTargets(pandaPosition);
     }
