@@ -32,7 +32,7 @@ public final class GameData
         this(getStandardLandTiles(), getStandardObjectives(), getStandardImprovements());
     }
 
-    public GameData(List<LandTile> tileDeck, Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks, List<LandTileImprovement> chipReserve)
+    private GameData(List<LandTile> tileDeck, Map<Class<? extends Objective>, List<? extends Objective>> objectiveDecks, List<LandTileImprovement> chipReserve)
     {
         this.tileDeck = tileDeck;
         this.objectiveDecks = objectiveDecks;
@@ -65,7 +65,7 @@ public final class GameData
     /**
      * @return a list containing the 9 standard improvement chips (3 of each kind)
      */
-    public static List<LandTileImprovement> getStandardImprovements()
+    private static List<LandTileImprovement> getStandardImprovements()
     {
         return Stream.of(
             Collections.nCopies(3, LandTileImprovement.WATERSHED),

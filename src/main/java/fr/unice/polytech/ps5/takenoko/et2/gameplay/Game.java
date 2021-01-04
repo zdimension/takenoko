@@ -527,7 +527,7 @@ public class Game
         }
     }
 
-    public int getPlayerCount()
+    private int getPlayerCount()
     {
         return playerList.size();
     }
@@ -745,7 +745,7 @@ public class Game
      * @param player to act
      * @return weather the player choose
      */
-    Weather chooseWeather(Player player)
+    private Weather chooseWeather(Player player)
     {
         var weatherList = new ArrayList<>(Arrays.asList(Weather.values()));
         weatherList.remove(Weather.QUESTION_MARK);
@@ -770,7 +770,7 @@ public class Game
      * @param piecePosition starting position of the piece
      * @return a stream of valid target positions for the piece
      */
-    private Stream<TilePosition> getValidTargets(TilePosition piecePosition)
+    Stream<TilePosition> getValidTargets(TilePosition piecePosition)
     {
         return board.getTiles().keySet().stream()
             .filter(pos ->
@@ -802,7 +802,7 @@ public class Game
             });
     }
 
-    private void movePanda(Player player)
+    void movePanda(Player player)
     {
         movePanda(player, false);
     }

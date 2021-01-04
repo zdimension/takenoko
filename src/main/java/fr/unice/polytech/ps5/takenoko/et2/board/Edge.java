@@ -8,7 +8,7 @@ import java.util.Objects;
 public class Edge
 {
     private final Tile[] tiles = new Tile[2];
-    public boolean irrigated = false;
+    private boolean irrigated = false;
 
     /**
      * Creates an edge from the specified tile.
@@ -24,6 +24,16 @@ public class Edge
         {
             irrigated = true;
         }
+    }
+
+    /**
+     * Sets the irrigation state. To be used for cloning purposes only.
+     *
+     * @param originalEdge edge being cloned
+     */
+    void copyIrrigationStateFrom(Edge originalEdge)
+    {
+        this.irrigated = originalEdge.irrigated;
     }
 
     /**
@@ -143,7 +153,7 @@ public class Edge
      */
     public boolean isIrrigated()
     {
-        return irrigated;
+        return irrigated || tiles[0] instanceof PondTile;
     }
 
     /**
@@ -151,7 +161,7 @@ public class Edge
      */
     public boolean canBeIrrigated()
     {
-        if (irrigated)
+        if (isIrrigated())
         {
             return false;
         }
@@ -199,5 +209,14 @@ public class Edge
     public String toString()
     {
         return "[Edge, 1=" + tiles[0].toString() + ", 2=" + tiles[1].toString() + "]";
+    }
+
+    public AutoCloseable setTemporaryIrrigationState(boolean state)
+    {
+        final boolean old = this.irrigated;
+
+        this.irrigated = state;
+
+        return () -> Edge.this.irrigated = old;
     }
 }

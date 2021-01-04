@@ -164,10 +164,6 @@ public class Board implements Cloneable
                 var edge = nb.getEdge(i + 3);
                 edge.setTile(tile);
                 tile.edges[i] = edge;
-                if (nb instanceof PondTile)
-                {
-                    edge.irrigated = true;
-                }
             }
             else
             {
@@ -317,7 +313,7 @@ public class Board implements Cloneable
     {
         for (int i = 0; i < 6; i++)
         {
-            if (!center.getEdge(i).irrigated)
+            if (!center.getEdge(i).isIrrigated())
             {
                 throw new IllegalArgumentException("All PondTile's Edges must be irrigated");
             }
@@ -343,14 +339,7 @@ public class Board implements Cloneable
                 }
                 for (int i = 0; i < 6; i++)
                 {
-                    if (oldTile.getEdge(i).isIrrigated())
-                    {
-                        newLandTile.getEdge(i).irrigated = true;
-                    }
-                    else
-                    {
-                        newLandTile.getEdge(i).irrigated = false;
-                    }
+                    newLandTile.getEdge(i).copyIrrigationStateFrom(oldTile.getEdge(i));
                 }
             }
         }

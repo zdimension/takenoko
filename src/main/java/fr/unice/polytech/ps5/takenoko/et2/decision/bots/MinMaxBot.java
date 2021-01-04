@@ -20,6 +20,11 @@ import java.util.stream.Collectors;
 @Bot(key = "minmax")
 public class MinMaxBot extends DecisionMaker
 {
+    public int getDepth()
+    {
+        return depth;
+    }
+
     /**
      * Depth of the min-max algorithm: the higher is the slower and the stronger
      */
@@ -142,19 +147,24 @@ public class MinMaxBot extends DecisionMaker
         int maxPts = 0;
         for (Edge edge : player.getGame().findIrrigableEdges().collect(Collectors.toUnmodifiableList()))
         {
-            edge.irrigated = true;
-            for (Objective objective : player.getHand())
+            try(var ignored = edge.setTemporaryIrrigationState(true))
             {
-                if (objective.checkValidated(getBoard(), player))
+                for (Objective objective : player.getHand())
                 {
-                    maxEdge = edge;
-                    if (objective.getPoints() > maxPts)
+                    if (objective.checkValidated(getBoard(), player))
                     {
-                        maxPts = objective.getPoints();
+                        maxEdge = edge;
+                        if (objective.getPoints() > maxPts)
+                        {
+                            maxPts = objective.getPoints();
+                        }
                     }
                 }
             }
-            edge.irrigated = false;
+            catch (Exception e)
+            {
+                throw new RuntimeException(e);
+            }
         }
         return maxPts;
     }
