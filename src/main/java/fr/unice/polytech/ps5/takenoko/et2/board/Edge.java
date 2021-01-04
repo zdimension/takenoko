@@ -94,7 +94,8 @@ public class Edge
                 return i;
             }
         }
-        throw new IllegalArgumentException("Tile is not associated with this Edge");
+        return -1;
+        //throw new IllegalArgumentException("Tile is not associated with this Edge");
     }
 
     /**

@@ -31,6 +31,7 @@ public class MinMaxBot extends DecisionMaker
     private final int depth;
 
     private Edge maxEdge = null;
+    private int globalMax;
 
     /**
      * Class constructor
@@ -105,6 +106,18 @@ public class MinMaxBot extends DecisionMaker
             return GameAction.PLACE_IMPROVEMENT;
         }
         return randomElement(base);// TODO (improve ?)
+    }
+
+    private int getPointsForAction(GameAction action)
+    {
+        switch (action)
+        {
+            case MOVE_PANDA:
+                List<TilePosition> positionsPanda = player.getGame().getValidPandaTargets().collect(Collectors.toUnmodifiableList());
+                choosePandaTarget(positionsPanda, false);
+                return globalMax;
+        }
+        return 0;
     }
 
     @Override
@@ -185,6 +198,10 @@ public class MinMaxBot extends DecisionMaker
                 throw new IllegalArgumentException("Get Tile from Edge: pb");
             }
             int numEdge = edge.getPositionFromTile(realTile1);
+            if (numEdge < 0)
+            {
+                continue;
+            }
             TilePosition tilePosition1 = realTile1.getPosition().get();
             if (tilePosition1 == null)
             {
@@ -316,11 +333,12 @@ public class MinMaxBot extends DecisionMaker
                 bestPosition = tilePosition;
             }
         }
+        globalMax = max;
         if (bestPosition != null)
         {
             return bestPosition;
         }
-        return randomElement(valid); // null ?
+        return null; // Panda doesn't move
     }
 
     private int evaluatePandaPosition(TilePosition tilePosition, Board b, List<PandaObjective> listPandaObjectives, HashMap<Color, Integer> playerReserve)

@@ -761,7 +761,7 @@ public class Game
         return weatherChosen;
     }
 
-    private Stream<TilePosition> getValidPandaTargets()
+    public Stream<TilePosition> getValidPandaTargets()
     {
         return getValidTargets(pandaPosition);
     }
@@ -811,24 +811,20 @@ public class Game
     {
         var valid =
             anyPosition
-                ? Collections.unmodifiableList(new ArrayList<TilePosition>()
-            {{
-                add(null);
-                addAll(board.getTiles().keySet());
-            }})
+                ? List.copyOf(board.getTiles().keySet())
                 : getValidPandaTargets().collect(Collectors.toUnmodifiableList());
         TilePosition chosenPos = player
             .getDecisionMaker()
             .choosePandaTarget(valid, anyPosition);
 
-        if (chosenPos == null)
-        {
-            return; // we're in a storm and the player has decided not to move the Panda
-        }
-
         if (!valid.contains(chosenPos))
         {
             return;
+        }
+
+        if (chosenPos.equals(pandaPosition))
+        {
+            return; // we're in a storm and the player has decided not to move the Panda
         }
 
         pandaPosition = chosenPos;
