@@ -82,6 +82,11 @@ public class Game
         return pandaPosition;
     }
 
+    public GameData getGameData()
+    {
+        return gameData;
+    }
+
     /**
      * Position of the panda. It starts on the PondTile.
      */
@@ -813,7 +818,7 @@ public class Game
         movePanda(player, false);
     }
 
-    private void movePanda(Player player, boolean anyPosition)
+    void movePanda(Player player, boolean anyPosition)
     {
         var valid =
             anyPosition
