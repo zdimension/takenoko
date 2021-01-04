@@ -813,7 +813,7 @@ public class Game
         movePanda(player, false);
     }
 
-    private void movePanda(Player player, boolean anyPosition)
+    void movePanda(Player player, boolean anyPosition)
     {
         var valid =
             anyPosition

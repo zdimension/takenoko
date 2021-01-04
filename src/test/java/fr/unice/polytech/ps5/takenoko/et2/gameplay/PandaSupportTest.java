@@ -3,6 +3,7 @@ package fr.unice.polytech.ps5.takenoko.et2.gameplay;
 import fr.unice.polytech.ps5.takenoko.et2.GameData;
 import fr.unice.polytech.ps5.takenoko.et2.board.Board;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
+import fr.unice.polytech.ps5.takenoko.et2.board.LandTileImprovement;
 import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
@@ -22,24 +23,24 @@ import static org.mockito.Mockito.*;
 class PandaSupportTest
 {
     private Game game;
-    private Board spyBoard;
+    private Board board;
     private List<TilePosition> boardTilePosition = new ArrayList<>();
 
     @BeforeEach
     void init() {
         game = new Game(new GameData());
-        spyBoard = spy(game.getBoard());
+        board = game.getBoard();
 
-        LandTile l1 = new LandTile(Color.GREEN);
+        LandTile l1 = spy(new LandTile(Color.GREEN));
         LandTile l2 = new LandTile(Color.GREEN);
         LandTile l3 = new LandTile(Color.GREEN);
         LandTile l4 = new LandTile(Color.GREEN);
         LandTile l5 = new LandTile(Color.GREEN);
-        LandTile l6 = new LandTile(Color.GREEN);
+        LandTile l6 = spy(new LandTile(Color.GREEN, LandTileImprovement.ENCLOSURE));
         LandTile l7 = new LandTile(Color.GREEN);
         LandTile l8 = new LandTile(Color.GREEN);
         LandTile l9 = new LandTile(Color.GREEN);
-        LandTile l10 = new LandTile(Color.GREEN);
+        LandTile l10 = spy(new LandTile(Color.GREEN));
         LandTile l11 = new LandTile(Color.GREEN);
         LandTile l12 = new LandTile(Color.GREEN);
 
@@ -69,18 +70,18 @@ class PandaSupportTest
         boardTilePosition.add(t11);
         boardTilePosition.add(t12);
 
-        spyBoard.addTile(l1, t1);
-        spyBoard.addTile(l2, t2);
-        spyBoard.addTile(l3, t3);
-        spyBoard.addTile(l4, t4);
-        spyBoard.addTile(l5, t5);
-        spyBoard.addTile(l6, t6);
-        spyBoard.addTile(l7, t7);
-        spyBoard.addTile(l8, t8);
-        spyBoard.addTile(l9, t9);
-        spyBoard.addTile(l10, t10);
-        spyBoard.addTile(l11, t11);
-        spyBoard.addTile(l12, t12);
+        board.addTile(l1, t1);
+        board.addTile(l2, t2);
+        board.addTile(l3, t3);
+        board.addTile(l4, t4);
+        board.addTile(l5, t5);
+        board.addTile(l6, t6);
+        board.addTile(l7, t7);
+        board.addTile(l8, t8);
+        board.addTile(l9, t9);
+        board.addTile(l10, t10);
+        board.addTile(l11, t11);
+        board.addTile(l12, t12);
     }
 
     @Test
@@ -124,6 +125,83 @@ class PandaSupportTest
         verifyNoMoreInteractions(mockDecisionMaker);
         verifyNoMoreInteractions(mockPlayer);
     }
+
+    private void movePandaBasis(ArrayList<TilePosition> pandaTargets, ArrayList<LandTile> pandaTileTargets, ArrayList<Integer> invocations, int numberPandaMove, boolean storm) {
+        DecisionMaker mockDecisionMaker = mock(DecisionMaker.class);
+        Player mockPlayer = mock(Player.class);
+
+        when(mockPlayer.getDecisionMaker()).thenReturn(mockDecisionMaker);
+        when(mockDecisionMaker.choosePandaTarget(anyList(), anyBoolean())).thenReturn(pandaTargets.get(0));
+        if (pandaTargets.size()!=1) {
+            when(mockDecisionMaker.choosePandaTarget(anyList(), anyBoolean())).thenReturn(pandaTargets.get(0), pandaTargets.get(1), pandaTargets.get(1));
+        }
+        for (int i=0; i<numberPandaMove; i++)
+        {
+            game.movePanda(mockPlayer, storm);
+        }
+        verify(mockDecisionMaker, times(invocations.get(0))).choosePandaTarget(anyList(), anyBoolean());
+        verify(mockPlayer, times(invocations.get(1))).getDecisionMaker();
+        verify(mockPlayer, times(invocations.get(2))).addBambooSection(Color.GREEN);
+        verify(pandaTileTargets.get(0), times(invocations.get(3))).cutBambooSection();
+        if (pandaTileTargets.size()!=1) {
+            verify(pandaTileTargets.get(1), times(invocations.get(4))).cutBambooSection();
+        }
+
+        verifyNoMoreInteractions(mockDecisionMaker);
+        verifyNoMoreInteractions(mockPlayer);
+    }
+
+    @Test
+    void movePandaWithNoStormTest(){
+        TilePosition position = new TilePosition(1,0);
+        LandTile pandaGoal = (LandTile)(board.getTiles().get(position));
+
+        ArrayList<TilePosition> pandaPositionTargets = new ArrayList<>(List.of(position));
+        ArrayList<LandTile> pandaTileTargets = new ArrayList<>(List.of(pandaGoal));
+        ArrayList<Integer> invocations = new ArrayList<>(List.of(1,1,1,1));
+
+        movePandaBasis(pandaPositionTargets, pandaTileTargets, invocations, 1, false);
+    }
+
+    @Test
+    void movePandaWithStormTest(){
+        TilePosition position1 = new TilePosition(0,2);
+        TilePosition position2 = new TilePosition(1,0);
+        LandTile pandaGoal1 = (LandTile)(board.getTiles().get(position1));
+        LandTile pandaGoal2 = (LandTile)(board.getTiles().get(position2));
+
+        ArrayList<TilePosition> pandaPositionTargets = new ArrayList<>(List.of(position1, position2));
+        ArrayList<LandTile> pandaTileTargets = new ArrayList<>(List.of(pandaGoal1, pandaGoal2));
+        ArrayList<Integer> invocations = new ArrayList<>(List.of(3,3,1,1,1));
+
+        movePandaBasis(pandaPositionTargets, pandaTileTargets, invocations, 3, true);
+    }
+
+    @Test
+    void movePandaOnEnclosureTileTest(){
+        TilePosition position = new TilePosition(2,0);
+        LandTile pandaGoal = (LandTile)(board.getTiles().get(position));
+
+        ArrayList<TilePosition> pandaPositionTargets = new ArrayList<>(List.of(position));
+        ArrayList<LandTile> pandaTileTargets = new ArrayList<>(List.of(pandaGoal));
+        ArrayList<Integer> invocations = new ArrayList<>(List.of(1,1,0,0));
+
+        movePandaBasis(pandaPositionTargets, pandaTileTargets, invocations, 1, false);
+    }
+
+    @Test
+    void movePandaOnPondTileTest(){
+        TilePosition position = new TilePosition(2,0);
+        LandTile pandaGoal = (LandTile)(board.getTiles().get(position));
+
+        ArrayList<TilePosition> pandaPositionTargets = new ArrayList<>(List.of(position));
+        ArrayList<LandTile> pandaTileTargets = new ArrayList<>(List.of(pandaGoal));
+        ArrayList<Integer> invocations = new ArrayList<>(List.of(2,2,0,0));
+
+        movePandaBasis(pandaPositionTargets, pandaTileTargets, invocations, 2, false);
+    }
+
+
 
 
 }
