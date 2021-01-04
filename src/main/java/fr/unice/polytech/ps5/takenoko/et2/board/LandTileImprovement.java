@@ -1,7 +1,7 @@
 package fr.unice.polytech.ps5.takenoko.et2.board;
 
 /**
- * List of possible improvements for LandTile
+ * List of possible improvements for {@link fr.unice.polytech.ps5.takenoko.et2.board.LandTile}
  */
 public enum LandTileImprovement
 {

@@ -6,7 +6,8 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
- * Main game board. Contains {@link fr.unice.polytech.ps5.takenoko.et2.board.PondTile} as in the middle.
+ * Main game board. Contains {@link fr.unice.polytech.ps5.takenoko.et2.board.PondTile} in the middle (position {@link fr.unice.polytech.ps5.takenoko.et2.board.TilePosition#ZERO}).
+ * Can contain several {@link fr.unice.polytech.ps5.takenoko.et2.board.LandTile} around it.
  */
 public class Board implements Cloneable
 {

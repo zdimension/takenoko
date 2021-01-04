@@ -4,7 +4,7 @@ import fr.unice.polytech.ps5.takenoko.et2.board.Board;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.Player;
 
 /**
- * An abstract class for the objectives
+ * Objectives that can be validated to earn points
  */
 public abstract class Objective
 {

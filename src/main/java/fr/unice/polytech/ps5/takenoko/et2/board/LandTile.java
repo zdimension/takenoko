@@ -5,7 +5,7 @@ import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
 import java.util.Objects;
 
 /**
- * Land plot tile.
+ * Land plot tile. Bamboo can grow on it if it is irrigated
  */
 public class LandTile extends Tile implements Cloneable
 {

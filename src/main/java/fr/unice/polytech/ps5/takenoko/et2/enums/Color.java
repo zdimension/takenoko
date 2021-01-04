@@ -1,7 +1,8 @@
 package fr.unice.polytech.ps5.takenoko.et2.enums;
 
 /**
- * Color that applies to the LandTile
+ * Color that applies to LandTile
+ *
  * <ul>
  *     <li>GREEN
  *     <li>YELLOW

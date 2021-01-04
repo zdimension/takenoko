@@ -10,7 +10,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * The class representing the objectives with a specific plots scheme
+ * The class representing the {@link fr.unice.polytech.ps5.takenoko.et2.objective.Objective} with a specific plots scheme. In order to validate this objective,
+ * the plot configuration specified in the objective has to occur on the {@link fr.unice.polytech.ps5.takenoko.et2.board.Board}
  */
 public class PlotObjective extends Objective
 {

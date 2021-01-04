@@ -9,7 +9,8 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * The class representing the panda objective
+ * The class representing the panda {@link fr.unice.polytech.ps5.takenoko.et2.objective.Objective}. In order to validate this objective, the player must have the bamboo
+ * sections specified in the objective. When the objective is validated, the corresponding bamboo sections are removed from the player's stock
  */
 public class PandaObjective extends Objective
 {
