@@ -3,7 +3,7 @@ package fr.unice.polytech.ps5.takenoko.et2.board;
 import java.util.Objects;
 
 /**
- * Edge between two tiles.
+ * Edge between two {@link fr.unice.polytech.ps5.takenoko.et2.board.Tile} .
  */
 public class Edge
 {

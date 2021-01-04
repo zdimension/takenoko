@@ -89,7 +89,7 @@ public class Game
      */
     private int nbIrrigationsInDeck = 20;
     /**
-     * Association of GameAction and functions.
+     * Association of {@link fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction} and functions.
      */
     private final Map<GameAction, Consumer<Player>> ACTION_MAP = Map.of(
         GameAction.DRAW_OBJECTIVE, this::drawObjective,

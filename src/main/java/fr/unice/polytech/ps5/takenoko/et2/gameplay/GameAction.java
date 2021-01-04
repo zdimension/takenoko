@@ -8,6 +8,16 @@ import java.util.stream.Collectors;
  * Actions DecisionMaker can perform in his turn during the DecisionMaker phase. Constants may
  * have a parameter to indicate weather an action is unlimited or not. When the parameter is not
  * specified, the action is limited.
+ * <ul>
+ *     <li>{@link fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction#DRAW_TILE}
+ *     <li>{@link fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction#DRAW_OBJECTIVE}
+ *     <li>{@link fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction#COMPLETE_OBJECTIVE}
+ *     <li>{@link fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction#PICK_IRRIGATION}
+ *     <li>{@link fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction#PLACE_IRRIGATION}
+ *     <li>{@link fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction#MOVE_GARDENER}
+ *     <li>{@link fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction#MOVE_PANDA}
+ *     <li>{@link fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction#PLACE_IMPROVEMENT}
+ * </ul>
  */
 public enum GameAction
 {
