@@ -8,6 +8,43 @@ import java.util.stream.Collectors;
  * Actions DecisionMaker can perform in his turn during the DecisionMaker phase. Constants may
  * have a parameter to indicate weather an action is unlimited or not. When the parameter is not
  * specified, the action is limited.
+ * <table style="width:70%">
+ *     <thead>
+ *         <tr>
+ *           <th style="text-align:right;width:60%;padding-right:7px">Value</th>
+ *           <th style="text-align:left;width:40%;padding-right:7px">unlimited</th>
+ *         </tr>
+ *     </thead>
+ *     <tbody>
+ *         <tr>
+ *             <td style="text-align:right;padding-right:7px">{@link fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction#DRAW_TILE}</td>
+ *         </tr>
+ *         <tr>
+ *             <td style="text-align:right;padding-right:7px">{@link fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction#DRAW_OBJECTIVE}</td>
+ *         </tr>
+ *         <tr>
+ *             <td style="text-align:right;padding-right:7px">{@link fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction#COMPLETE_OBJECTIVE}</td>
+ *             <td style="padding-left:7px">✔</td>
+ *         </tr>
+ *         <tr>
+ *             <td style="text-align:right;padding-right:7px">{@link fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction#PICK_IRRIGATION}</td>
+ *         </tr>
+ *         <tr>
+ *             <td style="text-align:right;padding-right:7px">{@link fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction#PLACE_IRRIGATION}</td>
+ *             <td style="padding-left:7px">✔</td>
+ *         </tr>
+ *         <tr>
+ *             <td style="text-align:right;padding-right:7px">{@link fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction#MOVE_GARDENER}</td>
+ *         </tr>
+ *         <tr>
+ *              <td style="text-align:right;padding-right:7px">{@link fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction#MOVE_PANDA}</td>
+ *          </tr>
+ *         <tr>
+ *              <td style="text-align:right;padding-right:7px">{@link fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction#PLACE_IMPROVEMENT}</td>
+ *              <td style="padding-left:7px">✔</td>
+ *          </tr>
+ *     </tbody>
+ * </table>
  */
 public enum GameAction
 {

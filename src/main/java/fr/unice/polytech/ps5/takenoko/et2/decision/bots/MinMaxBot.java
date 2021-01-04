@@ -398,21 +398,114 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public LandTileImprovement chooseLandTileImprovement(List<LandTileImprovement> listLandTileImprovements)
     {
-        if (listLandTileImprovements.contains(LandTileImprovement.WATERSHED))
+        List<LandTileImprovement> newListImprovements = new ArrayList<>();
+        for (LandTileImprovement landTileImprovement : listLandTileImprovements)
         {
-            return LandTileImprovement.WATERSHED;
+            if (!newListImprovements.contains(landTileImprovement))
+            {
+                newListImprovements.add(landTileImprovement);
+            }
         }
-        return randomElement(listLandTileImprovements); // TODO
+        List<Objective> listObjectives = player.getHand();
+        int max = 0;
+        LandTileImprovement bestImprovement = null;
+        for (LandTileImprovement landTileImprovement : newListImprovements)
+        {
+            Board b = (Board) getBoard().clone();
+            int v = evaluateImprovement(landTileImprovement, b, listObjectives);
+            if (v > max)
+            {
+                max = v;
+                bestImprovement = landTileImprovement;
+            }
+        }
+        if (bestImprovement == null)
+        {
+            return randomElement(listLandTileImprovements);
+        }
+        return bestImprovement;
     }
 
     @Override
     public Pair<LandTile, LandTileImprovement> chooseImprovementAndLandTile(List<LandTile> vacantLandTile, List<LandTileImprovement> availableImprovements)
     {
-        if (availableImprovements.contains(LandTileImprovement.WATERSHED))
+        int max = 0;
+        LandTile bestLandTile = null;
+        LandTileImprovement bestImprovement = null;
+        List<Objective> listObjectives = player.getHand();
+        for (LandTile landTile : vacantLandTile)
         {
-            return Pair.of(randomElement(vacantLandTile), LandTileImprovement.WATERSHED);
+            TilePosition position = landTile.getPosition().get();
+            if (position == null)
+            {
+                continue;
+            }
+            for (LandTileImprovement landTileImprovement : availableImprovements)
+            {
+                Board b = (Board) getBoard().clone();
+                int v = evaluateImprovementAndLandTile(landTileImprovement, position, b, listObjectives);
+                if (v > max)
+                {
+                    bestImprovement = landTileImprovement;
+                    bestLandTile = landTile;
+                    max = v;
+                }
+            }
         }
-        return Pair.of(randomElement(vacantLandTile), randomElement(availableImprovements)); // TODO
+        if (bestImprovement == null || bestLandTile == null)
+        {
+            return Pair.of(randomElement(vacantLandTile), randomElement(availableImprovements));
+        }
+        return Pair.of(bestLandTile, bestImprovement);
+    }
+
+    private int evaluateImprovement(LandTileImprovement improvement, Board b, List<Objective> listObjectives)
+    {
+        int max = 0;
+        for (Map.Entry<TilePosition, Tile> entry : b.getTiles().entrySet())
+        {
+            if (entry.getValue() instanceof LandTile)
+            {
+                LandTile landTile = (LandTile) entry.getValue();
+                if (landTile.getLandTileImprovement() == null && landTile.getBambooSize() == 0)
+                {
+                    int v = evaluateImprovementAndLandTile(improvement, entry.getKey(), b, listObjectives);
+                    if (v > max)
+                    {
+                        max = v;
+                    }
+                }
+            }
+        }
+        return max;
+    }
+
+    private int evaluateImprovementAndLandTile(LandTileImprovement improvement, TilePosition tilePosition, Board b, List<Objective> listObjectives)
+    {
+        if (tilePosition == null)
+        {
+            return 0;
+        }
+        Tile tile = b.findTile(tilePosition);
+        if (!(tile instanceof LandTile))
+        {
+            return 0;
+        }
+        LandTile landTile = (LandTile) tile;
+        if (landTile.getBambooSize() != 0 || landTile.getLandTileImprovement() != null)
+        {
+            return 0;
+        }
+        landTile.setLandTileImprovement(improvement);
+        int max = 0;
+        for (Objective objective : listObjectives)
+        {
+            if (objective.checkValidated(b, player) && objective.getPoints() > max)
+            {
+                max = objective.getPoints();
+            }
+        }
+        return max;
     }
 
     private int evaluatePlotAction(LandTile playedTile, TilePosition playedPos, List<LandTile> drawnTiles, List<TilePosition> ListValidsPositions, Board board, List<Objective> myObjectives, int n, boolean myTurn)

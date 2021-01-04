@@ -6,7 +6,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * Base tile class. Mother of LandTile and PondTile
+ * Base tile class. Mother of {@link fr.unice.polytech.ps5.takenoko.et2.board.LandTile} and {@link fr.unice.polytech.ps5.takenoko.et2.board.PondTile}
  */
 public abstract class Tile
 {

@@ -10,7 +10,13 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * The class representing the gardener objective
+ * The class representing the gardener {@link fr.unice.polytech.ps5.takenoko.et2.objective.Objective}. In order to validate this objective, the specified configuration
+ * has to be on the {@link fr.unice.polytech.ps5.takenoko.et2.board.Board}. Three kinds of configuration exist :
+ * <ul>
+ *     <li>a bamboo of 4 sections with a specific improvement
+ *     <li>a bamboo of 4 sections without improvement
+ *     <li>a group of several bamboo of 3 sections without any improvement constraints
+ * </ul>
  */
 public class GardenerObjective extends Objective
 {
