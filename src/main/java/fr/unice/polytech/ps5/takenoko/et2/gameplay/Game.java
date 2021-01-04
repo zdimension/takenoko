@@ -76,6 +76,12 @@ public class Game
      * Position of the gardener. It starts on the PondTile.
      */
     private TilePosition gardenerPosition = TilePosition.ZERO;
+
+    public TilePosition getPandaPosition()
+    {
+        return pandaPosition;
+    }
+
     /**
      * Position of the panda. It starts on the PondTile.
      */
@@ -630,7 +636,7 @@ public class Game
         p.irrigateEdge(chosenEdge);
     }
 
-    private Stream<TilePosition> getValidGardenerTargets()
+    public Stream<TilePosition> getValidGardenerTargets()
     {
         return getValidTargets(gardenerPosition);
     }
