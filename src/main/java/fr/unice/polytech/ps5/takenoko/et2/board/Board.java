@@ -291,6 +291,24 @@ public class Board implements Cloneable
             {
                 posStr = String.valueOf(((LandTile) tile).getBambooSize()).toCharArray();
                 System.arraycopy(posStr, 0, lines[coordY + 1], coordX + 3, posStr.length);
+
+                var improv = ((LandTile) tile).getLandTileImprovement();
+                if (improv != null)
+                {
+                    switch (improv)
+                    {
+                        case ENCLOSURE:
+                            posStr = "EN".toCharArray();
+                            break;
+                        case WATERSHED:
+                            posStr = "WA".toCharArray();
+                            break;
+                        case FERTILIZER:
+                            posStr = "FE".toCharArray();
+                            break;
+                    }
+                    System.arraycopy(posStr, 0, lines[coordY + 1], coordX + 5, posStr.length);
+                }
             }
             if (tile instanceof PondTile)
             {
