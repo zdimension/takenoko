@@ -147,6 +147,7 @@ public class MinMaxBot extends DecisionMaker
         int maxPts = 0;
         for (Edge edge : player.getGame().findIrrigableEdges().collect(Collectors.toUnmodifiableList()))
         {
+            boolean alreadyIrrigated = edge.irrigated;
             edge.irrigated = true;
             for (Objective objective : player.getHand())
             {
@@ -159,7 +160,10 @@ public class MinMaxBot extends DecisionMaker
                     }
                 }
             }
-            edge.irrigated = false;
+            if (!alreadyIrrigated)
+            {
+                edge.irrigated = false;
+            }
         }
         return maxPts;
     }
