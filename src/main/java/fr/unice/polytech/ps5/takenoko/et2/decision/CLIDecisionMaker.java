@@ -98,9 +98,9 @@ public class CLIDecisionMaker extends DecisionMaker
     }
 
     @Override
-    public TilePosition choosePandaTarget(List<TilePosition> valid)
+    public TilePosition choosePandaTarget(List<TilePosition> valid, boolean isStorm)
     {
-        return valid.get(0);
+        return chooseItem(valid);
     }
 
     @Override
@@ -112,13 +112,13 @@ public class CLIDecisionMaker extends DecisionMaker
     @Override
     public LandTileImprovement chooseLandTileImprovement(List<LandTileImprovement> listLandTileImprovements)
     {
-        return listLandTileImprovements.get(0); // TODO
+        return chooseItem(listLandTileImprovements);
     }
 
     @Override
     public Pair<LandTile, LandTileImprovement> chooseImprovementAndLandTile(List<LandTile> vacantLandTile, List<LandTileImprovement> availableImprovements)
     {
-        return Pair.of(vacantLandTile.get(0), availableImprovements.get(0)); // TODO
+        return Pair.of(chooseItem(vacantLandTile), chooseItem(availableImprovements));
     }
 
     private TilePosition readPosition(List<TilePosition> validPos)

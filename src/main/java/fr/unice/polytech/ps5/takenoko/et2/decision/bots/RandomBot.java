@@ -74,7 +74,7 @@ public class RandomBot extends DecisionMaker
     }
 
     @Override
-    public TilePosition choosePandaTarget(List<TilePosition> valid)
+    public TilePosition choosePandaTarget(List<TilePosition> valid, boolean isStorm)
     {
         return randomElement(valid);
     }

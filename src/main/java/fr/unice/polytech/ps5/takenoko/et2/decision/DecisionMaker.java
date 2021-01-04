@@ -9,7 +9,6 @@ import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 /**
  * Class making decisions over the course of the game.
@@ -100,7 +99,7 @@ public abstract class DecisionMaker
     /**
      * @return The desired landing position of the panda
      */
-    public abstract TilePosition choosePandaTarget(List<TilePosition> valid);
+    public abstract TilePosition choosePandaTarget(List<TilePosition> valid, boolean isStorm);
 
     /**
      * When it rains, chooses a tile on which to add bamboo

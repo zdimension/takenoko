@@ -116,10 +116,10 @@ class PandaSupportTest
         TilePosition falsePosition2 = new TilePosition(0,2);
 
         when(mockPlayer.getDecisionMaker()).thenReturn(mockDecisionMaker);
-        when(mockDecisionMaker.choosePandaTarget(anyList())).thenReturn(falsePosition1, falsePosition2);
+        when(mockDecisionMaker.choosePandaTarget(anyList(), false)).thenReturn(falsePosition1, falsePosition2);
         game.movePanda(mockPlayer);
         game.movePanda(mockPlayer);
-        verify(mockDecisionMaker, times(2)).choosePandaTarget(anyList());
+        verify(mockDecisionMaker, times(2)).choosePandaTarget(anyList(), false);
         verify(mockPlayer, times(2)).getDecisionMaker();
         verifyNoMoreInteractions(mockDecisionMaker);
         verifyNoMoreInteractions(mockPlayer);
