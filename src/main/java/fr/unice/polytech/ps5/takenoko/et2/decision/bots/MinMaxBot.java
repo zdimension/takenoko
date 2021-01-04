@@ -62,7 +62,7 @@ public class MinMaxBot extends DecisionMaker
             return GameAction.DRAW_OBJECTIVE;
         }
 
-        Map<GameAction, Integer> actionsWithPlayerObjectives = new HashMap<>();
+        /*Map<GameAction, Integer> actionsWithPlayerObjectives = new HashMap<>();
         if (base.contains(GameAction.MOVE_GARDENER))
         {
             actionsWithPlayerObjectives.put(GameAction.MOVE_GARDENER, (int) player.getHand().stream().filter(GardenerObjective.class::isInstance).count());
@@ -86,6 +86,26 @@ public class MinMaxBot extends DecisionMaker
         if (bestActionGardenerPandaIrrigation != null && bestActionGardenerPandaIrrigation.getValue() > 3) /// TODO : check if objectives are possible
         {
             return bestActionGardenerPandaIrrigation.getKey();
+        }*/
+
+        GameAction bestAction = null;
+        int maxPtsAction = 0;
+        List<GameAction> gameActionList = new ArrayList<>(Arrays.asList(GameAction.MOVE_GARDENER, GameAction.MOVE_PANDA, GameAction.PLACE_IRRIGATION));
+        for (GameAction gameAction : gameActionList)
+        {
+            if (base.contains(gameAction))
+            {
+                int pts = getPointsForAction(gameAction);
+                if (pts > maxPtsAction)
+                {
+                    maxPtsAction = pts;
+                    bestAction = gameAction;
+                }
+            }
+        }
+        if (bestAction != null)
+        {
+            return bestAction;
         }
 
         if (base.contains(GameAction.PICK_IRRIGATION) && player.getNbIrrigationsInStock() < depth)
