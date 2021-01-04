@@ -245,21 +245,4 @@ class GardenerObjectiveTest
             verifyNoMoreInteractions(tileList.get(i));
         }
     }
-
-    @Test
-    void toStringTest() {
-        String expected = "Gardener Objective : 7 points, Yellow bamboo, 1 bamboo stack(s), 4 bamboo sections per stack, Watershed land tile improvement";
-        GardenerObjective greenGardenerObjective = new GardenerObjective(8, Color.GREEN, 4, 3);
-        GardenerObjective yellowGardenerObjective = new GardenerObjective(7, Color.YELLOW, 1, 4, LandTileImprovement.WATERSHED);
-
-
-        assertNotEquals(expected, greenGardenerObjective.toString());
-        assertEquals(expected, yellowGardenerObjective.toString());
-
-        verifyNoMoreInteractions(mockBoard);
-        for(int i=0; i<13; i++)
-        {
-            verifyNoMoreInteractions(tileList.get(i));
-        }
-    }
 }
