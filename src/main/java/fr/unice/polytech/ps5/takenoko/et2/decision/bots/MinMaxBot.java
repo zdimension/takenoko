@@ -338,7 +338,7 @@ public class MinMaxBot extends DecisionMaker
         {
             return bestPosition;
         }
-        return null; // Panda doesn't move
+        return player.getGame().getPandaPosition();
     }
 
     private int evaluatePandaPosition(TilePosition tilePosition, Board b, List<PandaObjective> listPandaObjectives, HashMap<Color, Integer> playerReserve)
