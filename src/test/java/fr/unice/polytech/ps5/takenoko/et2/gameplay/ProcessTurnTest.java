@@ -330,8 +330,12 @@ class ProcessTurnTest
         t2.growBambooSection();
         t2.growBambooSection();
 
-        var PandaPositionAvailableList = new ArrayList<TilePosition>(game.getBoard().getTiles().keySet());
-        PandaPositionAvailableList.add(null);
+
+        var PandaPositionAvailableList = Collections.unmodifiableList(new ArrayList<TilePosition>()
+        {{
+            add(null);
+            addAll(game.getBoard().getTiles().keySet());
+        }});
 
         when(p1.getDecisionMaker().choosePandaTarget(PandaPositionAvailableList, true)).thenReturn(t2.getPosition().get());
 

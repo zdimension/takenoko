@@ -560,12 +560,13 @@ public class Game
      * Removes a BambooSection to the given tile, if tile has no bambooSection, does nothing
      *
      * @param tile to remove BambooSection to
+     * @return if success to cut bamboo
      */
-    private void removeBambooSectionToTile(LandTile tile)
+    private boolean removeBambooSectionToTile(LandTile tile)
     {
         Objects.requireNonNull(tile, "tile must not be null");
 
-        tile.cutBambooSection();
+        return tile.cutBambooSection();
     }
 
     /**
@@ -845,8 +846,8 @@ public class Game
         {
             if (cast.getLandTileImprovement() != LandTileImprovement.ENCLOSURE)
             {
-                removeBambooSectionToTile(cast);
-                getBambooSection(player, cast.getColor());
+                if(removeBambooSectionToTile(cast))
+                    getBambooSection(player, cast.getColor());
             }
 
         }
