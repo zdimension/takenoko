@@ -20,6 +20,11 @@ import java.util.stream.Collectors;
 @Bot(key = "minmax")
 public class MinMaxBot extends DecisionMaker
 {
+    public int getDepth()
+    {
+        return depth;
+    }
+
     /**
      * Depth of the min-max algorithm: the higher is the slower and the stronger
      */

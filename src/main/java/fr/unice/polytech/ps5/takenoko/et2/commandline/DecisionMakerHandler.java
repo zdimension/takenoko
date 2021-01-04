@@ -1,5 +1,9 @@
 package fr.unice.polytech.ps5.takenoko.et2.commandline;
 
+import fr.unice.polytech.ps5.takenoko.et2.commandline.exceptions.InvalidBotParameterCountException;
+import fr.unice.polytech.ps5.takenoko.et2.commandline.exceptions.InvalidBotParameterException;
+import fr.unice.polytech.ps5.takenoko.et2.commandline.exceptions.InvalidBotTypeException;
+import fr.unice.polytech.ps5.takenoko.et2.commandline.exceptions.InvalidBotTypeSyntaxException;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import org.reflections.Reflections;
@@ -61,10 +65,14 @@ public class DecisionMakerHandler extends ArrayList<String> implements CommandLi
         var matcher = namePattern.matcher(s);
         if (!matcher.find())
         {
-            throw new IllegalArgumentException("Invalid name");
+            throw new InvalidBotTypeSyntaxException();
         }
         var name = matcher.group(1);
-        var meth = Objects.requireNonNull(types.getOrDefault(name, null));
+        var meth = types.getOrDefault(name, null);
+        if (meth == null)
+        {
+            throw new InvalidBotTypeException(name);
+        }
         var params = meth.getParameters();
         try
         {
@@ -80,9 +88,19 @@ public class DecisionMakerHandler extends ArrayList<String> implements CommandLi
             }
             if (groupstr.length != params.length)
             {
-                throw new IllegalArgumentException(String.format("Invalid parameter count (expected %d, got %d). Maybe your shell is stripping off parentheses?", params.length, groupstr.length));
+                throw new InvalidBotParameterCountException(params.length, groupstr.length);
             }
-            return (DecisionMakerBuilder) meth.invoke(null, IntStream.range(0, params.length).mapToObj(i -> Integer.parseInt(groupstr[i])).toArray());
+            return (DecisionMakerBuilder) meth.invoke(null, IntStream.range(0, params.length).mapToObj(i ->
+            {
+                try
+                {
+                    return Integer.parseInt(groupstr[i]);
+                }
+                catch (Exception e)
+                {
+                    throw new InvalidBotParameterException(e);
+                }
+            }).toArray());
         }
         catch (IllegalArgumentException e)
         {
