@@ -327,12 +327,13 @@ class ProcessTurnTest
         var t2 = new LandTile(Color.YELLOW);
         game.getBoard().addTile(t1 , new TilePosition(0, 1));
         game.getBoard().addTile(t2 , new TilePosition(-1, 0));
-
         t2.growBambooSection();
         t2.growBambooSection();
 
+        var PandaPositionAvailableList = new ArrayList<TilePosition>(game.getBoard().getTiles().keySet());
+        PandaPositionAvailableList.add(null);
 
-        when(p1.getDecisionMaker().choosePandaTarget(new ArrayList<>(game.getBoard().getTiles().keySet()))).thenReturn(t2.getPosition().get());
+        when(p1.getDecisionMaker().choosePandaTarget(PandaPositionAvailableList, true)).thenReturn(t2.getPosition().get());
 
         List<GameAction> gameActionList1;
         List<GameAction> gameActionList2;
@@ -372,6 +373,7 @@ class ProcessTurnTest
         t4.growBambooSection();
 
         assertEquals(board, game.getBoard());
+        assertEquals(1, p1.getBambooSectionReserve().get(Color.YELLOW));
 
     }
 }
