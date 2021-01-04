@@ -296,7 +296,7 @@ public class MinMaxBot extends DecisionMaker
     }
 
     @Override
-    public TilePosition choosePandaTarget(List<TilePosition> valid) // TODO : not recursive right now
+    public TilePosition choosePandaTarget(List<TilePosition> valid, boolean isStorm) // TODO : not recursive right now
     {
         List<PandaObjective> listPandaObjectives = player.getHand().stream().filter(PandaObjective.class::isInstance).map(o -> (PandaObjective) o).collect(Collectors.toList());
         Board b = (Board) getBoard().clone();

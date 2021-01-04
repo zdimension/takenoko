@@ -52,17 +52,21 @@ public class Game
      */
     private static final int maxNumberOfPlayers = 4;
     /**
-     * Board of the game, on which DecisionMaker will place LandTiles and irrigations.
-     */
-    private final Board board;
-    /**
      * Decks and other game elements.
      */
     final GameData gameData;
     /**
+     * Board of the game, on which DecisionMaker will place LandTiles and irrigations.
+     */
+    private final Board board;
+    /**
      * All players in the game.
      */
     private final ArrayList<Player> playerList;
+    /**
+     * Seedable random of the game
+     */
+    private final Random random;
     /**
      * Set to true before the first round, set to false at the end of it. The only usage of this
      * field is to unable Weather functionalities during the first round.
@@ -102,11 +106,6 @@ public class Game
         GameAction.PLACE_IMPROVEMENT, this::placeImprovement
     );
 
-    /**
-     * Seedable random of the game
-     */
-    private final Random random;
-
     public Game()
     {
         this(new GameData());
@@ -138,11 +137,6 @@ public class Game
         this.random = rng;
     }
 
-    public Random getRandom()
-    {
-        return random;
-    }
-
     /**
      * @param stream a stream of items
      * @return whether the stream contains at least one item
@@ -150,6 +144,11 @@ public class Game
     private static <T> boolean someAvailable(Stream<T> stream)
     {
         return stream.findAny().isPresent();
+    }
+
+    public Random getRandom()
+    {
+        return random;
     }
 
     /**
@@ -811,14 +810,23 @@ public class Game
     {
         var valid =
             anyPosition
-                ? List.copyOf(board.getTiles().keySet())
+                ? Collections.unmodifiableList(new ArrayList<TilePosition>()
+            {{
+                add(null);
+                addAll(board.getTiles().keySet());
+            }})
                 : getValidPandaTargets().collect(Collectors.toUnmodifiableList());
         TilePosition chosenPos = player
             .getDecisionMaker()
-            .choosePandaTarget(valid);
+            .choosePandaTarget(valid, anyPosition);
         if (!valid.contains(chosenPos))
         {
             return;
+        }
+
+        if (chosenPos == null)
+        {
+            return; // we're in a storm and the player has decided not to move the Panda
         }
 
         pandaPosition = chosenPos;
