@@ -770,7 +770,7 @@ public class Game
      * @param piecePosition starting position of the piece
      * @return a stream of valid target positions for the piece
      */
-    private Stream<TilePosition> getValidTargets(TilePosition piecePosition)
+    Stream<TilePosition> getValidTargets(TilePosition piecePosition)
     {
         return board.getTiles().keySet().stream()
             .filter(pos ->
@@ -802,12 +802,12 @@ public class Game
             });
     }
 
-    private void movePanda(Player player)
+    void movePanda(Player player)
     {
         movePanda(player, false);
     }
 
-    private void movePanda(Player player, boolean anyPosition)
+    void movePanda(Player player, boolean anyPosition)
     {
         var valid =
             anyPosition
