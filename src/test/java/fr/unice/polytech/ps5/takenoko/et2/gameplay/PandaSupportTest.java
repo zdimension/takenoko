@@ -19,11 +19,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
 
-public class PandaSupportTest
+class PandaSupportTest
 {
-    Game game;
-    Board spyBoard;
-    List<TilePosition> boardTilePosition = new ArrayList<>();
+    private Game game;
+    private Board spyBoard;
+    private List<TilePosition> boardTilePosition = new ArrayList<>();
 
     @BeforeEach
     void init() {

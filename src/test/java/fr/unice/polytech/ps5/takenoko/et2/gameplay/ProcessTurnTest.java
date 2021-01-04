@@ -25,10 +25,10 @@ class ProcessTurnTest
     private Game game;
 
 
-    DecisionMaker mockDecisionMaker1;
-    DecisionMaker mockDecisionMaker2;
-    Player p1;
-    Player p2;
+    private DecisionMaker mockDecisionMaker1;
+    private DecisionMaker mockDecisionMaker2;
+    private Player p1;
+    private Player p2;
 
 
     @BeforeEach

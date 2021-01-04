@@ -527,7 +527,7 @@ public class Game
         }
     }
 
-    public int getPlayerCount()
+    private int getPlayerCount()
     {
         return playerList.size();
     }
@@ -745,7 +745,7 @@ public class Game
      * @param player to act
      * @return weather the player choose
      */
-    Weather chooseWeather(Player player)
+    private Weather chooseWeather(Player player)
     {
         var weatherList = new ArrayList<>(Arrays.asList(Weather.values()));
         weatherList.remove(Weather.QUESTION_MARK);
@@ -807,7 +807,7 @@ public class Game
         movePanda(player, false);
     }
 
-    void movePanda(Player player, boolean anyPosition)
+    private void movePanda(Player player, boolean anyPosition)
     {
         var valid =
             anyPosition
