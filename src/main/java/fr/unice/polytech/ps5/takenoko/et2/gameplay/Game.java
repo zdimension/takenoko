@@ -82,6 +82,11 @@ public class Game
         return pandaPosition;
     }
 
+    public GameData getGameData()
+    {
+        return gameData;
+    }
+
     /**
      * Position of the panda. It starts on the PondTile.
      */
@@ -636,7 +641,7 @@ public class Game
         p.irrigateEdge(chosenEdge);
     }
 
-    private Stream<TilePosition> getValidGardenerTargets()
+    public Stream<TilePosition> getValidGardenerTargets()
     {
         return getValidTargets(gardenerPosition);
     }
