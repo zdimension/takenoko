@@ -3,7 +3,7 @@ package fr.unice.polytech.ps5.takenoko.et2.enums;
 /**
  * Weather conditions occuring during a turn. directAction indicates wheather
  * the weather conditions involve DecisionMaker to perform an action instantly or not.
- * All the processing is performed in Game.
+ * All the processing is performed in {@link fr.unice.polytech.ps5.takenoko.et2.gameplay.Game}.
  *
  * <table style="width:70%">
  *     <thead>

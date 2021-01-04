@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * The class representing the gardener objective
+ * The class representing the panda objective
  */
 public class PandaObjective extends Objective
 {
