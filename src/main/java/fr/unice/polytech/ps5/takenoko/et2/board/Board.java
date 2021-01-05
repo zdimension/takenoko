@@ -92,7 +92,9 @@ public class Board implements Cloneable
             .stream()
             .flatMap(t ->
                 getNeighboringPositions(t)
-                    .filter(this::isValid));
+                    .filter(this::isValid))
+            .distinct()
+            .sorted(TilePosition.storageComparer);
     }
 
     /**
