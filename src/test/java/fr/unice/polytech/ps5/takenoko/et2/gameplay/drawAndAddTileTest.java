@@ -65,36 +65,36 @@ class drawAndAddTileTest
         gameActionList3.remove(GameAction.COMPLETE_OBJECTIVE);
 
         List<LandTile> drawnTiles1;
-        List<LandTile> drawnTiles2;
-        List<TilePosition> validPos1;
-        List<TilePosition> validPos2;
+        List<LandTile> drawnTiles2 = new ArrayList<>(){{
+            add(new LandTile(Color.YELLOW, LandTileImprovement.FERTILIZER));
+            add(new LandTile(Color.GREEN, LandTileImprovement.FERTILIZER));
+            add(new LandTile(Color.PINK));
+        }};
+        List<TilePosition> validPos1 = new ArrayList<>(){{
+            add(new TilePosition(-1, 0));
+            add(new TilePosition(-1, 1));
+            add(new TilePosition(0, -1));
+            add(new TilePosition(0, 1));
+            add(new TilePosition(1, -1));
+            add(new TilePosition(1, 0));
+        }};
+
+        List<TilePosition> validPos2 = new ArrayList<>(){{
+            add(new TilePosition(-1, 0));
+            add(new TilePosition(-1, 1));
+            add(new TilePosition(0, -1));
+            add(new TilePosition(0, 1));
+            add(new TilePosition(1, -1));
+        }};
 
         drawnTiles1 = new ArrayList<>(){{
             add(new LandTile(Color.YELLOW, LandTileImprovement.FERTILIZER));
             add(new LandTile(Color.GREEN));
             add(new LandTile(Color.GREEN, LandTileImprovement.FERTILIZER));
         }};
-        validPos1 = List.of(
-            new TilePosition(-1, 0),
-            new TilePosition(-1, 1),
-            new TilePosition(0, -1),
-            new TilePosition(0, 1),
-            new TilePosition(1, -1),
-            new TilePosition(1, 0)
-        );
 
-        drawnTiles2 = new ArrayList<>(){{
-            add(new LandTile(Color.YELLOW, LandTileImprovement.FERTILIZER));
-            add(new LandTile(Color.PINK));
-            add(new LandTile(Color.GREEN, LandTileImprovement.FERTILIZER));
-        }};
-        validPos2 = List.of(
-            new TilePosition(-1, 0),
-            new TilePosition(-1, 1),
-            new TilePosition(0, -1),
-            new TilePosition(0, 1),
-            new TilePosition(1, -1)
-        );
+        validPos1.sort(TilePosition.storageComparer);
+        validPos2.sort(TilePosition.storageComparer);
 
         when(p1.getDecisionMaker().chooseAction(gameActionList1)).thenReturn(GameAction.DRAW_TILE);
         when(p1.getDecisionMaker().chooseAction(gameActionList2)).thenReturn(GameAction.DRAW_TILE);
