@@ -9,6 +9,7 @@ import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 /**
  * Class making decisions over the course of the game.
@@ -62,7 +63,18 @@ public abstract class DecisionMaker
         return list.get(player.getGame().getRandom().nextInt(list.size()));
     }
 
-    /**Chooses one action out of allowed actions to perform during the turn
+    /**
+     * Get Random from Player
+     *
+     * @return The random generator associated with the Player
+     */
+    protected Random getRandom()
+    {
+        return player.getGame().getRandom();
+    }
+
+    /**
+     * Chooses one action out of allowed actions to perform during the turn
      *
      * @param base
      * @return chosen action
