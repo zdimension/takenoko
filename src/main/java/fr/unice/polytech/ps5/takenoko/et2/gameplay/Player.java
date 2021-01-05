@@ -12,7 +12,7 @@ import fr.unice.polytech.ps5.takenoko.et2.objective.PandaObjective;
 import java.util.*;
 
 /**
- * The class representing the player.
+ * The class representing the player's belongings and actions upon those belongings.
  */
 public class Player
 {
@@ -28,7 +28,7 @@ public class Player
 
 
     /**
-     * Constructor of the Player
+     * Constructor of this Player
      */
     public Player(Game game, DecisionMakerBuilder builder)
     {
@@ -42,7 +42,7 @@ public class Player
     }
 
     /**
-     * @return the number of objectives the player has completed during the game
+     * @return the number of objectives this player has completed throughout the game
      */
     public int completedObjectivesCount()
     {
@@ -50,7 +50,7 @@ public class Player
     }
 
     /**
-     * Counts the total amount of points the player has earned completing objectives.
+     * Counts the total amount of points this player has earned completing objectives.
      *
      * @return total points of completed objectives
      */
@@ -62,7 +62,7 @@ public class Player
     }
 
     /**
-     * @return the amount of points earned from panda objectives
+     * @return the amount of points earned from {@link fr.unice.polytech.ps5.takenoko.et2.objective.PandaObjective}
      */
     public int countPointsPanda()
     {
@@ -73,7 +73,7 @@ public class Player
     }
 
     /**
-     * Add one objective to the player hand
+     * Adds one objective to this player hand
      *
      * @param objective a plot, gardener or panda objective
      */
@@ -83,7 +83,7 @@ public class Player
     }
 
     /**
-     * Moves an objective from the hand of the player to their objectivesCompleted storage.
+     * Moves an objective from the hand of this player to their objectivesCompleted storage.
      * Must be called when an objective was just completed.
      *
      * @param objective to move from hand to objectivesCompleted
@@ -100,7 +100,7 @@ public class Player
     }
 
     /**
-     * Get read-only Hand of objectives
+     * Gets read-only Hand of objectives
      *
      * @return List of objectives
      */
@@ -110,9 +110,9 @@ public class Player
     }
 
     /**
-     * Check if the player's hand of Objectives is full
+     * Checks if this player's hand of Objectives is full
      *
-     * @return true if the Player can pick up another Objective, false otherwise
+     * @return true if this player can pick up another Objective, false otherwise
      */
     public boolean isHandFull()
     {
@@ -120,7 +120,7 @@ public class Player
     }
 
     /**
-     * @return associated DecisionMaker
+     * @return associated {@link fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker}
      */
     public DecisionMaker getDecisionMaker()
     {
@@ -136,7 +136,7 @@ public class Player
     }
 
     /**
-     * @return if player has triggered the emperor
+     * @return if this player has triggered the emperor
      */
     public boolean isHasTriggeredEmperor()
     {
@@ -153,7 +153,8 @@ public class Player
     }
 
     /**
-     * Pick an irrigation from the game. Remove one irrigation in the game's deck and add it to the player's stock
+     * Picks an irrigation from the game. Removes one irrigation in the game's stock and adds it to
+     * this player's stock
      */
     public void pickIrrigation()
     {
@@ -161,9 +162,9 @@ public class Player
     }
 
     /**
-     * Get the number of irrigations in the Player's stock
+     * Gets the number of irrigations in this player's stock
      *
-     * @return The number of the Player's irrigations
+     * @return the number of the Player's irrigations
      */
     public int getNbIrrigationsInStock()
     {
@@ -171,7 +172,7 @@ public class Player
     }
 
     /**
-     * Irrigate a specific Edge
+     * Irrigates a specific Edge using an available irrigation in this player's stock
      *
      * @param edge the Edge to be irrigated
      * @return true if the Edge could be irrigated, false otherwise
@@ -208,9 +209,9 @@ public class Player
     }
 
     /**
-     * Add a LandTileImprovement to the player's reserve (called after a cloud)
+     * Adds a LandTileImprovement to this player's reserve (called after a cloud)
      *
-     * @param landTileImprovement The chip to add
+     * @param landTileImprovement the chip to add
      */
     public void addChip(LandTileImprovement landTileImprovement)
     {
@@ -219,7 +220,7 @@ public class Player
     }
 
     /**
-     * Get a List containing the player's LandTileImprovements
+     * Gets a List containing this player's LandTileImprovements
      *
      * @return the List
      */
@@ -230,9 +231,9 @@ public class Player
 
 
     /**
-     * Add a bamboo section to the player's reserve (called after moving the panda)
+     * Adds a bamboo section to this player's reserve (called after moving the panda)
      *
-     * @param color the Color of the bamboo section to add to the player hand
+     * @param color the Color of the bamboo section to add to this player hand
      */
     public void addBambooSection(Color color)
     {
@@ -241,7 +242,7 @@ public class Player
     }
 
     /**
-     * Remove the bamboo sections of the player's reserve (called after PandaObjective validated)
+     * Removes the bamboo sections of this player's reserve (called after {@link fr.unice.polytech.ps5.takenoko.et2.objective.PandaObjective} validated)
      *
      * @param bambooSectionList Map of Color and number of the bamboo sections eg [GREEN, 1, PINK, 2]
      */
@@ -261,7 +262,7 @@ public class Player
     }
 
     /**
-     * Get a List containing the player's BambooSection
+     * Gets a List containing this player's BambooSection
      *
      * @return the List
      */
@@ -271,7 +272,7 @@ public class Player
     }
 
     /**
-     * Get number of bamboos owned by Player
+     * Gets number of bamboos owned by this player
      *
      * @return the sum
      */
@@ -286,7 +287,7 @@ public class Player
     }
 
     /**
-     * @return a String describing the player
+     * @return a String describing this player
      */
     @Override
     public String toString()

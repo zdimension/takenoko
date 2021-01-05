@@ -823,6 +823,13 @@ public class Game
         movePanda(player, false);
     }
 
+    /**
+     * Prompts DecisionMaker into choosing where to place the panda. It can move like the queen at chess. During a storm
+     * it can move anywhere. It gives one bamboo section of the tile he landed on to the player
+     *
+     * @param player to act
+     * @param anyPosition if called because of {@link fr.unice.polytech.ps5.takenoko.et2.enums.Weather#STORM}
+     */
     void movePanda(Player player, boolean anyPosition)
     {
         var valid =

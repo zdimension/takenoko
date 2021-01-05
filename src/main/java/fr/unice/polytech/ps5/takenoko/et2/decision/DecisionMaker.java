@@ -16,7 +16,7 @@ import java.util.Objects;
  * All the fonctions are called by Game when the 'human player'
  * is expected to act in the 'real' game.
  *
- * This class is separated from the Player class because a living brain and
+ * This class is separated from the {@link fr.unice.polytech.ps5.takenoko.et2.gameplay.Player} class because a living brain and
  * its belongings are not one unbreakable entity (Cf. 'Brain in a vat' from René
  * Descartes and Gilbert Harman).
  */
@@ -30,7 +30,7 @@ public abstract class DecisionMaker
     /**
      * Class constructor
      *
-     * @param player player the DecisionMaker will be bound to
+     * @param player player this DecisionMaker will be bound to
      */
     public DecisionMaker(Player player)
     {
@@ -40,7 +40,7 @@ public abstract class DecisionMaker
     /**
      * Player getter
      *
-     * @return The player associated with the DecisionMaker
+     * @return The player associated with this DecisionMaker
      */
     public Player getPlayer()
     {
@@ -48,7 +48,7 @@ public abstract class DecisionMaker
     }
 
     /**
-     * Get the board of the game of the player
+     * Gets the board of the game of the player
      *
      * @return board
      */
@@ -69,20 +69,20 @@ public abstract class DecisionMaker
      */
     public abstract GameAction chooseAction(List<GameAction> base);
 
-    /**Chooses one deck from which to draw an objective
+    /**Chooses one deck from which to draw an {@link fr.unice.polytech.ps5.takenoko.et2.objective.Objective}
      *
      * @return class of the deck chosen
      */
     public abstract Class<? extends Objective> chooseDeck(List<Class<? extends Objective>> available);
 
-    /**Chooses one from three LandTiles and a position on the board to put it
+    /**Chooses one from three {@link fr.unice.polytech.ps5.takenoko.et2.board.LandTile} and a position on the board to put it
      *
      * @param drawnTiles to choose from
      * @return chosen tile
      */
     public abstract Pair<LandTile, TilePosition> chooseTile(List<LandTile> drawnTiles, List<TilePosition> validPos); //drawnTiles.size() = 3
 
-    /**Chooses an objective to complete among objectives in the player's hand
+    /**Chooses an {@link fr.unice.polytech.ps5.takenoko.et2.objective.Objective} to complete among objectives in the player's hand
      *
      * @return Objective to complete
      */
