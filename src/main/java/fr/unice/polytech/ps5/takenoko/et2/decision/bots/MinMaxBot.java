@@ -65,7 +65,7 @@ public class MinMaxBot extends DecisionMaker
             return GameAction.COMPLETE_OBJECTIVE;
         }
 
-        if (base.contains(GameAction.DRAW_OBJECTIVE)/* && player.getHand().size() < 10*/)
+        if (base.contains(GameAction.DRAW_OBJECTIVE))
         {
             return GameAction.DRAW_OBJECTIVE;
         }
@@ -132,17 +132,17 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public Class<? extends Objective> chooseDeck(List<Class<? extends Objective>> available)
     {
-        if (available.contains(PlotObjective.class) && getBoard().getLandTiles().size() > 20)
+        if (available.contains(PandaObjective.class) /*&& getRandom().nextInt(6) > 0*/)
+        {
+            return PandaObjective.class;
+        }
+        if (available.contains(PlotObjective.class) && (getBoard().getLandTiles().size() > 10 || getRandom().nextInt(6) == 0))
         {
             return PlotObjective.class;
         }
-        if (available.contains(GardenerObjective.class) && getBoard().getLandTiles().stream().filter(l -> (l.getBambooSize() > 0)).count() > 10)
+        if (available.contains(GardenerObjective.class) && getBoard().getLandTiles().stream().filter(l -> (l.getBambooSize() > 0)).count() > 5)
         {
             return GardenerObjective.class;
-        }
-        if (available.contains(PandaObjective.class) && player.getBambooSum() > 5)
-        {
-            return PandaObjective.class;
         }
         return randomElement(available); // return Random if can't choose
     }

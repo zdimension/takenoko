@@ -147,7 +147,7 @@ public class Board implements Cloneable
         return addTileInternal(tile, pos, true);
     }
 
-    private boolean addTileInternal(LandTile tile, TilePosition pos, boolean irrigate)
+    public boolean addTileInternal(LandTile tile, TilePosition pos, boolean irrigate)
     {
         Objects.requireNonNull(tile, "tile must not be null");
         Objects.requireNonNull(pos, "tile position must not be null");

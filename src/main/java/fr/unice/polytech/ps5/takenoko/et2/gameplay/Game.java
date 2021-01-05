@@ -634,7 +634,7 @@ public class Game
      *
      * @param p to choose one edge
      */
-    private void placeIrrigation(Player p)
+    void placeIrrigation(Player p)
     {
         DecisionMaker dm = p.getDecisionMaker();
         var valid = findIrrigableEdges().collect(Collectors.toUnmodifiableList());
@@ -651,7 +651,7 @@ public class Game
         return getValidTargets(gardenerPosition);
     }
 
-    private void moveGardener(Player player)
+    void moveGardener(Player player)
     {
         var valid = getValidGardenerTargets().collect(Collectors.toUnmodifiableList());
         TilePosition chosenPos = player
@@ -683,7 +683,10 @@ public class Game
                 {
                     try
                     {
-                        addBambooSectionToTile((LandTile) tile);
+                        if(land.isIrrigated())
+                        {
+                            addBambooSectionToTile((LandTile) tile);
+                        }
                     }
                     catch (Exception e)
                     {

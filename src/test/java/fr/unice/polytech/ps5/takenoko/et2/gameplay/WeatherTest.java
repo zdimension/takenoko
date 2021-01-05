@@ -13,10 +13,7 @@ import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Matchers;
 import org.mockito.Mockito;
-import org.mockito.internal.matchers.Any;
-import org.mockito.internal.matchers.Matches;
 
 import java.util.*;
 import java.util.stream.Collectors;
