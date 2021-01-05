@@ -9,6 +9,7 @@ import fr.unice.polytech.ps5.takenoko.et2.enums.Weather;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.Game;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.Player;
+import fr.unice.polytech.ps5.takenoko.et2.objective.GardenerObjective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 import org.junit.jupiter.api.BeforeEach;
@@ -105,6 +106,15 @@ class MinMaxBotTest
     @Test
     void decisionGardenerTest()
     {
-        //GardenerObjective gardenerObjective=new GardenerObjective();
+        GardenerObjective gardenerObjective = new GardenerObjective(4, Color.GREEN, 1, 3, LandTileImprovement.WATERSHED);
+        LandTile goodTile = new LandTile(Color.GREEN, LandTileImprovement.WATERSHED);
+        TilePosition goodPosition = new TilePosition(1, -1);
+        assertEquals(goodTile.getLandTileImprovement(), LandTileImprovement.WATERSHED);
+        assertTrue(board.addTile(new LandTile(Color.YELLOW), new TilePosition(1, 0)));
+        assertTrue(board.addTile(goodTile, goodPosition));
+        assertTrue(board.addTile(new LandTile(Color.PINK), new TilePosition(0, -1)));
+        assertTrue(goodTile.growBambooSection());
+        player.addObjective(gardenerObjective);
+        assertEquals(bot.chooseGardenerTarget(Arrays.asList(new TilePosition(1, 0), goodPosition, new TilePosition(0, -1))), goodPosition);
     }
 }
