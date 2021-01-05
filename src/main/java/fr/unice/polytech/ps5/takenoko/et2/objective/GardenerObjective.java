@@ -73,7 +73,8 @@ public class GardenerObjective extends Objective
         Objects.requireNonNull(board, "board must not be null");
         Objects.requireNonNull(player, "player must not be null");
 
-        Set<LandTile> landTileList = board.getLandTiles();
+        return checkValidated(board);
+        /*Set<LandTile> landTileList = board.getLandTiles();
 
         int bambooStackSize;
         int countBambooStack = 0;
@@ -99,7 +100,7 @@ public class GardenerObjective extends Objective
             }
         }
 
-        return this.numberOfBambooStack <= countBambooStack;
+        return this.numberOfBambooStack <= countBambooStack;*/
     }
 
     /**

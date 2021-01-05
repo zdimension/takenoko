@@ -101,4 +101,10 @@ class MinMaxBotTest
         assertEquals(player.getHand(), new ArrayList<>(Arrays.asList(plotObjective)));
         assertEquals(bot.chooseTile(listTiles, listPositions), Pair.of(goodTile, goodPosition));
     }
+
+    @Test
+    void decisionGardenerTest()
+    {
+        //GardenerObjective gardenerObjective=new GardenerObjective();
+    }
 }
