@@ -488,8 +488,8 @@ public class Game
             throwError(new IllegalArgumentException("Position of tile given is invalid"));
             return;
         }
-        board.addTile(chosenTile.first, chosenTile.second);
         gameData.tileDeck.remove(chosenTile.first);
+        board.addTile(chosenTile.first, chosenTile.second);
     }
 
     /**
