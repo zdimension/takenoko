@@ -78,7 +78,7 @@ public class LandTile extends Tile implements Cloneable
         }
         if (landTileImprovement == LandTileImprovement.WATERSHED && !isIrrigated())
         {
-            bambooCount++;
+            growBambooSection();
         }
         this.landTileImprovement = landTileImprovement;
         return true;

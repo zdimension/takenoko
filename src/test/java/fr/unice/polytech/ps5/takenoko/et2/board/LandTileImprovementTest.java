@@ -5,8 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class LandTileImprovementTest
 {
@@ -64,5 +63,14 @@ class LandTileImprovementTest
         assertTrue(landTileMock.setLandTileImprovement(LandTileImprovement.FERTILIZER));
         assertFalse(landTileMock.canSetImprovement());
         assertFalse(landTileMock.setLandTileImprovement(LandTileImprovement.ENCLOSURE));
+    }
+
+    @Test
+    void testsetWatershedOnIrrigatedNotGrows()
+    {
+        when(landTileMock.canSetImprovement()).thenReturn(true);
+        assertTrue(landTileMock.isIrrigated());
+        assertTrue(landTileMock.setLandTileImprovement(LandTileImprovement.WATERSHED));
+        verify(landTileMock, never()).growBambooSection();
     }
 }
