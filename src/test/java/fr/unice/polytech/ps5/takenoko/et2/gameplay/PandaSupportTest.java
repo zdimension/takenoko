@@ -139,6 +139,7 @@ class PandaSupportTest
         {
             game.movePanda(mockPlayer, storm);
         }
+        assertEquals(pandaTargets.get(pandaTargets.size()-1), game.getPandaPosition());
         verify(mockDecisionMaker, times(invocations.get(0))).choosePandaTarget(anyList(), anyBoolean());
         verify(mockPlayer, times(invocations.get(1))).getDecisionMaker();
         verify(mockPlayer, times(invocations.get(2))).addBambooSection(Color.GREEN);
