@@ -65,7 +65,7 @@ public class MinMaxBot extends DecisionMaker
             return GameAction.COMPLETE_OBJECTIVE;
         }
 
-        if (base.contains(GameAction.DRAW_OBJECTIVE) && player.getHand().size() < 10)
+        if (base.contains(GameAction.DRAW_OBJECTIVE)/* && player.getHand().size() < 10*/)
         {
             return GameAction.DRAW_OBJECTIVE;
         }
