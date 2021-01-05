@@ -478,6 +478,11 @@ public class Game
                 .getValidEmptyPositions()
                 .collect(Collectors.toUnmodifiableList());
         var chosenTile = dm.chooseTile(validTiles, validPos);
+        if(chosenTile == null)
+        {
+            throwError(new IllegalArgumentException("Selected tile and position unreadable"));
+            return;
+        }
         if (!validTiles.contains(chosenTile.first))
         {
             throwError(new IllegalArgumentException("Invalid tile chosen"));
@@ -545,7 +550,7 @@ public class Game
     private <T extends Exception> void throwError(T exc) throws T
     {
         Objects.requireNonNull(exc, "exc must not be null");
-        if (true)
+        if (false)
         {
             LOGGER.log(Level.SEVERE, "GAME ERROR: {0}", exc.getMessage());
         }
