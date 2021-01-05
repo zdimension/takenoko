@@ -10,6 +10,7 @@ import fr.unice.polytech.ps5.takenoko.et2.gameplay.Game;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.Player;
 import fr.unice.polytech.ps5.takenoko.et2.objective.GardenerObjective;
+import fr.unice.polytech.ps5.takenoko.et2.objective.PandaObjective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 import org.junit.jupiter.api.BeforeEach;
@@ -116,5 +117,32 @@ class MinMaxBotTest
         assertTrue(goodTile.growBambooSection());
         player.addObjective(gardenerObjective);
         assertEquals(bot.chooseGardenerTarget(Arrays.asList(new TilePosition(1, 0), goodPosition, new TilePosition(0, -1))), goodPosition);
+    }
+
+    @Test
+    void decisionPandaTest()
+    {
+        Map<Color, Integer> pandaObjectiveMap = new HashMap<>();
+        pandaObjectiveMap.put(Color.GREEN, 2);
+        pandaObjectiveMap.put(Color.PINK, 2);
+        pandaObjectiveMap.put(Color.YELLOW, 2);
+        player.addBambooSection(Color.GREEN);
+        player.addBambooSection(Color.GREEN);
+        player.addBambooSection(Color.PINK);
+        player.addBambooSection(Color.PINK);
+        player.addBambooSection(Color.YELLOW);
+        PandaObjective pandaObjective = new PandaObjective(4, pandaObjectiveMap);
+        LandTile t1 = new LandTile(Color.GREEN);
+        LandTile t2 = new LandTile(Color.YELLOW);
+        LandTile t3 = new LandTile(Color.PINK);
+        TilePosition goodPosition = new TilePosition(1, -1);
+        assertTrue(board.addTile(t1, new TilePosition(1, 0)));
+        assertTrue(board.addTile(t2, goodPosition));
+        assertTrue(board.addTile(t3, new TilePosition(-1, 0)));
+        assertTrue(t1.growBambooSection());
+        assertTrue(t2.growBambooSection());
+        assertTrue(t3.growBambooSection());
+        player.addObjective(pandaObjective);
+        assertEquals(bot.choosePandaTarget(Arrays.asList(new TilePosition(1, 0), goodPosition, new TilePosition(-1, 0)), false), goodPosition);
     }
 }
