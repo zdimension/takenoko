@@ -1,9 +1,9 @@
 package fr.unice.polytech.ps5.takenoko.et2.decision;
 
+import fr.unice.polytech.ps5.takenoko.et2.board.*;
+import fr.unice.polytech.ps5.takenoko.et2.enums.Weather;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.Player;
-import fr.unice.polytech.ps5.takenoko.et2.enums.Weather;
-import fr.unice.polytech.ps5.takenoko.et2.board.*;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
@@ -35,6 +35,16 @@ public abstract class DecisionMaker
     public DecisionMaker(Player player)
     {
         this.player = Objects.requireNonNull(player, "player must not be null");
+    }
+
+    /**
+     * Player getter
+     *
+     * @return The player associated with the DecisionMaker
+     */
+    public Player getPlayer()
+    {
+        return player;
     }
 
     /**
