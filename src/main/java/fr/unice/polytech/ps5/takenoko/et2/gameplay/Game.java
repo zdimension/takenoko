@@ -651,7 +651,7 @@ public class Game
         return getValidTargets(gardenerPosition);
     }
 
-    private void moveGardener(Player player)
+    void moveGardener(Player player)
     {
         var valid = getValidGardenerTargets().collect(Collectors.toUnmodifiableList());
         TilePosition chosenPos = player
@@ -683,7 +683,10 @@ public class Game
                 {
                     try
                     {
-                        addBambooSectionToTile((LandTile) tile);
+                        if(land.isIrrigated())
+                        {
+                            addBambooSectionToTile((LandTile) tile);
+                        }
                     }
                     catch (Exception e)
                     {
