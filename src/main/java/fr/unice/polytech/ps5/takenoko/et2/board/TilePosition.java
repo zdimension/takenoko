@@ -1,5 +1,6 @@
 package fr.unice.polytech.ps5.takenoko.et2.board;
 
+import java.util.Comparator;
 import java.util.Objects;
 
 /**
@@ -22,6 +23,13 @@ public class TilePosition
     private final int y;
 
     /**
+     * Position comparer. To be used only when deterministic storage order is needed.
+     */
+    public static final Comparator<TilePosition> storageComparer = Comparator
+        .comparingInt(TilePosition::getX)
+        .thenComparingInt(TilePosition::getY);
+
+    /**
      * Instanciates a new vector
      *
      * @param x X coordinate
@@ -31,25 +39,6 @@ public class TilePosition
     {
         this.x = x;
         this.y = y;
-    }
-
-    /**
-     * Position comparer. To be used only when deterministic storage order is needed.
-     *
-     * @param a first vector
-     * @param b second vector
-     * @return sign of comparison
-     */
-    static int storageComparer(TilePosition a, TilePosition b)
-    {
-        Objects.requireNonNull(a, "tile position a must not be null");
-        Objects.requireNonNull(a, "tile position b must not be null");
-        var xc = Integer.compare(a.x, b.x);
-        if (xc != 0)
-        {
-            return xc;
-        }
-        return Integer.compare(a.y, b.y);
     }
 
     private static int sign(int n)
