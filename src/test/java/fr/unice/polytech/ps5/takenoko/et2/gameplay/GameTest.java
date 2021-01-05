@@ -2,6 +2,9 @@ package fr.unice.polytech.ps5.takenoko.et2.gameplay;
 
 import fr.unice.polytech.ps5.takenoko.et2.GameData;
 import fr.unice.polytech.ps5.takenoko.et2.board.Board;
+import fr.unice.polytech.ps5.takenoko.et2.board.Edge;
+import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
+import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import fr.unice.polytech.ps5.takenoko.et2.decision.bots.RandomBot;
@@ -206,5 +209,25 @@ class GameTest
         GardenerObjective mockGardenerObjective = Mockito.mock(GardenerObjective.class);
         List<Integer> listOfInteractions = List.of(1,12,1,9,2,1,1,1,1,1,1,0,0);
         completeObjectiveTestsBasis(mockGardenerObjective, true, true, listOfInteractions);
+    }
+
+    @Test
+    void placeIrrigationTest() {
+        Game game = new Game(new GameData());
+        Board board = game.getBoard();
+        LandTile l1 = new LandTile(Color.GREEN);
+        board.addTile(l1 , new TilePosition(1,0));
+        Player mockPlayer = Mockito.mock(Player.class);
+        DecisionMaker mockDecisionMaker = Mockito.mock(DecisionMaker.class);
+
+        Edge choosenEdge1 = l1.getEdge(0);
+        Edge choosenEdge2 = l1.getEdge(5);
+
+        when(mockPlayer.getDecisionMaker()).thenReturn(mockDecisionMaker);
+        when(mockDecisionMaker.chooseIrrigationPosition(anyList())).thenReturn(choosenEdge1, choosenEdge2);
+
+        game.placeIrrigation(mockPlayer);
+        game.placeIrrigation(mockPlayer);
+        verify(mockPlayer, times(1)).irrigateEdge(any(Edge.class));
     }
 }

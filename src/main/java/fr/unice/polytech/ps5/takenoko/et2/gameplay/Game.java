@@ -634,7 +634,7 @@ public class Game
      *
      * @param p to choose one edge
      */
-    private void placeIrrigation(Player p)
+    void placeIrrigation(Player p)
     {
         DecisionMaker dm = p.getDecisionMaker();
         var valid = findIrrigableEdges().collect(Collectors.toUnmodifiableList());
