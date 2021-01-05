@@ -10,6 +10,7 @@ import fr.unice.polytech.ps5.takenoko.et2.gameplay.Game;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.GameAction;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.Player;
 import fr.unice.polytech.ps5.takenoko.et2.objective.GardenerObjective;
+import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PandaObjective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
@@ -144,5 +145,23 @@ class MinMaxBotTest
         assertTrue(t3.growBambooSection());
         player.addObjective(pandaObjective);
         assertEquals(bot.choosePandaTarget(Arrays.asList(new TilePosition(1, 0), goodPosition, new TilePosition(-1, 0)), false), goodPosition);
+    }
+
+    @Test
+    void decisionChooseObjectiveTest()
+    {
+        PandaObjective po = new PandaObjective(5, new HashMap<>()
+        {{
+            put(Color.YELLOW, 2);
+        }});
+        PlotObjective plo = new PlotObjective(3, Arrays.asList(Color.PINK), Arrays.asList());
+        List<Objective> listObj = new ArrayList<>(Arrays.asList(new GardenerObjective(4, Color.PINK, 2, 2), po, plo));
+        assertEquals(bot.chooseObjectiveToComplete(listObj), po);
+    }
+
+    @Test
+    void decisionChooseActionTest()
+    {
+        // Not fixed yet
     }
 }
