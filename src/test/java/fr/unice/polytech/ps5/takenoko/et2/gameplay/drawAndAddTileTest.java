@@ -115,4 +115,68 @@ class drawAndAddTileTest
         assertEquals(board, game.getBoard());
 
     }
+
+    @Test
+    void testPlaceTileNextToTwoTilesButNotPond() throws IllegalAccessException, DecisionMakerException
+    {
+        initGameAndPlayersWithSeed(999999988, true);
+
+        List<GameAction> gameActionList1;
+        List<GameAction> gameActionList2;
+        List<GameAction> gameActionList3;
+
+        gameActionList1 = new ArrayList<>(new ArrayList<>(Arrays.asList(GameAction.values())));
+        gameActionList1.remove(GameAction.COMPLETE_OBJECTIVE);
+        gameActionList1.remove(GameAction.PLACE_IRRIGATION);
+        gameActionList1.remove(GameAction.PLACE_IMPROVEMENT);
+        gameActionList1.remove(GameAction.MOVE_GARDENER);
+        gameActionList1.remove(GameAction.MOVE_PANDA);
+        gameActionList2 = new ArrayList<>(new ArrayList<>(Arrays.asList(GameAction.values())));
+        gameActionList2.remove(GameAction.COMPLETE_OBJECTIVE);
+        gameActionList2.remove(GameAction.PLACE_IMPROVEMENT);
+        gameActionList2.remove(GameAction.DRAW_TILE);
+        gameActionList2.remove(GameAction.PLACE_IRRIGATION);
+        gameActionList3 = new ArrayList<>(new ArrayList<>(GameAction.getUnlimitedActions()));
+        gameActionList3.add(null);
+        gameActionList3.remove(GameAction.PLACE_IMPROVEMENT);
+        gameActionList3.remove(GameAction.COMPLETE_OBJECTIVE);
+
+
+        List<LandTile> drawnTiles1;
+
+        List<TilePosition> validPos1 = new ArrayList<>(){{
+            add(new TilePosition(-1, 0));
+            add(new TilePosition(-1, 1));
+            add(new TilePosition(0, -1));
+            add(new TilePosition(0, 1));
+            add(new TilePosition(1, -1));
+            add(new TilePosition(1, 0));
+        }};
+
+
+        drawnTiles1 = new ArrayList<>(){{
+            add(new LandTile(Color.YELLOW, LandTileImprovement.FERTILIZER));
+            add(new LandTile(Color.GREEN));
+            add(new LandTile(Color.GREEN, LandTileImprovement.FERTILIZER));
+        }};
+
+        validPos1.sort(TilePosition.storageComparer);
+
+
+        when(p1.getDecisionMaker().chooseAction(gameActionList1)).thenReturn(GameAction.DRAW_TILE);
+        when(p1.getDecisionMaker().chooseAction(gameActionList2)).thenReturn(GameAction.PICK_IRRIGATION);
+        when(p1.getDecisionMaker().chooseAction(gameActionList3)).thenReturn(null);
+        when(p1.getDecisionMaker().chooseTile(Collections.unmodifiableList(drawnTiles1), validPos1)).thenReturn(Pair.of(new LandTile(Color.GREEN), new TilePosition(1,0)));
+        Collections.shuffle(game.gameData.tileDeck, game.getRandom());
+        assertTrue(game.processTurn(p1));
+
+        assertEquals(26, game.gameData.tileDeck.size());
+
+        var board = new Board();
+        var t3 = new LandTile(Color.GREEN);
+        board.addTile(t3,  new TilePosition(1, 0));
+        
+        assertEquals(board, game.getBoard());
+
+    }
 }
