@@ -103,7 +103,7 @@ public class MinMaxBot extends DecisionMaker
         {
             case MOVE_GARDENER:
                 List<TilePosition> positionsGardener = player.getGame().getValidGardenerTargets().collect(Collectors.toUnmodifiableList());
-                if (positionsGardener.size() < 1)
+                if (positionsGardener.isEmpty())
                 {
                     return 0;
                 }
@@ -111,7 +111,7 @@ public class MinMaxBot extends DecisionMaker
                 return globalMax;
             case MOVE_PANDA:
                 List<TilePosition> positionsPanda = player.getGame().getValidPandaTargets().collect(Collectors.toUnmodifiableList());
-                if (positionsPanda.size() < 1)
+                if (positionsPanda.isEmpty())
                 {
                     return 0;
                 }
@@ -119,7 +119,7 @@ public class MinMaxBot extends DecisionMaker
                 return globalMax;
             case PLACE_IRRIGATION:
                 List<Edge> positionsIrrigation = player.getGame().findIrrigableEdges().collect(Collectors.toUnmodifiableList());
-                if (positionsIrrigation.size() < 1)
+                if (positionsIrrigation.isEmpty())
                 {
                     return 0;
                 }
@@ -129,7 +129,7 @@ public class MinMaxBot extends DecisionMaker
                 GameData gameData = player.getGame().getGameData();
                 var validTiles = Collections.unmodifiableList(gameData.tileDeck.subList(0, Math.min(gameData.tileDeck.size(), 3)));
                 var validPos = getBoard().getValidEmptyPositions().collect(Collectors.toUnmodifiableList());
-                if (validTiles.size() < 1 || validPos.size() < 1)
+                if (validTiles.isEmpty() || validPos.isEmpty())
                 {
                     return 0;
                 }
@@ -138,7 +138,7 @@ public class MinMaxBot extends DecisionMaker
             case PLACE_IMPROVEMENT:
                 var vacantLandTile = getBoard().getLandTilesWithoutImprovement().collect(Collectors.toUnmodifiableList());
                 var availableImprovements = player.getChipReserve();
-                if (vacantLandTile.size() < 1 || availableImprovements.size() < 1)
+                if (vacantLandTile.isEmpty() || availableImprovements.isEmpty())
                 {
                     return 0;
                 }
@@ -151,11 +151,11 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public Class<? extends Objective> chooseDeck(List<Class<? extends Objective>> available)
     {
-        if (available.contains(PandaObjective.class) && (getBoard().getLandTiles().stream().filter(l -> (l.getBambooSize() > 0)).count() > 2 || getBoard().getLandTiles().size() < 10))
+        if (available.contains(PandaObjective.class) && (getBoard().getLandTiles().stream().filter(l -> l.getBambooSize() > 0).count() > 2 || getBoard().getLandTiles().size() < 10))
         {
             return PandaObjective.class;
         }
-        if (available.contains(PlotObjective.class) && getRandom().nextInt(4) < 2)
+        if (available.contains(PlotObjective.class) && randomBoolean())
         {
             return PlotObjective.class;
         }
@@ -183,9 +183,17 @@ public class MinMaxBot extends DecisionMaker
         }
 
         var valid = player.getGame().getBoard().getValidEmptyPositions().collect(Collectors.toList());
-        var returns = drawnTiles.stream().flatMap(landTile -> validPos.stream().map(position -> Map.entry(evaluatePlotAction(landTile, position, drawnTiles, valid, player.getGame().getBoard(), player.getHand(), depth, true), Pair.of(landTile, position)))).max(Map.Entry.comparingByKey());
+        var returns =
+            drawnTiles.stream().flatMap(
+                landTile -> validPos.stream().map(
+                    position -> Map.entry(
+                        evaluatePlotAction(landTile, position, drawnTiles, valid, player.getGame().getBoard(), player.getHand(), depth, true),
+                        Pair.of(landTile, position)
+                    )
+                )
+            ).max(Map.Entry.comparingByKey());
         globalMax = returns.get().getKey();
-        return returns.map(Map.Entry::getValue).orElse(Pair.of(drawnTiles.get(0), validPos.get(0)));
+        return returns.map(Map.Entry::getValue).orElse(Pair.of(randomElement(drawnTiles), randomElement(validPos)));
     }
 
     @Override
@@ -682,14 +690,7 @@ public class MinMaxBot extends DecisionMaker
     {
         List<Objective> copyOfMyObjectives = new ArrayList<>(myObjectives);
         List<LandTile> copyOfDrawnTiles = new ArrayList<>(drawnTiles);
-        for (int i = 0; i < copyOfDrawnTiles.size(); i++)
-        {
-            if (copyOfDrawnTiles.get(i) == playedTile)
-            {
-                copyOfDrawnTiles.remove(i);
-                break;
-            }
-        }
+        copyOfDrawnTiles.remove(playedTile);
         long power = (int) Math.pow(100d, n);
         Board newBoard = (Board) board.clone();
         newBoard.addTile(playedTile, playedPos);
@@ -724,16 +725,17 @@ public class MinMaxBot extends DecisionMaker
         {
             return scoreReturn;
         }
-        power /= 100;
-        List<TilePosition> newListValidsPositions = new ArrayList<>(ListValidsPositions);
-        ListValidsPositions.removeIf(tilePosition -> tilePosition.equals(playedPos));
+        List<TilePosition> newListValidsPositions = depth == 1
+            ? ListValidsPositions
+            : new ArrayList<>(ListValidsPositions);
+        newListValidsPositions.removeIf(tilePosition -> tilePosition.equals(playedPos));
         scoreReturn -= newListValidsPositions
             .stream()
             .flatMapToInt(tilePosition ->
                 copyOfDrawnTiles.stream()
                     .mapToInt(
                         landTile -> evaluatePlotAction(landTile, tilePosition, copyOfDrawnTiles, newListValidsPositions, newBoard, copyOfMyObjectives, n - 1, !myTurn)
-                    )).sum() * power;
+                    )).sum() * power / 100;
         return scoreReturn;
     }
 
