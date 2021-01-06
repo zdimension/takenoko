@@ -24,7 +24,7 @@ class PandaSupportTest
 {
     private Game game;
     private Board board;
-    private List<TilePosition> boardTilePosition = new ArrayList<>();
+    private final List<TilePosition> boardTilePosition = new ArrayList<>();
 
     @BeforeEach
     void init() {
@@ -192,17 +192,23 @@ class PandaSupportTest
 
     @Test
     void movePandaOnPondTileTest(){
+        DecisionMaker mockDecisionMaker = mock(DecisionMaker.class);
+        Player mockPlayer = mock(Player.class);
         TilePosition position = new TilePosition(2,0);
         LandTile pandaGoal = (LandTile)(board.getTiles().get(position));
 
-        ArrayList<TilePosition> pandaPositionTargets = new ArrayList<>(List.of(position));
-        ArrayList<LandTile> pandaTileTargets = new ArrayList<>(List.of(pandaGoal));
-        ArrayList<Integer> invocations = new ArrayList<>(List.of(2,2,0,0));
-
-        movePandaBasis(pandaPositionTargets, pandaTileTargets, invocations, 2, false);
+        when(mockPlayer.getDecisionMaker()).thenReturn(mockDecisionMaker);
+        when(mockDecisionMaker.choosePandaTarget(anyList(), anyBoolean())).thenReturn(position, TilePosition.ZERO);
+        game.movePanda(mockPlayer);
+        assertEquals(position, game.getPandaPosition());
+        game.movePanda(mockPlayer);
+        assertEquals(TilePosition.ZERO, game.getPandaPosition());
+        verify(mockDecisionMaker, times(2)).choosePandaTarget(anyList(), anyBoolean());
+        verify(mockPlayer, times(2)).getDecisionMaker();
+        verify(mockPlayer, times(1)).addBambooSection(Color.GREEN);
+        verify(pandaGoal, times(1)).cutBambooSection();
+        verifyNoMoreInteractions(board.getCenter());
+        verifyNoMoreInteractions(mockDecisionMaker);
+        verifyNoMoreInteractions(mockPlayer);
     }
-
-
-
-
 }
