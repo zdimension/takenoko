@@ -95,7 +95,7 @@ public class MinMaxBot extends DecisionMaker
         {
             return GameAction.PICK_IRRIGATION;
         }
-        return randomElement(base);// TODO (improve ?)
+        return randomElement(base);
     }
 
     private int getPointsForAction(GameAction action)
@@ -152,15 +152,15 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public Class<? extends Objective> chooseDeck(List<Class<? extends Objective>> available)
     {
-        if (available.contains(PandaObjective.class) /*&& getRandom().nextInt(6) > 0*/)
+        if (available.contains(PandaObjective.class) && getBoard().getLandTiles().stream().count() > 3)
         {
             return PandaObjective.class;
         }
-        if (available.contains(PlotObjective.class) && (getBoard().getLandTiles().size() > 10 || getRandom().nextInt(6) == 0))
+        if (available.contains(PlotObjective.class) && getRandom().nextInt(4) < 3)
         {
             return PlotObjective.class;
         }
-        if (available.contains(GardenerObjective.class) && getBoard().getLandTiles().stream().filter(l -> (l.getBambooSize() > 0)).count() > 5)
+        if (available.contains(GardenerObjective.class) && (getBoard().getLandTiles().stream().filter(l -> (l.getBambooSize() > 0)).count() < 20 || getRandom().nextInt(4) < 3))
         {
             return GardenerObjective.class;
         }
