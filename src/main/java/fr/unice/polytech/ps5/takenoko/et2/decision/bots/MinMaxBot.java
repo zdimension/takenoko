@@ -21,20 +21,14 @@ import java.util.stream.Collectors;
 @Bot(key = "minmax")
 public class MinMaxBot extends DecisionMaker
 {
-    public int getDepth()
-    {
-        return depth;
-    }
+    private final Map<GameAction, Object> actionsChosen = new HashMap<>(); // Store temporarily the result of choose[...]. Filled by chooseAction() and used by choose[...]
 
     /**
      * Depth of the min-max algorithm: the higher is the slower and the stronger
      */
     private final int depth;
-
-    private Edge maxEdge = null;
-    private int globalMax;
-    private Map<GameAction, Object> actionsChosen = new HashMap<>();
-    private GameAction lastActionChosen = null;
+    private int globalMax; // Max for all functions. Global and temp field
+    private GameAction lastActionChosen = null; // Action choosen by chooseAction
 
     /**
      * Class constructor
@@ -45,10 +39,20 @@ public class MinMaxBot extends DecisionMaker
     {
         super(player);
         this.depth = depth;
-        for (GameAction gameAction : GameAction.values())
+        for (GameAction gameAction : GameAction.values()) // For all GameAction, fill by null choice
         {
             actionsChosen.put(gameAction, null);
         }
+    }
+
+    /**
+     * Min-max bot depth getter
+     *
+     * @return the depth of min-max algorithm
+     */
+    public int getDepth()
+    {
+        return depth;
     }
 
     public static DecisionMakerBuilder getBuilder(int depth)
@@ -60,17 +64,17 @@ public class MinMaxBot extends DecisionMaker
     public GameAction chooseAction(List<GameAction> base)
     {
         lastActionChosen = null;
-        if (base.contains(GameAction.COMPLETE_OBJECTIVE))
+        if (base.contains(GameAction.COMPLETE_OBJECTIVE)) // If possible, complete objective first
         {
             return GameAction.COMPLETE_OBJECTIVE;
         }
 
-        if (base.contains(GameAction.DRAW_OBJECTIVE))
+        if (base.contains(GameAction.DRAW_OBJECTIVE)) // If possible, pick an objective
         {
             return GameAction.DRAW_OBJECTIVE;
         }
 
-        GameAction bestAction = null;
+        GameAction bestAction = null; // Check if action can give us points
         int maxPtsAction = 0;
         List<GameAction> gameActionList = new ArrayList<>(Arrays.asList(GameAction.MOVE_GARDENER, GameAction.MOVE_PANDA, GameAction.PLACE_IRRIGATION, GameAction.DRAW_TILE, GameAction.PLACE_IMPROVEMENT));
         for (GameAction gameAction : gameActionList)
@@ -91,14 +95,14 @@ public class MinMaxBot extends DecisionMaker
             return bestAction;
         }
 
-        if (base.contains(GameAction.PICK_IRRIGATION)/* && player.getNbIrrigationsInStock() < depth*/)
+        if (base.contains(GameAction.PICK_IRRIGATION)) // If no action is possible, pick an irrigation
         {
             return GameAction.PICK_IRRIGATION;
         }
-        return randomElement(base);
+        return randomElement(base); // Random if can't choice
     }
 
-    private int getPointsForAction(GameAction action)
+    private int getPointsForAction(GameAction action) // Check which action gives to us the max of points
     {
         switch (action)
         {
@@ -150,9 +154,9 @@ public class MinMaxBot extends DecisionMaker
     }
 
     @Override
-    public Class<? extends Objective> chooseDeck(List<Class<? extends Objective>> available)
+    public Class<? extends Objective> chooseDeck(List<Class<? extends Objective>> available) // Better Objective. Depends of the game configuration
     {
-        if (available.contains(PandaObjective.class) && (getBoard().getLandTiles().stream().filter(l -> (l.getBambooSize() > 0)).count() > 2 || getBoard().getLandTiles().stream().count() < 10))
+        if (available.contains(PandaObjective.class) && (getBoard().getLandTiles().stream().filter(l -> (l.getBambooSize() > 0)).count() > 2 || getBoard().getLandTiles().size() < 10))
         {
             return PandaObjective.class;
         }
@@ -160,7 +164,7 @@ public class MinMaxBot extends DecisionMaker
         {
             return PlotObjective.class;
         }
-        if (available.contains(GardenerObjective.class) && getBoard().getLandTiles().stream().count() > 5)
+        if (available.contains(GardenerObjective.class) && getBoard().getLandTiles().size() > 5)
         {
             return GardenerObjective.class;
         }
@@ -168,9 +172,9 @@ public class MinMaxBot extends DecisionMaker
     }
 
     @Override
-    public Pair<LandTile, TilePosition> chooseTile(List<LandTile> drawnTiles, List<TilePosition> validPos)
+    public Pair<LandTile, TilePosition> chooseTile(List<LandTile> drawnTiles, List<TilePosition> validPos) // Where can we place a Tile ?
     {
-        if (lastActionChosen == GameAction.DRAW_TILE)
+        if (lastActionChosen == GameAction.DRAW_TILE) // Already found by chooseAction ?
         {
             Object a = actionsChosen.get(GameAction.DRAW_TILE);
             if (a != null)
@@ -183,14 +187,14 @@ public class MinMaxBot extends DecisionMaker
             }
         }
 
-        var valid = player.getGame().getBoard().getValidEmptyPositions().collect(Collectors.toList());
+        var valid = player.getGame().getBoard().getValidEmptyPositions().collect(Collectors.toList()); // Use min-max. Multi-threaded
         var returns = drawnTiles.stream().flatMap(landTile -> validPos.stream().map(position -> Map.entry(evaluatePlotAction(landTile, position, drawnTiles, valid, player.getGame().getBoard(), player.getHand(), depth, true), Pair.of(landTile, position)))).max(Map.Entry.comparingByKey());
         globalMax = returns.get().getKey();
         return returns.map(Map.Entry::getValue).orElse(Pair.of(drawnTiles.get(0), validPos.get(0)));
     }
 
     @Override
-    public Objective chooseObjectiveToComplete(List<Objective> validObjectives)
+    public Objective chooseObjectiveToComplete(List<Objective> validObjectives) // Max points
     {
         return validObjectives.stream().max(Comparator.comparing(Objective::getPoints)).orElseThrow(NoSuchElementException::new);
     }
@@ -206,7 +210,6 @@ public class MinMaxBot extends DecisionMaker
                 {
                     if (objective.checkValidated(getBoard(), player))
                     {
-                        maxEdge = edge;
                         if (objective.getPoints() > maxPts)
                         {
                             maxPts = objective.getPoints();
@@ -225,7 +228,7 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public Edge chooseIrrigationPosition(List<Edge> irrigableEdges) /// TODO: must be improved
     {
-        if (lastActionChosen == GameAction.PLACE_IRRIGATION)
+        if (lastActionChosen == GameAction.PLACE_IRRIGATION) // If already found by chooseAction
         {
             Object a = actionsChosen.get(GameAction.PLACE_IRRIGATION);
             if (a != null)
@@ -238,7 +241,7 @@ public class MinMaxBot extends DecisionMaker
             }
         }
 
-        Board b = (Board) getBoard().clone();
+        Board b = (Board) getBoard().clone(); // Min-max, with objectives
         List<GardenerObjective> listGardenerObjectives = player.getHand().stream().filter(GardenerObjective.class::isInstance).map(o -> (GardenerObjective) o).collect(Collectors.toList());
         List<PlotObjective> listPlotObjectives = player.getHand().stream().filter(PlotObjective.class::isInstance).map(o -> (PlotObjective) o).collect(Collectors.toList());
         Edge bestEdge = null;
@@ -255,12 +258,12 @@ public class MinMaxBot extends DecisionMaker
             {
                 continue;
             }
-            TilePosition tilePosition1 = realTile1.getPosition().get();
-            if (tilePosition1 == null)
+            var tilePosition1 = realTile1.getPosition();
+            if (tilePosition1.isEmpty())
             {
                 throw new IllegalArgumentException("getPosition(): pb");
             }
-            Tile newTile1 = b.findTile(tilePosition1);
+            Tile newTile1 = b.findTile(tilePosition1.get());
             if (newTile1 == null)
             {
                 continue;
@@ -290,7 +293,7 @@ public class MinMaxBot extends DecisionMaker
         return randomElement(irrigableEdges);
     }
 
-    private int evaluateIrrigationPosition(Edge edge, Board b, List<GardenerObjective> listGardenerObjectives, List<PlotObjective> listPlotObjectives)
+    private int evaluateIrrigationPosition(Edge edge, Board b, List<GardenerObjective> listGardenerObjectives, List<PlotObjective> listPlotObjectives) // Min-max application
     {
         if (!edge.canBeIrrigated())
         {
@@ -323,13 +326,13 @@ public class MinMaxBot extends DecisionMaker
     }
 
     @Override
-    public TilePosition chooseGardenerTarget(List<TilePosition> valid)
+    public TilePosition chooseGardenerTarget(List<TilePosition> valid) // Get gardener target, by min-max
     {
         if (valid.size() < 1)
         {
             throw new IllegalArgumentException("There are no valid position for gardener");
         }
-        if (lastActionChosen == GameAction.MOVE_GARDENER)
+        if (lastActionChosen == GameAction.MOVE_GARDENER) // If already found by chooseAction
         {
             Object a = actionsChosen.get(GameAction.MOVE_GARDENER);
             if (a != null)
@@ -380,7 +383,7 @@ public class MinMaxBot extends DecisionMaker
     }
 
     @Override
-    public Weather chooseWeather(List<Weather> weatherList)
+    public Weather chooseWeather(List<Weather> weatherList) // Choose weather by actions permitted By them.
     {
         List<GameAction> gameActionList = new ArrayList<>();
         if (weatherList.contains(Weather.RAIN))
@@ -397,7 +400,7 @@ public class MinMaxBot extends DecisionMaker
         }
         int maxPtsAction = 0;
         GameAction bestAction = null;
-        for (GameAction gameAction : gameActionList)
+        for (GameAction gameAction : gameActionList) // Best weather depends of the future actions
         {
             int pts = getPointsForAction(gameAction);
             if (pts > maxPtsAction)
@@ -437,7 +440,7 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public TilePosition choosePandaTarget(List<TilePosition> valid, boolean isStorm) // TODO : not recursive right now
     {
-        if (lastActionChosen == GameAction.MOVE_PANDA)
+        if (lastActionChosen == GameAction.MOVE_PANDA) // If already found by chooseAction
         {
             Object a = actionsChosen.get(GameAction.MOVE_PANDA);
             if (a != null)
@@ -450,9 +453,10 @@ public class MinMaxBot extends DecisionMaker
             }
         }
 
+        // Use min-max
         List<PandaObjective> listPandaObjectives = player.getHand().stream().filter(PandaObjective.class::isInstance).map(o -> (PandaObjective) o).collect(Collectors.toList());
         Board b = (Board) getBoard().clone();
-        HashMap<Color, Integer> playerReserve = new HashMap<Color, Integer>(player.getBambooSectionReserve());
+        HashMap<Color, Integer> playerReserve = new HashMap<>(player.getBambooSectionReserve());
         TilePosition bestPosition = null;
         int max = 0;
         for (TilePosition tilePosition : valid)
@@ -477,7 +481,7 @@ public class MinMaxBot extends DecisionMaker
         return player.getGame().getPandaPosition();
     }
 
-    private int evaluatePandaPosition(TilePosition tilePosition, Board b, List<PandaObjective> listPandaObjectives, HashMap<Color, Integer> playerReserve)
+    private int evaluatePandaPosition(TilePosition tilePosition, Board b, List<PandaObjective> listPandaObjectives, HashMap<Color, Integer> playerReserve) // Min-max application
     {
         Tile tile = b.findTile(tilePosition);
         if (!(tile instanceof LandTile))
@@ -587,7 +591,7 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public Pair<LandTile, LandTileImprovement> chooseImprovementAndLandTile(List<LandTile> vacantLandTile, List<LandTileImprovement> availableImprovements) // TODO: not recursive right now
     {
-        if (lastActionChosen == GameAction.PLACE_IMPROVEMENT)
+        if (lastActionChosen == GameAction.PLACE_IMPROVEMENT) // If already found by chooseAction
         {
             Object a = actionsChosen.get(GameAction.PLACE_IMPROVEMENT);
             if (a != null)
@@ -606,15 +610,15 @@ public class MinMaxBot extends DecisionMaker
         List<Objective> listObjectives = player.getHand();
         for (LandTile landTile : vacantLandTile)
         {
-            TilePosition position = landTile.getPosition().get();
-            if (position == null)
+            var position = landTile.getPosition();
+            if (position.isEmpty())
             {
                 continue;
             }
             for (LandTileImprovement landTileImprovement : availableImprovements)
             {
                 Board b = (Board) getBoard().clone();
-                int v = evaluateImprovementAndLandTile(landTileImprovement, position, b, listObjectives);
+                int v = evaluateImprovementAndLandTile(landTileImprovement, position.get(), b, listObjectives);
                 if (v > max)
                 {
                     bestImprovement = landTileImprovement;
@@ -631,7 +635,7 @@ public class MinMaxBot extends DecisionMaker
         return Pair.of(bestLandTile, bestImprovement);
     }
 
-    private int evaluateImprovement(LandTileImprovement improvement, Board b, List<Objective> listObjectives)
+    private int evaluateImprovement(LandTileImprovement improvement, Board b, List<Objective> listObjectives) // For each position, calls evaluateImprovementAndLandTile()
     {
         int max = 0;
         for (Map.Entry<TilePosition, Tile> entry : b.getTiles().entrySet())
@@ -652,7 +656,7 @@ public class MinMaxBot extends DecisionMaker
         return max;
     }
 
-    private int evaluateImprovementAndLandTile(LandTileImprovement improvement, TilePosition tilePosition, Board b, List<Objective> listObjectives)
+    private int evaluateImprovementAndLandTile(LandTileImprovement improvement, TilePosition tilePosition, Board b, List<Objective> listObjectives) // Check if improvement in specific Land Tile could yet points
     {
         if (tilePosition == null)
         {
@@ -680,7 +684,7 @@ public class MinMaxBot extends DecisionMaker
         return max;
     }
 
-    private int evaluatePlotAction(LandTile playedTile, TilePosition playedPos, List<LandTile> drawnTiles, List<TilePosition> ListValidsPositions, Board board, List<Objective> myObjectives, int n, boolean myTurn)
+    private int evaluatePlotAction(LandTile playedTile, TilePosition playedPos, List<LandTile> drawnTiles, List<TilePosition> ListValidsPositions, Board board, List<Objective> myObjectives, int n, boolean myTurn) // Evaluate position for new plot, by points given by PlotObjective (min-max)
     {
         List<Objective> copyOfMyObjectives = new ArrayList<>(myObjectives);
         List<LandTile> copyOfDrawnTiles = new ArrayList<>(drawnTiles);
@@ -726,16 +730,9 @@ public class MinMaxBot extends DecisionMaker
         {
             return scoreReturn;
         }
-        power = power / 100;
-        List<TilePosition> newListValidsPositions = new ArrayList<>();
-        for (TilePosition tilePosition : ListValidsPositions)
-        {
-            if (tilePosition.equals(playedPos))
-            {
-                continue;
-            }
-            newListValidsPositions.add(tilePosition);
-        }
+        power /= 100;
+        List<TilePosition> newListValidsPositions = new ArrayList<>(ListValidsPositions);
+        ListValidsPositions.removeIf(tilePosition -> tilePosition.equals(playedPos));
         scoreReturn -= newListValidsPositions
             .stream()
             .flatMapToInt(tilePosition ->

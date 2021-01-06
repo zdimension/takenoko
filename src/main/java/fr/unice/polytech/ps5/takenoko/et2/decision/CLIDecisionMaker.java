@@ -26,8 +26,6 @@ public class CLIDecisionMaker extends DecisionMaker
 
     /**
      * Class constructor
-     *
-     * @param player
      */
     public CLIDecisionMaker(Player player)
     {

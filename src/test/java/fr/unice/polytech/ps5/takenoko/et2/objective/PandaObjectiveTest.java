@@ -11,13 +11,12 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 class PandaObjectiveTest
 {
     private Board mockBoard;
     private Player mockPlayer;
-    private Map<Color, Integer> playerBambooReserve = new HashMap<>();
+    private final Map<Color, Integer> playerBambooReserve = new HashMap<>();
 
     @BeforeEach
     void init()

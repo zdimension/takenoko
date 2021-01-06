@@ -46,19 +46,7 @@ public class PlotObjective extends Objective
      */
     public boolean checkValidated(Board board, Player player)
     {
-        for (int i = 0; i < 6; i++)
-        {
-            for (int j = 0; j < listPaths.size(); j++)
-            {
-                listPaths.set(j, (listPaths.get(j) + 1) % 6);
-            }
-
-            if (checkValidatedSpecificRotation(board))
-            {
-                return true;
-            }
-        }
-        return false;
+        return this.checkValidated(board);
     }
 
     /**

@@ -26,8 +26,8 @@ class MinMaxBotTest
 {
     private MinMaxBot bot;
     private Game game;
-    Player player;
-    Board board;
+    private Player player;
+    private Board board;
 
     @BeforeEach
     void initBot()
@@ -101,7 +101,7 @@ class MinMaxBotTest
         TilePosition goodPosition = new TilePosition(0, -1);
         List<LandTile> listTiles = new ArrayList<>(Arrays.asList(new LandTile(Color.YELLOW), new LandTile(Color.GREEN), goodTile));
         List<TilePosition> listPositions = new ArrayList<>(Arrays.asList(new TilePosition(-1, 0), goodPosition, new TilePosition(-1, 1), new TilePosition(0, 1)));
-        assertEquals(player.getHand(), new ArrayList<>(Arrays.asList(plotObjective)));
+        assertEquals(player.getHand(), new ArrayList<>(Collections.singletonList(plotObjective)));
         assertEquals(bot.chooseTile(listTiles, listPositions), Pair.of(goodTile, goodPosition));
     }
 
@@ -154,7 +154,7 @@ class MinMaxBotTest
         {{
             put(Color.YELLOW, 2);
         }});
-        PlotObjective plo = new PlotObjective(3, Arrays.asList(Color.PINK), Arrays.asList());
+        PlotObjective plo = new PlotObjective(3, Collections.singletonList(Color.PINK), Collections.emptyList());
         List<Objective> listObj = new ArrayList<>(Arrays.asList(new GardenerObjective(4, Color.PINK, 2, 2), po, plo));
         assertEquals(bot.chooseObjectiveToComplete(listObj), po);
     }

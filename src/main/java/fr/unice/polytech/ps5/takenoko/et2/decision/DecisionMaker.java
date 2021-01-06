@@ -85,7 +85,7 @@ public abstract class DecisionMaker
     /**
      * Chooses one action out of allowed actions to perform during the turn
      *
-     * @param base
+     * @param base list of available actions
      * @return chosen action
      */
     public abstract GameAction chooseAction(List<GameAction> base);
