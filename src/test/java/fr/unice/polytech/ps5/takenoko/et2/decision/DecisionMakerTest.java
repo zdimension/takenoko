@@ -56,5 +56,10 @@ class DecisionMakerTest
         }
     }
 
-
+    @Test
+    void testRandomElementThrowsWhenEmptyListProvided()
+    {
+        var list = new ArrayList<>();
+        assertThrows(IllegalArgumentException.class, () -> bot.randomElement(list));
+    }
 }

@@ -65,9 +65,9 @@ public abstract class DecisionMaker
      */
     protected <T> T randomElement(List<T> list)
     {
-        if (list.size() < 1)
+        if (list.isEmpty())
         {
-            throw new IllegalArgumentException("randomElement() : list.size() must be strictly positive");
+            throw new IllegalArgumentException("randomElement() : list must not be empty");
         }
         return list.get(player.getGame().getRandom().nextInt(list.size()));
     }
