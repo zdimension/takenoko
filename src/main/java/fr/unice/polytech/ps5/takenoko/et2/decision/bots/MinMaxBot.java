@@ -95,7 +95,7 @@ public class MinMaxBot extends DecisionMaker
         {
             return GameAction.PICK_IRRIGATION;
         }
-        return randomElement(base);// TODO (improve ?)
+        return randomElement(base);
     }
 
     private int getPointsForAction(GameAction action)
@@ -104,25 +104,45 @@ public class MinMaxBot extends DecisionMaker
         {
             case MOVE_GARDENER:
                 List<TilePosition> positionsGardener = player.getGame().getValidGardenerTargets().collect(Collectors.toUnmodifiableList());
+                if (positionsGardener.size() < 1)
+                {
+                    return 0;
+                }
                 actionsChosen.replace(GameAction.MOVE_GARDENER, chooseGardenerTarget(positionsGardener));
                 return globalMax;
             case MOVE_PANDA:
                 List<TilePosition> positionsPanda = player.getGame().getValidPandaTargets().collect(Collectors.toUnmodifiableList());
+                if (positionsPanda.size() < 1)
+                {
+                    return 0;
+                }
                 actionsChosen.replace(GameAction.MOVE_PANDA, choosePandaTarget(positionsPanda, false));
                 return globalMax;
             case PLACE_IRRIGATION:
                 List<Edge> positionsIrrigation = player.getGame().findIrrigableEdges().collect(Collectors.toUnmodifiableList());
+                if (positionsIrrigation.size() < 1)
+                {
+                    return 0;
+                }
                 actionsChosen.replace(GameAction.PLACE_IRRIGATION, chooseIrrigationPosition(positionsIrrigation));
                 return globalMax;
             case DRAW_TILE:
                 GameData gameData = player.getGame().getGameData();
                 var validTiles = Collections.unmodifiableList(gameData.tileDeck.subList(0, Math.min(gameData.tileDeck.size(), 3)));
                 var validPos = getBoard().getValidEmptyPositions().collect(Collectors.toUnmodifiableList());
+                if (validTiles.size() < 1 || validPos.size() < 1)
+                {
+                    return 0;
+                }
                 actionsChosen.replace(GameAction.DRAW_TILE, chooseTile(validTiles, validPos));
                 return globalMax;
             case PLACE_IMPROVEMENT:
                 var vacantLandTile = getBoard().getLandTilesWithoutImprovement().collect(Collectors.toUnmodifiableList());
                 var availableImprovements = player.getChipReserve();
+                if (vacantLandTile.size() < 1 || availableImprovements.size() < 1)
+                {
+                    return 0;
+                }
                 actionsChosen.replace(GameAction.PLACE_IMPROVEMENT, chooseImprovementAndLandTile(vacantLandTile, availableImprovements));
                 return globalMax;
         }
@@ -132,15 +152,15 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public Class<? extends Objective> chooseDeck(List<Class<? extends Objective>> available)
     {
-        if (available.contains(PandaObjective.class) /*&& getRandom().nextInt(6) > 0*/)
+        if (available.contains(PandaObjective.class) && getBoard().getLandTiles().stream().count() > 3)
         {
             return PandaObjective.class;
         }
-        if (available.contains(PlotObjective.class) && (getBoard().getLandTiles().size() > 10 || getRandom().nextInt(6) == 0))
+        if (available.contains(PlotObjective.class) && getRandom().nextInt(4) < 3)
         {
             return PlotObjective.class;
         }
-        if (available.contains(GardenerObjective.class) && getBoard().getLandTiles().stream().filter(l -> (l.getBambooSize() > 0)).count() > 5)
+        if (available.contains(GardenerObjective.class) && (getBoard().getLandTiles().stream().filter(l -> (l.getBambooSize() > 0)).count() < 20 || getRandom().nextInt(4) < 3))
         {
             return GardenerObjective.class;
         }
@@ -305,6 +325,10 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public TilePosition chooseGardenerTarget(List<TilePosition> valid)
     {
+        if (valid.size() < 1)
+        {
+            throw new IllegalArgumentException("There are no valid position for gardener");
+        }
         if (lastActionChosen == GameAction.MOVE_GARDENER)
         {
             Object a = actionsChosen.get(GameAction.MOVE_GARDENER);
@@ -358,7 +382,56 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public Weather chooseWeather(List<Weather> weatherList)
     {
-        return randomElement(weatherList); //TODO
+        List<GameAction> gameActionList = new ArrayList<>();
+        if (weatherList.contains(Weather.RAIN))
+        {
+            gameActionList.add(GameAction.MOVE_GARDENER);
+        }
+        if (weatherList.contains(Weather.STORM))
+        {
+            gameActionList.add(GameAction.MOVE_PANDA);
+        }
+        if (weatherList.contains(Weather.CLOUDS))
+        {
+            gameActionList.add(GameAction.PLACE_IMPROVEMENT);
+        }
+        int maxPtsAction = 0;
+        GameAction bestAction = null;
+        for (GameAction gameAction : gameActionList)
+        {
+            int pts = getPointsForAction(gameAction);
+            if (pts > maxPtsAction)
+            {
+                maxPtsAction = pts;
+                bestAction = gameAction;
+            }
+        }
+        if (bestAction != null)
+        {
+            switch (bestAction)
+            {
+                case MOVE_GARDENER:
+                    return Weather.RAIN;
+                case MOVE_PANDA:
+                    return Weather.STORM;
+                case PLACE_IMPROVEMENT:
+                    return Weather.CLOUDS;
+            }
+        }
+        List<Weather> randomChoose = new ArrayList<>();
+        if (weatherList.contains(Weather.SUN))
+        {
+            randomChoose.add(Weather.SUN);
+        }
+        if (weatherList.contains(Weather.WIND))
+        {
+            randomChoose.add(Weather.WIND);
+        }
+        if (!randomChoose.isEmpty())
+        {
+            return randomElement(randomChoose);
+        }
+        return randomElement(weatherList);
     }
 
     @Override
