@@ -14,16 +14,13 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-public class GardenerSupportTest
+class GardenerSupportTest
 {
     private Game game;
     private Board board;
-    private List<TilePosition> boardTilePosition = new ArrayList<>();
+    private final List<TilePosition> boardTilePosition = new ArrayList<>();
 
     @BeforeEach
     void init() {

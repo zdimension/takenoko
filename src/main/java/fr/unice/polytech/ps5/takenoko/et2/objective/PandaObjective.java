@@ -97,7 +97,7 @@ public class PandaObjective extends Objective
             Integer numberOfEachColor = this.bambooSectionList.get(bambooColor);
             if (numberOfEachColor!=0){
                 message.append(bambooColor.toString());
-                message.append(":"+ numberOfEachColor);
+                message.append(":").append(numberOfEachColor);
             }
         }
         return message.toString();

@@ -31,9 +31,8 @@ public class MinMaxBot extends DecisionMaker
      */
     private final int depth;
 
-    private Edge maxEdge = null;
     private int globalMax;
-    private Map<GameAction, Object> actionsChosen = new HashMap<>();
+    private final Map<GameAction, Object> actionsChosen = new HashMap<>();
     private GameAction lastActionChosen = null;
 
     /**
@@ -152,7 +151,7 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public Class<? extends Objective> chooseDeck(List<Class<? extends Objective>> available)
     {
-        if (available.contains(PandaObjective.class) && (getBoard().getLandTiles().stream().filter(l -> (l.getBambooSize() > 0)).count() > 2 || getBoard().getLandTiles().stream().count() < 10))
+        if (available.contains(PandaObjective.class) && (getBoard().getLandTiles().stream().filter(l -> (l.getBambooSize() > 0)).count() > 2 || getBoard().getLandTiles().size() < 10))
         {
             return PandaObjective.class;
         }
@@ -160,7 +159,7 @@ public class MinMaxBot extends DecisionMaker
         {
             return PlotObjective.class;
         }
-        if (available.contains(GardenerObjective.class) && getBoard().getLandTiles().stream().count() > 5)
+        if (available.contains(GardenerObjective.class) && getBoard().getLandTiles().size() > 5)
         {
             return GardenerObjective.class;
         }
@@ -206,7 +205,6 @@ public class MinMaxBot extends DecisionMaker
                 {
                     if (objective.checkValidated(getBoard(), player))
                     {
-                        maxEdge = edge;
                         if (objective.getPoints() > maxPts)
                         {
                             maxPts = objective.getPoints();
@@ -255,12 +253,12 @@ public class MinMaxBot extends DecisionMaker
             {
                 continue;
             }
-            TilePosition tilePosition1 = realTile1.getPosition().get();
-            if (tilePosition1 == null)
+            var tilePosition1 = realTile1.getPosition();
+            if (tilePosition1.isEmpty())
             {
                 throw new IllegalArgumentException("getPosition(): pb");
             }
-            Tile newTile1 = b.findTile(tilePosition1);
+            Tile newTile1 = b.findTile(tilePosition1.get());
             if (newTile1 == null)
             {
                 continue;
@@ -452,7 +450,7 @@ public class MinMaxBot extends DecisionMaker
 
         List<PandaObjective> listPandaObjectives = player.getHand().stream().filter(PandaObjective.class::isInstance).map(o -> (PandaObjective) o).collect(Collectors.toList());
         Board b = (Board) getBoard().clone();
-        HashMap<Color, Integer> playerReserve = new HashMap<Color, Integer>(player.getBambooSectionReserve());
+        HashMap<Color, Integer> playerReserve = new HashMap<>(player.getBambooSectionReserve());
         TilePosition bestPosition = null;
         int max = 0;
         for (TilePosition tilePosition : valid)
@@ -606,15 +604,15 @@ public class MinMaxBot extends DecisionMaker
         List<Objective> listObjectives = player.getHand();
         for (LandTile landTile : vacantLandTile)
         {
-            TilePosition position = landTile.getPosition().get();
-            if (position == null)
+            var position = landTile.getPosition();
+            if (position.isEmpty())
             {
                 continue;
             }
             for (LandTileImprovement landTileImprovement : availableImprovements)
             {
                 Board b = (Board) getBoard().clone();
-                int v = evaluateImprovementAndLandTile(landTileImprovement, position, b, listObjectives);
+                int v = evaluateImprovementAndLandTile(landTileImprovement, position.get(), b, listObjectives);
                 if (v > max)
                 {
                     bestImprovement = landTileImprovement;
@@ -726,16 +724,9 @@ public class MinMaxBot extends DecisionMaker
         {
             return scoreReturn;
         }
-        power = power / 100;
-        List<TilePosition> newListValidsPositions = new ArrayList<>();
-        for (TilePosition tilePosition : ListValidsPositions)
-        {
-            if (tilePosition.equals(playedPos))
-            {
-                continue;
-            }
-            newListValidsPositions.add(tilePosition);
-        }
+        power /= 100;
+        List<TilePosition> newListValidsPositions = new ArrayList<>(ListValidsPositions);
+        ListValidsPositions.removeIf(tilePosition -> tilePosition.equals(playedPos));
         scoreReturn -= newListValidsPositions
             .stream()
             .flatMapToInt(tilePosition ->

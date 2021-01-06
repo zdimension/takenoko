@@ -63,34 +63,33 @@ class drawAndAddTileTest
         gameActionList3.remove(GameAction.PLACE_IMPROVEMENT);
         gameActionList3.remove(GameAction.COMPLETE_OBJECTIVE);
 
-        List<LandTile> drawnTiles1;
-        List<LandTile> drawnTiles2 = new ArrayList<>(){{
-            add(new LandTile(Color.YELLOW, LandTileImprovement.FERTILIZER));
-            add(new LandTile(Color.GREEN, LandTileImprovement.FERTILIZER));
-            add(new LandTile(Color.PINK));
-        }};
-        List<TilePosition> validPos1 = new ArrayList<>(){{
-            add(new TilePosition(-1, 0));
-            add(new TilePosition(-1, 1));
-            add(new TilePosition(0, -1));
-            add(new TilePosition(0, 1));
-            add(new TilePosition(1, -1));
-            add(new TilePosition(1, 0));
-        }};
+        List<LandTile> drawnTiles2 = List.of(
+            new LandTile(Color.YELLOW, LandTileImprovement.FERTILIZER),
+            new LandTile(Color.GREEN, LandTileImprovement.FERTILIZER),
+            new LandTile(Color.PINK)
+        );
+        List<TilePosition> validPos1 = Arrays.asList(
+            new TilePosition(-1, 0),
+            new TilePosition(-1, 1),
+            new TilePosition(0, -1),
+            new TilePosition(0, 1),
+            new TilePosition(1, -1),
+            new TilePosition(1, 0)
+        );
 
-        List<TilePosition> validPos2 = new ArrayList<>(){{
-            add(new TilePosition(-1, 0));
-            add(new TilePosition(-1, 1));
-            add(new TilePosition(0, -1));
-            add(new TilePosition(0, 1));
-            add(new TilePosition(1, -1));
-        }};
+        List<TilePosition> validPos2 = Arrays.asList(
+            new TilePosition(-1, 0),
+            new TilePosition(-1, 1),
+            new TilePosition(0, -1),
+            new TilePosition(0, 1),
+            new TilePosition(1, -1)
+    );
 
-        drawnTiles1 = new ArrayList<>(){{
-            add(new LandTile(Color.YELLOW, LandTileImprovement.FERTILIZER));
-            add(new LandTile(Color.GREEN));
-            add(new LandTile(Color.GREEN, LandTileImprovement.FERTILIZER));
-        }};
+        List<LandTile> drawnTiles1 = List.of(
+            new LandTile(Color.YELLOW, LandTileImprovement.FERTILIZER),
+            new LandTile(Color.GREEN),
+            new LandTile(Color.GREEN, LandTileImprovement.FERTILIZER)
+        );
 
         validPos1.sort(TilePosition.storageComparer);
         validPos2.sort(TilePosition.storageComparer);
@@ -144,22 +143,19 @@ class drawAndAddTileTest
         gameActionList3.remove(GameAction.COMPLETE_OBJECTIVE);
 
 
-        List<LandTile> drawnTiles1;
+        List<TilePosition> validPos1 = Arrays.asList(
+            new TilePosition(-1, 0),
+            new TilePosition(-1, 1),
+            new TilePosition(0, -1),
+            new TilePosition(1, -1),
+            new TilePosition(1, 1)
+        );
 
-        List<TilePosition> validPos1 = new ArrayList<>(){{
-            add(new TilePosition(-1, 0));
-            add(new TilePosition(-1, 1));
-            add(new TilePosition(0, -1));
-            add(new TilePosition(1, -1));
-            add(new TilePosition(1, 1));
-
-        }};
-
-        drawnTiles1 = new ArrayList<>(){{
-            add(new LandTile(Color.YELLOW, LandTileImprovement.FERTILIZER));
-            add(new LandTile(Color.GREEN));
-            add(new LandTile(Color.GREEN, LandTileImprovement.FERTILIZER));
-        }};
+        List<LandTile> drawnTiles1 = List.of(
+            new LandTile(Color.YELLOW, LandTileImprovement.FERTILIZER),
+            new LandTile(Color.GREEN),
+            new LandTile(Color.GREEN, LandTileImprovement.FERTILIZER)
+        );
 
         validPos1.sort(TilePosition.storageComparer);
 
@@ -186,7 +182,7 @@ class drawAndAddTileTest
     }
 
     @Test
-    void testPlaceTileInvalidPosition() throws IllegalAccessException, DecisionMakerException
+    void testPlaceTileInvalidPosition() throws IllegalAccessException
     {
         initGameAndPlayersWithSeed(999999988, true);
 
@@ -200,22 +196,19 @@ class drawAndAddTileTest
         gameActionList1.remove(GameAction.PLACE_IRRIGATION);
         gameActionList1.remove(GameAction.PLACE_IMPROVEMENT);
 
-        List<LandTile> drawnTiles1;
+        List<TilePosition> validPos1 = Arrays.asList(
+            new TilePosition(-1, 0),
+            new TilePosition(-1, 1),
+            new TilePosition(0, -1),
+            new TilePosition(1, -1),
+            new TilePosition(1, 0)
+        );
 
-        List<TilePosition> validPos1 = new ArrayList<>(){{
-            add(new TilePosition(-1, 0));
-            add(new TilePosition(-1, 1));
-            add(new TilePosition(0, -1));
-            add(new TilePosition(1, -1));
-            add(new TilePosition(1, 0));
-
-        }};
-
-        drawnTiles1 = new ArrayList<>(){{
-            add(new LandTile(Color.YELLOW, LandTileImprovement.FERTILIZER));
-            add(new LandTile(Color.GREEN));
-            add(new LandTile(Color.GREEN, LandTileImprovement.FERTILIZER));
-        }};
+        List<LandTile> drawnTiles1 = List.of(
+            new LandTile(Color.YELLOW, LandTileImprovement.FERTILIZER),
+            new LandTile(Color.GREEN),
+            new LandTile(Color.GREEN, LandTileImprovement.FERTILIZER)
+        );
 
         validPos1.sort(TilePosition.storageComparer);
 
@@ -240,22 +233,19 @@ class drawAndAddTileTest
         gameActionList1.remove(GameAction.PLACE_IRRIGATION);
         gameActionList1.remove(GameAction.PLACE_IMPROVEMENT);
 
-        List<LandTile> drawnTiles1;
+        List<TilePosition> validPos1 = Arrays.asList(
+            new TilePosition(-1, 0),
+            new TilePosition(-1, 1),
+            new TilePosition(0, -1),
+            new TilePosition(1, -1),
+            new TilePosition(1, 0)
+        );
 
-        List<TilePosition> validPos1 = new ArrayList<>(){{
-            add(new TilePosition(-1, 0));
-            add(new TilePosition(-1, 1));
-            add(new TilePosition(0, -1));
-            add(new TilePosition(1, -1));
-            add(new TilePosition(1, 0));
-
-        }};
-
-        drawnTiles1 = new ArrayList<>(){{
-            add(new LandTile(Color.YELLOW, LandTileImprovement.FERTILIZER));
-            add(new LandTile(Color.GREEN));
-            add(new LandTile(Color.GREEN, LandTileImprovement.FERTILIZER));
-        }};
+        List<LandTile> drawnTiles1 = List.of(
+            new LandTile(Color.YELLOW, LandTileImprovement.FERTILIZER),
+            new LandTile(Color.GREEN),
+            new LandTile(Color.GREEN, LandTileImprovement.FERTILIZER)
+        );
 
         validPos1.sort(TilePosition.storageComparer);
 
