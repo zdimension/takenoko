@@ -2,7 +2,8 @@ package fr.unice.polytech.ps5.takenoko.et2.decision.bots;
 
 import fr.unice.polytech.ps5.takenoko.et2.GameData;
 import fr.unice.polytech.ps5.takenoko.et2.board.*;
-import fr.unice.polytech.ps5.takenoko.et2.commandline.Bot;
+import fr.unice.polytech.ps5.takenoko.et2.commandline.annotations.Bot;
+import fr.unice.polytech.ps5.takenoko.et2.commandline.annotations.BotParameter;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
 import fr.unice.polytech.ps5.takenoko.et2.enums.Weather;
@@ -25,6 +26,7 @@ public class MinMaxBot extends RandomBot
     /**
      * Depth of the min-max algorithm: the higher is the slower and the stronger
      */
+    @BotParameter(lowerBound = 0)
     private final int depth;
     private int globalMax; // Max for all functions. Global and temp field
     private GameAction lastActionChosen = null; // Action choosen by chooseAction

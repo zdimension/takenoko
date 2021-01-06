@@ -1,4 +1,4 @@
-package fr.unice.polytech.ps5.takenoko.et2.commandline;
+package fr.unice.polytech.ps5.takenoko.et2.commandline.annotations;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

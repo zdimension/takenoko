@@ -17,7 +17,7 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
-@CommandLine.Command(name = "takenoko", mixinStandardHelpOptions = true, abbreviateSynopsis = true, requiredOptionMarker = '*', sortOptions = false)
+@CommandLine.Command(name = "takenoko", mixinStandardHelpOptions = true, abbreviateSynopsis = true, requiredOptionMarker = '*', sortOptions = false, usageHelpWidth = 120)
 class TakenokoRunner implements Runnable
 {
     private static final Logger LOGGER = Logger.getLogger(TakenokoRunner.class.getSimpleName());
@@ -25,7 +25,7 @@ class TakenokoRunner implements Runnable
     @CommandLine.Parameters(
         paramLabel = "TYPE",
         index = "0",
-        description = { "List of bots to use.", "Valid values: ${COMPLETION-CANDIDATES}" },
+        description = { "List of bots to use.", "A value of 0 for the 'level' parameter usually indicates a level equivalent to that of the random bot.", "Valid values: ${COMPLETION-CANDIDATES}" },
         completionCandidates = DecisionMakerHandler.class,
         converter = DecisionMakerHandler.class,
         arity = "2..4")

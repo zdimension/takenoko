@@ -1,5 +1,7 @@
 package fr.unice.polytech.ps5.takenoko.et2.commandline;
 
+import fr.unice.polytech.ps5.takenoko.et2.commandline.annotations.Bot;
+import fr.unice.polytech.ps5.takenoko.et2.commandline.annotations.BotParameter;
 import fr.unice.polytech.ps5.takenoko.et2.commandline.exceptions.*;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
@@ -7,7 +9,6 @@ import org.reflections.Reflections;
 import picocli.CommandLine;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -43,7 +44,27 @@ public class DecisionMakerHandler extends ArrayList<String> implements CommandLi
         types.put(name, meth);
         if (meth.getParameterCount() != 0)
         {
-            name += "(" + Arrays.stream(meth.getParameters()).map(Parameter::getName).collect(Collectors.joining(", ")) + ")";
+            name += "(" + Arrays.stream(meth.getParameters()).map(parameter ->
+            {
+                var pname = parameter.getName();
+                try
+                {
+                    var field = clazz.getDeclaredField(pname);
+                    var annot = field.getAnnotation(BotParameter.class);
+                    if (annot != null)
+                    {
+                        if (annot.lowerBound() != -1)
+                            pname = annot.lowerBound() + "≤" + pname;
+                        if (annot.upperBound() != -1)
+                            pname += "≤" + annot.upperBound();
+                    }
+                }
+                catch (NoSuchFieldException ignored)
+                {
+                    ;
+                }
+                return pname;
+            }).collect(Collectors.joining(", ")) + ")";
         }
         botDisplayNames.add(name);
     }

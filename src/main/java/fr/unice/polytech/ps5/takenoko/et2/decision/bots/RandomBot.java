@@ -4,7 +4,7 @@ import fr.unice.polytech.ps5.takenoko.et2.board.Edge;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTileImprovement;
 import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
-import fr.unice.polytech.ps5.takenoko.et2.commandline.Bot;
+import fr.unice.polytech.ps5.takenoko.et2.commandline.annotations.Bot;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import fr.unice.polytech.ps5.takenoko.et2.enums.Weather;
