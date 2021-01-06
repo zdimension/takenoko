@@ -1,9 +1,6 @@
 package fr.unice.polytech.ps5.takenoko.et2.commandline;
 
-import fr.unice.polytech.ps5.takenoko.et2.commandline.exceptions.InvalidBotParameterCountException;
-import fr.unice.polytech.ps5.takenoko.et2.commandline.exceptions.InvalidBotParameterException;
-import fr.unice.polytech.ps5.takenoko.et2.commandline.exceptions.InvalidBotTypeException;
-import fr.unice.polytech.ps5.takenoko.et2.commandline.exceptions.InvalidBotTypeSyntaxException;
+import fr.unice.polytech.ps5.takenoko.et2.commandline.exceptions.*;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import org.reflections.Reflections;
@@ -55,7 +52,8 @@ public class DecisionMakerHandler extends ArrayList<String> implements CommandLi
 
     private static Method getBuilder(Class<? extends DecisionMaker> cl)
     {
-        return Arrays.stream(cl.getMethods()).filter(m -> m.getName().equals("getBuilder")).findFirst().get();
+        return Arrays.stream(cl.getMethods()).filter(m -> m.getName().equals("getBuilder")).findFirst()
+            .orElseThrow(() -> new MissingBuilderException(cl));
     }
     
     @Override

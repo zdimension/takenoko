@@ -1,6 +1,5 @@
 package fr.unice.polytech.ps5.takenoko.et2.decision;
 
-import fr.unice.polytech.ps5.takenoko.et2.board.Board;
 import fr.unice.polytech.ps5.takenoko.et2.decision.bots.RandomBot;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.Game;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.Player;
@@ -8,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.spy;

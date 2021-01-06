@@ -192,9 +192,7 @@ public class Game
 
     /**
      * Processes the game, needs players to be added before via addPlayer (between 2 and 4 players).
-     * Starts the game, process each turn in two phases :
-     * - Weather phase : weather is picked randomly and prompts DecisionMaker to act when needed.
-     * - DecisionMaker phase : prompts DecisionMaker to perform actions.
+     * Starts the game, process each turn.
      * Ends the game one round after a player triggered the Emperor by completing a certain amount
      * of objectives.
      *
@@ -210,6 +208,7 @@ public class Game
         gameData.objectiveDecks.values().forEach(o -> Collections.shuffle(o, random));
         Collections.shuffle(gameData.tileDeck, random);
 
+        //each player recieves an objective from each deck
         for (Player player : playerList)
         {
             for (var deck : gameData.objectiveDecks.values())
@@ -242,6 +241,7 @@ public class Game
                 }
             }
 
+            //if player index is last, loops back to index 0 for the next turn
             if (i == numberPlayers - 1)
             {
                 i = 0;
@@ -252,6 +252,7 @@ public class Game
             }
             turn++;
 
+            //enable weather conditions
             if (isFirstRound && turn == numberPlayers - 1)
             {
                 isFirstRound = false;
@@ -271,7 +272,12 @@ public class Game
     }
 
     /**
-     * Processes the current turn
+     * Processes the current turn.
+     * Each turn has two main phases :
+     *  <ul>
+     *      <li>Weather phase : weather is picked randomly and prompts DecisionMaker to act when needed.
+     *      <li>DecisionMaker phase : prompts DecisionMaker to perform actions.
+     *  </ul>
      *
      * @param player the current player
      * @return true if the turn was completed, false if a deadlock happened
@@ -284,6 +290,7 @@ public class Game
 
         Weather turnWeather = null;
 
+        //Weather phase
         if (!isFirstRound)
         {
             turnWeather = rollWeatherDice();
@@ -316,10 +323,12 @@ public class Game
         var actions = new ArrayList<>(Arrays.asList(GameAction.values()));
         var unlimited = new ArrayList<>(GameAction.getUnlimitedActions());
         unlimited.add(null); // player can choose "null" after the required 2 actions are performed
+
+        //DecisionMaker Phase
         while (true)
         {
             List<GameAction> base;
-            if (remaining == 0)
+            if (remaining == 0) //no limited action left
             {
                 base = new ArrayList<>(unlimited);
             }
@@ -354,6 +363,7 @@ public class Game
                 break;
             }
 
+            //finds the function associated with the chosen action
             var handler = ACTION_MAP.getOrDefault(action, null);
 
             if (handler != null)
@@ -440,7 +450,7 @@ public class Game
     }
 
     /**
-     * Prompts DecisionMaker to choose an objective deck. An objective is drawn from this deck and
+     * Prompts DecisionMaker to choose an objective deck. An objective is drawn from the top of the chosen deck and
      * put in the player's hand.
      *
      * @param player the current player

@@ -22,14 +22,13 @@ import static org.mockito.Mockito.*;
 class PlayerTest
 {
     private Game mockGame;
-    private DecisionMakerBuilder mockBuilder;
     private Player p;
 
     @BeforeEach
     void init()
     {
         mockGame = mock(Game.class);
-        mockBuilder = mock(DecisionMakerBuilder.class);
+        DecisionMakerBuilder mockBuilder = mock(DecisionMakerBuilder.class);
         p =new Player(mockGame, mockBuilder);
     }
 

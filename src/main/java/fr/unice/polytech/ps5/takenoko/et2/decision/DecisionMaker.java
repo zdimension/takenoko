@@ -69,7 +69,15 @@ public abstract class DecisionMaker
         {
             throw new IllegalArgumentException("randomElement() : list must not be empty");
         }
-        return list.get(player.getGame().getRandom().nextInt(list.size()));
+        return list.get(getRandom().nextInt(list.size()));
+    }
+
+    /**
+     * @return a random boolean
+     */
+    protected boolean randomBoolean()
+    {
+        return getRandom().nextBoolean();
     }
 
     /**
@@ -85,7 +93,7 @@ public abstract class DecisionMaker
     /**
      * Chooses one action out of allowed actions to perform during the turn
      *
-     * @param base
+     * @param base list of available actions
      * @return chosen action
      */
     public abstract GameAction chooseAction(List<GameAction> base);
@@ -98,10 +106,10 @@ public abstract class DecisionMaker
 
     /**Chooses one from three {@link fr.unice.polytech.ps5.takenoko.et2.board.LandTile} and a position on the board to put it
      *
-     * @param drawnTiles to choose from
+     * @param drawnTiles to choose from (size = 3)
      * @return chosen tile
      */
-    public abstract Pair<LandTile, TilePosition> chooseTile(List<LandTile> drawnTiles, List<TilePosition> validPos); //drawnTiles.size() = 3
+    public abstract Pair<LandTile, TilePosition> chooseTile(List<LandTile> drawnTiles, List<TilePosition> validPos);
 
     /**Chooses an {@link fr.unice.polytech.ps5.takenoko.et2.objective.Objective} to complete among objectives in the player's hand
      *
