@@ -152,15 +152,15 @@ public class MinMaxBot extends DecisionMaker
     @Override
     public Class<? extends Objective> chooseDeck(List<Class<? extends Objective>> available)
     {
-        if (available.contains(PandaObjective.class) && getBoard().getLandTiles().stream().count() > 3)
+        if (available.contains(PandaObjective.class) && (getBoard().getLandTiles().stream().filter(l -> (l.getBambooSize() > 0)).count() > 2 || getBoard().getLandTiles().stream().count() < 10))
         {
             return PandaObjective.class;
         }
-        if (available.contains(PlotObjective.class) && getRandom().nextInt(4) < 3)
+        if (available.contains(PlotObjective.class) && getRandom().nextInt(4) < 2)
         {
             return PlotObjective.class;
         }
-        if (available.contains(GardenerObjective.class) && (getBoard().getLandTiles().stream().filter(l -> (l.getBambooSize() > 0)).count() < 20 || getRandom().nextInt(4) < 3))
+        if (available.contains(GardenerObjective.class) && getBoard().getLandTiles().stream().count() > 5)
         {
             return GardenerObjective.class;
         }
