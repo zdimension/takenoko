@@ -188,11 +188,12 @@ public class MinMaxBot extends RandomBot
             }
         }
 
+        var valid = new ArrayList<>(validPos);
         var returns =
             drawnTiles.stream().flatMap(
                 landTile -> validPos.stream().map(
                     position -> Map.entry(
-                        evaluatePlotAction(landTile, position, drawnTiles, validPos, player.getGame().getBoard(), player.getHand(), depth, true),
+                        evaluatePlotAction(landTile, position, drawnTiles, valid, player.getGame().getBoard(), player.getHand(), depth, true),
                         Pair.of(landTile, position)
                     )
                 )
