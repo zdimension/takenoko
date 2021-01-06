@@ -118,6 +118,11 @@ class MinMaxBotTest
         assertTrue(goodTile.growBambooSection());
         player.addObjective(gardenerObjective);
         assertEquals(bot.chooseGardenerTarget(Arrays.asList(new TilePosition(1, 0), goodPosition, new TilePosition(0, -1))), goodPosition);
+        assertThrows(IllegalArgumentException.class, () -> bot.chooseGardenerTarget(new ArrayList<>()));
+
+        bot.setLastActionChosen(GameAction.MOVE_GARDENER);
+        assertEquals(bot.chooseGardenerTarget(Arrays.asList(new TilePosition(1, 0), goodPosition, new TilePosition(0, -1))), goodPosition);
+
     }
 
     @Test

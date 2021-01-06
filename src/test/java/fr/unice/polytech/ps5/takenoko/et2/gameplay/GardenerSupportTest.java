@@ -112,8 +112,9 @@ class GardenerSupportTest
         when(mockPlayer.getDecisionMaker()).thenReturn(mockDecisionMaker);
         when(mockDecisionMaker.chooseGardenerTarget(anyList())).thenReturn(position, TilePosition.ZERO);
         game.moveGardener(mockPlayer);
-        verify(mockDecisionMaker, times(1)).chooseGardenerTarget(anyList());
-        verify(mockPlayer, times(1)).getDecisionMaker();
+        game.moveGardener(mockPlayer);
+        verify(mockDecisionMaker, times(2)).chooseGardenerTarget(anyList());
+        verify(mockPlayer, times(2)).getDecisionMaker();
         verify(l1, times(1)).growBambooSection();
         verify(l2, times(1)).growBambooSection();
         verify(l5, times(0)).growBambooSection();

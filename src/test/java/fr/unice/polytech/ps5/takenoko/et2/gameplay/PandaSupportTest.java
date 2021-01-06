@@ -1,16 +1,14 @@
 package fr.unice.polytech.ps5.takenoko.et2.gameplay;
 
 import fr.unice.polytech.ps5.takenoko.et2.GameData;
-import fr.unice.polytech.ps5.takenoko.et2.board.Board;
-import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
-import fr.unice.polytech.ps5.takenoko.et2.board.LandTileImprovement;
-import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
+import fr.unice.polytech.ps5.takenoko.et2.board.*;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -191,17 +189,22 @@ class PandaSupportTest
 
     @Test
     void movePandaOnPondTileTest(){
+        DecisionMaker mockDecisionMaker = mock(DecisionMaker.class);
+        Player mockPlayer = mock(Player.class);
         TilePosition position = new TilePosition(2,0);
         LandTile pandaGoal = (LandTile)(board.getTiles().get(position));
 
-        ArrayList<TilePosition> pandaPositionTargets = new ArrayList<>(List.of(position));
-        ArrayList<LandTile> pandaTileTargets = new ArrayList<>(List.of(pandaGoal));
-        ArrayList<Integer> invocations = new ArrayList<>(List.of(2,2,0,0));
-
-        movePandaBasis(pandaPositionTargets, pandaTileTargets, invocations, 2, false);
+        when(mockPlayer.getDecisionMaker()).thenReturn(mockDecisionMaker);
+        when(mockDecisionMaker.choosePandaTarget(anyList(), anyBoolean())).thenReturn(position, TilePosition.ZERO);
+        game.movePanda(mockPlayer);
+        assertEquals(position, game.getPandaPosition());
+        game.movePanda(mockPlayer);
+        assertEquals(TilePosition.ZERO, game.getPandaPosition());
+        verify(mockDecisionMaker, times(2)).choosePandaTarget(anyList(), anyBoolean());
+        verify(mockPlayer, times(2)).getDecisionMaker();
+        verify(mockPlayer, times(0)).addBambooSection(Color.GREEN);
+        verify(pandaGoal, times(0)).cutBambooSection();
+        verifyNoMoreInteractions(mockDecisionMaker);
+        verifyNoMoreInteractions(mockPlayer);
     }
-
-
-
-
 }
