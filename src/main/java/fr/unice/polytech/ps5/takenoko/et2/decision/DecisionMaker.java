@@ -58,6 +58,11 @@ public abstract class DecisionMaker
         return player.getGame().getBoard();
     }
 
+    /**
+     * @param list to choose from
+     * @param <T> type of element to choose
+     * @return a random element from the list
+     */
     protected <T> T randomElement(List<T> list)
     {
         return list.get(player.getGame().getRandom().nextInt(list.size()));
