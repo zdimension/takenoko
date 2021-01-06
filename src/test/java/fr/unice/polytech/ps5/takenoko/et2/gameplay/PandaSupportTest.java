@@ -1,10 +1,7 @@
 package fr.unice.polytech.ps5.takenoko.et2.gameplay;
 
 import fr.unice.polytech.ps5.takenoko.et2.GameData;
-import fr.unice.polytech.ps5.takenoko.et2.board.Board;
-import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
-import fr.unice.polytech.ps5.takenoko.et2.board.LandTileImprovement;
-import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
+import fr.unice.polytech.ps5.takenoko.et2.board.*;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
 import org.junit.jupiter.api.BeforeEach;
@@ -204,9 +201,8 @@ class PandaSupportTest
         assertEquals(TilePosition.ZERO, game.getPandaPosition());
         verify(mockDecisionMaker, times(2)).choosePandaTarget(anyList(), anyBoolean());
         verify(mockPlayer, times(2)).getDecisionMaker();
-        verify(mockPlayer, times(1)).addBambooSection(Color.GREEN);
-        verify(pandaGoal, times(1)).cutBambooSection();
-        verifyNoMoreInteractions(board.getCenter());
+        verify(mockPlayer, times(0)).addBambooSection(Color.GREEN);
+        verify(pandaGoal, times(0)).cutBambooSection();
         verifyNoMoreInteractions(mockDecisionMaker);
         verifyNoMoreInteractions(mockPlayer);
     }
