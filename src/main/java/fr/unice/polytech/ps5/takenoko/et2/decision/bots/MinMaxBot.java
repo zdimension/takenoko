@@ -3,7 +3,6 @@ package fr.unice.polytech.ps5.takenoko.et2.decision.bots;
 import fr.unice.polytech.ps5.takenoko.et2.GameData;
 import fr.unice.polytech.ps5.takenoko.et2.board.*;
 import fr.unice.polytech.ps5.takenoko.et2.commandline.Bot;
-import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
 import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
 import fr.unice.polytech.ps5.takenoko.et2.enums.Weather;
@@ -19,7 +18,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Bot(key = "minmax")
-public class MinMaxBot extends DecisionMaker
+public class MinMaxBot extends RandomBot
 {
     private final Map<GameAction, Object> actionsChosen = new HashMap<>(); // Store temporarily the result of choose[...]. Filled by chooseAction() and used by choose[...]
 
@@ -187,12 +186,11 @@ public class MinMaxBot extends DecisionMaker
             }
         }
 
-        var valid = player.getGame().getBoard().getValidEmptyPositions().collect(Collectors.toList());
         var returns =
             drawnTiles.stream().flatMap(
                 landTile -> validPos.stream().map(
                     position -> Map.entry(
-                        evaluatePlotAction(landTile, position, drawnTiles, valid, player.getGame().getBoard(), player.getHand(), depth, true),
+                        evaluatePlotAction(landTile, position, drawnTiles, validPos, player.getGame().getBoard(), player.getHand(), depth, true),
                         Pair.of(landTile, position)
                     )
                 )
@@ -734,7 +732,7 @@ public class MinMaxBot extends DecisionMaker
         List<TilePosition> newListValidsPositions = depth == 1
             ? ListValidsPositions
             : new ArrayList<>(ListValidsPositions);
-        newListValidsPositions.removeIf(tilePosition -> tilePosition.equals(playedPos));
+        newListValidsPositions.remove(playedPos);
         scoreReturn -= newListValidsPositions
             .stream()
             .flatMapToInt(tilePosition ->
