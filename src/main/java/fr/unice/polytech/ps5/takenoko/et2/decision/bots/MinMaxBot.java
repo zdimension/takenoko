@@ -60,6 +60,8 @@ public class MinMaxBot extends DecisionMaker
         return p -> new MinMaxBot(p, depth);
     }
 
+    void setLastActionChosen(GameAction action) { this.lastActionChosen = action; }
+
     @Override
     public GameAction chooseAction(List<GameAction> base)
     {
