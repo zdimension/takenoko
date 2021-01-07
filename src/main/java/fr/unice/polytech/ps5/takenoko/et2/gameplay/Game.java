@@ -831,14 +831,14 @@ public class Game
             .getDecisionMaker()
             .choosePandaTarget(valid, anyPosition);
 
-        if (!valid.contains(chosenPos))
-        {
-            throw new IllegalArgumentException("Invalid panda position");
-        }
-
         if (chosenPos.equals(pandaPosition))
         {
             return; // we're in a storm and the player has decided not to move the Panda
+        }
+
+        if (!valid.contains(chosenPos))
+        {
+            throw new IllegalArgumentException("Invalid panda position");
         }
 
         pandaPosition = chosenPos;
