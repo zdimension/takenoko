@@ -21,7 +21,7 @@ import java.util.List;
 @Bot(key = "random")
 public class RandomBot extends DecisionMaker
 {
-    public RandomBot(Player player)
+    RandomBot(Player player)
     {
         super(player);
     }

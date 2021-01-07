@@ -40,7 +40,7 @@ class GameTest
     void gameGameProcessing1Players() throws Exception
     {
         var players = List.<DecisionMakerBuilder>of(
-            RandomBot::new
+            RandomBot.getBuilder()
         );
 
         var game = new Game();
@@ -57,10 +57,10 @@ class GameTest
     void gameAddPlayer5Players() throws Exception
     {
         var players = List.<DecisionMakerBuilder>of(
-            RandomBot::new,
-            RandomBot::new,
-            RandomBot::new,
-            RandomBot::new
+            RandomBot.getBuilder(),
+            RandomBot.getBuilder(),
+            RandomBot.getBuilder(),
+            RandomBot.getBuilder()
         );
 
         var game = new Game();
@@ -70,7 +70,7 @@ class GameTest
             game.addPlayer(player);
         }
 
-        assertThrows(IllegalAccessException.class, () -> game.addPlayer(RandomBot::new));
+        assertThrows(IllegalAccessException.class, () -> game.addPlayer(RandomBot.getBuilder()));
     }
 
     @Test

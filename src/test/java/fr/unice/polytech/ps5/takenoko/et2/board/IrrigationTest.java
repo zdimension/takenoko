@@ -22,7 +22,7 @@ class IrrigationTest
         try
         {
             game = new Game();
-            DecisionMakerBuilder dm = RandomBot::new;
+            DecisionMakerBuilder dm = RandomBot.getBuilder();
             p = game.addPlayer(dm);
             board = game.getBoard();
         }
