@@ -20,7 +20,7 @@ public class PlotPatternBot extends RandomBot
     @BotParameter(lowerBound = 0, upperBound = 3)
     private final int level;
 
-    public PlotPatternBot(Player player, int level)
+    private PlotPatternBot(Player player, int level)
     {
         super(player);
         this.level = level;
