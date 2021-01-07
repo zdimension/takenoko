@@ -1,9 +1,9 @@
 package fr.unice.polytech.ps5.takenoko.et2.objective;
 
-import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
 import fr.unice.polytech.ps5.takenoko.et2.board.Board;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
+import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

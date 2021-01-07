@@ -21,6 +21,7 @@ public class DecisionMakerHandler extends ArrayList<String> implements CommandLi
 {
     private static final Map<String, Method> types = new HashMap<>();
     private static final List<String> botDisplayNames = new ArrayList<>();
+    private static final Pattern namePattern = Pattern.compile("^(\\w+)(?:\\(([^,]+(?:,[^,]+)*)?\\))?$");
 
     static
     {
@@ -54,14 +55,17 @@ public class DecisionMakerHandler extends ArrayList<String> implements CommandLi
                     if (annot != null)
                     {
                         if (annot.lowerBound() != -1)
+                        {
                             pname = annot.lowerBound() + "<=" + pname;
+                        }
                         if (annot.upperBound() != -1)
+                        {
                             pname += "<=" + annot.upperBound();
+                        }
                     }
                 }
                 catch (NoSuchFieldException ignored)
                 {
-                    ;
                 }
                 return pname;
             }).collect(Collectors.joining(", ")) + ")";
@@ -69,14 +73,12 @@ public class DecisionMakerHandler extends ArrayList<String> implements CommandLi
         botDisplayNames.add(name);
     }
 
-    private static final Pattern namePattern = Pattern.compile("^(\\w+)(?:\\(([^,]+(?:,[^,]+)*)?\\))?$");
-
     private static Method getBuilder(Class<? extends DecisionMaker> cl)
     {
         return Arrays.stream(cl.getMethods()).filter(m -> m.getName().equals("getBuilder")).findFirst()
             .orElseThrow(() -> new MissingBuilderException(cl));
     }
-    
+
     @Override
     public DecisionMakerBuilder convert(String s) throws IllegalArgumentException
     {

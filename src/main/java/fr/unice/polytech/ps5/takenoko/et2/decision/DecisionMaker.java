@@ -13,10 +13,10 @@ import java.util.Random;
 
 /**
  * Class making decisions over the course of the game.
- *
+ * <p>
  * All the fonctions are called by Game when the 'human player'
  * is expected to act in the 'real' game.
- *
+ * <p>
  * This class is separated from the {@link fr.unice.polytech.ps5.takenoko.et2.gameplay.Player} class because a living brain and
  * its belongings are not one unbreakable entity (Cf. 'Brain in a vat' from René
  * Descartes and Gilbert Harman).
@@ -60,7 +60,7 @@ public abstract class DecisionMaker
 
     /**
      * @param list to choose from
-     * @param <T> type of element to choose
+     * @param <T>  type of element to choose
      * @return a random element from the list
      */
     protected <T> T randomElement(List<T> list)
@@ -98,26 +98,30 @@ public abstract class DecisionMaker
      */
     public abstract GameAction chooseAction(List<GameAction> base);
 
-    /**Chooses one deck from which to draw an {@link fr.unice.polytech.ps5.takenoko.et2.objective.Objective}
+    /**
+     * Chooses one deck from which to draw an {@link fr.unice.polytech.ps5.takenoko.et2.objective.Objective}
      *
      * @return class of the deck chosen
      */
     public abstract Class<? extends Objective> chooseDeck(List<Class<? extends Objective>> available);
 
-    /**Chooses one from three {@link fr.unice.polytech.ps5.takenoko.et2.board.LandTile} and a position on the board to put it
+    /**
+     * Chooses one from three {@link fr.unice.polytech.ps5.takenoko.et2.board.LandTile} and a position on the board to put it
      *
      * @param drawnTiles to choose from (size = 3)
      * @return chosen tile
      */
     public abstract Pair<LandTile, TilePosition> chooseTile(List<LandTile> drawnTiles, List<TilePosition> validPos);
 
-    /**Chooses an {@link fr.unice.polytech.ps5.takenoko.et2.objective.Objective} to complete among objectives in the player's hand
+    /**
+     * Chooses an {@link fr.unice.polytech.ps5.takenoko.et2.objective.Objective} to complete among objectives in the player's hand
      *
      * @return Objective to complete
      */
     public abstract Objective chooseObjectiveToComplete(List<Objective> validObjectives);
 
-    /**Chooses an edge on the board on which to put an irrigation
+    /**
+     * Chooses an edge on the board on which to put an irrigation
      *
      * @return An Edge, the position of the irrigation
      */
@@ -128,7 +132,8 @@ public abstract class DecisionMaker
      */
     public abstract TilePosition chooseGardenerTarget(List<TilePosition> valid);
 
-    /**Chooses one weather to happen during the turn among allowed weathers
+    /**
+     * Chooses one weather to happen during the turn among allowed weathers
      *
      * @param weatherList to choose from
      * @return chosen weather

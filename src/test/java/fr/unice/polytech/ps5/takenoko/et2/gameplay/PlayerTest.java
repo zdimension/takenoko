@@ -29,13 +29,13 @@ class PlayerTest
     {
         mockGame = mock(Game.class);
         DecisionMakerBuilder mockBuilder = mock(DecisionMakerBuilder.class);
-        p =new Player(mockGame, mockBuilder);
+        p = new Player(mockGame, mockBuilder);
     }
 
     @Test
     void addBambooSectionTest()
     {
-        Map<Color, Integer> bambooReserveAfterAdd = Map.of(Color.GREEN,0, Color.YELLOW,1, Color.PINK,0);
+        Map<Color, Integer> bambooReserveAfterAdd = Map.of(Color.GREEN, 0, Color.YELLOW, 1, Color.PINK, 0);
         p.addBambooSection(Color.YELLOW);
         assertEquals(bambooReserveAfterAdd, p.getBambooSectionReserve());
 
@@ -50,8 +50,8 @@ class PlayerTest
         p.addBambooSection(Color.YELLOW);
         p.addBambooSection(Color.PINK);
 
-        Map<Color, Integer> bambooReserveAfterRemove = Map.of(Color.GREEN,0, Color.YELLOW,0, Color.PINK,0);
-        Map<Color, Integer> bambooSectionToRemove = Map.of(Color.GREEN,1, Color.YELLOW,1, Color.PINK,1);
+        Map<Color, Integer> bambooReserveAfterRemove = Map.of(Color.GREEN, 0, Color.YELLOW, 0, Color.PINK, 0);
+        Map<Color, Integer> bambooSectionToRemove = Map.of(Color.GREEN, 1, Color.YELLOW, 1, Color.PINK, 1);
         p.removeBambooSection(bambooSectionToRemove);
         assertEquals(bambooReserveAfterRemove, p.getBambooSectionReserve());
 
@@ -79,19 +79,19 @@ class PlayerTest
     void moveObjectiveToCompleteTest()
     {
         Objective mockGardenerObjective = mock(GardenerObjective.class);
-        assertEquals(0,p.completedObjectivesCount());
-        assertEquals(0,p.getHand().size());
+        assertEquals(0, p.completedObjectivesCount());
+        assertEquals(0, p.getHand().size());
         assertThrows(IllegalArgumentException.class, () -> p.moveObjectiveToComplete(mockGardenerObjective));
 
         p.addObjective(mockGardenerObjective);
 
-        assertEquals(0,p.completedObjectivesCount());
-        assertEquals(1,p.getHand().size());
+        assertEquals(0, p.completedObjectivesCount());
+        assertEquals(1, p.getHand().size());
 
         p.moveObjectiveToComplete(mockGardenerObjective);
 
-        assertEquals(1,p.completedObjectivesCount());
-        assertEquals(0,p.getHand().size());
+        assertEquals(1, p.completedObjectivesCount());
+        assertEquals(0, p.getHand().size());
         assertThrows(NullPointerException.class, () -> p.moveObjectiveToComplete(null));
 
         verifyNoMoreInteractions(mockGame);
@@ -148,14 +148,14 @@ class PlayerTest
 
         assertEquals(9, p.countPoints());
         p.triggerEmperor();
-        assertEquals(11,p.countPoints());
+        assertEquals(11, p.countPoints());
 
-        verify(mockPandaObjective,times(2)).getPoints();
-        verify(mockPandaObjective,times(1)).postValidation(p);
-        verify(mockGardenerObjective,times(2)).getPoints();
-        verify(mockGardenerObjective,times(1)).postValidation(p);
-        verify(mockPlotObjective,times(2)).getPoints();
-        verify(mockPlotObjective,times(1)).postValidation(p);
+        verify(mockPandaObjective, times(2)).getPoints();
+        verify(mockPandaObjective, times(1)).postValidation(p);
+        verify(mockGardenerObjective, times(2)).getPoints();
+        verify(mockGardenerObjective, times(1)).postValidation(p);
+        verify(mockPlotObjective, times(2)).getPoints();
+        verify(mockPlotObjective, times(1)).postValidation(p);
 
 
         verifyNoMoreInteractions(mockPandaObjective);
@@ -191,9 +191,9 @@ class PlayerTest
     @Test
     void pickIrrigationTest()
     {
-        assertEquals(0,p.getNbIrrigationsInStock());
+        assertEquals(0, p.getNbIrrigationsInStock());
         p.pickIrrigation();
-        assertEquals(1,p.getNbIrrigationsInStock());
+        assertEquals(1, p.getNbIrrigationsInStock());
         verifyNoMoreInteractions(mockGame);
     }
 
@@ -215,8 +215,8 @@ class PlayerTest
         assertFalse(p.irrigateEdge(mockEdge1));
         assertTrue(p.irrigateEdge(mockEdge2));
 
-        verify(mockEdge1,times(1)).isIrrigated();
-        verify(mockEdge1,times(1)).isIrrigated();
+        verify(mockEdge1, times(1)).isIrrigated();
+        verify(mockEdge1, times(1)).isIrrigated();
 
         verifyNoMoreInteractions(mockEdge1);
         //verifyNoMoreInteractions(mockEdge2);

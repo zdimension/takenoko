@@ -84,7 +84,6 @@ class BoardTest
         LandTile l8 = new LandTile(Color.YELLOW);
 
 
-
         board.addTile(l1, new TilePosition(0, 1));
         board.addTile(l2, new TilePosition(1, 0));
         board.addTile(l3, new TilePosition(1, -1));

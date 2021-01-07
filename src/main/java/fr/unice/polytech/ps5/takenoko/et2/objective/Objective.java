@@ -54,7 +54,6 @@ public abstract class Objective
      */
     public void postValidation(Player player)
     {
-        ;
     }
 
     /**

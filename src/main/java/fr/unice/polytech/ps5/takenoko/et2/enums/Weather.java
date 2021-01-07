@@ -81,7 +81,8 @@ public enum Weather
 
     /**
      * Main constructor.
-     * @param name of the Weather
+     *
+     * @param name         of the Weather
      * @param directAction of the Weather
      */
     Weather(String name, boolean directAction)
@@ -92,6 +93,7 @@ public enum Weather
 
     /**
      * Constructor overload. directAction set to false.
+     *
      * @param name of the Weather
      */
     Weather(String name)

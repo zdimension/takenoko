@@ -63,7 +63,7 @@ public class GardenerObjective extends Objective
     /**
      * Check if the objective is validated with the given board
      *
-     * @param board The board to check
+     * @param board  The board to check
      * @param player the player who have this objective in hand
      * @return true if the Objective is validated in the Game, false otherwise
      */
@@ -150,7 +150,8 @@ public class GardenerObjective extends Objective
             + color + " bamboo, "
             + numberOfBambooStack + " bamboo stack(s), "
             + numberOfBambooSection + " bamboo sections per stack, ";
-        if(this.landTileImprovement!=null) {
+        if (this.landTileImprovement != null)
+        {
             message += landTileImprovement + " land tile improvement";
         }
         return message;

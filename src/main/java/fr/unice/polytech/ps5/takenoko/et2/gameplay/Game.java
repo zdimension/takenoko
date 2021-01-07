@@ -8,7 +8,6 @@ import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerException;
 import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
 import fr.unice.polytech.ps5.takenoko.et2.enums.Weather;
 import fr.unice.polytech.ps5.takenoko.et2.objective.Objective;
-import fr.unice.polytech.ps5.takenoko.et2.objective.PandaObjective;
 import fr.unice.polytech.ps5.takenoko.et2.util.Pair;
 
 import java.util.*;
@@ -76,17 +75,6 @@ public class Game
      * Position of the gardener. It starts on the PondTile.
      */
     private TilePosition gardenerPosition = TilePosition.ZERO;
-
-    public TilePosition getPandaPosition()
-    {
-        return pandaPosition;
-    }
-
-    public GameData getGameData()
-    {
-        return gameData;
-    }
-
     /**
      * Position of the panda. It starts on the PondTile.
      */
@@ -116,12 +104,10 @@ public class Game
         GameAction.MOVE_PANDA, this::movePanda,
         GameAction.PLACE_IMPROVEMENT, this::placeImprovement
     );
-
     public Game()
     {
         this(new GameData());
     }
-
     /**
      * Game contructor
      *
@@ -155,6 +141,16 @@ public class Game
     private static <T> boolean someAvailable(Stream<T> stream)
     {
         return stream.findAny().isPresent();
+    }
+
+    public TilePosition getPandaPosition()
+    {
+        return pandaPosition;
+    }
+
+    public GameData getGameData()
+    {
+        return gameData;
     }
 
     public Random getRandom()
@@ -274,10 +270,10 @@ public class Game
     /**
      * Processes the current turn.
      * Each turn has two main phases :
-     *  <ul>
-     *      <li>Weather phase : weather is picked randomly and prompts DecisionMaker to act when needed.
-     *      <li>DecisionMaker phase : prompts DecisionMaker to perform actions.
-     *  </ul>
+     * <ul>
+     *     <li>Weather phase : weather is picked randomly and prompts DecisionMaker to act when needed.
+     *     <li>DecisionMaker phase : prompts DecisionMaker to perform actions.
+     * </ul>
      *
      * @param player the current player
      * @return true if the turn was completed, false if a deadlock happened
@@ -486,7 +482,7 @@ public class Game
                 .getValidEmptyPositions()
                 .collect(Collectors.toUnmodifiableList());
         var chosenTile = dm.chooseTile(validTiles, validPos);
-        if(chosenTile == null)
+        if (chosenTile == null)
         {
             throw new IllegalArgumentException("Selected tile and position unreadable");
         }
@@ -671,7 +667,7 @@ public class Game
                 {
                     try
                     {
-                        if(land.isIrrigated())
+                        if (land.isIrrigated())
                         {
                             addBambooSectionToTile((LandTile) tile);
                         }
@@ -818,7 +814,7 @@ public class Game
      * Prompts DecisionMaker into choosing where to place the panda. It can move like the queen at chess. During a storm
      * it can move anywhere. It gives one bamboo section of the tile he landed on to the player
      *
-     * @param player to act
+     * @param player      to act
      * @param anyPosition if called because of {@link fr.unice.polytech.ps5.takenoko.et2.enums.Weather#STORM}
      */
     void movePanda(Player player, boolean anyPosition)
@@ -856,8 +852,10 @@ public class Game
         {
             if (cast.getLandTileImprovement() != LandTileImprovement.ENCLOSURE)
             {
-                if(removeBambooSectionToTile(cast))
+                if (removeBambooSectionToTile(cast))
+                {
                     getBambooSection(player, cast.getColor());
+                }
             }
 
         }

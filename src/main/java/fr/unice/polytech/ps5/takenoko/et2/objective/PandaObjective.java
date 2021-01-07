@@ -19,10 +19,10 @@ public class PandaObjective extends Objective
     /**
      * Constructor
      *
-     * @param points                 points of the Objective
-     * @param bambooSectionList    a map of bamboo section color and the number of each one eg [YELLOW, 2]
+     * @param points            points of the Objective
+     * @param bambooSectionList a map of bamboo section color and the number of each one eg [YELLOW, 2]
      */
-    public PandaObjective(int points, Map<Color,Integer> bambooSectionList)
+    public PandaObjective(int points, Map<Color, Integer> bambooSectionList)
     {
         super(points);
         if (bambooSectionList.isEmpty())
@@ -34,13 +34,18 @@ public class PandaObjective extends Objective
 
     /**
      * Get the bamboo section of the objectif in order to remove it from the player reserve after validating it
+     *
      * @return a Map containing the color of the bamboo and the number of each of them
      */
-    public Map<Color, Integer> getBambooSectionList() { return this.bambooSectionList; }
+    public Map<Color, Integer> getBambooSectionList()
+    {
+        return this.bambooSectionList;
+    }
 
     /**
-     * Check if the objective is validated. The player bamboo reserve contains the 
-     * @param board the game board
+     * Check if the objective is validated. The player bamboo reserve contains the
+     *
+     * @param board  the game board
      * @param player the player
      * @return true if the objective is validated false otherwise
      */
@@ -95,7 +100,8 @@ public class PandaObjective extends Objective
         for (Color bambooColor : this.bambooSectionList.keySet())
         {
             Integer numberOfEachColor = this.bambooSectionList.get(bambooColor);
-            if (numberOfEachColor!=0){
+            if (numberOfEachColor != 0)
+            {
                 message.append(bambooColor.toString());
                 message.append(":").append(numberOfEachColor);
             }

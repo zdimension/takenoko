@@ -1,10 +1,10 @@
 package fr.unice.polytech.ps5.takenoko.et2.board;
 
+import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
+import fr.unice.polytech.ps5.takenoko.et2.decision.bots.RandomBot;
 import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.Game;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.Player;
-import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;
-import fr.unice.polytech.ps5.takenoko.et2.decision.bots.RandomBot;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

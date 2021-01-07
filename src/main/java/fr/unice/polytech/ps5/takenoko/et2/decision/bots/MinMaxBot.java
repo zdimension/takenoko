@@ -46,6 +46,11 @@ public class MinMaxBot extends RandomBot
         }
     }
 
+    public static DecisionMakerBuilder getBuilder(int depth)
+    {
+        return p -> new MinMaxBot(p, depth);
+    }
+
     /**
      * Min-max bot depth getter
      *
@@ -56,12 +61,10 @@ public class MinMaxBot extends RandomBot
         return depth;
     }
 
-    public static DecisionMakerBuilder getBuilder(int depth)
+    void setLastActionChosen(GameAction action)
     {
-        return p -> new MinMaxBot(p, depth);
+        this.lastActionChosen = action;
     }
-
-    void setLastActionChosen(GameAction action) { this.lastActionChosen = action; }
 
     @Override
     public GameAction chooseAction(List<GameAction> base)
@@ -215,7 +218,7 @@ public class MinMaxBot extends RandomBot
         int maxPts = 0;
         for (Edge edge : player.getGame().findIrrigableEdges().collect(Collectors.toUnmodifiableList()))
         {
-            try(var ignored = edge.setTemporaryIrrigationState(true))
+            try (var ignored = edge.setTemporaryIrrigationState(true))
             {
                 for (Objective objective : player.getHand())
                 {

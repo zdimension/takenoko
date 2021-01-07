@@ -11,5 +11,6 @@ import java.lang.annotation.Target;
 public @interface BotParameter
 {
     int lowerBound() default -1;
+
     int upperBound() default -1;
 }

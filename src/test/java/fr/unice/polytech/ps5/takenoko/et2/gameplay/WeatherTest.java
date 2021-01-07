@@ -49,7 +49,7 @@ class WeatherTest
 
         game.isFirstRound = false;
         var t1 = new LandTile(Color.YELLOW);
-        game.getBoard().addTile(t1 , new TilePosition(0, 1));
+        game.getBoard().addTile(t1, new TilePosition(0, 1));
         List<Weather> weatherList = new ArrayList<>(Arrays.asList(Weather.values()));
         weatherList.remove(Weather.QUESTION_MARK);
 
@@ -88,7 +88,7 @@ class WeatherTest
 
         var board = new Board();
         var t2 = new LandTile(Color.YELLOW);
-        board.addTile(t2,  new TilePosition(0, 1));
+        board.addTile(t2, new TilePosition(0, 1));
         t2.growBambooSection();
 
         assertEquals(board, game.getBoard());
@@ -104,7 +104,7 @@ class WeatherTest
         game.gameData.chipReserve.clear();
         game.isFirstRound = false;
         var t1 = new LandTile(Color.YELLOW);
-        game.getBoard().addTile(t1 , new TilePosition(0, 1));
+        game.getBoard().addTile(t1, new TilePosition(0, 1));
         List<Weather> weatherList = new ArrayList<>(Arrays.asList(Weather.values()));
         weatherList.remove(Weather.QUESTION_MARK);
         weatherList.remove(Weather.CLOUDS);
@@ -144,7 +144,7 @@ class WeatherTest
 
         var board = new Board();
         var t2 = new LandTile(Color.YELLOW);
-        board.addTile(t2,  new TilePosition(0, 1));
+        board.addTile(t2, new TilePosition(0, 1));
         t2.growBambooSection();
 
         assertEquals(board, game.getBoard());
@@ -159,7 +159,7 @@ class WeatherTest
 
         game.isFirstRound = false;
         var t1 = new LandTile(Color.YELLOW);
-        game.getBoard().addTile(t1 , new TilePosition(0, 1));
+        game.getBoard().addTile(t1, new TilePosition(0, 1));
 
         when(p1.getDecisionMaker().chooseTileToAddBamboo(game.getBoard().getBambooableTiles())).thenReturn(t1);
 
@@ -195,7 +195,7 @@ class WeatherTest
 
         var board = new Board();
         var t2 = new LandTile(Color.YELLOW);
-        board.addTile(t2,  new TilePosition(0, 1));
+        board.addTile(t2, new TilePosition(0, 1));
         t2.growBambooSection();
 
         assertEquals(board, game.getBoard());
@@ -212,9 +212,9 @@ class WeatherTest
         var t1 = new LandTile(Color.YELLOW);
         var t2 = new LandTile(Color.GREEN);
         var t3 = new LandTile(Color.PINK);
-        game.getBoard().addTile(t1 , new TilePosition(0, 1));
-        game.getBoard().addTile(t2 , new TilePosition(-1, 1));
-        game.getBoard().addTile(t3 , new TilePosition(-1, 2));
+        game.getBoard().addTile(t1, new TilePosition(0, 1));
+        game.getBoard().addTile(t2, new TilePosition(-1, 1));
+        game.getBoard().addTile(t3, new TilePosition(-1, 2));
         t1.growBambooSection();
         t1.growBambooSection();
         t1.growBambooSection();
@@ -256,9 +256,9 @@ class WeatherTest
         var t4 = new LandTile(Color.YELLOW);
         var t5 = new LandTile(Color.GREEN);
         var t6 = new LandTile(Color.PINK);
-        board.addTile(t4,  new TilePosition(0, 1));
-        board.addTile(t5 , new TilePosition(-1, 1));
-        board.addTile(t6 , new TilePosition(-1, 2));
+        board.addTile(t4, new TilePosition(0, 1));
+        board.addTile(t5, new TilePosition(-1, 1));
+        board.addTile(t6, new TilePosition(-1, 2));
         t4.growBambooSection();
         t4.growBambooSection();
         t4.growBambooSection();
@@ -280,7 +280,7 @@ class WeatherTest
 
         game.isFirstRound = false;
         var t1 = new LandTile(Color.YELLOW);
-        game.getBoard().addTile(t1 , new TilePosition(0, 1));
+        game.getBoard().addTile(t1, new TilePosition(0, 1));
 
         when(p1.getDecisionMaker().chooseTileToAddBamboo(game.getBoard().getBambooableTiles())).thenReturn(null);
 
@@ -316,7 +316,7 @@ class WeatherTest
 
         var board = new Board();
         var t2 = new LandTile(Color.YELLOW);
-        board.addTile(t2,  new TilePosition(0, 1));
+        board.addTile(t2, new TilePosition(0, 1));
         var truc = board.equals(game.getBoard());
 
         assertEquals(board, game.getBoard());
@@ -331,7 +331,7 @@ class WeatherTest
 
         game.isFirstRound = false;
         var t1 = new LandTile(Color.YELLOW);
-        game.getBoard().addTile(t1 , new TilePosition(0, 1));
+        game.getBoard().addTile(t1, new TilePosition(0, 1));
 
         when(p1.getDecisionMaker().chooseTileToAddBamboo(game.getBoard().getBambooableTiles())).thenReturn(new LandTile(Color.YELLOW));
 
@@ -367,7 +367,7 @@ class WeatherTest
 
         var board = new Board();
         var t2 = new LandTile(Color.YELLOW);
-        board.addTile(t2,  new TilePosition(0, 1));
+        board.addTile(t2, new TilePosition(0, 1));
         var truc = board.equals(game.getBoard());
 
         assertEquals(board, game.getBoard());
@@ -383,8 +383,8 @@ class WeatherTest
         game.isFirstRound = false;
         var t1 = new LandTile(Color.YELLOW);
         var t2 = new LandTile(Color.YELLOW);
-        game.getBoard().addTile(t1 , new TilePosition(0, 1));
-        game.getBoard().addTile(t2 , new TilePosition(-1, 0));
+        game.getBoard().addTile(t1, new TilePosition(0, 1));
+        game.getBoard().addTile(t2, new TilePosition(-1, 0));
         t2.growBambooSection();
         t2.growBambooSection();
 
@@ -429,8 +429,8 @@ class WeatherTest
         var board = new Board();
         var t3 = new LandTile(Color.YELLOW);
         var t4 = new LandTile(Color.YELLOW);
-        board.addTile(t3,  new TilePosition(0, 1));
-        board.addTile(t4,  new TilePosition(-1, 0));
+        board.addTile(t3, new TilePosition(0, 1));
+        board.addTile(t4, new TilePosition(-1, 0));
         t4.growBambooSection();
 
         assertEquals(board, game.getBoard());
@@ -448,9 +448,8 @@ class WeatherTest
         game.isFirstRound = false;
         var t1 = new LandTile(Color.YELLOW);
         var t2 = new LandTile(Color.YELLOW);
-        game.getBoard().addTile(t1 , new TilePosition(0, 1));
-        game.getBoard().addTile(t2 , new TilePosition(-1, 0));
-
+        game.getBoard().addTile(t1, new TilePosition(0, 1));
+        game.getBoard().addTile(t2, new TilePosition(-1, 0));
 
 
         var PandaPositionAvailableList = new ArrayList<TilePosition>()
@@ -493,8 +492,8 @@ class WeatherTest
         var board = new Board();
         var t3 = new LandTile(Color.YELLOW);
         var t4 = new LandTile(Color.YELLOW);
-        board.addTile(t3,  new TilePosition(0, 1));
-        board.addTile(t4,  new TilePosition(-1, 0));
+        board.addTile(t3, new TilePosition(0, 1));
+        board.addTile(t4, new TilePosition(-1, 0));
         t4.cutBambooSection();
 
         assertEquals(board, game.getBoard());
@@ -511,8 +510,8 @@ class WeatherTest
         game.isFirstRound = false;
         var t1 = new LandTile(Color.YELLOW);
         var t2 = new LandTile(Color.YELLOW);
-        game.getBoard().addTile(t1 , new TilePosition(0, 1));
-        game.getBoard().addTile(t2 , new TilePosition(-1, 0));
+        game.getBoard().addTile(t1, new TilePosition(0, 1));
+        game.getBoard().addTile(t2, new TilePosition(-1, 0));
         t2.cutBambooSection();
 
 
@@ -556,8 +555,8 @@ class WeatherTest
         var board = new Board();
         var t3 = new LandTile(Color.YELLOW);
         var t4 = new LandTile(Color.YELLOW);
-        board.addTile(t3,  new TilePosition(0, 1));
-        board.addTile(t4,  new TilePosition(-1, 0));
+        board.addTile(t3, new TilePosition(0, 1));
+        board.addTile(t4, new TilePosition(-1, 0));
         t4.cutBambooSection();
 
         assertEquals(board, game.getBoard());
@@ -574,8 +573,8 @@ class WeatherTest
         game.isFirstRound = false;
         var t1 = new LandTile(Color.YELLOW);
         var t2 = new LandTile(Color.YELLOW);
-        game.getBoard().addTile(t1 , new TilePosition(0, 1));
-        game.getBoard().addTile(t2 , new TilePosition(-1, 0));
+        game.getBoard().addTile(t1, new TilePosition(0, 1));
+        game.getBoard().addTile(t2, new TilePosition(-1, 0));
         t2.cutBambooSection();
 
 
@@ -637,8 +636,8 @@ class WeatherTest
         var board = new Board();
         var t3 = new LandTile(Color.YELLOW);
         var t4 = new LandTile(Color.YELLOW);
-        board.addTile(t3,  new TilePosition(0, 1));
-        board.addTile(t4,  new TilePosition(-1, 0));
+        board.addTile(t3, new TilePosition(0, 1));
+        board.addTile(t4, new TilePosition(-1, 0));
         t4.cutBambooSection();
 
         assertEquals(board, game.getBoard());
@@ -655,8 +654,8 @@ class WeatherTest
         game.isFirstRound = false;
         var t1 = new LandTile(Color.YELLOW);
         var t2 = new LandTile(Color.YELLOW);
-        game.getBoard().addTile(t1 , new TilePosition(0, 1));
-        game.getBoard().addTile(t2 , new TilePosition(-1, 0));
+        game.getBoard().addTile(t1, new TilePosition(0, 1));
+        game.getBoard().addTile(t2, new TilePosition(-1, 0));
 
         List<GameAction> gameActionList1;
         List<GameAction> gameActionList2;
@@ -711,8 +710,8 @@ class WeatherTest
         game.isFirstRound = false;
         var t1 = new LandTile(Color.YELLOW);
         var t2 = new LandTile(Color.YELLOW);
-        game.getBoard().addTile(t1 , new TilePosition(0, 1));
-        game.getBoard().addTile(t2 , new TilePosition(-1, 0));
+        game.getBoard().addTile(t1, new TilePosition(0, 1));
+        game.getBoard().addTile(t2, new TilePosition(-1, 0));
 
 
         List<GameAction> gameActionList1;
@@ -748,8 +747,8 @@ class WeatherTest
         game.isFirstRound = false;
         var t1 = new LandTile(Color.YELLOW);
         var t2 = new LandTile(Color.YELLOW);
-        game.getBoard().addTile(t1 , new TilePosition(0, 1));
-        game.getBoard().addTile(t2 , new TilePosition(-1, 0));
+        game.getBoard().addTile(t1, new TilePosition(0, 1));
+        game.getBoard().addTile(t2, new TilePosition(-1, 0));
 
 
         List<GameAction> gameActionList1;
@@ -794,8 +793,8 @@ class WeatherTest
         game.isFirstRound = false;
         var t1 = new LandTile(Color.YELLOW, LandTileImprovement.ENCLOSURE);
         var t2 = new LandTile(Color.YELLOW);
-        game.getBoard().addTile(t1 , new TilePosition(0, 1));
-        game.getBoard().addTile(t2 , new TilePosition(-1, 0));
+        game.getBoard().addTile(t1, new TilePosition(0, 1));
+        game.getBoard().addTile(t2, new TilePosition(-1, 0));
         t2.cutBambooSection();
 
 
@@ -835,8 +834,8 @@ class WeatherTest
         var t3 = new LandTile(Color.YELLOW, LandTileImprovement.ENCLOSURE);
         var t4 = new LandTile(Color.YELLOW);
         t4.setLandTileImprovement(LandTileImprovement.ENCLOSURE);
-        board.addTile(t3,  new TilePosition(0, 1));
-        board.addTile(t4,  new TilePosition(-1, 0));
+        board.addTile(t3, new TilePosition(0, 1));
+        board.addTile(t4, new TilePosition(-1, 0));
         t4.cutBambooSection();
 
         var chipRes = GameData.getStandardImprovements();
@@ -857,8 +856,8 @@ class WeatherTest
         game.isFirstRound = false;
         var t1 = new LandTile(Color.YELLOW, LandTileImprovement.ENCLOSURE);
         var t2 = new LandTile(Color.YELLOW);
-        game.getBoard().addTile(t1 , new TilePosition(0, 1));
-        game.getBoard().addTile(t2 , new TilePosition(-1, 0));
+        game.getBoard().addTile(t1, new TilePosition(0, 1));
+        game.getBoard().addTile(t2, new TilePosition(-1, 0));
         t2.cutBambooSection();
 
         game.gameData.chipReserve.clear();
@@ -902,8 +901,8 @@ class WeatherTest
         var board = new Board();
         var t3 = new LandTile(Color.YELLOW, LandTileImprovement.ENCLOSURE);
         var t4 = new LandTile(Color.YELLOW);
-        board.addTile(t3,  new TilePosition(0, 1));
-        board.addTile(t4,  new TilePosition(-1, 0));
+        board.addTile(t3, new TilePosition(0, 1));
+        board.addTile(t4, new TilePosition(-1, 0));
         t4.cutBambooSection();
 
         assertEquals(board, game.getBoard());

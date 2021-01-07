@@ -1,7 +1,10 @@
 package fr.unice.polytech.ps5.takenoko.et2.gameplay;
 
 import fr.unice.polytech.ps5.takenoko.et2.GameData;
-import fr.unice.polytech.ps5.takenoko.et2.board.*;
+import fr.unice.polytech.ps5.takenoko.et2.board.Board;
+import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
+import fr.unice.polytech.ps5.takenoko.et2.board.LandTileImprovement;
+import fr.unice.polytech.ps5.takenoko.et2.board.TilePosition;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,17 +16,19 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class PandaSupportTest
 {
+    private final List<TilePosition> boardTilePosition = new ArrayList<>();
     private Game game;
     private Board board;
-    private final List<TilePosition> boardTilePosition = new ArrayList<>();
 
     @BeforeEach
-    void init() {
+    void init()
+    {
         game = new Game(new GameData());
         board = game.getBoard();
 
@@ -81,21 +86,22 @@ class PandaSupportTest
     }
 
     @Test
-    void getValidPandaTargetsTest() {
+    void getValidPandaTargetsTest()
+    {
         Set<TilePosition> expectedPandaTargets1 = Set.of(boardTilePosition.get(0),
-                                                        boardTilePosition.get(1),
-                                                        boardTilePosition.get(2),
-                                                        boardTilePosition.get(3),
-                                                        boardTilePosition.get(5),
-                                                        boardTilePosition.get(11));
+            boardTilePosition.get(1),
+            boardTilePosition.get(2),
+            boardTilePosition.get(3),
+            boardTilePosition.get(5),
+            boardTilePosition.get(11));
         Set<TilePosition> expectedPandaTargets2 = Set.of(TilePosition.ZERO,
-                                                        boardTilePosition.get(1),
-                                                        boardTilePosition.get(3),
-                                                        boardTilePosition.get(4),
-                                                        boardTilePosition.get(5),
-                                                        boardTilePosition.get(6),
-                                                        boardTilePosition.get(8),
-                                                        boardTilePosition.get(10));
+            boardTilePosition.get(1),
+            boardTilePosition.get(3),
+            boardTilePosition.get(4),
+            boardTilePosition.get(5),
+            boardTilePosition.get(6),
+            boardTilePosition.get(8),
+            boardTilePosition.get(10));
         TilePosition pandaPosition1 = TilePosition.ZERO;
         TilePosition pandaPosition2 = new TilePosition(1, 0);
         Set<TilePosition> pandaTargets1 = game.getValidTargets(pandaPosition1).collect(Collectors.toSet());
@@ -106,11 +112,12 @@ class PandaSupportTest
     }
 
     @Test
-    void movePandaUnvalidTargetTest(){
+    void movePandaUnvalidTargetTest()
+    {
         DecisionMaker mockDecisionMaker = Mockito.mock(DecisionMaker.class);
         Player mockPlayer = Mockito.mock(Player.class);
-        TilePosition falsePosition1 = new TilePosition(0,1);
-        TilePosition falsePosition2 = new TilePosition(0,2);
+        TilePosition falsePosition1 = new TilePosition(0, 1);
+        TilePosition falsePosition2 = new TilePosition(0, 2);
 
         when(mockPlayer.getDecisionMaker()).thenReturn(mockDecisionMaker);
         when(mockDecisionMaker.choosePandaTarget(anyList(), anyBoolean())).thenReturn(falsePosition1, falsePosition2);
@@ -122,25 +129,28 @@ class PandaSupportTest
         verifyNoMoreInteractions(mockPlayer);
     }
 
-    private void movePandaBasis(ArrayList<TilePosition> pandaTargets, ArrayList<LandTile> pandaTileTargets, ArrayList<Integer> invocations, int numberPandaMove, boolean storm) {
+    private void movePandaBasis(ArrayList<TilePosition> pandaTargets, ArrayList<LandTile> pandaTileTargets, ArrayList<Integer> invocations, int numberPandaMove, boolean storm)
+    {
         DecisionMaker mockDecisionMaker = mock(DecisionMaker.class);
         Player mockPlayer = mock(Player.class);
 
         when(mockPlayer.getDecisionMaker()).thenReturn(mockDecisionMaker);
         when(mockDecisionMaker.choosePandaTarget(anyList(), anyBoolean())).thenReturn(pandaTargets.get(0));
-        if (pandaTargets.size()!=1) {
+        if (pandaTargets.size() != 1)
+        {
             when(mockDecisionMaker.choosePandaTarget(anyList(), anyBoolean())).thenReturn(pandaTargets.get(0), pandaTargets.get(1), pandaTargets.get(1));
         }
-        for (int i=0; i<numberPandaMove; i++)
+        for (int i = 0; i < numberPandaMove; i++)
         {
             game.movePanda(mockPlayer, storm);
         }
-        assertEquals(pandaTargets.get(pandaTargets.size()-1), game.getPandaPosition());
+        assertEquals(pandaTargets.get(pandaTargets.size() - 1), game.getPandaPosition());
         verify(mockDecisionMaker, times(invocations.get(0))).choosePandaTarget(anyList(), anyBoolean());
         verify(mockPlayer, times(invocations.get(1))).getDecisionMaker();
         verify(mockPlayer, times(invocations.get(2))).addBambooSection(Color.GREEN);
         verify(pandaTileTargets.get(0), times(invocations.get(3))).cutBambooSection();
-        if (pandaTileTargets.size()!=1) {
+        if (pandaTileTargets.size() != 1)
+        {
             verify(pandaTileTargets.get(1), times(invocations.get(4))).cutBambooSection();
         }
 
@@ -149,49 +159,53 @@ class PandaSupportTest
     }
 
     @Test
-    void movePandaWithNoStormTest(){
-        TilePosition position = new TilePosition(1,0);
-        LandTile pandaGoal = (LandTile)(board.getTiles().get(position));
+    void movePandaWithNoStormTest()
+    {
+        TilePosition position = new TilePosition(1, 0);
+        LandTile pandaGoal = (LandTile) (board.getTiles().get(position));
 
         ArrayList<TilePosition> pandaPositionTargets = new ArrayList<>(List.of(position));
         ArrayList<LandTile> pandaTileTargets = new ArrayList<>(List.of(pandaGoal));
-        ArrayList<Integer> invocations = new ArrayList<>(List.of(1,1,1,1));
+        ArrayList<Integer> invocations = new ArrayList<>(List.of(1, 1, 1, 1));
 
         movePandaBasis(pandaPositionTargets, pandaTileTargets, invocations, 1, false);
     }
 
     @Test
-    void movePandaWithStormTest(){
-        TilePosition position1 = new TilePosition(0,2);
-        TilePosition position2 = new TilePosition(1,0);
-        LandTile pandaGoal1 = (LandTile)(board.getTiles().get(position1));
-        LandTile pandaGoal2 = (LandTile)(board.getTiles().get(position2));
+    void movePandaWithStormTest()
+    {
+        TilePosition position1 = new TilePosition(0, 2);
+        TilePosition position2 = new TilePosition(1, 0);
+        LandTile pandaGoal1 = (LandTile) (board.getTiles().get(position1));
+        LandTile pandaGoal2 = (LandTile) (board.getTiles().get(position2));
 
         ArrayList<TilePosition> pandaPositionTargets = new ArrayList<>(List.of(position1, position2));
         ArrayList<LandTile> pandaTileTargets = new ArrayList<>(List.of(pandaGoal1, pandaGoal2));
-        ArrayList<Integer> invocations = new ArrayList<>(List.of(3,3,1,1,1));
+        ArrayList<Integer> invocations = new ArrayList<>(List.of(3, 3, 1, 1, 1));
 
         movePandaBasis(pandaPositionTargets, pandaTileTargets, invocations, 3, true);
     }
 
     @Test
-    void movePandaOnEnclosureTileTest(){
-        TilePosition position = new TilePosition(2,0);
-        LandTile pandaGoal = (LandTile)(board.getTiles().get(position));
+    void movePandaOnEnclosureTileTest()
+    {
+        TilePosition position = new TilePosition(2, 0);
+        LandTile pandaGoal = (LandTile) (board.getTiles().get(position));
 
         ArrayList<TilePosition> pandaPositionTargets = new ArrayList<>(List.of(position));
         ArrayList<LandTile> pandaTileTargets = new ArrayList<>(List.of(pandaGoal));
-        ArrayList<Integer> invocations = new ArrayList<>(List.of(1,1,0,0));
+        ArrayList<Integer> invocations = new ArrayList<>(List.of(1, 1, 0, 0));
 
         movePandaBasis(pandaPositionTargets, pandaTileTargets, invocations, 1, false);
     }
 
     @Test
-    void movePandaOnPondTileTest(){
+    void movePandaOnPondTileTest()
+    {
         DecisionMaker mockDecisionMaker = mock(DecisionMaker.class);
         Player mockPlayer = mock(Player.class);
-        TilePosition position = new TilePosition(2,0);
-        LandTile pandaGoal = (LandTile)(board.getTiles().get(position));
+        TilePosition position = new TilePosition(2, 0);
+        LandTile pandaGoal = (LandTile) (board.getTiles().get(position));
 
         when(mockPlayer.getDecisionMaker()).thenReturn(mockDecisionMaker);
         when(mockDecisionMaker.choosePandaTarget(anyList(), anyBoolean())).thenReturn(position, TilePosition.ZERO);

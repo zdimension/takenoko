@@ -1,14 +1,17 @@
 package fr.unice.polytech.ps5.takenoko.et2.objective;
 
+import fr.unice.polytech.ps5.takenoko.et2.board.Board;
+import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTileImprovement;
 import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
 import fr.unice.polytech.ps5.takenoko.et2.gameplay.Player;
-import fr.unice.polytech.ps5.takenoko.et2.board.Board;
-import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -92,15 +95,15 @@ class GardenerObjectiveTest
         assertEquals(6, yellowGardenerObjective.getPoints());
 
         verify(mockBoard, times(2)).getLandTiles();
-        for(int i=0; i<13; i++)
+        for (int i = 0; i < 13; i++)
         {
             verify(tileList.get(i), times(2)).getColor();
-            verify(tileList.get(i),times(2)).getBambooSize();
-            verify(tileList.get(i),times(2)).getLandTileImprovement();
+            verify(tileList.get(i), times(2)).getBambooSize();
+            verify(tileList.get(i), times(2)).getLandTileImprovement();
         }
 
         verifyNoMoreInteractions(mockBoard);
-        for(int i=0; i<13; i++)
+        for (int i = 0; i < 13; i++)
         {
             verifyNoMoreInteractions(tileList.get(i));
         }
@@ -138,15 +141,15 @@ class GardenerObjectiveTest
         assertEquals(6, pinkGardenerObjective.getPoints());
 
         verify(mockBoard, times(3)).getLandTiles();
-        for(int i=0; i<13; i++)
+        for (int i = 0; i < 13; i++)
         {
             verify(tileList.get(i), times(3)).getColor();
-            verify(tileList.get(i),times(3)).getBambooSize();
-            verify(tileList.get(i),times(3)).getLandTileImprovement();
+            verify(tileList.get(i), times(3)).getBambooSize();
+            verify(tileList.get(i), times(3)).getLandTileImprovement();
         }
 
         verifyNoMoreInteractions(mockBoard);
-        for(int i=0; i<13; i++)
+        for (int i = 0; i < 13; i++)
         {
             verifyNoMoreInteractions(tileList.get(i));
         }
@@ -187,15 +190,15 @@ class GardenerObjectiveTest
         assertEquals(6, pinkGardenerObjective.getPoints());
 
         verify(mockBoard, times(4)).getLandTiles();
-        for(int i=0; i<13; i++)
+        for (int i = 0; i < 13; i++)
         {
             verify(tileList.get(i), times(4)).getColor();
-            verify(tileList.get(i),times(4)).getBambooSize();
-            verify(tileList.get(i),times(4)).getLandTileImprovement();
+            verify(tileList.get(i), times(4)).getBambooSize();
+            verify(tileList.get(i), times(4)).getLandTileImprovement();
         }
 
         verifyNoMoreInteractions(mockBoard);
-        for(int i=0; i<13; i++)
+        for (int i = 0; i < 13; i++)
         {
             verifyNoMoreInteractions(tileList.get(i));
         }
@@ -232,15 +235,15 @@ class GardenerObjectiveTest
         assertEquals(6, pinkGardenerObjective.getPoints());
 
         verify(mockBoard, times(3)).getLandTiles();
-        for(int i=0; i<13; i++)
+        for (int i = 0; i < 13; i++)
         {
             verify(tileList.get(i), times(3)).getColor();
-            verify(tileList.get(i),times(3)).getBambooSize();
-            verify(tileList.get(i),times(3)).getLandTileImprovement();
+            verify(tileList.get(i), times(3)).getBambooSize();
+            verify(tileList.get(i), times(3)).getLandTileImprovement();
         }
 
         verifyNoMoreInteractions(mockBoard);
-        for(int i=0; i<13; i++)
+        for (int i = 0; i < 13; i++)
         {
             verifyNoMoreInteractions(tileList.get(i));
         }

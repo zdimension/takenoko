@@ -22,9 +22,9 @@ public class Player
     private final Game game;
     private final DecisionMaker decisionMaker;
     private final List<LandTileImprovement> chipReserve = new ArrayList<>();
+    private final Map<Color, Integer> bambooSectionReserve = new HashMap<>();
     private boolean hasTriggeredEmperor;
     private int nbIrrigationsInStock = 0;
-    private final Map<Color, Integer> bambooSectionReserve= new HashMap<>();
 
 
     /**
@@ -255,7 +255,8 @@ public class Player
             throw new IllegalArgumentException("bambooList must not be empty");
         }
 
-        for(Color color : bambooSectionList.keySet()) {
+        for (Color color : bambooSectionList.keySet())
+        {
             Integer newValue = this.bambooSectionReserve.get(color) - bambooSectionList.get(color);
             bambooSectionReserve.put(color, newValue);
         }

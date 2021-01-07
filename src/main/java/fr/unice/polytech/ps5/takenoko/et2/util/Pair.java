@@ -35,6 +35,11 @@ public class Pair<T1, T2>
         return o == null ? 0 : o.hashCode();
     }
 
+    public static <U extends Comparable<U>, V extends Comparable<V>> Comparator<Pair<U, V>> getComparator()
+    {
+        return Comparator.<Pair<U, V>, U>comparing(Pair::getFirst).thenComparing(Pair::getSecond);
+    }
+
     /**
      * Get the hashcode
      *
@@ -102,10 +107,5 @@ public class Pair<T1, T2>
     public T2 getSecond()
     {
         return second;
-    }
-
-    public static <U extends Comparable<U>, V extends Comparable<V>> Comparator<Pair<U, V>> getComparator()
-    {
-        return Comparator.<Pair<U, V>, U>comparing(Pair::getFirst).thenComparing(Pair::getSecond);
     }
 }

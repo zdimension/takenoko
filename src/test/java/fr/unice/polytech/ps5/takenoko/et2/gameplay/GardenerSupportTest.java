@@ -19,12 +19,13 @@ import static org.mockito.Mockito.*;
 
 class GardenerSupportTest
 {
+    private final List<TilePosition> boardTilePosition = new ArrayList<>();
     private Game game;
     private Board board;
-    private final List<TilePosition> boardTilePosition = new ArrayList<>();
 
     @BeforeEach
-    void init() {
+    void init()
+    {
         game = new Game(new GameData());
         board = game.getBoard();
 
@@ -71,7 +72,7 @@ class GardenerSupportTest
         board.addTileInternal(l2, t2, true);
         board.addTileInternal(l3, t3, true);
         board.addTileInternal(l4, t4, true);
-        board.addTileInternal(l5, t5, false );
+        board.addTileInternal(l5, t5, false);
         board.addTileInternal(l6, t6, true);
         board.addTileInternal(l7, t7, false);
         board.addTileInternal(l8, t8, false);
@@ -82,11 +83,12 @@ class GardenerSupportTest
     }
 
     @Test
-    void moveGardenerUnvalidTargetTest(){
+    void moveGardenerUnvalidTargetTest()
+    {
         DecisionMaker mockDecisionMaker = Mockito.mock(DecisionMaker.class);
         Player mockPlayer = Mockito.mock(Player.class);
-        TilePosition falsePosition1 = new TilePosition(0,1);
-        TilePosition falsePosition2 = new TilePosition(0,2);
+        TilePosition falsePosition1 = new TilePosition(0, 1);
+        TilePosition falsePosition2 = new TilePosition(0, 2);
 
         when(mockPlayer.getDecisionMaker()).thenReturn(mockDecisionMaker);
         when(mockDecisionMaker.chooseGardenerTarget(anyList())).thenReturn(falsePosition1, falsePosition2);
@@ -99,10 +101,11 @@ class GardenerSupportTest
     }
 
     @Test
-    void moveGardenerNormalAndOnPondTile() {
+    void moveGardenerNormalAndOnPondTile()
+    {
         DecisionMaker mockDecisionMaker = Mockito.mock(DecisionMaker.class);
         Player mockPlayer = Mockito.mock(Player.class);
-        TilePosition position = new TilePosition(0,-1);
+        TilePosition position = new TilePosition(0, -1);
         LandTile gardenerGoal = (LandTile) board.getTiles().get(position);
         LandTile l1 = (LandTile) board.findTile(boardTilePosition.get(0));
         LandTile l2 = (LandTile) board.findTile(boardTilePosition.get(1));

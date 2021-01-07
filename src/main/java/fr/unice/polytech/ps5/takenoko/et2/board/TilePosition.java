@@ -12,7 +12,12 @@ public class TilePosition
      * The null position
      */
     public static final TilePosition ZERO = new TilePosition(0, 0);
-
+    /**
+     * Position comparer. To be used only when deterministic storage order is needed.
+     */
+    public static final Comparator<TilePosition> storageComparer = Comparator
+        .comparingInt(TilePosition::getX)
+        .thenComparingInt(TilePosition::getY);
     /**
      * X coordinate
      */
@@ -21,13 +26,6 @@ public class TilePosition
      * Y coordinate
      */
     private final int y;
-
-    /**
-     * Position comparer. To be used only when deterministic storage order is needed.
-     */
-    public static final Comparator<TilePosition> storageComparer = Comparator
-        .comparingInt(TilePosition::getX)
-        .thenComparingInt(TilePosition::getY);
 
     /**
      * Instanciates a new vector

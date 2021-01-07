@@ -29,7 +29,7 @@ class GameDataTest
     @Test
     void getStandardObjectives()
     {
-        assertArrayEquals(new int[] {15, 15, 15},
+        assertArrayEquals(new int[] { 15, 15, 15 },
             GameData.getStandardObjectives().values().stream().mapToInt(List::size).toArray());
     }
 }

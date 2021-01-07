@@ -30,7 +30,7 @@ class DecisionMakerHandlerTest
         assertTrue(getDM("random") instanceof RandomBot);
 
         var mm = getDM("minmax(123)");
-        assertTrue(mm instanceof MinMaxBot && ((MinMaxBot)mm).getDepth() == 123);
+        assertTrue(mm instanceof MinMaxBot && ((MinMaxBot) mm).getDepth() == 123);
 
         assertThrows(InvalidBotTypeSyntaxException.class, () -> getDM("minmax("));
         assertThrows(InvalidBotTypeSyntaxException.class, () -> getDM("minmax)"));

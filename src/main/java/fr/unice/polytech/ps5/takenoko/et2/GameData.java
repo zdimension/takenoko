@@ -99,13 +99,21 @@ public final class GameData
     {
         var res = new ArrayList<PandaObjective>();
         for (var i = 0; i < 5; i++)
+        {
             res.add(new PandaObjective(3, Map.of(Color.GREEN, 2)));
+        }
         for (var i = 0; i < 4; i++)
+        {
             res.add(new PandaObjective(4, Map.of(Color.YELLOW, 2)));
+        }
         for (var i = 0; i < 3; i++)
+        {
             res.add(new PandaObjective(5, Map.of(Color.PINK, 2)));
+        }
         for (var i = 0; i < 3; i++)
+        {
             res.add(new PandaObjective(6, Map.of(Color.GREEN, 1, Color.YELLOW, 1, Color.PINK, 1)));
+        }
         return res;
     }
 

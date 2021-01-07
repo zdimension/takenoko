@@ -39,7 +39,7 @@ class GameTest
     @Test
     void gameGameProcessing1Players() throws Exception
     {
-        var players = List.<DecisionMakerBuilder>of(
+        var players = List.of(
             RandomBot.getBuilder()
         );
 
@@ -56,7 +56,7 @@ class GameTest
     @Test
     void gameAddPlayer5Players() throws Exception
     {
-        var players = List.<DecisionMakerBuilder>of(
+        var players = List.of(
             RandomBot.getBuilder(),
             RandomBot.getBuilder(),
             RandomBot.getBuilder(),
@@ -74,7 +74,8 @@ class GameTest
     }
 
     @Test
-    void findCompletableObjectivesTest() {
+    void findCompletableObjectivesTest()
+    {
         var game = new Game(new GameData());
         Board board = game.getBoard();
         Player mockPlayer = Mockito.mock(Player.class);
@@ -93,9 +94,9 @@ class GameTest
         objectivesListExpected.add(mockGardenerObjective);
 
         when(mockPlayer.getHand()).thenReturn(playerHand);
-        when(mockGardenerObjective.checkValidated(board,mockPlayer)).thenReturn(true);
-        when(mockPandaObjective.checkValidated(board,mockPlayer)).thenReturn(true);
-        when(mockPlotObjective.checkValidated(board,mockPlayer)).thenReturn(false);
+        when(mockGardenerObjective.checkValidated(board, mockPlayer)).thenReturn(true);
+        when(mockPandaObjective.checkValidated(board, mockPlayer)).thenReturn(true);
+        when(mockPlotObjective.checkValidated(board, mockPlayer)).thenReturn(false);
 
         List<Objective> playerCompleteObjective = game.findCompletableObjectives(mockPlayer).collect(Collectors.toList());
         assertEquals(objectivesListExpected, playerCompleteObjective);
@@ -112,7 +113,8 @@ class GameTest
     }
 
     @Test
-    void completeObjectiveNullPlayerTest() {
+    void completeObjectiveNullPlayerTest()
+    {
         var game = new Game(new GameData());
         assertThrows(NullPointerException.class, () -> game.completeObjective(null));
     }
@@ -135,23 +137,26 @@ class GameTest
         spyPlayer1.addObjective(mockPlotObjective);
         spyPlayer1.addObjective(objectiveChoosen);
 
-        if(triggerEmperor) {
-            for(int i=0; i<8; i++) {
+        if (triggerEmperor)
+        {
+            for (int i = 0; i < 8; i++)
+            {
                 Objective mockObjectiveCompleted = Mockito.mock(Objective.class);
                 spyPlayer1.addObjective(mockObjectiveCompleted);
                 spyPlayer1.moveObjectiveToComplete(mockObjectiveCompleted);
             }
         }
-        if (objectiveChoosen instanceof PandaObjective) {
-            cast = (PandaObjective)objectiveChoosen;
+        if (objectiveChoosen instanceof PandaObjective)
+        {
+            cast = (PandaObjective) objectiveChoosen;
             when(cast.getBambooSectionList()).thenReturn(Map.of(Color.GREEN, 2));
         }
         when(mockDecisionMaker1.chooseObjectiveToComplete(anyList())).thenReturn(objectiveChoosen);
-        when(mockGardenerObjective.checkValidated(board,spyPlayer1)).thenReturn(true);
-        when(mockPandaObjective.checkValidated(board,spyPlayer1)).thenReturn(true);
-        when(mockPlotObjective.checkValidated(board,spyPlayer1)).thenReturn(false);
-        when(objectiveChoosen.checkValidated(board,spyPlayer1)).thenReturn(isChoosenObjectiveValid);
-        
+        when(mockGardenerObjective.checkValidated(board, spyPlayer1)).thenReturn(true);
+        when(mockPandaObjective.checkValidated(board, spyPlayer1)).thenReturn(true);
+        when(mockPlotObjective.checkValidated(board, spyPlayer1)).thenReturn(false);
+        when(objectiveChoosen.checkValidated(board, spyPlayer1)).thenReturn(isChoosenObjectiveValid);
+
         doCallRealMethod().when(cast).postValidation(spyPlayer1);
 
         if (!isChoosenObjectiveValid)
@@ -193,7 +198,7 @@ class GameTest
     void completeObjectiveNotCompleteObjectiveSelectedTest() throws IllegalAccessException
     {
         PandaObjective mockPandaObjective = Mockito.mock(PandaObjective.class);
-        List<Integer> listOfInteractions = List.of(1,4,1,0,0,0,1,1,1,1,1,0,0,0);
+        List<Integer> listOfInteractions = List.of(1, 4, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0);
         completeObjectiveTestsBasis(mockPandaObjective, false, false, listOfInteractions);
     }
 
@@ -201,7 +206,7 @@ class GameTest
     void completeObjectivePandaObjectiveSelectedTest() throws IllegalAccessException
     {
         PandaObjective mockPandaObjective = Mockito.mock(PandaObjective.class);
-        List<Integer> listOfInteractions = List.of(1,4,1,1,2,0,1,1,1,1,1,1,1,1);
+        List<Integer> listOfInteractions = List.of(1, 4, 1, 1, 2, 0, 1, 1, 1, 1, 1, 1, 1, 1);
         completeObjectiveTestsBasis(mockPandaObjective, true, false, listOfInteractions);
     }
 
@@ -209,7 +214,7 @@ class GameTest
     void completeObjectiveNotPandaObjectiveSelectedTest() throws IllegalAccessException
     {
         GardenerObjective mockGardenerObjective = Mockito.mock(GardenerObjective.class);
-        List<Integer> listOfInteractions = List.of(1,4,1,1,2,0,1,1,1,1,1,0,0,0);
+        List<Integer> listOfInteractions = List.of(1, 4, 1, 1, 2, 0, 1, 1, 1, 1, 1, 0, 0, 0);
         completeObjectiveTestsBasis(mockGardenerObjective, true, false, listOfInteractions);
     }
 
@@ -217,16 +222,17 @@ class GameTest
     void completeObjectiveAndTriggerEmperorTest() throws IllegalAccessException
     {
         GardenerObjective mockGardenerObjective = Mockito.mock(GardenerObjective.class);
-        List<Integer> listOfInteractions = List.of(1,12,1,9,2,1,1,1,1,1,1,0,0,0);
+        List<Integer> listOfInteractions = List.of(1, 12, 1, 9, 2, 1, 1, 1, 1, 1, 1, 0, 0, 0);
         completeObjectiveTestsBasis(mockGardenerObjective, true, true, listOfInteractions);
     }
 
     @Test
-    void placeIrrigationTest() {
+    void placeIrrigationTest()
+    {
         Game game = new Game(new GameData());
         Board board = game.getBoard();
         LandTile l1 = new LandTile(Color.GREEN);
-        board.addTile(l1 , new TilePosition(1,0));
+        board.addTile(l1, new TilePosition(1, 0));
         Player mockPlayer = Mockito.mock(Player.class);
         DecisionMaker mockDecisionMaker = Mockito.mock(DecisionMaker.class);
 
