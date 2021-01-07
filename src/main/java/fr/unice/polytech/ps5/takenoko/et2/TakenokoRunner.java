@@ -153,7 +153,7 @@ class TakenokoRunner implements Runnable
         System.out.println("Victory statistics:");
         for (int i = 0; i < players.length; i++)
         {
-            System.out.printf("- #%d [%-10s] : %.2f%%%n", i + 1, botNames.get(i), freq[i].get() * 100d / N);
+            System.out.printf("- %-10s : %6.2f%%%n", botNames.get(i), freq[i].get() * 100d / N);
         }
         if (ignoreThreshold)
         {
