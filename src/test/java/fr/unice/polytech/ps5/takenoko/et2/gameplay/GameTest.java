@@ -220,14 +220,14 @@ class GameTest
         Player mockPlayer = Mockito.mock(Player.class);
         DecisionMaker mockDecisionMaker = Mockito.mock(DecisionMaker.class);
 
-        Edge choosenEdge1 = l1.getEdge(0);
-        Edge choosenEdge2 = l1.getEdge(5);
+        Edge choosenEdge1 = l1.getEdge(3);
+        Edge choosenEdge2 = l1.getEdge(4);
 
         when(mockPlayer.getDecisionMaker()).thenReturn(mockDecisionMaker);
         when(mockDecisionMaker.chooseIrrigationPosition(anyList())).thenReturn(choosenEdge1, choosenEdge2);
 
         game.placeIrrigation(mockPlayer);
-        game.placeIrrigation(mockPlayer);
+        assertThrows(IllegalArgumentException.class, () -> game.placeIrrigation(mockPlayer));
         verify(mockPlayer, times(1)).irrigateEdge(any(Edge.class));
     }
 }
