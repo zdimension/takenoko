@@ -96,6 +96,7 @@ class TakenokoRunner implements Runnable
             System.out.printf("Running %d games %s with bots: %s. Please wait...%n", numGames, sequential ? "sequentially" : "in parallel", botNames);
 
             var freq = Arrays.stream(players).map(p -> new AtomicInteger()).toArray(AtomicInteger[]::new);
+            var score = Arrays.stream(players).map(p -> new AtomicInteger()).toArray(AtomicInteger[]::new);
             final var N = numGames;
             final var progWidth = 50;
             AtomicInteger Nempty = new AtomicInteger();
@@ -143,6 +144,12 @@ class TakenokoRunner implements Runnable
                         for (Integer re : res)
                         {
                             freq[re].getAndIncrement();
+
+                            var gp = game.getPlayers();
+                            for (int i1 = 0; i1 < players.length; i1++)
+                            {
+                                score[i1].addAndGet(gp.get(i1).countPoints());
+                            }
                         }
                     }
                 }
@@ -157,11 +164,13 @@ class TakenokoRunner implements Runnable
                 duration.getSeconds(),
                 duration.getNano() / 1000000,
                 N * 1000000000d / duration.toNanos());
-            System.out.println("Victory statistics:");
+            System.out.println();
+            System.out.println(" Bot type   |  % wins | # wins | Avg. score");
             for (int i = 0; i < players.length; i++)
             {
-                System.out.printf("- %-10s : %6.2f%%%n", botNames.get(i), freq[i].get() * 100d / N);
+                System.out.printf(" %-10s | %6.2f%% | %6d |    %4.1f%n", botNames.get(i), freq[i].get() * 100d / N, freq[i].get(), score[i].get() / (double)N);
             }
+            System.out.println();
             if (ignoreThreshold)
             {
                 System.out.println("The objective threshold was ignored (--ignore-threshold). The above statistics ignore turn count limits and deadlocks.");

@@ -37,7 +37,7 @@ class MinMaxBotTest
             game = spy(new Game());
             game.addPlayer(MinMaxBot.getBuilder(1));
             game.addPlayer(MinMaxBot.getBuilder(1));
-            Optional<Player> p = game.getPlayers().findAny();
+            Optional<Player> p = game.getPlayers().stream().findAny();
             if (p.isEmpty())
             {
                 fail();

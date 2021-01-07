@@ -2,7 +2,7 @@
   <configuration default="false" name="CLI run" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="fr.unice.polytech.ps5.takenoko.et2.TakenokoRunner" />
     <module name="TakenokoET2" />
-    <option name="PROGRAM_PARAMETERS" value="random plot(3) minmax(1) -n 1000 -i" />
+    <option name="PROGRAM_PARAMETERS" value="random plot(3) minmax(1) -n 1000" />
     <method v="2">
       <option name="Make" enabled="true" />
       <option name="RunConfigurationTask" enabled="true" run_configuration_name="Run all tests" run_configuration_type="JUnit" />

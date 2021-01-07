@@ -891,9 +891,9 @@ public class Game
      *
      * @return A stream of all Game's Players
      */
-    public Stream<Player> getPlayers()
+    public List<Player> getPlayers()
     {
-        return playerList.stream();
+        return Collections.unmodifiableList(playerList);
     }
 
     private boolean hasSomeoneTriggeredTheEmperor()

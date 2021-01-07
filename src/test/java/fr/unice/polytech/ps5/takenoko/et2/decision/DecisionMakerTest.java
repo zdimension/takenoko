@@ -27,7 +27,7 @@ class DecisionMakerTest
             Game game = spy(new Game());
             game.addPlayer(RandomBot.getBuilder());
             game.addPlayer(RandomBot.getBuilder());
-            Optional<Player> p = game.getPlayers().findAny();
+            Optional<Player> p = game.getPlayers().stream().findAny();
             if (p.isEmpty())
             {
                 fail();
