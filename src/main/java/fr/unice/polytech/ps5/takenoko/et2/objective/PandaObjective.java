@@ -102,4 +102,12 @@ public class PandaObjective extends Objective
         }
         return message.toString();
     }
+
+    @Override
+    public void postValidation(Player player)
+    {
+        super.postValidation(player);
+
+        player.removeBambooSection(getBambooSectionList());
+    }
 }

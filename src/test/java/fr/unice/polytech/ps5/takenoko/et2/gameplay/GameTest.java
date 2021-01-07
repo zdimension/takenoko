@@ -15,6 +15,8 @@ import fr.unice.polytech.ps5.takenoko.et2.objective.PandaObjective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -151,6 +153,8 @@ class GameTest
         when(mockPandaObjective.checkValidated(board,spyPlayer1)).thenReturn(true);
         when(mockPlotObjective.checkValidated(board,spyPlayer1)).thenReturn(false);
         when(objectiveChoosen.checkValidated(board,spyPlayer1)).thenReturn(isChoosenObjectiveValid);
+        
+        doCallRealMethod().when(cast).postValidation(spyPlayer1);
 
         game.completeObjective(spyPlayer1);
 
@@ -169,6 +173,7 @@ class GameTest
         {
             verify(spyPlayer1, times(nbInteractions.get(11))).removeBambooSection(anyMap());
             verify(cast, times(nbInteractions.get(12))).getBambooSectionList();
+            verify(cast, times(nbInteractions.get(13))).postValidation(spyPlayer1);
         }
 
         verifyNoMoreInteractions(mockDecisionMaker1);
@@ -183,7 +188,7 @@ class GameTest
     void completeObjectiveNotCompleteObjectiveSelectedTest() throws IllegalAccessException
     {
         PandaObjective mockPandaObjective = Mockito.mock(PandaObjective.class);
-        List<Integer> listOfInteractions = List.of(1,4,1,0,0,0,1,1,1,1,1,0,0);
+        List<Integer> listOfInteractions = List.of(1,4,1,0,0,0,1,1,1,1,1,0,0,0);
         completeObjectiveTestsBasis(mockPandaObjective, false, false, listOfInteractions);
     }
 
@@ -191,7 +196,7 @@ class GameTest
     void completeObjectivePandaObjectiveSelectedTest() throws IllegalAccessException
     {
         PandaObjective mockPandaObjective = Mockito.mock(PandaObjective.class);
-        List<Integer> listOfInteractions = List.of(1,4,1,1,2,0,1,1,1,1,1,1,1);
+        List<Integer> listOfInteractions = List.of(1,4,1,1,2,0,1,1,1,1,1,1,1,1);
         completeObjectiveTestsBasis(mockPandaObjective, true, false, listOfInteractions);
     }
 
@@ -199,7 +204,7 @@ class GameTest
     void completeObjectiveNotPandaObjectiveSelectedTest() throws IllegalAccessException
     {
         GardenerObjective mockGardenerObjective = Mockito.mock(GardenerObjective.class);
-        List<Integer> listOfInteractions = List.of(1,4,1,1,2,0,1,1,1,1,1,0,0);
+        List<Integer> listOfInteractions = List.of(1,4,1,1,2,0,1,1,1,1,1,0,0,0);
         completeObjectiveTestsBasis(mockGardenerObjective, true, false, listOfInteractions);
     }
 
@@ -207,7 +212,7 @@ class GameTest
     void completeObjectiveAndTriggerEmperorTest() throws IllegalAccessException
     {
         GardenerObjective mockGardenerObjective = Mockito.mock(GardenerObjective.class);
-        List<Integer> listOfInteractions = List.of(1,12,1,9,2,1,1,1,1,1,1,0,0);
+        List<Integer> listOfInteractions = List.of(1,12,1,9,2,1,1,1,1,1,1,0,0,0);
         completeObjectiveTestsBasis(mockGardenerObjective, true, true, listOfInteractions);
     }
 

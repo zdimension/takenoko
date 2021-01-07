@@ -97,6 +97,7 @@ public class Player
         }
         objectivesCompleted.add(objective);
         hand.remove(objective);
+        objective.postValidation(this);
     }
 
     /**

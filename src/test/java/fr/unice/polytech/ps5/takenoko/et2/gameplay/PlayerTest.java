@@ -151,8 +151,12 @@ class PlayerTest
         assertEquals(11,p.countPoints());
 
         verify(mockPandaObjective,times(2)).getPoints();
+        verify(mockPandaObjective,times(1)).postValidation(p);
         verify(mockGardenerObjective,times(2)).getPoints();
+        verify(mockGardenerObjective,times(1)).postValidation(p);
         verify(mockPlotObjective,times(2)).getPoints();
+        verify(mockPlotObjective,times(1)).postValidation(p);
+
 
         verifyNoMoreInteractions(mockPandaObjective);
         verifyNoMoreInteractions(mockGardenerObjective);

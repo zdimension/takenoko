@@ -48,6 +48,16 @@ public abstract class Objective
     public abstract boolean checkValidated(Board board, Player player);
 
     /**
+     * Make any specific processing needed after this objective is completed
+     *
+     * @param player validating this objective
+     */
+    public void postValidation(Player player)
+    {
+        ;
+    }
+
+    /**
      * @return a String describing the Objective
      */
     @Override
