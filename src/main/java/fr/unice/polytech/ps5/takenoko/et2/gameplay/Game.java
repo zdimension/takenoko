@@ -347,16 +347,16 @@ public class Game
                 return false;
             }
 
-            LOGGER.log(Level.FINE, "Available actions: {0}", base.stream().map(o -> o == null ? "null" : o.toString()).collect(Collectors.joining(", ")));
+            LOGGER.log(Level.FINE, "Available actions: {0}", base.stream().map(Objects::toString).collect(Collectors.joining(", ")));
 
             var action = dm.chooseAction(base);
 
             if (!base.contains(action))
             {
-                throwError(new DecisionMakerException("Invalid action"));
+                throw new DecisionMakerException("Invalid action");
             }
 
-            LOGGER.log(Level.FINE, "Action chosen: {0}", action == null ? "<end turn>" : action.toString());
+            LOGGER.log(Level.FINE, "Action chosen: {0}", Objects.toString(action, "<end turn>"));
 
             if (action == null)
             {
@@ -376,8 +376,7 @@ public class Game
             }
             else
             {
-                throwError(new IllegalArgumentException("Value of chosenAction does not conform to available values"));
-                continue;
+                throw new IllegalArgumentException("Value of chosenAction does not conform to available values");
             }
 
             if (!action.isUnlimited())
@@ -467,8 +466,7 @@ public class Game
         var chosen = player.getDecisionMaker().chooseDeck(valid);
         if (!valid.contains(chosen))
         {
-            throwError(new IllegalArgumentException("Invalid deck chosen"));
-            return;
+            throw new IllegalArgumentException("Invalid deck chosen");
         }
         player.addObjective(gameData.objectiveDecks.get(chosen).remove(0));
     }
@@ -490,18 +488,15 @@ public class Game
         var chosenTile = dm.chooseTile(validTiles, validPos);
         if(chosenTile == null)
         {
-            throwError(new IllegalArgumentException("Selected tile and position unreadable"));
-            return;
+            throw new IllegalArgumentException("Selected tile and position unreadable");
         }
         if (!validTiles.contains(chosenTile.first))
         {
-            throwError(new IllegalArgumentException("Invalid tile chosen"));
-            return;
+            throw new IllegalArgumentException("Invalid tile chosen");
         }
         if (!validPos.contains(chosenTile.second))
         {
-            throwError(new IllegalArgumentException("Position of tile given is invalid"));
-            return;
+            throw new IllegalArgumentException("Position of tile given is invalid");
         }
         gameData.tileDeck.remove(chosenTile.first);
         board.addTile(chosenTile.first, chosenTile.second);
@@ -536,7 +531,7 @@ public class Game
         Objective obj = player.getDecisionMaker().chooseObjectiveToComplete(valid);
         if (!valid.contains(obj))
         {
-            return;
+            throw new IllegalArgumentException("Invalid objective chosen");
         }
 
         player.moveObjectiveToComplete(obj);
@@ -555,19 +550,6 @@ public class Game
     private int getPlayerCount()
     {
         return playerList.size();
-    }
-
-    private <T extends Exception> void throwError(T exc) throws T
-    {
-        Objects.requireNonNull(exc, "exc must not be null");
-        if (false)
-        {
-            LOGGER.log(Level.SEVERE, "GAME ERROR: {0}", exc.getMessage());
-        }
-        else
-        {
-            throw exc;
-        }
     }
 
     /**
@@ -651,7 +633,7 @@ public class Game
         Edge chosenEdge = dm.chooseIrrigationPosition(valid);
         if (!valid.contains(chosenEdge))
         {
-            return;
+            throw new IllegalArgumentException("Invalid edge chosen");
         }
         p.irrigateEdge(chosenEdge);
     }
@@ -669,7 +651,7 @@ public class Game
             .chooseGardenerTarget(valid);
         if (!valid.contains(chosenPos))
         {
-            return;
+            throw new IllegalArgumentException("Invalid gardener position chosen");
         }
 
         gardenerPosition = chosenPos;
@@ -855,7 +837,7 @@ public class Game
 
         if (!valid.contains(chosenPos))
         {
-            return;
+            throw new IllegalArgumentException("Invalid panda position");
         }
 
         if (chosenPos.equals(pandaPosition))
@@ -919,6 +901,4 @@ public class Game
     {
         return playerList.stream().anyMatch(Player::isHasTriggeredEmperor);
     }
-
-    //public getPlayerIndividualBoard(PLayer player)
 }

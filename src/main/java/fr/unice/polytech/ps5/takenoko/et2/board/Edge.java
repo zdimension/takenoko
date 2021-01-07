@@ -209,7 +209,7 @@ public class Edge
     @Override
     public String toString()
     {
-        return "[Edge, 1=" + tiles[0].toString() + ", 2=" + tiles[1].toString() + "]";
+        return "[Edge, 1=" + tiles[0] + ", 2=" + tiles[1] + "]";
     }
 
     public AutoCloseable setTemporaryIrrigationState(boolean state)

@@ -54,9 +54,9 @@ public class DecisionMakerHandler extends ArrayList<String> implements CommandLi
                     if (annot != null)
                     {
                         if (annot.lowerBound() != -1)
-                            pname = annot.lowerBound() + "≤" + pname;
+                            pname = annot.lowerBound() + "<=" + pname;
                         if (annot.upperBound() != -1)
-                            pname += "≤" + annot.upperBound();
+                            pname += "<=" + annot.upperBound();
                     }
                 }
                 catch (NoSuchFieldException ignored)
