@@ -535,10 +535,6 @@ public class Game
         }
 
         player.moveObjectiveToComplete(obj);
-        if (obj instanceof PandaObjective)
-        {
-            player.removeBambooSection(((PandaObjective) obj).getBambooSectionList());
-        }
         LOGGER.log(Level.INFO, "Player validated objective, N=" + player.completedObjectivesCount());
 
         if ((player.completedObjectivesCount() >= objectiveThreshold.get(getPlayerCount())) && !hasSomeoneTriggeredTheEmperor())
