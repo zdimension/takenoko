@@ -642,7 +642,7 @@ public class MinMaxBot extends RandomBot
             }
         }
         globalMax = max;
-        if (bestImprovement == null || bestLandTile == null)
+        if (bestLandTile == null || bestImprovement == null)
         {
             return Pair.of(randomElement(vacantLandTile), randomElement(availableImprovements));
         }

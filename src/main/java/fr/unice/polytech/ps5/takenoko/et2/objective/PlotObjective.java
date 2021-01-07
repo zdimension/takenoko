@@ -24,7 +24,7 @@ public class PlotObjective extends Objective
      * @param points Points of this objective
      * @param listC  a list of colors eg [PINK, PINK, YELLOW, GREEN, GREEN]
      * @param listP  A list of directions eg [0, 5, 4, 2]
-     * @throws Exception if listC.isEmpty() or listC.size() != listP.size() + 1
+     * @throws IllegalArgumentException if listC.isEmpty() or listC.size() != listP.size() + 1
      */
     public PlotObjective(int points, List<Color> listC, List<Integer> listP)
     {

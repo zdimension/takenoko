@@ -109,20 +109,25 @@ public class Game
         this(new GameData());
     }
     /**
-     * Game contructor
-     *
-     * @param gameData
+     * @param gameData Game data
      */
     public Game(GameData gameData)
     {
         this(gameData, new Random());
     }
 
+    /**
+     * @param rng Random number generator
+     */
     public Game(Random rng)
     {
         this(new GameData(), rng);
     }
 
+    /**
+     * @param gameData Game data
+     * @param rng Random number generator
+     */
     public Game(GameData gameData, Random rng)
     {
         Objects.requireNonNull(gameData, "gameData must not be null");

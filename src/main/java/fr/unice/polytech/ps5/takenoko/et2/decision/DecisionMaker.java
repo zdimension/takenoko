@@ -85,7 +85,7 @@ public abstract class DecisionMaker
      *
      * @return The random generator associated with the Player
      */
-    protected Random getRandom()
+    private Random getRandom()
     {
         return player.getGame().getRandom();
     }

@@ -18,14 +18,13 @@ class DecisionMakerTest
 {
 
     private RandomBot bot;
-    private Game game;
 
     @BeforeEach
     void initBot()
     {
         try
         {
-            game = spy(new Game());
+            Game game = spy(new Game());
             game.addPlayer(RandomBot.getBuilder());
             game.addPlayer(RandomBot.getBuilder());
             Optional<Player> p = game.getPlayers().findAny();

@@ -68,7 +68,7 @@ public class Pair<T1, T2>
         {
             return true;
         }
-        var pair = (Pair) obj;
+        var pair = (Pair<?, ?>) obj;
         return equals(first, pair.first)
             && equals(second, pair.second);
     }

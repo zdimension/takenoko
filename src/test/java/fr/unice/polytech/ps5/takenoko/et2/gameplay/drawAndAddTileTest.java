@@ -23,7 +23,6 @@ class drawAndAddTileTest
     private DecisionMaker mockDecisionMaker1;
     private DecisionMaker mockDecisionMaker2;
     private Player p1;
-    private Player p2;
 
     @BeforeEach
     void init()
@@ -36,7 +35,7 @@ class drawAndAddTileTest
     {
         game = new Game(new Random(seed));
         p1 = game.addPlayer(p -> mockDecisionMaker1);
-        p2 = game.addPlayer(p -> mockDecisionMaker2);
+        Player p2 = game.addPlayer(p -> mockDecisionMaker2);
         game.isFirstRound = isFirstRound;
     }
 

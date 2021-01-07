@@ -17,7 +17,14 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
-@CommandLine.Command(name = "takenoko", mixinStandardHelpOptions = true, abbreviateSynopsis = true, requiredOptionMarker = '*', sortOptions = false, usageHelpWidth = 120)
+@CommandLine.Command(
+    name = "takenoko",
+    mixinStandardHelpOptions = true,
+    abbreviateSynopsis = true,
+    requiredOptionMarker = '*',
+    sortOptions = false,
+    usageHelpWidth = 120,
+    version = "TakenokoET2 0.6")
 class TakenokoRunner implements Runnable
 {
     private static final Logger LOGGER = Logger.getLogger(TakenokoRunner.class.getSimpleName());
@@ -105,9 +112,10 @@ class TakenokoRunner implements Runnable
             {
                 try
                 {
-                    var game = new Game(spec.optionsMap().get("--seed").stringValues().isEmpty()
+                    Random rng = spec.optionsMap().get("--seed").stringValues().isEmpty()
                         ? RNG
-                        : new Random(seed));
+                        : new Random(seed);
+                    var game = new Game(rng);
 
                     for (DecisionMakerBuilder player : players)
                     {

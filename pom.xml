@@ -4,7 +4,7 @@
 
     <groupId>fr.unice.polytech.ps5.takenoko.et2</groupId>
     <artifactId>TakenokoET2</artifactId>
-    <version>0.1</version>
+    <version>0.6</version>
     <packaging>jar</packaging>
 
     <properties>
