@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class GardenerSupportTest
@@ -89,8 +90,8 @@ class GardenerSupportTest
 
         when(mockPlayer.getDecisionMaker()).thenReturn(mockDecisionMaker);
         when(mockDecisionMaker.chooseGardenerTarget(anyList())).thenReturn(falsePosition1, falsePosition2);
-        game.moveGardener(mockPlayer);
-        game.moveGardener(mockPlayer);
+        assertThrows(IllegalArgumentException.class, () -> game.moveGardener(mockPlayer));
+        assertThrows(IllegalArgumentException.class, () -> game.moveGardener(mockPlayer));
         verify(mockDecisionMaker, times(2)).chooseGardenerTarget(anyList());
         verify(mockPlayer, times(2)).getDecisionMaker();
         verifyNoMoreInteractions(mockDecisionMaker);
@@ -101,7 +102,7 @@ class GardenerSupportTest
     void moveGardenerNormalAndOnPondTile() {
         DecisionMaker mockDecisionMaker = Mockito.mock(DecisionMaker.class);
         Player mockPlayer = Mockito.mock(Player.class);
-        TilePosition position = new TilePosition(0,1);
+        TilePosition position = new TilePosition(0,-1);
         LandTile gardenerGoal = (LandTile) board.getTiles().get(position);
         LandTile l1 = (LandTile) board.findTile(boardTilePosition.get(0));
         LandTile l2 = (LandTile) board.findTile(boardTilePosition.get(1));
@@ -116,7 +117,7 @@ class GardenerSupportTest
         verify(mockDecisionMaker, times(2)).chooseGardenerTarget(anyList());
         verify(mockPlayer, times(2)).getDecisionMaker();
         verify(l1, times(1)).growBambooSection();
-        verify(l2, times(1)).growBambooSection();
+        verify(l2, times(2)).growBambooSection();
         verify(l5, times(0)).growBambooSection();
         verify(l6, times(1)).growBambooSection();
         verify(l7, times(0)).growBambooSection();

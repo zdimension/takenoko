@@ -15,8 +15,6 @@ import fr.unice.polytech.ps5.takenoko.et2.objective.PandaObjective;
 import fr.unice.polytech.ps5.takenoko.et2.objective.PlotObjective;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -156,7 +154,14 @@ class GameTest
         
         doCallRealMethod().when(cast).postValidation(spyPlayer1);
 
-        game.completeObjective(spyPlayer1);
+        if (!isChoosenObjectiveValid)
+        {
+            assertThrows(IllegalArgumentException.class, () -> game.completeObjective(spyPlayer1));
+        }
+        else
+        {
+            game.completeObjective(spyPlayer1);
+        }
 
         verify(spyPlayer1, times(nbInteractions.get(0))).getHand();
         verify(spyPlayer1, times(nbInteractions.get(1))).addObjective(any(Objective.class));

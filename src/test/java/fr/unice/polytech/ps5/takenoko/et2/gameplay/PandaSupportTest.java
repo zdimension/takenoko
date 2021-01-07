@@ -114,8 +114,8 @@ class PandaSupportTest
 
         when(mockPlayer.getDecisionMaker()).thenReturn(mockDecisionMaker);
         when(mockDecisionMaker.choosePandaTarget(anyList(), anyBoolean())).thenReturn(falsePosition1, falsePosition2);
-        game.movePanda(mockPlayer);
-        game.movePanda(mockPlayer);
+        assertThrows(IllegalArgumentException.class, () -> game.movePanda(mockPlayer));
+        assertThrows(IllegalArgumentException.class, () -> game.movePanda(mockPlayer));
         verify(mockDecisionMaker, times(2)).choosePandaTarget(anyList(), anyBoolean());
         verify(mockPlayer, times(2)).getDecisionMaker();
         verifyNoMoreInteractions(mockDecisionMaker);
