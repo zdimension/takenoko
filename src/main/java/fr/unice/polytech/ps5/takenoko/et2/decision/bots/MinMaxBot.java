@@ -705,7 +705,7 @@ public class MinMaxBot extends RandomBot
         copyOfDrawnTiles.remove(playedTile);
         long power = (int) Math.pow(100d, n);
         Board newBoard = (Board) board.clone();
-        newBoard.addTile(playedTile, playedPos);
+        newBoard.addTile((LandTile) playedTile.clone(), playedPos);
         int scoreReturn = 0;
         if (myTurn)
         {

@@ -59,6 +59,10 @@ public abstract class Tile
      */
     public void setPosition(TilePosition position)
     {
+        if (this.position != null)
+        {
+            throw new IllegalStateException("Cannot change a tile's position after it has already been set");
+        }
         this.position = position;
     }
 

@@ -499,8 +499,8 @@ public class Game
         {
             throw new IllegalArgumentException("Position of tile given is invalid");
         }
-        gameData.tileDeck.remove(chosenTile.first);
         board.addTile(chosenTile.first, chosenTile.second);
+        gameData.tileDeck.remove(chosenTile.first);
     }
 
     /**
@@ -654,13 +654,19 @@ public class Game
         gardenerPosition = chosenPos;
 
         var landing = board.getTiles().get(chosenPos);
-
+        LOGGER.log(Level.FINEST, "Position chosen: {0} : {1}", new String[] { gardenerPosition.toString(), landing.toString() });
         if (!(landing instanceof LandTile))
         {
             return;
         }
 
         var cast = (LandTile) landing;
+        if (cast.isIrrigated())
+        {
+            LOGGER.log(Level.FINEST, "Tile affected by gardener : {0} : {1}", new String[] { chosenPos.toString(), cast.toString() });
+            addBambooSectionToTile((LandTile) cast);
+            LOGGER.log(Level.FINEST, "New size of bambou : {0}",  cast.getBambooSize() );
+        }
 
         for (var pos : board.getNeighboringPositions(chosenPos).collect(Collectors.toList()))
         {
@@ -674,7 +680,9 @@ public class Game
                     {
                         if (land.isIrrigated())
                         {
+                            LOGGER.log(Level.FINEST, "Tile affected by gardener : {0} : {1}", new String[] { pos.toString(), land.toString() });
                             addBambooSectionToTile((LandTile) tile);
+                            LOGGER.log(Level.FINEST, "New size of bambou : {0}",  land.getBambooSize() );
                         }
                     }
                     catch (Exception e)
@@ -834,6 +842,7 @@ public class Game
 
         if (chosenPos.equals(pandaPosition))
         {
+            LOGGER.log(Level.FINEST, "Panda not moved");
             return; // we're in a storm and the player has decided not to move the Panda
         }
 
@@ -848,10 +857,13 @@ public class Game
 
         if (!(landing instanceof LandTile))
         {
+            LOGGER.log(Level.FINEST, "Position chosen: {0} : {1}", new String[] { chosenPos.toString(), landing.toString() });
             return;
         }
 
         var cast = (LandTile) landing;
+        LOGGER.log(Level.FINEST, "Position chosen: {0} : {1}", new String[] { chosenPos.toString(), cast.toString() });
+
 
         try
         {
@@ -860,6 +872,8 @@ public class Game
                 if (removeBambooSectionToTile(cast))
                 {
                     getBambooSection(player, cast.getColor());
+                    LOGGER.log(Level.FINEST, "1 bamboo section removed");
+
                 }
             }
 
