@@ -225,6 +225,9 @@ public class Game
         {
             LOGGER.log(Level.FINE, "Turn of player {0}'", i);
             var player = playerList.get(i);
+            LOGGER.log(Level.FINEST, "player status : {0}'", player);
+            LOGGER.log(Level.FINEST, "Gardener position : {0}'", gardenerPosition);
+            LOGGER.log(Level.FINEST, "Panda position : {0}'", pandaPosition);
             if (player.isHasTriggeredEmperor())
             {
                 break;
@@ -268,6 +271,7 @@ public class Game
                 return Collections.emptyList();
             }
         }
+        //todo print board
 
         return whoWins().stream().map(playerList::indexOf).collect(Collectors.toList());
     }
@@ -470,6 +474,7 @@ public class Game
             throw new IllegalArgumentException("Invalid deck chosen");
         }
         player.addObjective(gameData.objectiveDecks.get(chosen).remove(0));
+        LOGGER.log(Level.FINEST, "Deck chosen: {0}", chosen.getSimpleName());
     }
 
     /**
@@ -538,11 +543,12 @@ public class Game
         }
 
         player.moveObjectiveToComplete(obj);
-        LOGGER.log(Level.FINE, "Player validated objective, N=" + player.completedObjectivesCount());
+        LOGGER.log(Level.FINE, "Player validated objective [{0}], Number of objectives validated : {1}",new String[] {obj.toString(), String.valueOf( player.completedObjectivesCount())});
 
         if ((player.completedObjectivesCount() >= objectiveThreshold.get(getPlayerCount())) && !hasSomeoneTriggeredTheEmperor())
         {
             player.triggerEmperor();
+            LOGGER.log(Level.FINEST, "Player {0} just triggered the emperor", playerList.indexOf(player));
         }
     }
 

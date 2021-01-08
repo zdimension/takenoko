@@ -294,19 +294,23 @@ public class Player
     @Override
     public String toString()
     {
-        StringBuilder playerString = new StringBuilder("Game : " + game.toString() +
-            "\nDecisionMaker : " + decisionMaker.toString() +
-            "Triggered Emperor : " + hasTriggeredEmperor +
-            "Ojectives in Hand : ");
-        for (Objective objective : hand)
-        {
-            playerString.append(objective.toString()).append("\n");
-        }
-        playerString.append("Objectives completed :");
-        for (Objective objective : objectivesCompleted)
-        {
-            playerString.append(objective.toString()).append("\n");
-        }
+        StringBuilder playerString = new StringBuilder(
+            "\nDecisionMaker : " + decisionMaker.getClass().getSimpleName() +
+            " | Triggered Emperor : " + hasTriggeredEmperor +
+            " | Objectives in Hand : "+this.hand.size() +
+            " | Objectives completed : "+ this.completedObjectivesCount() +
+            " | Number chips : "+ this.chipReserve.size() +
+            " | Bamboo reserve : "+ this.bambooSectionReserve +
+            " | Number irrigations : "+ this.nbIrrigationsInStock);
+        //for (Objective objective : hand)
+        //{
+        //    playerString.append(objective.toString()).append("\n\t");
+        //}
+        //playerString.append("Objectives completed :\n");
+        //for (Objective objective : objectivesCompleted)
+        //{
+        //    playerString.append(objective.toString()).append("\n\t");
+        //}
         return playerString.toString();
     }
 }
