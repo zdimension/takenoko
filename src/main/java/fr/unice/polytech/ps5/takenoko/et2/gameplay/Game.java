@@ -654,7 +654,7 @@ public class Game
         gardenerPosition = chosenPos;
 
         var landing = board.getTiles().get(chosenPos);
-
+        LOGGER.log(Level.FINEST, "Position chosen: {0} : {1}", new String[] { gardenerPosition.toString(), landing.toString() });
         if (!(landing instanceof LandTile))
         {
             return;
@@ -674,7 +674,9 @@ public class Game
                     {
                         if (land.isIrrigated())
                         {
+                            LOGGER.log(Level.FINEST, "Tile affected by gardener : {0} : {1}", new String[] { pos.toString(), land.toString() });
                             addBambooSectionToTile((LandTile) tile);
+                            LOGGER.log(Level.FINEST, "New size of bambou : {0}",  land.getBambooSize() );
                         }
                     }
                     catch (Exception e)
@@ -854,6 +856,8 @@ public class Game
         }
 
         var cast = (LandTile) landing;
+        LOGGER.log(Level.FINEST, "Position chosen: {0} : {1}", new String[] { chosenPos.toString(), cast.toString() });
+
 
         try
         {
@@ -862,6 +866,8 @@ public class Game
                 if (removeBambooSectionToTile(cast))
                 {
                     getBambooSection(player, cast.getColor());
+                    LOGGER.log(Level.FINEST, "1 bamboo section removed");
+
                 }
             }
 
