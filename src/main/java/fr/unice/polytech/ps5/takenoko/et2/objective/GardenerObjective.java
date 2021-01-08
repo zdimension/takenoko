@@ -146,13 +146,13 @@ public class GardenerObjective extends Objective
     @Override
     public String toString()
     {
-        String message = "Gardener Objective : " + points + " points, "
-            + color + " bamboo, "
-            + numberOfBambooStack + " bamboo stack(s), "
-            + numberOfBambooSection + " bamboo sections per stack, ";
+        String message = "Gardener Objective : " + points + " points | "
+            + color + " bamboo | "
+            + numberOfBambooStack + " bamboo stack(s) | "
+            + numberOfBambooSection + " bamboo sections per stack";
         if (this.landTileImprovement != null)
         {
-            message += landTileImprovement + " land tile improvement";
+            message += " | "+ landTileImprovement + " land tile improvement";
         }
         return message;
     }

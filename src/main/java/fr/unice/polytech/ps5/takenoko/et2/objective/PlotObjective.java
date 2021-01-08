@@ -124,7 +124,7 @@ public class PlotObjective extends Objective
     @Override
     public String toString()
     {
-        return "Plot objective : " + points + "points" +
+        return "Plot objective : " + points + " points" +
             ", colors : " + listColors.stream().map(Color::toString).collect(Collectors.joining(", ")) +
             ", pattern : " + listPaths.stream().map(Object::toString).collect(Collectors.joining("-"));
     }

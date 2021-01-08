@@ -271,7 +271,7 @@ public class Game
                 return Collections.emptyList();
             }
         }
-        //todo print board
+        LOGGER.log(Level.FINE, "Final board: \n{0}", board);
 
         return whoWins().stream().map(playerList::indexOf).collect(Collectors.toList());
     }
@@ -742,7 +742,9 @@ public class Game
         var tile = player.getDecisionMaker().chooseTileToAddBamboo(listIrrigatedTiles);
         if (listIrrigatedTiles.contains(tile))
         {
+            LOGGER.log(Level.FINEST, "Chosen tile : {0} ", tile.toString() );
             tile.growBambooSection();
+            LOGGER.log(Level.FINEST, "New size of bambou : {0}",  tile.getBambooSize() );
         }
         else
         {

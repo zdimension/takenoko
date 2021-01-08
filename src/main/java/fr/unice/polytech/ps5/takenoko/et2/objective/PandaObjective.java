@@ -96,13 +96,13 @@ public class PandaObjective extends Objective
     @Override
     public String toString()
     {
-        StringBuilder message = new StringBuilder("PandaObjective : Nombre de points de l'objectif : " + points);
+        StringBuilder message = new StringBuilder("PandaObjective : " + points+ " points | bamboo needed :");
         for (Color bambooColor : this.bambooSectionList.keySet())
         {
             Integer numberOfEachColor = this.bambooSectionList.get(bambooColor);
             if (numberOfEachColor != 0)
             {
-                message.append(bambooColor.toString());
+                message.append(" ").append(bambooColor.toString());
                 message.append(":").append(numberOfEachColor);
             }
         }
