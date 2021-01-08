@@ -191,10 +191,16 @@ public class TakenokoRunner implements Runnable
                     N * 1000000000d / duration.toNanos());
                 System.out.println();
             }
-            System.out.println(" Bot type   |  % wins | # wins | Avg. score");
+            System.out.println(" Bot type   |    %   win   #   |   %   lost   #   | Avg. score");
             for (int i = 0; i < players.length; i++)
             {
-                System.out.printf(" %-10s | %6.2f%% | %6d |    %4.1f%n", botNames.get(i), freq[i].get() * 100d / N, freq[i].get(), score[i].get() / (double)N);
+                System.out.printf(" %-10s | %6.2f%% | %6d | %6.2f%% | %6d |    %4.1f%n",
+                    botNames.get(i),
+                    freq[i].get() * 100d / N,
+                    freq[i].get(),
+                    (N - freq[i].get()) * 100d / N,
+                    N - freq[i].get(),
+                    score[i].get() / (double)N);
             }
             if (!quiet)
             {
