@@ -536,7 +536,7 @@ public class Game
         }
 
         player.moveObjectiveToComplete(obj);
-        LOGGER.log(Level.INFO, "Player validated objective, N=" + player.completedObjectivesCount());
+        LOGGER.log(Level.FINE, "Player validated objective, N=" + player.completedObjectivesCount());
 
         if ((player.completedObjectivesCount() >= objectiveThreshold.get(getPlayerCount())) && !hasSomeoneTriggeredTheEmperor())
         {
