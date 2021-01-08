@@ -1,6 +1,5 @@
 package fr.unice.polytech.ps5.takenoko.et2.gameplay;
 
-import fr.unice.polytech.ps5.takenoko.et2.GameData;
 import fr.unice.polytech.ps5.takenoko.et2.board.*;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMaker;
 import fr.unice.polytech.ps5.takenoko.et2.decision.DecisionMakerBuilder;

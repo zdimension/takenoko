@@ -2,6 +2,7 @@ package fr.unice.polytech.ps5.takenoko.et2;
 
 import fr.unice.polytech.ps5.takenoko.et2.board.LandTile;
 import fr.unice.polytech.ps5.takenoko.et2.enums.Color;
+import fr.unice.polytech.ps5.takenoko.et2.gameplay.GameData;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
