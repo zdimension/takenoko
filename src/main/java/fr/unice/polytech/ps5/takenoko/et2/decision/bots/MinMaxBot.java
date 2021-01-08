@@ -1,6 +1,6 @@
 package fr.unice.polytech.ps5.takenoko.et2.decision.bots;
 
-import fr.unice.polytech.ps5.takenoko.et2.GameData;
+import fr.unice.polytech.ps5.takenoko.et2.gameplay.GameData;
 import fr.unice.polytech.ps5.takenoko.et2.board.*;
 import fr.unice.polytech.ps5.takenoko.et2.commandline.annotations.Bot;
 import fr.unice.polytech.ps5.takenoko.et2.commandline.annotations.BotParameter;
