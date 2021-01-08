@@ -227,6 +227,10 @@ public class Game
             LOGGER.log(Level.FINEST, "player status : {0}'", player);
             LOGGER.log(Level.FINEST, "Gardener position : {0}'", gardenerPosition);
             LOGGER.log(Level.FINEST, "Panda position : {0}'", pandaPosition);
+            LOGGER.log(Level.FINEST, "Number chips in stock : {0}'", gameData.chipReserve.size());
+            LOGGER.log(Level.FINEST, "Number irrigations in stock : {0}'", nbIrrigationsInDeck);
+            LOGGER.log(Level.FINEST, "Number tiles in deck : {0}'", gameData.tileDeck.size());
+            LOGGER.log(Level.FINEST, "Number objectives in deck : {0}'", gameData.objectiveDecks.values().stream().flatMap(Collection::stream).collect(Collectors.toList()).size());
             if (player.isHasTriggeredEmperor())
             {
                 break;
