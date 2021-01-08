@@ -25,6 +25,6 @@ public class LogLevelHandler extends ArrayList<String> implements CommandLine.IT
     @Override
     public Level convert(String s) throws IllegalArgumentException
     {
-        return Level.parse(s);
+        return Level.parse(s.toUpperCase());
     }
 }
