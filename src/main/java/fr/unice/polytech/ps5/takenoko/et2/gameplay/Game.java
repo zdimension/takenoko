@@ -254,7 +254,7 @@ public class Game
             turn++;
 
             //enable weather conditions
-            if (isFirstRound && turn == numberPlayers - 1)
+            if (isFirstRound && turn == numberPlayers)
             {
                 isFirstRound = false;
             }
