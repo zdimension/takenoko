@@ -422,7 +422,7 @@ public class Game
                 return !player.isHandFull() && gameData.objectiveDecks.values().stream().anyMatch(l -> !l.isEmpty());
 
             case DRAW_TILE:
-                return !gameData.tileDeck.isEmpty();
+                return !gameData.tileDeck.isEmpty() ;
 
             default:
                 throw new IllegalArgumentException("Invalid action provided");
@@ -599,6 +599,7 @@ public class Game
     {
         nbIrrigationsInDeck--;
         p.pickIrrigation();
+        LOGGER.log(Level.FINEST, "Number of irrigation(s) left in stock: {0} ",  this.nbIrrigationsInDeck);
     }
 
     /**
@@ -634,7 +635,12 @@ public class Game
         {
             throw new IllegalArgumentException("Invalid edge chosen");
         }
-        p.irrigateEdge(chosenEdge);
+        if(p.irrigateEdge(chosenEdge))
+        {
+            LOGGER.log(Level.FINEST, "Irrigation added between tiles: {0} : {1}",
+                new String[] { chosenEdge.getTile(0).toString(),
+                    (chosenEdge.getOther(chosenEdge.getTile(0)) != null ? chosenEdge.getOther(chosenEdge.getTile(0)).toString() : "[empty]") });
+        }
     }
 
     public Stream<TilePosition> getValidGardenerTargets()
@@ -755,6 +761,7 @@ public class Game
         }
         player.addChip(chosen);
         gameData.chipReserve.remove(chosen);
+        LOGGER.log(Level.FINEST, "Chip chosen: {0} ", chosen.toString());
     }
 
     /**
@@ -900,6 +907,7 @@ public class Game
         }
         chosenTileNImprovement.first.setLandTileImprovement(chosenTileNImprovement.second);
         player.getChipReserve().remove(chosenTileNImprovement.second);
+        LOGGER.log(Level.FINEST, "{0} placed on {1}", new String[] { chosenTileNImprovement.second.toString(), chosenTileNImprovement.getFirst().toString() });
     }
 
     /**
