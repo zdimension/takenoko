@@ -46,6 +46,7 @@
                 </executions>
                 <configuration>
                     <mainClass>fr.unice.polytech.ps5.takenoko.et2.TakenokoRunner</mainClass>
+                    <cleanupDaemonThreads>false</cleanupDaemonThreads>
                 </configuration>
             </plugin>
 
