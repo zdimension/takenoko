@@ -834,6 +834,7 @@ public class Game
 
         if (chosenPos.equals(pandaPosition))
         {
+            LOGGER.log(Level.FINEST, "Panda not moved");
             return; // we're in a storm and the player has decided not to move the Panda
         }
 
@@ -848,6 +849,7 @@ public class Game
 
         if (!(landing instanceof LandTile))
         {
+            LOGGER.log(Level.FINEST, "Position chosen: {0} : {1}", new String[] { chosenPos.toString(), landing.toString() });
             return;
         }
 
