@@ -85,9 +85,9 @@ public class TakenokoRunner implements Runnable
             .setCaseInsensitiveEnumValuesAllowed(true);
         if (args.length == 0)
         {
-            cmd.execute("-n", "1000", "minmax(1)", "minmax(0)", "plot(3)", "random", "-q");
+            cmd.execute("-n", "1000", "minmax(1)", "minmax(0)", "plot(3)", "random", "-q", "-i");
             System.out.println();
-            cmd.execute("-n", "1000", "minmax(1)", "minmax(1)", "minmax(1)", "minmax(1)", "-q");
+            cmd.execute("-n", "1000", "minmax(1)", "minmax(1)", "minmax(1)", "minmax(1)", "-q", "-i");
         }
         else
         {
