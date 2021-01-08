@@ -75,7 +75,7 @@ public class PlotPatternBot extends RandomBot
                     for (TilePosition pos : validPos)
                     {
                         var b = (Board) getBoard().clone();
-                        if (b.addTile(tile, pos))
+                        if (b.addTile((LandTile) tile.clone(), pos))
                         {
                             for (PlotObjective obj : objs)
                             {

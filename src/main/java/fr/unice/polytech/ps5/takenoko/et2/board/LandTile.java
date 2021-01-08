@@ -192,6 +192,6 @@ public class LandTile extends Tile implements Cloneable
     @Override
     public String toString()
     {
-        return "[Land tile, " + this.color + ", " + (isIrrigated() ? "irrigated" : "not irrigated") + ", " + bambooCount + " sections, " + (landTileImprovement == null ? "No improvement" : landTileImprovement) + "]";
+        return "[Land tile on " + this.position + ", " + this.color + ", " + (isIrrigated() ? "irrigated" : "not irrigated") + ", " + bambooCount + " sections, " + (landTileImprovement == null ? "No improvement" : landTileImprovement) + "]";
     }
 }

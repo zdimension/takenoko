@@ -499,8 +499,8 @@ public class Game
         {
             throw new IllegalArgumentException("Position of tile given is invalid");
         }
-        gameData.tileDeck.remove(chosenTile.first);
         board.addTile(chosenTile.first, chosenTile.second);
+        gameData.tileDeck.remove(chosenTile.first);
     }
 
     /**
@@ -661,6 +661,12 @@ public class Game
         }
 
         var cast = (LandTile) landing;
+        if (cast.isIrrigated())
+        {
+            LOGGER.log(Level.FINEST, "Tile affected by gardener : {0} : {1}", new String[] { chosenPos.toString(), cast.toString() });
+            addBambooSectionToTile((LandTile) cast);
+            LOGGER.log(Level.FINEST, "New size of bambou : {0}",  cast.getBambooSize() );
+        }
 
         for (var pos : board.getNeighboringPositions(chosenPos).collect(Collectors.toList()))
         {
