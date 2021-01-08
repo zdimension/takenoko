@@ -482,6 +482,7 @@ public class Game
     {
         DecisionMaker dm = p.getDecisionMaker();
         var validTiles = Collections.unmodifiableList(gameData.tileDeck.subList(0, Math.min(gameData.tileDeck.size(), 3)));
+        LOGGER.log(Level.FINEST, "Available tiles: {0}", validTiles);
         var validPos =
             board
                 .getValidEmptyPositions()
@@ -501,6 +502,7 @@ public class Game
         }
         board.addTile(chosenTile.first, chosenTile.second);
         gameData.tileDeck.remove(chosenTile.first);
+        LOGGER.log(Level.FINEST, "Position and tile chosen: {0}",  chosenTile.first.toString());
     }
 
     /**
@@ -654,7 +656,7 @@ public class Game
         gardenerPosition = chosenPos;
 
         var landing = board.getTiles().get(chosenPos);
-        LOGGER.log(Level.FINEST, "Position chosen: {0} : {1}", new String[] { gardenerPosition.toString(), landing.toString() });
+        LOGGER.log(Level.FINEST, "Position chosen: {0}", landing.toString() );
         if (!(landing instanceof LandTile))
         {
             return;
@@ -663,7 +665,7 @@ public class Game
         var cast = (LandTile) landing;
         if (cast.isIrrigated())
         {
-            LOGGER.log(Level.FINEST, "Tile affected by gardener : {0} : {1}", new String[] { chosenPos.toString(), cast.toString() });
+            LOGGER.log(Level.FINEST, "Tile affected by gardener : {0} ", cast.toString() );
             addBambooSectionToTile((LandTile) cast);
             LOGGER.log(Level.FINEST, "New size of bambou : {0}",  cast.getBambooSize() );
         }
@@ -680,7 +682,7 @@ public class Game
                     {
                         if (land.isIrrigated())
                         {
-                            LOGGER.log(Level.FINEST, "Tile affected by gardener : {0} : {1}", new String[] { pos.toString(), land.toString() });
+                            LOGGER.log(Level.FINEST, "Tile affected by gardener : {0}", land.toString() );
                             addBambooSectionToTile((LandTile) tile);
                             LOGGER.log(Level.FINEST, "New size of bambou : {0}",  land.getBambooSize() );
                         }
@@ -857,12 +859,12 @@ public class Game
 
         if (!(landing instanceof LandTile))
         {
-            LOGGER.log(Level.FINEST, "Position chosen: {0} : {1}", new String[] { chosenPos.toString(), landing.toString() });
+            LOGGER.log(Level.FINEST, "Position chosen: {0}",  landing.toString() );
             return;
         }
 
         var cast = (LandTile) landing;
-        LOGGER.log(Level.FINEST, "Position chosen: {0} : {1}", new String[] { chosenPos.toString(), cast.toString() });
+        LOGGER.log(Level.FINEST, "Position chosen: {0} : {1}", cast.toString() );
 
 
         try
