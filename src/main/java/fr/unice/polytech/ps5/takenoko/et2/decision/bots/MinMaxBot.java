@@ -750,5 +750,4 @@ public class MinMaxBot extends RandomBot
                     )).sum() * power / 100;
         return scoreReturn;
     }
-
 }
